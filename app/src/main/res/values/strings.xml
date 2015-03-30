@@ -3,7 +3,7 @@
 
     <string name="app_name">Aggregio</string>
     <string name="account_type">aggreg.io</string>
-    <string name="content_authority">com.example.android.datasync.provider</string>
+    <string name="content_authority">io.aggreg.app.provider</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_browse_articles">BrowseArticles</string>

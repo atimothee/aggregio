@@ -1,0 +1,13 @@
+{
+    "syntaxVersion": 3,
+    "projectPackageId": "io.aggreg.app",
+    "authority": "io.aggreg.app.provider",
+    "providerJavaPackage": "io.aggreg.app.provider",
+    "providerClassName": "AggregioProvider",
+    "sqliteOpenHelperClassName": "AggregioSQLiteOpenHelper",
+    "sqliteOpenHelperCallbacksClassName": "AggregioSQLiteOpenHelperCallbacks",
+    "databaseFileName": "aggregio.db",
+    "databaseVersion": 1,
+    "enableForeignKeys": true,
+    "useAnnotations": true,
+}

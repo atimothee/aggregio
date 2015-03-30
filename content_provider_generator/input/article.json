@@ -1,0 +1,34 @@
+{
+    "fields": [
+        {
+            "name": "title",
+            "type": "String",
+        },
+        {
+            "name": "link",
+            "type": "String",
+        },
+        {
+            "name": "pub_date",
+            "type": "Date",
+        },
+        {
+            "name": "text",
+            "type": "String",
+        },
+        {
+            "name": "image",
+            "type": "String",
+        },
+        {
+            "name": "category_id",
+            "type": "Long",
+            "nullable": false
+        },
+        {
+            "name": "news_source_id",
+            "type": "Long",
+            "nullable": false
+        }
+    ],
+}
