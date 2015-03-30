@@ -53,39 +53,12 @@
             android:paddingBottom="@dimen/session_details_extra_space_bottom"
             android:clipToPadding="false">
 
-            <com.google.samples.apps.iosched.ui.widget.MessageCardView
-                android:id="@+id/live_now_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                iosched:messageText="@string/session_live_now_message"
-                iosched:button1text="@string/no_thanks"
-                iosched:button2text="@string/watch_now"
-                iosched:button2tag="WATCH_NOW"
-                iosched:button2emphasis="true"
-                iosched:emphasisColor="@color/theme_accent_2"
-                android:layout_marginLeft="@dimen/keyline_2_session_detail"
-                android:layout_marginBottom="16dp"
-                android:visibility="gone"
-                />
-
             <TextView android:id="@+id/session_abstract"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/keyline_2_session_detail"
                 android:layout_marginBottom="16dp"
                 style="@style/TextBody"
-                />
-
-            <com.google.android.gms.plus.PlusOneButton
-                android:id="@+id/plus_one_button"
-                style="@style/SessionDetailPlusOne"
-                android:clickable="true"
-                android:focusable="true"
-                plus:annotation="inline"
-                plus:size="standard"
-                android:layout_marginLeft="@dimen/keyline_2_session_detail"
-                android:layout_marginBottom="16dp"
-                android:layout_marginRight="16dp"
                 />
 
             <HorizontalScrollView android:id="@+id/session_tags_container"

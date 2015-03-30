@@ -37,7 +37,7 @@ import io.aggreg.app.ui.widget.ObservableScrollView;
  * Use the {@link ArticleDetailFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ArticleDetailFragment extends Fragment implements LoaderManager.LoaderCallbacks, ObservableScrollView.Callbacks{
+public class ArticleDetailFragment extends Fragment implements LoaderManager.LoaderCallbacks{
     private static final String TAG = ArticleDetailFragment.class.getName();
 
     private static final int[] SECTION_HEADER_RES_IDS = {
@@ -167,60 +167,60 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
 
     }
 
-    @Override
-    public void onScrollChanged(int deltaX, int deltaY) {
-        final BaseActivity activity = (BaseActivity) getActivity();
-        if (activity == null) {
-            return;
-        }
-
-        // Reposition the header bar -- it's normally anchored to the top of the content,
-        // but locks to the top of the screen on scroll
-        int scrollY = mScrollView.getScrollY();
-
-        float newTop = Math.max(mPhotoHeightPixels, scrollY + mHeaderTopClearance);
-        mHeaderBox.setTranslationY(newTop);
-        mAddScheduleButton.setTranslationY(newTop + mHeaderHeightPixels
-                - mAddScheduleButtonHeightPixels / 2);
-
-        mHeaderBackgroundBox.setPivotY(mHeaderHeightPixels);
-        int gapFillDistance = (int) (mHeaderTopClearance * GAP_FILL_DISTANCE_MULTIPLIER);
-        boolean showGapFill = !mHasPhoto || (scrollY > (mPhotoHeightPixels - gapFillDistance));
-        float desiredHeaderScaleY = showGapFill ?
-                ((mHeaderHeightPixels + gapFillDistance + 1) * 1f / mHeaderHeightPixels)
-                : 1f;
-        if (!mHasPhoto) {
-            mHeaderBackgroundBox.setScaleY(desiredHeaderScaleY);
-        } else if (mGapFillShown != showGapFill) {
-            mHeaderBackgroundBox.animate()
-                    .scaleY(desiredHeaderScaleY)
-                    .setInterpolator(new DecelerateInterpolator(2f))
-                    .setDuration(250)
-                    .start();
-        }
-        mGapFillShown = showGapFill;
-
-        LPreviewUtilsBase lpu = activity.getLPreviewUtils();
-
-        mHeaderShadow.setVisibility(lpu.hasLPreviewAPIs() ? View.GONE : View.VISIBLE);
-
-        if (mHeaderTopClearance != 0) {
-            // Fill the gap between status bar and header bar with color
-            float gapFillProgress = Math.min(Math.max(UIUtils.getProgress(scrollY,
-                    mPhotoHeightPixels - mHeaderTopClearance * 2,
-                    mPhotoHeightPixels - mHeaderTopClearance), 0), 1);
-            lpu.setViewElevation(mHeaderBackgroundBox, gapFillProgress * mMaxHeaderElevation);
-            lpu.setViewElevation(mHeaderContentBox, gapFillProgress * mMaxHeaderElevation + 0.1f);
-            lpu.setViewElevation(mAddScheduleButton, gapFillProgress * mMaxHeaderElevation
-                    + mFABElevation);
-            if (!lpu.hasLPreviewAPIs()) {
-                mHeaderShadow.setAlpha(gapFillProgress);
-            }
-        }
-
-        // Move background photo (parallax effect)
-        mPhotoViewContainer.setTranslationY(scrollY * 0.5f);
-    }
+//    @Override
+//    public void onScrollChanged(int deltaX, int deltaY) {
+//        final BaseActivity activity = (BaseActivity) getActivity();
+//        if (activity == null) {
+//            return;
+//        }
+//
+//        // Reposition the header bar -- it's normally anchored to the top of the content,
+//        // but locks to the top of the screen on scroll
+//        int scrollY = mScrollView.getScrollY();
+//
+//        float newTop = Math.max(mPhotoHeightPixels, scrollY + mHeaderTopClearance);
+//        mHeaderBox.setTranslationY(newTop);
+//        mAddScheduleButton.setTranslationY(newTop + mHeaderHeightPixels
+//                - mAddScheduleButtonHeightPixels / 2);
+//
+//        mHeaderBackgroundBox.setPivotY(mHeaderHeightPixels);
+//        int gapFillDistance = (int) (mHeaderTopClearance * GAP_FILL_DISTANCE_MULTIPLIER);
+//        boolean showGapFill = !mHasPhoto || (scrollY > (mPhotoHeightPixels - gapFillDistance));
+//        float desiredHeaderScaleY = showGapFill ?
+//                ((mHeaderHeightPixels + gapFillDistance + 1) * 1f / mHeaderHeightPixels)
+//                : 1f;
+//        if (!mHasPhoto) {
+//            mHeaderBackgroundBox.setScaleY(desiredHeaderScaleY);
+//        } else if (mGapFillShown != showGapFill) {
+//            mHeaderBackgroundBox.animate()
+//                    .scaleY(desiredHeaderScaleY)
+//                    .setInterpolator(new DecelerateInterpolator(2f))
+//                    .setDuration(250)
+//                    .start();
+//        }
+//        mGapFillShown = showGapFill;
+//
+//        LPreviewUtilsBase lpu = activity.getLPreviewUtils();
+//
+//        mHeaderShadow.setVisibility(lpu.hasLPreviewAPIs() ? View.GONE : View.VISIBLE);
+//
+//        if (mHeaderTopClearance != 0) {
+//            // Fill the gap between status bar and header bar with color
+//            float gapFillProgress = Math.min(Math.max(UIUtils.getProgress(scrollY,
+//                    mPhotoHeightPixels - mHeaderTopClearance * 2,
+//                    mPhotoHeightPixels - mHeaderTopClearance), 0), 1);
+//            lpu.setViewElevation(mHeaderBackgroundBox, gapFillProgress * mMaxHeaderElevation);
+//            lpu.setViewElevation(mHeaderContentBox, gapFillProgress * mMaxHeaderElevation + 0.1f);
+//            lpu.setViewElevation(mAddScheduleButton, gapFillProgress * mMaxHeaderElevation
+//                    + mFABElevation);
+//            if (!lpu.hasLPreviewAPIs()) {
+//                mHeaderShadow.setAlpha(gapFillProgress);
+//            }
+//        }
+//
+//        // Move background photo (parallax effect)
+//        mPhotoViewContainer.setTranslationY(scrollY * 0.5f);
+//    }
 
 
     /**
@@ -238,135 +238,72 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         public void onFragmentInteraction(Uri uri);
     }
 
-    private void setupCustomScrolling(View rootView) {
-        mScrollView = (ObservableScrollView) rootView.findViewById(R.id.scroll_view);
-        mScrollView.addCallbacks(this);
-        ViewTreeObserver vto = mScrollView.getViewTreeObserver();
-        if (vto.isAlive()) {
-            vto.addOnGlobalLayoutListener(mGlobalLayoutListener);
-        }
-    }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (mScrollView == null) {
-            return;
-        }
 
-        ViewTreeObserver vto = mScrollView.getViewTreeObserver();
-        if (vto.isAlive()) {
-            vto.removeGlobalOnLayoutListener(mGlobalLayoutListener);
-        }
-    }
-
-    private ViewTreeObserver.OnGlobalLayoutListener mGlobalLayoutListener
-            = new ViewTreeObserver.OnGlobalLayoutListener() {
-        @Override
-        public void onGlobalLayout() {
-            mAddScheduleButtonHeightPixels = mAddScheduleButton.getHeight();
-            recomputePhotoAndScrollingMetrics();
-        }
-    };
-
-    private void recomputePhotoAndScrollingMetrics() {
-        final int actionBarSize = UIUtils.calculateActionBarSize(getActivity());
-        mHeaderTopClearance = actionBarSize - mHeaderContentBox.getPaddingTop();
-        mHeaderHeightPixels = mHeaderContentBox.getHeight();
-
-        mPhotoHeightPixels = mHeaderTopClearance;
-        if (mHasPhoto) {
-            mPhotoHeightPixels = (int) (mPhotoView.getWidth() / PHOTO_ASPECT_RATIO);
-            mPhotoHeightPixels = Math.min(mPhotoHeightPixels, mRootView.getHeight() * 2 / 3);
-        }
-
-        ViewGroup.LayoutParams lp;
-        lp = mPhotoViewContainer.getLayoutParams();
-        if (lp.height != mPhotoHeightPixels) {
-            lp.height = mPhotoHeightPixels;
-            mPhotoViewContainer.setLayoutParams(lp);
-        }
-
-        lp = mHeaderBackgroundBox.getLayoutParams();
-        if (lp.height != mHeaderHeightPixels) {
-            lp.height = mHeaderHeightPixels;
-            mHeaderBackgroundBox.setLayoutParams(lp);
-        }
-
-        ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams)
-                mDetailsContainer.getLayoutParams();
-        if (mlp.topMargin != mHeaderHeightPixels + mPhotoHeightPixels) {
-            mlp.topMargin = mHeaderHeightPixels + mPhotoHeightPixels;
-            mDetailsContainer.setLayoutParams(mlp);
-        }
-
-        onScrollChanged(0, 0); // trigger scroll handling
-    }
-
-    private void tryRenderTags() {
-        if (mTagMetadata == null || mTagsString == null || !isAdded()) {
-            return;
-        }
-
-        if (TextUtils.isEmpty(mTagsString)) {
-            mTagsContainer.setVisibility(View.GONE);
-        } else {
-            mTagsContainer.setVisibility(View.VISIBLE);
-            mTags.removeAllViews();
-            LayoutInflater inflater = LayoutInflater.from(getActivity());
-            String[] tagIds = mTagsString.split(",");
-
-            List<TagMetadata.Tag> tags = new ArrayList<TagMetadata.Tag>();
-            for (String tagId : tagIds) {
-                if (Config.Tags.SESSIONS.equals(tagId) ||
-                        Config.Tags.SPECIAL_KEYNOTE.equals(tagId)) {
-                    continue;
-                }
-
-                TagMetadata.Tag tag = mTagMetadata.getTag(tagId);
-                if (tag == null) {
-                    continue;
-                }
-
-                tags.add(tag);
-            }
-
-            if (tags.size() == 0) {
-                mTagsContainer.setVisibility(View.GONE);
-                return;
-            }
-
-            Collections.sort(tags, TagMetadata.TAG_DISPLAY_ORDER_COMPARATOR);
-
-            for (final TagMetadata.Tag tag : tags) {
-                TextView chipView = (TextView) inflater.inflate(
-                        R.layout.include_session_tag_chip, mTags, false);
-                chipView.setText(tag.getName());
-
-                if (Config.Tags.CATEGORY_TOPIC.equals(tag.getCategory())) {
-                    ShapeDrawable colorDrawable = new ShapeDrawable(new OvalShape());
-                    colorDrawable.setIntrinsicWidth(mTagColorDotSize);
-                    colorDrawable.setIntrinsicHeight(mTagColorDotSize);
-                    colorDrawable.getPaint().setStyle(Paint.Style.FILL);
-                    chipView.setCompoundDrawablesWithIntrinsicBounds(colorDrawable,
-                            null, null, null);
-                    colorDrawable.getPaint().setColor(tag.getColor());
-                }
-
-                chipView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        getActivity().finish(); // TODO: better encapsulation
-                        Intent intent = new Intent(getActivity(), BrowseSessionsActivity.class)
-                                .putExtra(BrowseSessionsActivity.EXTRA_FILTER_TAG, tag.getId())
-                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                    }
-                });
-
-                mTags.addView(chipView);
-            }
-        }
-    }
+//    private void tryRenderTags() {
+//        if (mTagMetadata == null || mTagsString == null || !isAdded()) {
+//            return;
+//        }
+//
+//        if (TextUtils.isEmpty(mTagsString)) {
+//            mTagsContainer.setVisibility(View.GONE);
+//        } else {
+//            mTagsContainer.setVisibility(View.VISIBLE);
+//            mTags.removeAllViews();
+//            LayoutInflater inflater = LayoutInflater.from(getActivity());
+//            String[] tagIds = mTagsString.split(",");
+//
+//            List<TagMetadata.Tag> tags = new ArrayList<TagMetadata.Tag>();
+//            for (String tagId : tagIds) {
+//                if (Config.Tags.SESSIONS.equals(tagId) ||
+//                        Config.Tags.SPECIAL_KEYNOTE.equals(tagId)) {
+//                    continue;
+//                }
+//
+//                TagMetadata.Tag tag = mTagMetadata.getTag(tagId);
+//                if (tag == null) {
+//                    continue;
+//                }
+//
+//                tags.add(tag);
+//            }
+//
+//            if (tags.size() == 0) {
+//                mTagsContainer.setVisibility(View.GONE);
+//                return;
+//            }
+//
+//            Collections.sort(tags, TagMetadata.TAG_DISPLAY_ORDER_COMPARATOR);
+//
+//            for (final TagMetadata.Tag tag : tags) {
+//                TextView chipView = (TextView) inflater.inflate(
+//                        R.layout.include_session_tag_chip, mTags, false);
+//                chipView.setText(tag.getName());
+//
+//                if (Config.Tags.CATEGORY_TOPIC.equals(tag.getCategory())) {
+//                    ShapeDrawable colorDrawable = new ShapeDrawable(new OvalShape());
+//                    colorDrawable.setIntrinsicWidth(mTagColorDotSize);
+//                    colorDrawable.setIntrinsicHeight(mTagColorDotSize);
+//                    colorDrawable.getPaint().setStyle(Paint.Style.FILL);
+//                    chipView.setCompoundDrawablesWithIntrinsicBounds(colorDrawable,
+//                            null, null, null);
+//                    colorDrawable.getPaint().setColor(tag.getColor());
+//                }
+//
+//                chipView.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        getActivity().finish(); // TODO: better encapsulation
+//                        Intent intent = new Intent(getActivity(), BrowseSessionsActivity.class)
+//                                .putExtra(BrowseSessionsActivity.EXTRA_FILTER_TAG, tag.getId())
+//                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                        startActivity(intent);
+//                    }
+//                });
+//
+//                mTags.addView(chipView);
+//            }
+//        }
+//    }
 
 }
