@@ -1,0 +1,16 @@
+{
+    "fields": [
+    {
+            "name": "image_url",
+            "type": "String",
+        },
+        {
+            "name": "article_id",
+            "type": "Long",
+            "foreignKey": {
+                "table": "article",
+                "onDelete": "CASCADE",
+            },
+        },
+    ],
+}

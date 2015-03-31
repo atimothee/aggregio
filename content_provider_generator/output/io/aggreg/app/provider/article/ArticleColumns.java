@@ -5,6 +5,8 @@ import android.provider.BaseColumns;
 
 import io.aggreg.app.provider.AggregioProvider;
 import io.aggreg.app.provider.article.ArticleColumns;
+import io.aggreg.app.provider.category.CategoryColumns;
+import io.aggreg.app.provider.newssource.NewsSourceColumns;
 
 /**
  * Columns for the {@code article} table.
@@ -22,11 +24,11 @@ public class ArticleColumns implements BaseColumns {
 
     public static final String LINK = "link";
 
+    public static final String IMAGE = "image";
+
     public static final String PUB_DATE = "pub_date";
 
     public static final String TEXT = "text";
-
-    public static final String IMAGE = "image";
 
     public static final String CATEGORY_ID = "category_id";
 
@@ -40,9 +42,9 @@ public class ArticleColumns implements BaseColumns {
             _ID,
             TITLE,
             LINK,
+            IMAGE,
             PUB_DATE,
             TEXT,
-            IMAGE,
             CATEGORY_ID,
             NEWS_SOURCE_ID
     };
@@ -53,13 +55,15 @@ public class ArticleColumns implements BaseColumns {
         for (String c : projection) {
             if (c.equals(TITLE) || c.contains("." + TITLE)) return true;
             if (c.equals(LINK) || c.contains("." + LINK)) return true;
+            if (c.equals(IMAGE) || c.contains("." + IMAGE)) return true;
             if (c.equals(PUB_DATE) || c.contains("." + PUB_DATE)) return true;
             if (c.equals(TEXT) || c.contains("." + TEXT)) return true;
-            if (c.equals(IMAGE) || c.contains("." + IMAGE)) return true;
             if (c.equals(CATEGORY_ID) || c.contains("." + CATEGORY_ID)) return true;
             if (c.equals(NEWS_SOURCE_ID) || c.contains("." + NEWS_SOURCE_ID)) return true;
         }
         return false;
     }
 
+    public static final String PREFIX_CATEGORY = TABLE_NAME + "__" + CategoryColumns.TABLE_NAME;
+    public static final String PREFIX_NEWS_SOURCE = TABLE_NAME + "__" + NewsSourceColumns.TABLE_NAME;
 }

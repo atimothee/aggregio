@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import io.aggreg.app.provider.base.AbstractCursor;
+import io.aggreg.app.provider.category.*;
+import io.aggreg.app.provider.newssource.*;
 
 /**
  * Cursor wrapper for the {@code article} table.
@@ -28,21 +30,35 @@ public class ArticleCursor extends AbstractCursor implements ArticleModel {
 
     /**
      * Get the {@code title} value.
-     * Can be {@code null}.
+     * Cannot be {@code null}.
      */
-    @Nullable
+    @NonNull
     public String getTitle() {
         String res = getStringOrNull(ArticleColumns.TITLE);
+        if (res == null)
+            throw new NullPointerException("The value of 'title' in the database was null, which is not allowed according to the model definition");
         return res;
     }
 
     /**
      * Get the {@code link} value.
+     * Cannot be {@code null}.
+     */
+    @NonNull
+    public String getLink() {
+        String res = getStringOrNull(ArticleColumns.LINK);
+        if (res == null)
+            throw new NullPointerException("The value of 'link' in the database was null, which is not allowed according to the model definition");
+        return res;
+    }
+
+    /**
+     * Get the {@code image} value.
      * Can be {@code null}.
      */
     @Nullable
-    public String getLink() {
-        String res = getStringOrNull(ArticleColumns.LINK);
+    public String getImage() {
+        String res = getStringOrNull(ArticleColumns.IMAGE);
         return res;
     }
 
@@ -67,32 +83,82 @@ public class ArticleCursor extends AbstractCursor implements ArticleModel {
     }
 
     /**
-     * Get the {@code image} value.
-     * Can be {@code null}.
+     * Get the {@code category_id} value.
      */
-    @Nullable
-    public String getImage() {
-        String res = getStringOrNull(ArticleColumns.IMAGE);
+    public long getCategoryId() {
+        Long res = getLongOrNull(ArticleColumns.CATEGORY_ID);
+        if (res == null)
+            throw new NullPointerException("The value of 'category_id' in the database was null, which is not allowed according to the model definition");
         return res;
     }
 
     /**
-     * Get the {@code category_id} value.
+     * Get the {@code name} value.
      * Can be {@code null}.
      */
     @Nullable
-    public String getCategoryId() {
-        String res = getStringOrNull(ArticleColumns.CATEGORY_ID);
+    public String getCategoryName() {
+        String res = getStringOrNull(CategoryColumns.NAME);
+        return res;
+    }
+
+    /**
+     * Get the {@code image_url} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public String getCategoryImageUrl() {
+        String res = getStringOrNull(CategoryColumns.IMAGE_URL);
         return res;
     }
 
     /**
      * Get the {@code news_source_id} value.
+     */
+    public long getNewsSourceId() {
+        Long res = getLongOrNull(ArticleColumns.NEWS_SOURCE_ID);
+        if (res == null)
+            throw new NullPointerException("The value of 'news_source_id' in the database was null, which is not allowed according to the model definition");
+        return res;
+    }
+
+    /**
+     * Get the {@code image_url} value.
      * Can be {@code null}.
      */
     @Nullable
-    public String getNewsSourceId() {
-        String res = getStringOrNull(ArticleColumns.NEWS_SOURCE_ID);
+    public String getNewsSourceImageUrl() {
+        String res = getStringOrNull(NewsSourceColumns.IMAGE_URL);
+        return res;
+    }
+
+    /**
+     * Get the {@code website} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public String getNewsSourceWebsite() {
+        String res = getStringOrNull(NewsSourceColumns.WEBSITE);
+        return res;
+    }
+
+    /**
+     * Get the {@code name} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public String getNewsSourceName() {
+        String res = getStringOrNull(NewsSourceColumns.NAME);
+        return res;
+    }
+
+    /**
+     * Get the {@code country} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public String getNewsSourceCountry() {
+        String res = getStringOrNull(NewsSourceColumns.COUNTRY);
         return res;
     }
 }

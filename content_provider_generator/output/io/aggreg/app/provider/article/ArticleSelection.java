@@ -7,6 +7,8 @@ import android.database.Cursor;
 import android.net.Uri;
 
 import io.aggreg.app.provider.base.AbstractSelection;
+import io.aggreg.app.provider.category.*;
+import io.aggreg.app.provider.newssource.*;
 
 /**
  * Selection for the {@code article} table.
@@ -112,6 +114,36 @@ public class ArticleSelection extends AbstractSelection<ArticleSelection> {
         return this;
     }
 
+    public ArticleSelection image(String... value) {
+        addEquals(ArticleColumns.IMAGE, value);
+        return this;
+    }
+
+    public ArticleSelection imageNot(String... value) {
+        addNotEquals(ArticleColumns.IMAGE, value);
+        return this;
+    }
+
+    public ArticleSelection imageLike(String... value) {
+        addLike(ArticleColumns.IMAGE, value);
+        return this;
+    }
+
+    public ArticleSelection imageContains(String... value) {
+        addContains(ArticleColumns.IMAGE, value);
+        return this;
+    }
+
+    public ArticleSelection imageStartsWith(String... value) {
+        addStartsWith(ArticleColumns.IMAGE, value);
+        return this;
+    }
+
+    public ArticleSelection imageEndsWith(String... value) {
+        addEndsWith(ArticleColumns.IMAGE, value);
+        return this;
+    }
+
     public ArticleSelection pubDate(Date... value) {
         addEquals(ArticleColumns.PUB_DATE, value);
         return this;
@@ -177,93 +209,243 @@ public class ArticleSelection extends AbstractSelection<ArticleSelection> {
         return this;
     }
 
-    public ArticleSelection image(String... value) {
-        addEquals(ArticleColumns.IMAGE, value);
+    public ArticleSelection categoryId(long... value) {
+        addEquals(ArticleColumns.CATEGORY_ID, toObjectArray(value));
         return this;
     }
 
-    public ArticleSelection imageNot(String... value) {
-        addNotEquals(ArticleColumns.IMAGE, value);
+    public ArticleSelection categoryIdNot(long... value) {
+        addNotEquals(ArticleColumns.CATEGORY_ID, toObjectArray(value));
         return this;
     }
 
-    public ArticleSelection imageLike(String... value) {
-        addLike(ArticleColumns.IMAGE, value);
+    public ArticleSelection categoryIdGt(long value) {
+        addGreaterThan(ArticleColumns.CATEGORY_ID, value);
         return this;
     }
 
-    public ArticleSelection imageContains(String... value) {
-        addContains(ArticleColumns.IMAGE, value);
+    public ArticleSelection categoryIdGtEq(long value) {
+        addGreaterThanOrEquals(ArticleColumns.CATEGORY_ID, value);
         return this;
     }
 
-    public ArticleSelection imageStartsWith(String... value) {
-        addStartsWith(ArticleColumns.IMAGE, value);
+    public ArticleSelection categoryIdLt(long value) {
+        addLessThan(ArticleColumns.CATEGORY_ID, value);
         return this;
     }
 
-    public ArticleSelection imageEndsWith(String... value) {
-        addEndsWith(ArticleColumns.IMAGE, value);
+    public ArticleSelection categoryIdLtEq(long value) {
+        addLessThanOrEquals(ArticleColumns.CATEGORY_ID, value);
         return this;
     }
 
-    public ArticleSelection categoryId(String... value) {
-        addEquals(ArticleColumns.CATEGORY_ID, value);
+    public ArticleSelection categoryName(String... value) {
+        addEquals(CategoryColumns.NAME, value);
         return this;
     }
 
-    public ArticleSelection categoryIdNot(String... value) {
-        addNotEquals(ArticleColumns.CATEGORY_ID, value);
+    public ArticleSelection categoryNameNot(String... value) {
+        addNotEquals(CategoryColumns.NAME, value);
         return this;
     }
 
-    public ArticleSelection categoryIdLike(String... value) {
-        addLike(ArticleColumns.CATEGORY_ID, value);
+    public ArticleSelection categoryNameLike(String... value) {
+        addLike(CategoryColumns.NAME, value);
         return this;
     }
 
-    public ArticleSelection categoryIdContains(String... value) {
-        addContains(ArticleColumns.CATEGORY_ID, value);
+    public ArticleSelection categoryNameContains(String... value) {
+        addContains(CategoryColumns.NAME, value);
         return this;
     }
 
-    public ArticleSelection categoryIdStartsWith(String... value) {
-        addStartsWith(ArticleColumns.CATEGORY_ID, value);
+    public ArticleSelection categoryNameStartsWith(String... value) {
+        addStartsWith(CategoryColumns.NAME, value);
         return this;
     }
 
-    public ArticleSelection categoryIdEndsWith(String... value) {
-        addEndsWith(ArticleColumns.CATEGORY_ID, value);
+    public ArticleSelection categoryNameEndsWith(String... value) {
+        addEndsWith(CategoryColumns.NAME, value);
         return this;
     }
 
-    public ArticleSelection newsSourceId(String... value) {
-        addEquals(ArticleColumns.NEWS_SOURCE_ID, value);
+    public ArticleSelection categoryImageUrl(String... value) {
+        addEquals(CategoryColumns.IMAGE_URL, value);
         return this;
     }
 
-    public ArticleSelection newsSourceIdNot(String... value) {
-        addNotEquals(ArticleColumns.NEWS_SOURCE_ID, value);
+    public ArticleSelection categoryImageUrlNot(String... value) {
+        addNotEquals(CategoryColumns.IMAGE_URL, value);
         return this;
     }
 
-    public ArticleSelection newsSourceIdLike(String... value) {
-        addLike(ArticleColumns.NEWS_SOURCE_ID, value);
+    public ArticleSelection categoryImageUrlLike(String... value) {
+        addLike(CategoryColumns.IMAGE_URL, value);
         return this;
     }
 
-    public ArticleSelection newsSourceIdContains(String... value) {
-        addContains(ArticleColumns.NEWS_SOURCE_ID, value);
+    public ArticleSelection categoryImageUrlContains(String... value) {
+        addContains(CategoryColumns.IMAGE_URL, value);
         return this;
     }
 
-    public ArticleSelection newsSourceIdStartsWith(String... value) {
-        addStartsWith(ArticleColumns.NEWS_SOURCE_ID, value);
+    public ArticleSelection categoryImageUrlStartsWith(String... value) {
+        addStartsWith(CategoryColumns.IMAGE_URL, value);
         return this;
     }
 
-    public ArticleSelection newsSourceIdEndsWith(String... value) {
-        addEndsWith(ArticleColumns.NEWS_SOURCE_ID, value);
+    public ArticleSelection categoryImageUrlEndsWith(String... value) {
+        addEndsWith(CategoryColumns.IMAGE_URL, value);
+        return this;
+    }
+
+    public ArticleSelection newsSourceId(long... value) {
+        addEquals(ArticleColumns.NEWS_SOURCE_ID, toObjectArray(value));
+        return this;
+    }
+
+    public ArticleSelection newsSourceIdNot(long... value) {
+        addNotEquals(ArticleColumns.NEWS_SOURCE_ID, toObjectArray(value));
+        return this;
+    }
+
+    public ArticleSelection newsSourceIdGt(long value) {
+        addGreaterThan(ArticleColumns.NEWS_SOURCE_ID, value);
+        return this;
+    }
+
+    public ArticleSelection newsSourceIdGtEq(long value) {
+        addGreaterThanOrEquals(ArticleColumns.NEWS_SOURCE_ID, value);
+        return this;
+    }
+
+    public ArticleSelection newsSourceIdLt(long value) {
+        addLessThan(ArticleColumns.NEWS_SOURCE_ID, value);
+        return this;
+    }
+
+    public ArticleSelection newsSourceIdLtEq(long value) {
+        addLessThanOrEquals(ArticleColumns.NEWS_SOURCE_ID, value);
+        return this;
+    }
+
+    public ArticleSelection newsSourceImageUrl(String... value) {
+        addEquals(NewsSourceColumns.IMAGE_URL, value);
+        return this;
+    }
+
+    public ArticleSelection newsSourceImageUrlNot(String... value) {
+        addNotEquals(NewsSourceColumns.IMAGE_URL, value);
+        return this;
+    }
+
+    public ArticleSelection newsSourceImageUrlLike(String... value) {
+        addLike(NewsSourceColumns.IMAGE_URL, value);
+        return this;
+    }
+
+    public ArticleSelection newsSourceImageUrlContains(String... value) {
+        addContains(NewsSourceColumns.IMAGE_URL, value);
+        return this;
+    }
+
+    public ArticleSelection newsSourceImageUrlStartsWith(String... value) {
+        addStartsWith(NewsSourceColumns.IMAGE_URL, value);
+        return this;
+    }
+
+    public ArticleSelection newsSourceImageUrlEndsWith(String... value) {
+        addEndsWith(NewsSourceColumns.IMAGE_URL, value);
+        return this;
+    }
+
+    public ArticleSelection newsSourceWebsite(String... value) {
+        addEquals(NewsSourceColumns.WEBSITE, value);
+        return this;
+    }
+
+    public ArticleSelection newsSourceWebsiteNot(String... value) {
+        addNotEquals(NewsSourceColumns.WEBSITE, value);
+        return this;
+    }
+
+    public ArticleSelection newsSourceWebsiteLike(String... value) {
+        addLike(NewsSourceColumns.WEBSITE, value);
+        return this;
+    }
+
+    public ArticleSelection newsSourceWebsiteContains(String... value) {
+        addContains(NewsSourceColumns.WEBSITE, value);
+        return this;
+    }
+
+    public ArticleSelection newsSourceWebsiteStartsWith(String... value) {
+        addStartsWith(NewsSourceColumns.WEBSITE, value);
+        return this;
+    }
+
+    public ArticleSelection newsSourceWebsiteEndsWith(String... value) {
+        addEndsWith(NewsSourceColumns.WEBSITE, value);
+        return this;
+    }
+
+    public ArticleSelection newsSourceName(String... value) {
+        addEquals(NewsSourceColumns.NAME, value);
+        return this;
+    }
+
+    public ArticleSelection newsSourceNameNot(String... value) {
+        addNotEquals(NewsSourceColumns.NAME, value);
+        return this;
+    }
+
+    public ArticleSelection newsSourceNameLike(String... value) {
+        addLike(NewsSourceColumns.NAME, value);
+        return this;
+    }
+
+    public ArticleSelection newsSourceNameContains(String... value) {
+        addContains(NewsSourceColumns.NAME, value);
+        return this;
+    }
+
+    public ArticleSelection newsSourceNameStartsWith(String... value) {
+        addStartsWith(NewsSourceColumns.NAME, value);
+        return this;
+    }
+
+    public ArticleSelection newsSourceNameEndsWith(String... value) {
+        addEndsWith(NewsSourceColumns.NAME, value);
+        return this;
+    }
+
+    public ArticleSelection newsSourceCountry(String... value) {
+        addEquals(NewsSourceColumns.COUNTRY, value);
+        return this;
+    }
+
+    public ArticleSelection newsSourceCountryNot(String... value) {
+        addNotEquals(NewsSourceColumns.COUNTRY, value);
+        return this;
+    }
+
+    public ArticleSelection newsSourceCountryLike(String... value) {
+        addLike(NewsSourceColumns.COUNTRY, value);
+        return this;
+    }
+
+    public ArticleSelection newsSourceCountryContains(String... value) {
+        addContains(NewsSourceColumns.COUNTRY, value);
+        return this;
+    }
+
+    public ArticleSelection newsSourceCountryStartsWith(String... value) {
+        addStartsWith(NewsSourceColumns.COUNTRY, value);
+        return this;
+    }
+
+    public ArticleSelection newsSourceCountryEndsWith(String... value) {
+        addEndsWith(NewsSourceColumns.COUNTRY, value);
         return this;
     }
 }

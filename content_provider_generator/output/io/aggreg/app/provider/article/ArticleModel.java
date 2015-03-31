@@ -14,17 +14,24 @@ public interface ArticleModel extends BaseModel {
 
     /**
      * Get the {@code title} value.
-     * Can be {@code null}.
+     * Cannot be {@code null}.
      */
-    @Nullable
+    @NonNull
     String getTitle();
 
     /**
      * Get the {@code link} value.
+     * Cannot be {@code null}.
+     */
+    @NonNull
+    String getLink();
+
+    /**
+     * Get the {@code image} value.
      * Can be {@code null}.
      */
     @Nullable
-    String getLink();
+    String getImage();
 
     /**
      * Get the {@code pub_date} value.
@@ -41,23 +48,12 @@ public interface ArticleModel extends BaseModel {
     String getText();
 
     /**
-     * Get the {@code image} value.
-     * Can be {@code null}.
-     */
-    @Nullable
-    String getImage();
-
-    /**
      * Get the {@code category_id} value.
-     * Can be {@code null}.
      */
-    @Nullable
-    String getCategoryId();
+    long getCategoryId();
 
     /**
      * Get the {@code news_source_id} value.
-     * Can be {@code null}.
      */
-    @Nullable
-    String getNewsSourceId();
+    long getNewsSourceId();
 }

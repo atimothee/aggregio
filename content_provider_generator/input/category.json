@@ -1,0 +1,12 @@
+{
+    "fields": [
+        {
+            "name": "name",
+            "type": "String",
+        },
+        {
+            "name": "image_url",
+            "type": "String",
+        }
+    ],
+}

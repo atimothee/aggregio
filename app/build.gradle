@@ -32,4 +32,6 @@ dependencies {
     compile 'com.google.android.gms:play-services:6.5.87'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.android.support:palette-v7:21.0.3'
+    compile 'org.apache.commons:commons-lang3:3.1'
+    compile 'com.github.amlcurran.showcaseview:library:5.0.0'
 }

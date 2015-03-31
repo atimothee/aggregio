@@ -4,6 +4,7 @@ import java.util.Date;
 
 import android.content.ContentResolver;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import io.aggreg.app.provider.base.AbstractContentValues;
@@ -27,23 +28,27 @@ public class ArticleContentValues extends AbstractContentValues {
         return contentResolver.update(uri(), values(), where == null ? null : where.sel(), where == null ? null : where.args());
     }
 
-    public ArticleContentValues putTitle(@Nullable String value) {
+    public ArticleContentValues putTitle(@NonNull String value) {
+        if (value == null) throw new IllegalArgumentException("title must not be null");
         mContentValues.put(ArticleColumns.TITLE, value);
         return this;
     }
 
-    public ArticleContentValues putTitleNull() {
-        mContentValues.putNull(ArticleColumns.TITLE);
-        return this;
-    }
 
-    public ArticleContentValues putLink(@Nullable String value) {
+    public ArticleContentValues putLink(@NonNull String value) {
+        if (value == null) throw new IllegalArgumentException("link must not be null");
         mContentValues.put(ArticleColumns.LINK, value);
         return this;
     }
 
-    public ArticleContentValues putLinkNull() {
-        mContentValues.putNull(ArticleColumns.LINK);
+
+    public ArticleContentValues putImage(@Nullable String value) {
+        mContentValues.put(ArticleColumns.IMAGE, value);
+        return this;
+    }
+
+    public ArticleContentValues putImageNull() {
+        mContentValues.putNull(ArticleColumns.IMAGE);
         return this;
     }
 
@@ -72,33 +77,15 @@ public class ArticleContentValues extends AbstractContentValues {
         return this;
     }
 
-    public ArticleContentValues putImage(@Nullable String value) {
-        mContentValues.put(ArticleColumns.IMAGE, value);
-        return this;
-    }
-
-    public ArticleContentValues putImageNull() {
-        mContentValues.putNull(ArticleColumns.IMAGE);
-        return this;
-    }
-
-    public ArticleContentValues putCategoryId(@Nullable String value) {
+    public ArticleContentValues putCategoryId(long value) {
         mContentValues.put(ArticleColumns.CATEGORY_ID, value);
         return this;
     }
 
-    public ArticleContentValues putCategoryIdNull() {
-        mContentValues.putNull(ArticleColumns.CATEGORY_ID);
-        return this;
-    }
 
-    public ArticleContentValues putNewsSourceId(@Nullable String value) {
+    public ArticleContentValues putNewsSourceId(long value) {
         mContentValues.put(ArticleColumns.NEWS_SOURCE_ID, value);
         return this;
     }
 
-    public ArticleContentValues putNewsSourceIdNull() {
-        mContentValues.putNull(ArticleColumns.NEWS_SOURCE_ID);
-        return this;
-    }
 }

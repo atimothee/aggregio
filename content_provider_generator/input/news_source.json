@@ -1,0 +1,20 @@
+{
+    "fields": [
+    {
+            "name": "image_url",
+            "type": "String",
+        },
+        {
+            "name": "website",
+            "type": "String",
+        },
+        {
+            "name": "name",
+            "type": "String",
+        },
+        {
+            "name": "country",
+            "type": "String",
+        },
+    ],
+}

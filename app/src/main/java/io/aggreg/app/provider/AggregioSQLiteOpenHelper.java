@@ -11,6 +11,8 @@ import android.util.Log;
 
 import io.aggreg.app.BuildConfig;
 import io.aggreg.app.provider.article.ArticleColumns;
+import io.aggreg.app.provider.category.CategoryColumns;
+import io.aggreg.app.provider.newssource.NewsSourceColumns;
 
 public class AggregioSQLiteOpenHelper extends SQLiteOpenHelper {
     private static final String TAG = AggregioSQLiteOpenHelper.class.getSimpleName();
@@ -25,13 +27,31 @@ public class AggregioSQLiteOpenHelper extends SQLiteOpenHelper {
     public static final String SQL_CREATE_TABLE_ARTICLE = "CREATE TABLE IF NOT EXISTS "
             + ArticleColumns.TABLE_NAME + " ( "
             + ArticleColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + ArticleColumns.TITLE + " TEXT, "
-            + ArticleColumns.LINK + " TEXT, "
+            + ArticleColumns.TITLE + " TEXT NOT NULL, "
+            + ArticleColumns.LINK + " TEXT NOT NULL, "
+            + ArticleColumns.IMAGE + " TEXT, "
             + ArticleColumns.PUB_DATE + " INTEGER, "
             + ArticleColumns.TEXT + " TEXT, "
-            + ArticleColumns.IMAGE + " TEXT, "
-            + ArticleColumns.CATEGORY_ID + " TEXT, "
-            + ArticleColumns.NEWS_SOURCE_ID + " TEXT "
+            + ArticleColumns.CATEGORY_ID + " INTEGER NOT NULL, "
+            + ArticleColumns.NEWS_SOURCE_ID + " INTEGER NOT NULL "
+            + ", CONSTRAINT fk_category_id FOREIGN KEY (" + ArticleColumns.CATEGORY_ID + ") REFERENCES category (_id) ON DELETE CASCADE"
+            + ", CONSTRAINT fk_news_source_id FOREIGN KEY (" + ArticleColumns.NEWS_SOURCE_ID + ") REFERENCES news_source (_id) ON DELETE CASCADE"
+            + " );";
+
+    public static final String SQL_CREATE_TABLE_CATEGORY = "CREATE TABLE IF NOT EXISTS "
+            + CategoryColumns.TABLE_NAME + " ( "
+            + CategoryColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + CategoryColumns.NAME + " TEXT, "
+            + CategoryColumns.IMAGE_URL + " TEXT "
+            + " );";
+
+    public static final String SQL_CREATE_TABLE_NEWS_SOURCE = "CREATE TABLE IF NOT EXISTS "
+            + NewsSourceColumns.TABLE_NAME + " ( "
+            + NewsSourceColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + NewsSourceColumns.IMAGE_URL + " TEXT, "
+            + NewsSourceColumns.WEBSITE + " TEXT, "
+            + NewsSourceColumns.NAME + " TEXT, "
+            + NewsSourceColumns.COUNTRY + " TEXT "
             + " );";
 
     // @formatter:on
@@ -89,6 +109,8 @@ public class AggregioSQLiteOpenHelper extends SQLiteOpenHelper {
         if (BuildConfig.DEBUG) Log.d(TAG, "onCreate");
         mOpenHelperCallbacks.onPreCreate(mContext, db);
         db.execSQL(SQL_CREATE_TABLE_ARTICLE);
+        db.execSQL(SQL_CREATE_TABLE_CATEGORY);
+        db.execSQL(SQL_CREATE_TABLE_NEWS_SOURCE);
         mOpenHelperCallbacks.onPostCreate(mContext, db);
     }
 

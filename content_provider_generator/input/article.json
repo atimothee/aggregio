@@ -3,9 +3,15 @@
         {
             "name": "title",
             "type": "String",
+            "nullable": false,
         },
         {
             "name": "link",
+            "type": "String",
+            "nullable": false,
+        },
+        {
+            "name": "image",
             "type": "String",
         },
         {
@@ -17,16 +23,22 @@
             "type": "String",
         },
         {
-            "name": "image",
-            "type": "String",
-        },
-        {
             "name": "category_id",
-            "type": "String",
+            "type": "Long",
+            "nullable": false,
+            "foreignKey": {
+                "table": "category",
+                "onDelete": "CASCADE",
+            },
         },
         {
             "name": "news_source_id",
-            "type": "String"
+            "type": "Long",
+            "nullable": false,
+            "foreignKey": {
+                "table": "news_source",
+                "onDelete": "CASCADE",
+            },
         }
     ],
 }

@@ -94,6 +94,7 @@
     <orderEntry type="library" exported="" name="picasso-2.5.2" level="project" />
     <orderEntry type="library" exported="" name="google-api-client-android-1.20.0" level="project" />
     <orderEntry type="library" exported="" name="cardview-v7-21.0.3" level="project" />
+    <orderEntry type="library" exported="" name="library-5.0.0" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-21.0.3" level="project" />
     <orderEntry type="library" exported="" name="palette-v7-21.0.3" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-21.0.3" level="project" />
@@ -104,6 +105,7 @@
     <orderEntry type="library" exported="" name="google-oauth-client-1.20.0" level="project" />
     <orderEntry type="library" exported="" name="gson-2.1" level="project" />
     <orderEntry type="library" exported="" name="google-http-client-gson-1.20.0" level="project" />
+    <orderEntry type="library" exported="" name="commons-lang3-3.1" level="project" />
   </component>
 </module>
 
