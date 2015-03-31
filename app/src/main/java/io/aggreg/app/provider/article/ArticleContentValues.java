@@ -4,7 +4,6 @@ import java.util.Date;
 
 import android.content.ContentResolver;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import io.aggreg.app.provider.base.AbstractContentValues;
@@ -83,15 +82,23 @@ public class ArticleContentValues extends AbstractContentValues {
         return this;
     }
 
-    public ArticleContentValues putCategoryId(long value) {
+    public ArticleContentValues putCategoryId(@Nullable String value) {
         mContentValues.put(ArticleColumns.CATEGORY_ID, value);
         return this;
     }
 
+    public ArticleContentValues putCategoryIdNull() {
+        mContentValues.putNull(ArticleColumns.CATEGORY_ID);
+        return this;
+    }
 
-    public ArticleContentValues putNewsSourceId(long value) {
+    public ArticleContentValues putNewsSourceId(@Nullable String value) {
         mContentValues.put(ArticleColumns.NEWS_SOURCE_ID, value);
         return this;
     }
 
+    public ArticleContentValues putNewsSourceIdNull() {
+        mContentValues.putNull(ArticleColumns.NEWS_SOURCE_ID);
+        return this;
+    }
 }

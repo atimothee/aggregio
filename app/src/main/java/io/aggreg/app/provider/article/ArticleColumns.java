@@ -4,7 +4,6 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 import io.aggreg.app.provider.AggregioProvider;
-import io.aggreg.app.provider.article.ArticleColumns;
 
 /**
  * Columns for the {@code article} table.

@@ -207,63 +207,63 @@ public class ArticleSelection extends AbstractSelection<ArticleSelection> {
         return this;
     }
 
-    public ArticleSelection categoryId(long... value) {
-        addEquals(ArticleColumns.CATEGORY_ID, toObjectArray(value));
+    public ArticleSelection categoryId(String... value) {
+        addEquals(ArticleColumns.CATEGORY_ID, value);
         return this;
     }
 
-    public ArticleSelection categoryIdNot(long... value) {
-        addNotEquals(ArticleColumns.CATEGORY_ID, toObjectArray(value));
+    public ArticleSelection categoryIdNot(String... value) {
+        addNotEquals(ArticleColumns.CATEGORY_ID, value);
         return this;
     }
 
-    public ArticleSelection categoryIdGt(long value) {
-        addGreaterThan(ArticleColumns.CATEGORY_ID, value);
+    public ArticleSelection categoryIdLike(String... value) {
+        addLike(ArticleColumns.CATEGORY_ID, value);
         return this;
     }
 
-    public ArticleSelection categoryIdGtEq(long value) {
-        addGreaterThanOrEquals(ArticleColumns.CATEGORY_ID, value);
+    public ArticleSelection categoryIdContains(String... value) {
+        addContains(ArticleColumns.CATEGORY_ID, value);
         return this;
     }
 
-    public ArticleSelection categoryIdLt(long value) {
-        addLessThan(ArticleColumns.CATEGORY_ID, value);
+    public ArticleSelection categoryIdStartsWith(String... value) {
+        addStartsWith(ArticleColumns.CATEGORY_ID, value);
         return this;
     }
 
-    public ArticleSelection categoryIdLtEq(long value) {
-        addLessThanOrEquals(ArticleColumns.CATEGORY_ID, value);
+    public ArticleSelection categoryIdEndsWith(String... value) {
+        addEndsWith(ArticleColumns.CATEGORY_ID, value);
         return this;
     }
 
-    public ArticleSelection newsSourceId(long... value) {
-        addEquals(ArticleColumns.NEWS_SOURCE_ID, toObjectArray(value));
+    public ArticleSelection newsSourceId(String... value) {
+        addEquals(ArticleColumns.NEWS_SOURCE_ID, value);
         return this;
     }
 
-    public ArticleSelection newsSourceIdNot(long... value) {
-        addNotEquals(ArticleColumns.NEWS_SOURCE_ID, toObjectArray(value));
+    public ArticleSelection newsSourceIdNot(String... value) {
+        addNotEquals(ArticleColumns.NEWS_SOURCE_ID, value);
         return this;
     }
 
-    public ArticleSelection newsSourceIdGt(long value) {
-        addGreaterThan(ArticleColumns.NEWS_SOURCE_ID, value);
+    public ArticleSelection newsSourceIdLike(String... value) {
+        addLike(ArticleColumns.NEWS_SOURCE_ID, value);
         return this;
     }
 
-    public ArticleSelection newsSourceIdGtEq(long value) {
-        addGreaterThanOrEquals(ArticleColumns.NEWS_SOURCE_ID, value);
+    public ArticleSelection newsSourceIdContains(String... value) {
+        addContains(ArticleColumns.NEWS_SOURCE_ID, value);
         return this;
     }
 
-    public ArticleSelection newsSourceIdLt(long value) {
-        addLessThan(ArticleColumns.NEWS_SOURCE_ID, value);
+    public ArticleSelection newsSourceIdStartsWith(String... value) {
+        addStartsWith(ArticleColumns.NEWS_SOURCE_ID, value);
         return this;
     }
 
-    public ArticleSelection newsSourceIdLtEq(long value) {
-        addLessThanOrEquals(ArticleColumns.NEWS_SOURCE_ID, value);
+    public ArticleSelection newsSourceIdEndsWith(String... value) {
+        addEndsWith(ArticleColumns.NEWS_SOURCE_ID, value);
         return this;
     }
 }

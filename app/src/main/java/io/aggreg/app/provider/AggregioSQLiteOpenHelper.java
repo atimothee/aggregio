@@ -30,8 +30,8 @@ public class AggregioSQLiteOpenHelper extends SQLiteOpenHelper {
             + ArticleColumns.PUB_DATE + " INTEGER, "
             + ArticleColumns.TEXT + " TEXT, "
             + ArticleColumns.IMAGE + " TEXT, "
-            + ArticleColumns.CATEGORY_ID + " INTEGER NOT NULL, "
-            + ArticleColumns.NEWS_SOURCE_ID + " INTEGER NOT NULL "
+            + ArticleColumns.CATEGORY_ID + " TEXT, "
+            + ArticleColumns.NEWS_SOURCE_ID + " TEXT "
             + " );";
 
     // @formatter:on
