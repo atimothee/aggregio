@@ -1,10 +1,12 @@
 package io.aggreg.app.fragment;
 
 import android.app.Activity;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,12 +14,19 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+
+import io.aggreg.app.ArticlesAdapter;
 import io.aggreg.app.R;
 
 import io.aggreg.app.fragment.dummy.DummyContent;
+import io.aggreg.app.provider.article.ArticleColumns;
 
 /**
  * A fragment representing a list of Items.
@@ -40,17 +49,15 @@ public class ArticlesFragment extends Fragment implements AbsListView.OnItemClic
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private ArticlesAdapter mAdapter;
+    int[] VIEW_IDS = {R.id.article_item_title, R.id.article_item_image};
+    String[] COLUMNS = {ArticleColumns.TITLE, ArticleColumns.IMAGE};
 
     /**
      * The fragment's ListView/GridView.
      */
     private AbsListView mListView;
 
-    /**
-     * The Adapter which will be used to populate the ListView/GridView with
-     * Views.
-     */
-    private ListAdapter mAdapter;
 
     // TODO: Rename and change types of parameters
     public static ArticlesFragment newInstance(String param1, String param2) {
@@ -72,6 +79,7 @@ public class ArticlesFragment extends Fragment implements AbsListView.OnItemClic
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        getLoaderManager().initLoader(0,null,this);
     }
 
     @Override
@@ -84,8 +92,21 @@ public class ArticlesFragment extends Fragment implements AbsListView.OnItemClic
         }
 
         // TODO: Change Adapter to display your content
-        mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
+        mAdapter = new ArticlesAdapter(getActivity(), null);
+//        mAdapter = new SimpleCursorAdapter(getActivity(), R.layout.article_item, null,
+//                COLUMNS, VIEW_IDS);
+//        mAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
+//            @Override
+//            public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
+//
+//                if(view.getId()==R.id.article_item_image){
+//                    Picasso.with(getActivity()).load(cursor.getString(cursor.getColumnIndex(ArticleColumns.IMAGE))).into((ImageView)view, new Callback() {
+//                    });
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
     }
 
     @Override
@@ -95,7 +116,8 @@ public class ArticlesFragment extends Fragment implements AbsListView.OnItemClic
 
         // Set the adapter
         mListView = (AbsListView) view.findViewById(android.R.id.list);
-        ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
+        mListView.setAdapter(mAdapter);
+       // ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
 
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
@@ -145,12 +167,12 @@ public class ArticlesFragment extends Fragment implements AbsListView.OnItemClic
 
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
-        return null;
+        return new CursorLoader(getActivity(), ArticleColumns.CONTENT_URI, null, null, null, null);
     }
 
     @Override
     public void onLoadFinished(Loader loader, Object data) {
-
+        mAdapter.swapCursor((Cursor)data);
     }
 
     @Override

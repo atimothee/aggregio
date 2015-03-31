@@ -8,9 +8,23 @@ import android.accounts.Account;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.SyncResult;
 import android.os.Bundle;
+import android.util.Log;
+
+import com.appspot.afrinewscentral.afrinews.Afrinews;
+import com.appspot.afrinewscentral.afrinews.model.BackendAfrinewsApiStoryCollection;
+import com.appspot.afrinewscentral.afrinews.model.BackendAfrinewsApiStoryMessage;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.json.gson.GsonFactory;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import io.aggreg.app.provider.article.ArticleColumns;
 
 /**
  * Handle the transfer of data between a server and an
@@ -53,6 +67,33 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
 
+        Afrinews.Builder builder = new Afrinews.Builder(
+                AndroidHttp.newCompatibleTransport(), new GsonFactory(), null);
+        Afrinews service = builder.build();
+        try {
+            BackendAfrinewsApiStoryCollection storyCollection = service.stories().list().execute();
+            Log.d("sync", "size "+storyCollection.getItems().size());
+            List<ContentValues> contentValuesList = new ArrayList<>();
+            ContentValues contentValues = new ContentValues();
+            for(BackendAfrinewsApiStoryMessage s: storyCollection.getItems()){
+                contentValues = new ContentValues();
+                contentValues.put(ArticleColumns._ID, s.getId());
+                contentValues.put(ArticleColumns.TITLE, s.getTitle());
+                contentValues.put(ArticleColumns.TEXT, s.getText());
+                contentValues.put(ArticleColumns.LINK, s.getLink());
+                try {
+                    contentValues.put(ArticleColumns.IMAGE, s.getImageUrl().get(0));
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                contentValues.put(ArticleColumns.CATEGORY_ID, s.getCategoryId());
+                contentValues.put(ArticleColumns.NEWS_SOURCE_ID, s.getNewsSourceId());
+                contentValuesList.add(contentValues);
+            }
+            mContentResolver.bulkInsert(ArticleColumns.CONTENT_URI, contentValuesList.toArray(new ContentValues[contentValuesList.size()]));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 }

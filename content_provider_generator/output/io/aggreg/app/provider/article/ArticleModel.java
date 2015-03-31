@@ -49,11 +49,15 @@ public interface ArticleModel extends BaseModel {
 
     /**
      * Get the {@code category_id} value.
+     * Can be {@code null}.
      */
-    long getCategoryId();
+    @Nullable
+    String getCategoryId();
 
     /**
      * Get the {@code news_source_id} value.
+     * Can be {@code null}.
      */
-    long getNewsSourceId();
+    @Nullable
+    String getNewsSourceId();
 }

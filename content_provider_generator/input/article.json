@@ -22,13 +22,11 @@
         },
         {
             "name": "category_id",
-            "type": "Long",
-            "nullable": false
+            "type": "String",
         },
         {
             "name": "news_source_id",
-            "type": "Long",
-            "nullable": false
+            "type": "String"
         }
     ],
 }

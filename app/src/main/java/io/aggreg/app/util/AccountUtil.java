@@ -12,32 +12,27 @@ import io.aggreg.app.R;
 public class AccountUtil {
     private Context mContext;
 
-    // Constants
-    // The authority for the sync adapter's content provider
-    public static final String AUTHORITY = "com.example.android.datasync.provider";
     // An account type, in the form of a domain name
-    public final String ACCOUNT_TYPE = mContext.getString(R.string.account_type);
+    public String ACCOUNT_TYPE;
     // The account name
-    public final String ACCOUNT = mContext.getString(R.string.account_type);
+    public  String ACCOUNT;
     // Instance fields
 
     public AccountUtil(Context mContext){
         this.mContext = mContext;
+        ACCOUNT_TYPE = mContext.getString(R.string.account_type);
+        ACCOUNT = mContext.getString(R.string.account_type);
     }
 
-    /**
-     * Create a new dummy account for the sync adapter
-     *
-     * @param context The application context
-     */
-    public Account CreateSyncAccount(Context context) {
+
+    public Account CreateSyncAccount() {
         // Create the account type and default account
         Account newAccount = new Account(
                 ACCOUNT, ACCOUNT_TYPE);
         // Get an instance of the Android account manager
         AccountManager accountManager =
-                (AccountManager) context.getSystemService(
-                        context.ACCOUNT_SERVICE);
+                (AccountManager) mContext.getSystemService(
+                        mContext.ACCOUNT_SERVICE);
         /*
          * Add the account and account type, no password or user data
          * If successful, return the Account object, otherwise report an error.

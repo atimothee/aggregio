@@ -78,21 +78,21 @@ public class ArticleCursor extends AbstractCursor implements ArticleModel {
 
     /**
      * Get the {@code category_id} value.
+     * Can be {@code null}.
      */
-    public long getCategoryId() {
-        Long res = getLongOrNull(ArticleColumns.CATEGORY_ID);
-        if (res == null)
-            throw new NullPointerException("The value of 'category_id' in the database was null, which is not allowed according to the model definition");
+    @Nullable
+    public String getCategoryId() {
+        String res = getStringOrNull(ArticleColumns.CATEGORY_ID);
         return res;
     }
 
     /**
      * Get the {@code news_source_id} value.
+     * Can be {@code null}.
      */
-    public long getNewsSourceId() {
-        Long res = getLongOrNull(ArticleColumns.NEWS_SOURCE_ID);
-        if (res == null)
-            throw new NullPointerException("The value of 'news_source_id' in the database was null, which is not allowed according to the model definition");
+    @Nullable
+    public String getNewsSourceId() {
+        String res = getStringOrNull(ArticleColumns.NEWS_SOURCE_ID);
         return res;
     }
 }

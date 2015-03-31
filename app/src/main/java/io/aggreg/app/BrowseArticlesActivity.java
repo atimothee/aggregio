@@ -2,6 +2,10 @@ package io.aggreg.app;
 
 import java.util.Locale;
 
+import android.accounts.AccountManager;
+import android.content.ContentResolver;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -18,8 +22,50 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.appspot.afrinewscentral.afrinews.Afrinews;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.json.gson.GsonFactory;
 
-public class BrowseArticlesActivity extends ActionBarActivity implements ActionBar.TabListener {
+import io.aggreg.app.fragment.ArticlesFragment;
+import io.aggreg.app.provider.AggregioProvider;
+import io.aggreg.app.util.AccountUtil;
+
+
+public class BrowseArticlesActivity extends ActionBarActivity implements ActionBar.TabListener, ArticlesFragment.OnFragmentInteractionListener {
+    SharedPreferences settings;
+    GoogleAccountCredential credential;
+    Afrinews service;
+    static final int REQUEST_ACCOUNT_PICKER = 2;
+    private String accountName = "aggregio";
+    private String PREF_ACCOUNT_NAME = "account";
+
+    void chooseAccount() {
+        startActivityForResult(credential.newChooseAccountIntent(),
+                REQUEST_ACCOUNT_PICKER);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_ACCOUNT_PICKER:
+                if (data != null && data.getExtras() != null) {
+                    String accountName =
+                            data.getExtras().getString(
+                                    AccountManager.KEY_ACCOUNT_NAME);
+                    if (accountName != null) {
+                        setSelectedAccountName(accountName);
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putString(PREF_ACCOUNT_NAME, accountName);
+                        editor.commit();
+                        // User is authorized.
+                    }
+                }
+                break;
+        }
+    }
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -74,6 +120,47 @@ public class BrowseArticlesActivity extends ActionBarActivity implements ActionB
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
+
+        settings = getSharedPreferences(
+                "Aggregio", 0);
+        credential = GoogleAccountCredential.usingAudience(this,
+                "server:712181347012-8fpgao7adir66k4sgf54k804c6qtb4dg.apps.googleusercontent.com");
+        Afrinews.Builder builder = new Afrinews.Builder(
+                AndroidHttp.newCompatibleTransport(), new GsonFactory(),
+                credential);
+        service = builder.build();
+
+        if (credential.getSelectedAccountName() != null) {
+            // Already signed in, begin app!
+        } else {
+            chooseAccount();
+            // Not signed in, show login window or request an account.
+        }
+        // Pass the settings flags by inserting them in a bundle
+        Bundle settingsBundle = new Bundle();
+        settingsBundle.putBoolean(
+                ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        settingsBundle.putBoolean(
+                ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        settingsBundle.putBoolean(
+                ContentResolver.SYNC_EXTRAS_FORCE, true);
+        /*
+         * Request the sync for the default account, authority, and
+         * manual sync settings
+         */
+        //ContentResolver.
+        ContentResolver.requestSync(new AccountUtil(getApplicationContext()).CreateSyncAccount(), AggregioProvider.AUTHORITY, settingsBundle);
+    }
+
+
+
+    // setSelectedAccountName definition
+    private void setSelectedAccountName(String accountName) {
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(PREF_ACCOUNT_NAME, accountName);
+        editor.commit();
+        credential.setSelectedAccountName(accountName);
+        this.accountName = accountName;
     }
 
 
@@ -114,6 +201,11 @@ public class BrowseArticlesActivity extends ActionBarActivity implements ActionB
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
 
+    @Override
+    public void onFragmentInteraction(String id) {
+
+    }
+
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -128,7 +220,7 @@ public class BrowseArticlesActivity extends ActionBarActivity implements ActionB
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            return new ArticlesFragment();
         }
 
         @Override
