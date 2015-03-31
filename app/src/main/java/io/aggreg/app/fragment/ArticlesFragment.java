@@ -15,6 +15,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -64,6 +65,14 @@ public class ArticlesFragment extends Fragment implements AbsListView.OnItemClic
 
                 if(view.getId()==R.id.article_item_image){
                     Picasso.with(getActivity()).load(cursor.getString(cursor.getColumnIndex(ArticleColumns.IMAGE))).into((ImageView)view);
+                    return true;
+                }
+                else if(view.getId()==R.id.article_item_title){
+                    ((TextView)view).setText(cursor.getString(cursor.getColumnIndex(ArticleColumns.TITLE)));
+                    return true;
+                }
+                else if(view.getId()==R.id.article_item_source_name){
+                    ((TextView)view).setText(cursor.getString(cursor.getColumnIndex(NewsSourceColumns.NAME)));
                     return true;
                 }
                 return false;

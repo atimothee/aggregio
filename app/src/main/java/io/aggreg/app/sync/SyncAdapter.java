@@ -81,9 +81,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             categoryCollectionMessage = service.categories().list().execute();
             List<ContentValues> contentValuesList = new ArrayList<>();
             ContentValues contentValues = null;
+            Log.d("SYNC", "size "+categoryCollectionMessage.getItems().size());
             for (BackendAfrinewsApiCategoryMessage category: categoryCollectionMessage.getItems()){
+                contentValues = new ContentValues();
+                Log.d("sync", "id "+category.getName());
                 contentValues.put(CategoryColumns._ID, category.getId());
-                //contentValues.put(CategoryColumns.NAME, category.getName());
+                contentValues.put(CategoryColumns.NAME, category.getName());
                 contentValuesList.add(contentValues);
             }
             mContentResolver.bulkInsert(CategoryColumns.CONTENT_URI, contentValuesList.toArray(new ContentValues[contentValuesList.size()]));
@@ -120,9 +123,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 contentValues.put(ArticleColumns._ID, s.getId());
                 contentValues.put(ArticleColumns.TITLE, s.getTitle());
                 contentValues.put(ArticleColumns.TEXT, s.getText());
-                contentValues.put(ArticleColumns.LINK, s.getLink());
+                contentValues.put(ArticleColumns.LINK, " ");
                 contentValues.put(ArticleColumns.CATEGORY_ID, s.getCategoryId());
                 contentValues.put(ArticleColumns.NEWS_SOURCE_ID, s.getNewsSourceId());
+                try {
+                    contentValues.put(ArticleColumns.IMAGE, s.getImageUrl().get(0));
+                }catch (Exception e){
+
+                }
                 contentValuesList.add(contentValues);
             }
             mContentResolver.bulkInsert(ArticleColumns.CONTENT_URI, contentValuesList.toArray(new ContentValues[contentValuesList.size()]));
