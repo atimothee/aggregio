@@ -32,7 +32,7 @@ import io.aggreg.app.provider.AggregioProvider;
 import io.aggreg.app.util.AccountUtil;
 
 
-public class BrowseArticlesActivity extends ActionBarActivity implements ActionBar.TabListener, ArticlesFragment.OnFragmentInteractionListener {
+public class BrowseArticlesActivity extends ActionBarActivity implements  ArticlesFragment.OnFragmentInteractionListener {
     SharedPreferences settings;
     GoogleAccountCredential credential;
     Afrinews service;
@@ -88,8 +88,10 @@ public class BrowseArticlesActivity extends ActionBarActivity implements ActionB
         setContentView(R.layout.activity_browse_articles);
 
         // Set up the action bar.
-        final ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+//        final ActionBar actionBar = getSupportActionBar();
+//        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME|ActionBar.DISPLAY_SHOW_TITLE|ActionBar.DISPLAY_HOME_AS_UP);
+//        actionBar.setHomeButtonEnabled(true);
+//        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -102,24 +104,24 @@ public class BrowseArticlesActivity extends ActionBarActivity implements ActionB
         // When swiping between different sections, select the corresponding
         // tab. We can also use ActionBar.Tab#select() to do this if we have
         // a reference to the Tab.
-        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                actionBar.setSelectedNavigationItem(position);
-            }
-        });
+//        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+//            @Override
+//            public void onPageSelected(int position) {
+//                actionBar.setSelectedNavigationItem(position);
+//            }
+//        });
 
         // For each of the sections in the app, add a tab to the action bar.
-        for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-            // Create a tab with text corresponding to the page title defined by
-            // the adapter. Also specify this Activity object, which implements
-            // the TabListener interface, as the callback (listener) for when
-            // this tab is selected.
-            actionBar.addTab(
-                    actionBar.newTab()
-                            .setText(mSectionsPagerAdapter.getPageTitle(i))
-                            .setTabListener(this));
-        }
+//        for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
+//            // Create a tab with text corresponding to the page title defined by
+//            // the adapter. Also specify this Activity object, which implements
+//            // the TabListener interface, as the callback (listener) for when
+//            // this tab is selected.
+//            actionBar.addTab(
+//                    actionBar.newTab()
+//                            .setText(mSectionsPagerAdapter.getPageTitle(i))
+//                            .setTabListener(this));
+//        }
 
         settings = getSharedPreferences(
                 "Aggregio", 0);
@@ -133,7 +135,7 @@ public class BrowseArticlesActivity extends ActionBarActivity implements ActionB
         if (credential.getSelectedAccountName() != null) {
             // Already signed in, begin app!
         } else {
-            chooseAccount();
+            //chooseAccount();
             // Not signed in, show login window or request an account.
         }
         // Pass the settings flags by inserting them in a bundle
@@ -149,7 +151,7 @@ public class BrowseArticlesActivity extends ActionBarActivity implements ActionB
          * manual sync settings
          */
         //ContentResolver.
-        ContentResolver.requestSync(new AccountUtil(getApplicationContext()).CreateSyncAccount(), AggregioProvider.AUTHORITY, settingsBundle);
+        //ContentResolver.requestSync(new AccountUtil(getApplicationContext()).CreateSyncAccount(), AggregioProvider.AUTHORITY, settingsBundle);
     }
 
 
@@ -186,20 +188,20 @@ public class BrowseArticlesActivity extends ActionBarActivity implements ActionB
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-        // When the given tab is selected, switch to the corresponding page in
-        // the ViewPager.
-        mViewPager.setCurrentItem(tab.getPosition());
-    }
+//    @Override
+//    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+//        // When the given tab is selected, switch to the corresponding page in
+//        // the ViewPager.
+//        mViewPager.setCurrentItem(tab.getPosition());
+//    }
 
-    @Override
-    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-    }
-
-    @Override
-    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-    }
+//    @Override
+//    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+//    }
+//
+//    @Override
+//    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+//    }
 
     @Override
     public void onFragmentInteraction(String id) {

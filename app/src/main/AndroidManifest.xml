@@ -55,6 +55,7 @@
         </activity>
         <activity
             android:name=".BrowseArticlesActivity"
+            android:theme="@style/AppThemeTransparent"
             android:label="@string/title_activity_browse_articles" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
