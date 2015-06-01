@@ -30,8 +30,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     private TextView articleTitle;
     private ImageView articleImage;
     public static final String ARG_ARTICLE_ID = "article_id";
-    private static int ARTICLE_DETAIL_LOADER = 2;
-    private Cursor mCursor;
+    private static int ARTICLE_DETAIL_LOADER = 5;
     private static String LOG_TAG = ArticleDetailFragment.class.getSimpleName();
 
     private OnFragmentInteractionListener mListener;
@@ -55,7 +54,6 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mCursor = null;
     }
 
     @Override
