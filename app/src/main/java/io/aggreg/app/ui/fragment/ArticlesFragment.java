@@ -78,7 +78,7 @@ public class ArticlesFragment extends Fragment implements AbsListView.OnItemClic
                     ((TextView) view).setText(cursor.getString(cursor.getColumnIndex(PublisherColumns.NAME)));
                     return true;
                 }
-                return false;
+                return true;
             }
         });
     }

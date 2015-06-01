@@ -1,5 +1,6 @@
 package io.aggreg.app.ui;
 
+import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -91,14 +92,6 @@ public class BrowseArticlesActivity extends ActionBarActivity implements LoaderM
             }
         });
 
-
-        for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-            actionBar.addTab(
-                    actionBar.newTab()
-                            .setText(mSectionsPagerAdapter.getPageTitle(i))
-                            .setTabListener(this));
-        }
-
         settings = getSharedPreferences(
                 "Aggregio", 0);
         credential = GoogleAccountCredential.usingAudience(this,
@@ -116,9 +109,13 @@ public class BrowseArticlesActivity extends ActionBarActivity implements LoaderM
         }
 
         Bundle settingsBundle = new Bundle();
+        settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         settingsBundle.putBoolean(
                 ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-        ContentResolver.requestSync(new AccountUtils(getApplicationContext()).getSyncAccount(), AggregioProvider.AUTHORITY, settingsBundle);
+        Account account = new AccountUtils(getApplicationContext()).getSyncAccount();
+        //ContentResolver.setSyncAutomatically(account, AggregioProvider.AUTHORITY, true);
+        //ContentResolver.requestSync(account, AggregioProvider.AUTHORITY, settingsBundle);
+
     }
 
     private void setSelectedAccountName(String accountName) {
@@ -187,6 +184,14 @@ public class BrowseArticlesActivity extends ActionBarActivity implements LoaderM
     public void onLoadFinished(Loader loader, Object data) {
 
         categoriesCursor = (Cursor) data;
+        final ActionBar actionBar = getSupportActionBar();
+        mSectionsPagerAdapter.notifyDataSetChanged();
+        for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
+            actionBar.addTab(
+                    actionBar.newTab()
+                            .setText(mSectionsPagerAdapter.getPageTitle(i))
+                            .setTabListener(this));
+        }
     }
 
     @Override

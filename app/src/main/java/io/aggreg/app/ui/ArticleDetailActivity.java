@@ -1,5 +1,6 @@
 package io.aggreg.app.ui;
 
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -15,7 +16,7 @@ import io.aggreg.app.R;
 import io.aggreg.app.ui.fragment.ArticleDetailFragment;
 
 
-public class ArticleDetailActivity extends ActionBarActivity {
+public class ArticleDetailActivity extends ActionBarActivity implements ArticleDetailFragment.OnFragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,11 @@ public class ArticleDetailActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 
     /**

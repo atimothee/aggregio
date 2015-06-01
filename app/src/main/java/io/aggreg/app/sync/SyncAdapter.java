@@ -91,7 +91,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             }
             mContentResolver.bulkInsert(CategoryColumns.CONTENT_URI, contentValuesList.toArray(new ContentValues[contentValuesList.size()]));
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -109,12 +109,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             }
             mContentResolver.bulkInsert(PublisherColumns.CONTENT_URI, contentValuesList.toArray(new ContentValues[contentValuesList.size()]));
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         try {
-            BackendAfrinewsApiStoryCollection storyCollection = service.stories().list().execute();
+            BackendAfrinewsApiStoryCollection storyCollection = service.stories().cursorList().execute();
             Log.d("sync", "size "+storyCollection.getItems().size());
             List<ContentValues> contentValuesList = new ArrayList<>();
             ContentValues contentValues = new ContentValues();
@@ -134,7 +134,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 contentValuesList.add(contentValues);
             }
             mContentResolver.bulkInsert(ArticleColumns.CONTENT_URI, contentValuesList.toArray(new ContentValues[contentValuesList.size()]));
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

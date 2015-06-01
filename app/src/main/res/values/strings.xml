@@ -7,7 +7,7 @@
     <string name="content_authority">io.aggreg.app.provider</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="title_activity_browse_articles">BrowseArticles</string>
+    <string name="title_activity_browse_articles">Aggregio</string>
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
