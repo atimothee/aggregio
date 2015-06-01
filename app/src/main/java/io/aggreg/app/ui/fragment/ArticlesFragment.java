@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ public class ArticlesFragment extends Fragment implements AbsListView.OnItemClic
     private String[] COLUMNS = ArrayUtils.addAll(ArticleColumns.ALL_COLUMNS, foreignFields);
     public static String ARG_PARAM_CATEGORY_ID = "category_id";
     public static int ARTICLE_LOADER = 1;
+    private static String LOG_TAG = ArticlesFragment.class.getSimpleName();
     private AbsListView mListView;
     private OnFragmentInteractionListener mListener;
     public ArticlesFragment() {
@@ -127,6 +129,9 @@ public class ArticlesFragment extends Fragment implements AbsListView.OnItemClic
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Cursor cursor = mAdapter.getCursor();
+        cursor.moveToPosition(position);
+        Log.d(LOG_TAG, "id param is " + id);
+        Log.d(LOG_TAG, "id cursor is "+cursor.getLong(cursor.getColumnIndex(ArticleColumns._ID)));
         mListener.openArticleDetail(cursor.getLong(cursor.getColumnIndex(ArticleColumns._ID)));
     }
 

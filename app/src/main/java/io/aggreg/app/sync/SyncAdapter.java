@@ -77,44 +77,44 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 AndroidHttp.newCompatibleTransport(), new GsonFactory(), null);
         Afrinews service = builder.build();
         BackendAfrinewsApiCategoryCollectionMessage categoryCollectionMessage = null;
+//        try {
+//            categoryCollectionMessage = service.categories().list().execute();
+//            List<ContentValues> contentValuesList = new ArrayList<>();
+//            ContentValues contentValues = null;
+//            Log.d("SYNC", "size "+categoryCollectionMessage.getItems().size());
+//            for (BackendAfrinewsApiCategoryMessage category: categoryCollectionMessage.getItems()){
+//                contentValues = new ContentValues();
+//                Log.d("sync", "id "+category.getName());
+//                contentValues.put(CategoryColumns._ID, category.getId());
+//                contentValues.put(CategoryColumns.NAME, category.getName());
+//                contentValuesList.add(contentValues);
+//            }
+//            mContentResolver.bulkInsert(CategoryColumns.CONTENT_URI, contentValuesList.toArray(new ContentValues[contentValuesList.size()]));
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        try {
+//            BackendAfrinewsApiNewsSourceCollectionMessage newsSourceCollectionMessage = service.newsSources().list().execute();
+//            List<ContentValues> contentValuesList = new ArrayList<>();
+//            ContentValues contentValues = null;
+//            for(BackendAfrinewsApiNewsSourceMessage newsSource: newsSourceCollectionMessage.getItems()){
+//                contentValues = new ContentValues();
+//                contentValues.put(PublisherColumns._ID, newsSource.getId());
+//                contentValues.put(PublisherColumns.NAME, newsSource.getName());
+//                contentValues.put(PublisherColumns.WEBSITE, newsSource.getWebsite());
+//                contentValues.put(PublisherColumns.COUNTRY, newsSource.getCountry());
+//                contentValuesList.add(contentValues);
+//            }
+//            mContentResolver.bulkInsert(PublisherColumns.CONTENT_URI, contentValuesList.toArray(new ContentValues[contentValuesList.size()]));
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
         try {
-            categoryCollectionMessage = service.categories().list().execute();
-            List<ContentValues> contentValuesList = new ArrayList<>();
-            ContentValues contentValues = null;
-            Log.d("SYNC", "size "+categoryCollectionMessage.getItems().size());
-            for (BackendAfrinewsApiCategoryMessage category: categoryCollectionMessage.getItems()){
-                contentValues = new ContentValues();
-                Log.d("sync", "id "+category.getName());
-                contentValues.put(CategoryColumns._ID, category.getId());
-                contentValues.put(CategoryColumns.NAME, category.getName());
-                contentValuesList.add(contentValues);
-            }
-            mContentResolver.bulkInsert(CategoryColumns.CONTENT_URI, contentValuesList.toArray(new ContentValues[contentValuesList.size()]));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
-            BackendAfrinewsApiNewsSourceCollectionMessage newsSourceCollectionMessage = service.newsSources().list().execute();
-            List<ContentValues> contentValuesList = new ArrayList<>();
-            ContentValues contentValues = null;
-            for(BackendAfrinewsApiNewsSourceMessage newsSource: newsSourceCollectionMessage.getItems()){
-                contentValues = new ContentValues();
-                contentValues.put(PublisherColumns._ID, newsSource.getId());
-                contentValues.put(PublisherColumns.NAME, newsSource.getName());
-                contentValues.put(PublisherColumns.WEBSITE, newsSource.getWebsite());
-                contentValues.put(PublisherColumns.COUNTRY, newsSource.getCountry());
-                contentValuesList.add(contentValues);
-            }
-            mContentResolver.bulkInsert(PublisherColumns.CONTENT_URI, contentValuesList.toArray(new ContentValues[contentValuesList.size()]));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
-            BackendAfrinewsApiStoryCollection storyCollection = service.stories().cursorList().execute();
+            BackendAfrinewsApiStoryCollection storyCollection = service.stories().list().execute();
             Log.d("sync", "size "+storyCollection.getItems().size());
             List<ContentValues> contentValuesList = new ArrayList<>();
             ContentValues contentValues = new ContentValues();

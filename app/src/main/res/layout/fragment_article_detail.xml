@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" tools:context="io.aggreg.app.ui.fragment.ArticleDetailFragment">
     <ImageView
@@ -6,9 +7,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/article_detail_image"/>
 
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent" android:id="@+id/article_detail_title"/>
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/article_detail_title"/>
 
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
         android:text="@string/hello_blank_fragment" android:id="@+id/article_detail_text"/>
 
 </LinearLayout>

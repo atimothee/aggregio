@@ -9,6 +9,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,9 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import io.aggreg.app.R;
+import io.aggreg.app.provider.AggregioProvider;
 import io.aggreg.app.provider.article.ArticleColumns;
+import io.aggreg.app.provider.article.ArticleCursor;
 import io.aggreg.app.provider.article.ArticleSelection;
 
 public class ArticleDetailFragment extends Fragment implements LoaderManager.LoaderCallbacks{
@@ -29,6 +32,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     public static final String ARG_ARTICLE_ID = "article_id";
     private static int ARTICLE_DETAIL_LOADER = 2;
     private Cursor mCursor;
+    private static String LOG_TAG = ArticleDetailFragment.class.getSimpleName();
 
     private OnFragmentInteractionListener mListener;
     public static ArticleDetailFragment newInstance(Long articleId) {
@@ -91,21 +95,33 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
 
     @Override
     public Loader onCreateLoader(int i, Bundle bundle) {
-        ArticleSelection selection = new ArticleSelection();
-        selection.id(bundle.getLong(ARG_ARTICLE_ID));
-        return new CursorLoader(getActivity(), ArticleColumns.CONTENT_URI, null, selection.sel(), selection.args(), null);
+//        if(i == ARTICLE_DETAIL_LOADER) {
+//            ArticleSelection selection = new ArticleSelection();
+//
+//            selection.id(getArguments().getLong(ARG_ARTICLE_ID));
+//            Log.d(LOG_TAG, "arg id is " + getArguments().getLong(ARG_ARTICLE_ID));
+//            return new CursorLoader(getActivity(), ArticleColumns.CONTENT_URI, null, selection.sel(), selection.args(), null);
+//        }
+//        return null;
+        //TODO: Fix bug, why doesnt it return data??
+        ArticleSelection articleSelection = new ArticleSelection();
+        articleSelection.id(bundle.getLong(ARG_ARTICLE_ID));
+        return new CursorLoader(getActivity(), ArticleColumns.CONTENT_URI, new String[]{ArticleColumns.TEXT}, articleSelection.sel(), articleSelection.args(), null);
     }
 
     @Override
     public void onLoadFinished(Loader loader, Object data) {
 
-        mCursor = (Cursor) data;
-        if(mCursor != null){
+
+        Cursor mCursor = (Cursor) data;
+        Log.d(LOG_TAG, "detail cursor count is "+mCursor.getCount());
+        if(mCursor.getCount() != 0){
             mCursor.moveToFirst();
             articleText.setText(mCursor.getString(mCursor.getColumnIndex(ArticleColumns.TEXT)));
             articleTitle.setText(mCursor.getString(mCursor.getColumnIndex(ArticleColumns.TITLE)));
             Picasso.with(getActivity()).load(mCursor.getString(mCursor.getColumnIndex(ArticleColumns.IMAGE))).into(articleImage);
         }
+
     }
 
     @Override
