@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.os.Build;
 
 import io.aggreg.app.R;
+import io.aggreg.app.ui.fragment.ArticleDetailFragment;
 
 
 public class ArticleDetailActivity extends ActionBarActivity {
@@ -22,7 +23,7 @@ public class ArticleDetailActivity extends ActionBarActivity {
         setContentView(R.layout.activity_article_detail);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, ArticleDetailFragment.newInstance(getIntent().getLongExtra(ArticleDetailFragment.ARG_ARTICLE_ID,0)))
                     .commit();
         }
     }

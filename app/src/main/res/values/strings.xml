@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">Aggregio</string>
+    <string name="account_name">aggregio</string>
     <string name="account_type">aggreg.io</string>
     <string name="content_authority">io.aggreg.app.provider</string>
     <string name="dummy_button">Dummy Button</string>
