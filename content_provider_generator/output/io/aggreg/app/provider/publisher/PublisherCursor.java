@@ -1,4 +1,4 @@
-package io.aggreg.app.provider.newssource;
+package io.aggreg.app.provider.publisher;
 
 import java.util.Date;
 
@@ -9,10 +9,10 @@ import android.support.annotation.Nullable;
 import io.aggreg.app.provider.base.AbstractCursor;
 
 /**
- * Cursor wrapper for the {@code news_source} table.
+ * Cursor wrapper for the {@code publisher} table.
  */
-public class NewsSourceCursor extends AbstractCursor implements NewsSourceModel {
-    public NewsSourceCursor(Cursor cursor) {
+public class PublisherCursor extends AbstractCursor implements PublisherModel {
+    public PublisherCursor(Cursor cursor) {
         super(cursor);
     }
 
@@ -20,7 +20,7 @@ public class NewsSourceCursor extends AbstractCursor implements NewsSourceModel 
      * Primary key.
      */
     public long getId() {
-        Long res = getLongOrNull(NewsSourceColumns._ID);
+        Long res = getLongOrNull(PublisherColumns._ID);
         if (res == null)
             throw new NullPointerException("The value of '_id' in the database was null, which is not allowed according to the model definition");
         return res;
@@ -32,7 +32,7 @@ public class NewsSourceCursor extends AbstractCursor implements NewsSourceModel 
      */
     @Nullable
     public String getImageUrl() {
-        String res = getStringOrNull(NewsSourceColumns.IMAGE_URL);
+        String res = getStringOrNull(PublisherColumns.IMAGE_URL);
         return res;
     }
 
@@ -42,7 +42,7 @@ public class NewsSourceCursor extends AbstractCursor implements NewsSourceModel 
      */
     @Nullable
     public String getWebsite() {
-        String res = getStringOrNull(NewsSourceColumns.WEBSITE);
+        String res = getStringOrNull(PublisherColumns.WEBSITE);
         return res;
     }
 
@@ -52,7 +52,7 @@ public class NewsSourceCursor extends AbstractCursor implements NewsSourceModel 
      */
     @Nullable
     public String getName() {
-        String res = getStringOrNull(NewsSourceColumns.NAME);
+        String res = getStringOrNull(PublisherColumns.NAME);
         return res;
     }
 
@@ -62,7 +62,7 @@ public class NewsSourceCursor extends AbstractCursor implements NewsSourceModel 
      */
     @Nullable
     public String getCountry() {
-        String res = getStringOrNull(NewsSourceColumns.COUNTRY);
+        String res = getStringOrNull(PublisherColumns.COUNTRY);
         return res;
     }
 }

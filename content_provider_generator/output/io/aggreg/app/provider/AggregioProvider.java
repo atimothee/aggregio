@@ -14,7 +14,7 @@ import io.aggreg.app.BuildConfig;
 import io.aggreg.app.provider.base.BaseContentProvider;
 import io.aggreg.app.provider.article.ArticleColumns;
 import io.aggreg.app.provider.category.CategoryColumns;
-import io.aggreg.app.provider.newssource.NewsSourceColumns;
+import io.aggreg.app.provider.publisher.PublisherColumns;
 
 public class AggregioProvider extends BaseContentProvider {
     private static final String TAG = AggregioProvider.class.getSimpleName();
@@ -33,8 +33,8 @@ public class AggregioProvider extends BaseContentProvider {
     private static final int URI_TYPE_CATEGORY = 2;
     private static final int URI_TYPE_CATEGORY_ID = 3;
 
-    private static final int URI_TYPE_NEWS_SOURCE = 4;
-    private static final int URI_TYPE_NEWS_SOURCE_ID = 5;
+    private static final int URI_TYPE_PUBLISHER = 4;
+    private static final int URI_TYPE_PUBLISHER_ID = 5;
 
 
 
@@ -45,8 +45,8 @@ public class AggregioProvider extends BaseContentProvider {
         URI_MATCHER.addURI(AUTHORITY, ArticleColumns.TABLE_NAME + "/#", URI_TYPE_ARTICLE_ID);
         URI_MATCHER.addURI(AUTHORITY, CategoryColumns.TABLE_NAME, URI_TYPE_CATEGORY);
         URI_MATCHER.addURI(AUTHORITY, CategoryColumns.TABLE_NAME + "/#", URI_TYPE_CATEGORY_ID);
-        URI_MATCHER.addURI(AUTHORITY, NewsSourceColumns.TABLE_NAME, URI_TYPE_NEWS_SOURCE);
-        URI_MATCHER.addURI(AUTHORITY, NewsSourceColumns.TABLE_NAME + "/#", URI_TYPE_NEWS_SOURCE_ID);
+        URI_MATCHER.addURI(AUTHORITY, PublisherColumns.TABLE_NAME, URI_TYPE_PUBLISHER);
+        URI_MATCHER.addURI(AUTHORITY, PublisherColumns.TABLE_NAME + "/#", URI_TYPE_PUBLISHER_ID);
     }
 
     @Override
@@ -73,10 +73,10 @@ public class AggregioProvider extends BaseContentProvider {
             case URI_TYPE_CATEGORY_ID:
                 return TYPE_CURSOR_ITEM + CategoryColumns.TABLE_NAME;
 
-            case URI_TYPE_NEWS_SOURCE:
-                return TYPE_CURSOR_DIR + NewsSourceColumns.TABLE_NAME;
-            case URI_TYPE_NEWS_SOURCE_ID:
-                return TYPE_CURSOR_ITEM + NewsSourceColumns.TABLE_NAME;
+            case URI_TYPE_PUBLISHER:
+                return TYPE_CURSOR_DIR + PublisherColumns.TABLE_NAME;
+            case URI_TYPE_PUBLISHER_ID:
+                return TYPE_CURSOR_ITEM + PublisherColumns.TABLE_NAME;
 
         }
         return null;
@@ -128,8 +128,8 @@ public class AggregioProvider extends BaseContentProvider {
                 if (CategoryColumns.hasColumns(projection)) {
                     res.tablesWithJoins += " LEFT OUTER JOIN " + CategoryColumns.TABLE_NAME + " AS " + ArticleColumns.PREFIX_CATEGORY + " ON " + ArticleColumns.TABLE_NAME + "." + ArticleColumns.CATEGORY_ID + "=" + ArticleColumns.PREFIX_CATEGORY + "." + CategoryColumns._ID;
                 }
-                if (NewsSourceColumns.hasColumns(projection)) {
-                    res.tablesWithJoins += " LEFT OUTER JOIN " + NewsSourceColumns.TABLE_NAME + " AS " + ArticleColumns.PREFIX_NEWS_SOURCE + " ON " + ArticleColumns.TABLE_NAME + "." + ArticleColumns.NEWS_SOURCE_ID + "=" + ArticleColumns.PREFIX_NEWS_SOURCE + "." + NewsSourceColumns._ID;
+                if (PublisherColumns.hasColumns(projection)) {
+                    res.tablesWithJoins += " LEFT OUTER JOIN " + PublisherColumns.TABLE_NAME + " AS " + ArticleColumns.PREFIX_PUBLISHER + " ON " + ArticleColumns.TABLE_NAME + "." + ArticleColumns.PUBLISHER_ID + "=" + ArticleColumns.PREFIX_PUBLISHER + "." + PublisherColumns._ID;
                 }
                 res.orderBy = ArticleColumns.DEFAULT_ORDER;
                 break;
@@ -142,12 +142,12 @@ public class AggregioProvider extends BaseContentProvider {
                 res.orderBy = CategoryColumns.DEFAULT_ORDER;
                 break;
 
-            case URI_TYPE_NEWS_SOURCE:
-            case URI_TYPE_NEWS_SOURCE_ID:
-                res.table = NewsSourceColumns.TABLE_NAME;
-                res.idColumn = NewsSourceColumns._ID;
-                res.tablesWithJoins = NewsSourceColumns.TABLE_NAME;
-                res.orderBy = NewsSourceColumns.DEFAULT_ORDER;
+            case URI_TYPE_PUBLISHER:
+            case URI_TYPE_PUBLISHER_ID:
+                res.table = PublisherColumns.TABLE_NAME;
+                res.idColumn = PublisherColumns._ID;
+                res.tablesWithJoins = PublisherColumns.TABLE_NAME;
+                res.orderBy = PublisherColumns.DEFAULT_ORDER;
                 break;
 
             default:
@@ -157,7 +157,7 @@ public class AggregioProvider extends BaseContentProvider {
         switch (matchedId) {
             case URI_TYPE_ARTICLE_ID:
             case URI_TYPE_CATEGORY_ID:
-            case URI_TYPE_NEWS_SOURCE_ID:
+            case URI_TYPE_PUBLISHER_ID:
                 id = uri.getLastPathSegment();
         }
         if (id != null) {

@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "io.aggreg.app"
-        minSdkVersion 9
+        minSdkVersion 14
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
@@ -17,6 +17,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+//    configurations{
+//        all*.exclude group: 'com.android.support', module: 'support-v4'
+//    }
 }
 
 dependencies {
@@ -29,12 +32,11 @@ dependencies {
     compile ([group: 'com.appspot.afrinewscentral', name: 'afrinews', version: 'v1.0-1.20.0-SNAPSHOT'])
     compile 'com.google.api-client:google-api-client-android:1.20.0' exclude module: 'httpclient'
     compile 'com.google.http-client:google-http-client-gson:1.20.0' exclude module: 'httpclient'
-    compile 'com.google.android.gms:play-services:6.5.87'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.android.support:palette-v7:21.0.3'
     compile 'org.apache.commons:commons-lang3:3.1'
-    compile 'com.github.amlcurran.showcaseview:library:5.0.0'
     compile 'com.flaviofaria:kenburnsview:1.0.6'
-    compile 'com.github.manuelpeinado.fadingactionbar:fadingactionbar:3.1.2'
-    compile 'com.github.manuelpeinado.fadingactionbar:fadingactionbar-abc:3.1.2'
+    compile 'com.alexvasilkov:foldable-layout:1.0.1'
+    compile 'com.etsy.android.grid:library:1.0.5'
+    compile 'com.sothree.slidinguppanel:library:3.0.0'
+
 }

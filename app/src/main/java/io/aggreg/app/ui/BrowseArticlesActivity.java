@@ -1,4 +1,4 @@
-package io.aggreg.app;
+package io.aggreg.app.ui;
 
 import java.util.Locale;
 
@@ -6,30 +6,24 @@ import android.accounts.AccountManager;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.appspot.afrinewscentral.afrinews.Afrinews;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.json.gson.GsonFactory;
 
-import io.aggreg.app.fragment.ArticlesFragment;
-import io.aggreg.app.provider.AggregioProvider;
-import io.aggreg.app.util.AccountUtil;
+import io.aggreg.app.R;
+import io.aggreg.app.ui.fragment.ArticlesFragment;
+//import io.aggreg.app.util.AccountUtil;
 
 
 public class BrowseArticlesActivity extends ActionBarActivity implements  ArticlesFragment.OnFragmentInteractionListener {
@@ -203,8 +197,13 @@ public class BrowseArticlesActivity extends ActionBarActivity implements  Articl
 //    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
 //    }
 
+//    @Override
+//    public void onFragmentInteraction(String id) {
+//
+//    }
+
     @Override
-    public void onFragmentInteraction(String id) {
+    public void onFragmentInteraction(Uri uri) {
 
     }
 

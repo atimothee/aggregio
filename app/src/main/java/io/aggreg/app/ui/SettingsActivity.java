@@ -1,4 +1,4 @@
-package io.aggreg.app;
+package io.aggreg.app.ui;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -19,6 +19,8 @@ import android.text.TextUtils;
 
 
 import java.util.List;
+
+import io.aggreg.app.R;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On

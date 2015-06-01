@@ -1,4 +1,4 @@
-package io.aggreg.app.provider.newssource;
+package io.aggreg.app.provider.publisher;
 
 import android.net.Uri;
 import android.provider.BaseColumns;
@@ -6,13 +6,13 @@ import android.provider.BaseColumns;
 import io.aggreg.app.provider.AggregioProvider;
 import io.aggreg.app.provider.article.ArticleColumns;
 import io.aggreg.app.provider.category.CategoryColumns;
-import io.aggreg.app.provider.newssource.NewsSourceColumns;
+import io.aggreg.app.provider.publisher.PublisherColumns;
 
 /**
- * Columns for the {@code news_source} table.
+ * Columns for the {@code publisher} table.
  */
-public class NewsSourceColumns implements BaseColumns {
-    public static final String TABLE_NAME = "news_source";
+public class PublisherColumns implements BaseColumns {
+    public static final String TABLE_NAME = "publisher";
     public static final Uri CONTENT_URI = Uri.parse(AggregioProvider.CONTENT_URI_BASE + "/" + TABLE_NAME);
 
     /**
@@ -20,11 +20,11 @@ public class NewsSourceColumns implements BaseColumns {
      */
     public static final String _ID = BaseColumns._ID;
 
-    public static final String IMAGE_URL = "news_source__image_url";
+    public static final String IMAGE_URL = "publisher__image_url";
 
     public static final String WEBSITE = "website";
 
-    public static final String NAME = "news_source__name";
+    public static final String NAME = "publisher__name";
 
     public static final String COUNTRY = "country";
 

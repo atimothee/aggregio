@@ -6,7 +6,7 @@ import android.provider.BaseColumns;
 import io.aggreg.app.provider.AggregioProvider;
 import io.aggreg.app.provider.article.ArticleColumns;
 import io.aggreg.app.provider.category.CategoryColumns;
-import io.aggreg.app.provider.newssource.NewsSourceColumns;
+import io.aggreg.app.provider.publisher.PublisherColumns;
 
 /**
  * Columns for the {@code article} table.
@@ -32,7 +32,7 @@ public class ArticleColumns implements BaseColumns {
 
     public static final String CATEGORY_ID = "category_id";
 
-    public static final String NEWS_SOURCE_ID = "news_source_id";
+    public static final String PUBLISHER_ID = "publisher_id";
 
 
     public static final String DEFAULT_ORDER = TABLE_NAME + "." +_ID;
@@ -46,7 +46,7 @@ public class ArticleColumns implements BaseColumns {
             PUB_DATE,
             TEXT,
             CATEGORY_ID,
-            NEWS_SOURCE_ID
+            PUBLISHER_ID
     };
     // @formatter:on
 
@@ -59,11 +59,11 @@ public class ArticleColumns implements BaseColumns {
             if (c.equals(PUB_DATE) || c.contains("." + PUB_DATE)) return true;
             if (c.equals(TEXT) || c.contains("." + TEXT)) return true;
             if (c.equals(CATEGORY_ID) || c.contains("." + CATEGORY_ID)) return true;
-            if (c.equals(NEWS_SOURCE_ID) || c.contains("." + NEWS_SOURCE_ID)) return true;
+            if (c.equals(PUBLISHER_ID) || c.contains("." + PUBLISHER_ID)) return true;
         }
         return false;
     }
 
     public static final String PREFIX_CATEGORY = TABLE_NAME + "__" + CategoryColumns.TABLE_NAME;
-    public static final String PREFIX_NEWS_SOURCE = TABLE_NAME + "__" + NewsSourceColumns.TABLE_NAME;
+    public static final String PREFIX_PUBLISHER = TABLE_NAME + "__" + PublisherColumns.TABLE_NAME;
 }

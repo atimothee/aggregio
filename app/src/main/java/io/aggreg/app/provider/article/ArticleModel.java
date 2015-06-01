@@ -53,7 +53,7 @@ public interface ArticleModel extends BaseModel {
     long getCategoryId();
 
     /**
-     * Get the {@code news_source_id} value.
+     * Get the {@code publisher_id} value.
      */
-    long getNewsSourceId();
+    long getPublisherId();
 }

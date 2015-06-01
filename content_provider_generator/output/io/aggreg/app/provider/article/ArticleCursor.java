@@ -8,7 +8,7 @@ import android.support.annotation.Nullable;
 
 import io.aggreg.app.provider.base.AbstractCursor;
 import io.aggreg.app.provider.category.*;
-import io.aggreg.app.provider.newssource.*;
+import io.aggreg.app.provider.publisher.*;
 
 /**
  * Cursor wrapper for the {@code article} table.
@@ -113,12 +113,12 @@ public class ArticleCursor extends AbstractCursor implements ArticleModel {
     }
 
     /**
-     * Get the {@code news_source_id} value.
+     * Get the {@code publisher_id} value.
      */
-    public long getNewsSourceId() {
-        Long res = getLongOrNull(ArticleColumns.NEWS_SOURCE_ID);
+    public long getPublisherId() {
+        Long res = getLongOrNull(ArticleColumns.PUBLISHER_ID);
         if (res == null)
-            throw new NullPointerException("The value of 'news_source_id' in the database was null, which is not allowed according to the model definition");
+            throw new NullPointerException("The value of 'publisher_id' in the database was null, which is not allowed according to the model definition");
         return res;
     }
 
@@ -127,8 +127,8 @@ public class ArticleCursor extends AbstractCursor implements ArticleModel {
      * Can be {@code null}.
      */
     @Nullable
-    public String getNewsSourceImageUrl() {
-        String res = getStringOrNull(NewsSourceColumns.IMAGE_URL);
+    public String getPublisherImageUrl() {
+        String res = getStringOrNull(PublisherColumns.IMAGE_URL);
         return res;
     }
 
@@ -137,8 +137,8 @@ public class ArticleCursor extends AbstractCursor implements ArticleModel {
      * Can be {@code null}.
      */
     @Nullable
-    public String getNewsSourceWebsite() {
-        String res = getStringOrNull(NewsSourceColumns.WEBSITE);
+    public String getPublisherWebsite() {
+        String res = getStringOrNull(PublisherColumns.WEBSITE);
         return res;
     }
 
@@ -147,8 +147,8 @@ public class ArticleCursor extends AbstractCursor implements ArticleModel {
      * Can be {@code null}.
      */
     @Nullable
-    public String getNewsSourceName() {
-        String res = getStringOrNull(NewsSourceColumns.NAME);
+    public String getPublisherName() {
+        String res = getStringOrNull(PublisherColumns.NAME);
         return res;
     }
 
@@ -157,8 +157,8 @@ public class ArticleCursor extends AbstractCursor implements ArticleModel {
      * Can be {@code null}.
      */
     @Nullable
-    public String getNewsSourceCountry() {
-        String res = getStringOrNull(NewsSourceColumns.COUNTRY);
+    public String getPublisherCountry() {
+        String res = getStringOrNull(PublisherColumns.COUNTRY);
         return res;
     }
 }

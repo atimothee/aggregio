@@ -83,8 +83,8 @@ public class ArticleContentValues extends AbstractContentValues {
     }
 
 
-    public ArticleContentValues putNewsSourceId(long value) {
-        mContentValues.put(ArticleColumns.NEWS_SOURCE_ID, value);
+    public ArticleContentValues putPublisherId(long value) {
+        mContentValues.put(ArticleColumns.PUBLISHER_ID, value);
         return this;
     }
 

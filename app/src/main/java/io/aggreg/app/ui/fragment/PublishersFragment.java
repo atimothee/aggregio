@@ -1,13 +1,10 @@
-package io.aggreg.app.fragment;
+package io.aggreg.app.ui.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
-import io.aggreg.app.fragment.dummy.DummyContent;
 
 /**
  * A fragment representing a list of Items.
@@ -16,7 +13,7 @@ import io.aggreg.app.fragment.dummy.DummyContent;
  * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
  * interface.
  */
-public class SourcesFragment extends ListFragment {
+public class PublishersFragment extends ListFragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -30,8 +27,8 @@ public class SourcesFragment extends ListFragment {
     private OnFragmentInteractionListener mListener;
 
     // TODO: Rename and change types of parameters
-    public static SourcesFragment newInstance(String param1, String param2) {
-        SourcesFragment fragment = new SourcesFragment();
+    public static PublishersFragment newInstance(String param1, String param2) {
+        PublishersFragment fragment = new PublishersFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -43,7 +40,7 @@ public class SourcesFragment extends ListFragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public SourcesFragment() {
+    public PublishersFragment() {
     }
 
     @Override
@@ -56,8 +53,8 @@ public class SourcesFragment extends ListFragment {
         }
 
         // TODO: Change Adapter to display your content
-        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS));
+//        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
+//                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS));
     }
 
 
@@ -86,7 +83,7 @@ public class SourcesFragment extends ListFragment {
         if (null != mListener) {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
-            mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
+            //mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
         }
     }
 

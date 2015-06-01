@@ -1,4 +1,4 @@
-package io.aggreg.app.provider.newssource;
+package io.aggreg.app.provider.publisher;
 
 import io.aggreg.app.provider.base.BaseModel;
 
@@ -8,9 +8,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 /**
- * Data model for the {@code news_source} table.
+ * Data model for the {@code publisher} table.
  */
-public interface NewsSourceModel extends BaseModel {
+public interface PublisherModel extends BaseModel {
 
     /**
      * Get the {@code image_url} value.

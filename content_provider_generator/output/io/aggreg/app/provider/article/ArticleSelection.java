@@ -8,7 +8,7 @@ import android.net.Uri;
 
 import io.aggreg.app.provider.base.AbstractSelection;
 import io.aggreg.app.provider.category.*;
-import io.aggreg.app.provider.newssource.*;
+import io.aggreg.app.provider.publisher.*;
 
 /**
  * Selection for the {@code article} table.
@@ -299,153 +299,153 @@ public class ArticleSelection extends AbstractSelection<ArticleSelection> {
         return this;
     }
 
-    public ArticleSelection newsSourceId(long... value) {
-        addEquals(ArticleColumns.NEWS_SOURCE_ID, toObjectArray(value));
+    public ArticleSelection publisherId(long... value) {
+        addEquals(ArticleColumns.PUBLISHER_ID, toObjectArray(value));
         return this;
     }
 
-    public ArticleSelection newsSourceIdNot(long... value) {
-        addNotEquals(ArticleColumns.NEWS_SOURCE_ID, toObjectArray(value));
+    public ArticleSelection publisherIdNot(long... value) {
+        addNotEquals(ArticleColumns.PUBLISHER_ID, toObjectArray(value));
         return this;
     }
 
-    public ArticleSelection newsSourceIdGt(long value) {
-        addGreaterThan(ArticleColumns.NEWS_SOURCE_ID, value);
+    public ArticleSelection publisherIdGt(long value) {
+        addGreaterThan(ArticleColumns.PUBLISHER_ID, value);
         return this;
     }
 
-    public ArticleSelection newsSourceIdGtEq(long value) {
-        addGreaterThanOrEquals(ArticleColumns.NEWS_SOURCE_ID, value);
+    public ArticleSelection publisherIdGtEq(long value) {
+        addGreaterThanOrEquals(ArticleColumns.PUBLISHER_ID, value);
         return this;
     }
 
-    public ArticleSelection newsSourceIdLt(long value) {
-        addLessThan(ArticleColumns.NEWS_SOURCE_ID, value);
+    public ArticleSelection publisherIdLt(long value) {
+        addLessThan(ArticleColumns.PUBLISHER_ID, value);
         return this;
     }
 
-    public ArticleSelection newsSourceIdLtEq(long value) {
-        addLessThanOrEquals(ArticleColumns.NEWS_SOURCE_ID, value);
+    public ArticleSelection publisherIdLtEq(long value) {
+        addLessThanOrEquals(ArticleColumns.PUBLISHER_ID, value);
         return this;
     }
 
-    public ArticleSelection newsSourceImageUrl(String... value) {
-        addEquals(NewsSourceColumns.IMAGE_URL, value);
+    public ArticleSelection publisherImageUrl(String... value) {
+        addEquals(PublisherColumns.IMAGE_URL, value);
         return this;
     }
 
-    public ArticleSelection newsSourceImageUrlNot(String... value) {
-        addNotEquals(NewsSourceColumns.IMAGE_URL, value);
+    public ArticleSelection publisherImageUrlNot(String... value) {
+        addNotEquals(PublisherColumns.IMAGE_URL, value);
         return this;
     }
 
-    public ArticleSelection newsSourceImageUrlLike(String... value) {
-        addLike(NewsSourceColumns.IMAGE_URL, value);
+    public ArticleSelection publisherImageUrlLike(String... value) {
+        addLike(PublisherColumns.IMAGE_URL, value);
         return this;
     }
 
-    public ArticleSelection newsSourceImageUrlContains(String... value) {
-        addContains(NewsSourceColumns.IMAGE_URL, value);
+    public ArticleSelection publisherImageUrlContains(String... value) {
+        addContains(PublisherColumns.IMAGE_URL, value);
         return this;
     }
 
-    public ArticleSelection newsSourceImageUrlStartsWith(String... value) {
-        addStartsWith(NewsSourceColumns.IMAGE_URL, value);
+    public ArticleSelection publisherImageUrlStartsWith(String... value) {
+        addStartsWith(PublisherColumns.IMAGE_URL, value);
         return this;
     }
 
-    public ArticleSelection newsSourceImageUrlEndsWith(String... value) {
-        addEndsWith(NewsSourceColumns.IMAGE_URL, value);
+    public ArticleSelection publisherImageUrlEndsWith(String... value) {
+        addEndsWith(PublisherColumns.IMAGE_URL, value);
         return this;
     }
 
-    public ArticleSelection newsSourceWebsite(String... value) {
-        addEquals(NewsSourceColumns.WEBSITE, value);
+    public ArticleSelection publisherWebsite(String... value) {
+        addEquals(PublisherColumns.WEBSITE, value);
         return this;
     }
 
-    public ArticleSelection newsSourceWebsiteNot(String... value) {
-        addNotEquals(NewsSourceColumns.WEBSITE, value);
+    public ArticleSelection publisherWebsiteNot(String... value) {
+        addNotEquals(PublisherColumns.WEBSITE, value);
         return this;
     }
 
-    public ArticleSelection newsSourceWebsiteLike(String... value) {
-        addLike(NewsSourceColumns.WEBSITE, value);
+    public ArticleSelection publisherWebsiteLike(String... value) {
+        addLike(PublisherColumns.WEBSITE, value);
         return this;
     }
 
-    public ArticleSelection newsSourceWebsiteContains(String... value) {
-        addContains(NewsSourceColumns.WEBSITE, value);
+    public ArticleSelection publisherWebsiteContains(String... value) {
+        addContains(PublisherColumns.WEBSITE, value);
         return this;
     }
 
-    public ArticleSelection newsSourceWebsiteStartsWith(String... value) {
-        addStartsWith(NewsSourceColumns.WEBSITE, value);
+    public ArticleSelection publisherWebsiteStartsWith(String... value) {
+        addStartsWith(PublisherColumns.WEBSITE, value);
         return this;
     }
 
-    public ArticleSelection newsSourceWebsiteEndsWith(String... value) {
-        addEndsWith(NewsSourceColumns.WEBSITE, value);
+    public ArticleSelection publisherWebsiteEndsWith(String... value) {
+        addEndsWith(PublisherColumns.WEBSITE, value);
         return this;
     }
 
-    public ArticleSelection newsSourceName(String... value) {
-        addEquals(NewsSourceColumns.NAME, value);
+    public ArticleSelection publisherName(String... value) {
+        addEquals(PublisherColumns.NAME, value);
         return this;
     }
 
-    public ArticleSelection newsSourceNameNot(String... value) {
-        addNotEquals(NewsSourceColumns.NAME, value);
+    public ArticleSelection publisherNameNot(String... value) {
+        addNotEquals(PublisherColumns.NAME, value);
         return this;
     }
 
-    public ArticleSelection newsSourceNameLike(String... value) {
-        addLike(NewsSourceColumns.NAME, value);
+    public ArticleSelection publisherNameLike(String... value) {
+        addLike(PublisherColumns.NAME, value);
         return this;
     }
 
-    public ArticleSelection newsSourceNameContains(String... value) {
-        addContains(NewsSourceColumns.NAME, value);
+    public ArticleSelection publisherNameContains(String... value) {
+        addContains(PublisherColumns.NAME, value);
         return this;
     }
 
-    public ArticleSelection newsSourceNameStartsWith(String... value) {
-        addStartsWith(NewsSourceColumns.NAME, value);
+    public ArticleSelection publisherNameStartsWith(String... value) {
+        addStartsWith(PublisherColumns.NAME, value);
         return this;
     }
 
-    public ArticleSelection newsSourceNameEndsWith(String... value) {
-        addEndsWith(NewsSourceColumns.NAME, value);
+    public ArticleSelection publisherNameEndsWith(String... value) {
+        addEndsWith(PublisherColumns.NAME, value);
         return this;
     }
 
-    public ArticleSelection newsSourceCountry(String... value) {
-        addEquals(NewsSourceColumns.COUNTRY, value);
+    public ArticleSelection publisherCountry(String... value) {
+        addEquals(PublisherColumns.COUNTRY, value);
         return this;
     }
 
-    public ArticleSelection newsSourceCountryNot(String... value) {
-        addNotEquals(NewsSourceColumns.COUNTRY, value);
+    public ArticleSelection publisherCountryNot(String... value) {
+        addNotEquals(PublisherColumns.COUNTRY, value);
         return this;
     }
 
-    public ArticleSelection newsSourceCountryLike(String... value) {
-        addLike(NewsSourceColumns.COUNTRY, value);
+    public ArticleSelection publisherCountryLike(String... value) {
+        addLike(PublisherColumns.COUNTRY, value);
         return this;
     }
 
-    public ArticleSelection newsSourceCountryContains(String... value) {
-        addContains(NewsSourceColumns.COUNTRY, value);
+    public ArticleSelection publisherCountryContains(String... value) {
+        addContains(PublisherColumns.COUNTRY, value);
         return this;
     }
 
-    public ArticleSelection newsSourceCountryStartsWith(String... value) {
-        addStartsWith(NewsSourceColumns.COUNTRY, value);
+    public ArticleSelection publisherCountryStartsWith(String... value) {
+        addStartsWith(PublisherColumns.COUNTRY, value);
         return this;
     }
 
-    public ArticleSelection newsSourceCountryEndsWith(String... value) {
-        addEndsWith(NewsSourceColumns.COUNTRY, value);
+    public ArticleSelection publisherCountryEndsWith(String... value) {
+        addEndsWith(PublisherColumns.COUNTRY, value);
         return this;
     }
 }

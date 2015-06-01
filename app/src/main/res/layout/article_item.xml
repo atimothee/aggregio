@@ -24,32 +24,35 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
                 <ImageView
+                    android:background="@drawable/gradient_shape"
                     android:id="@+id/article_item_image"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="200dp"
                     android:scaleType="centerCrop"/>
-                <TextView
-                    android:id="@+id/article_item_title"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/article_item_image"
-                    android:layout_alignRight="@+id/article_item_image"
-                    android:layout_alignBottom="@+id/article_item_image"
-                    android:layout_margin="1dp"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:textColor="#fff"
-                    android:background="@drawable/gradient_shape"
-                    android:fontFamily="sans-serif-light"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-            </RelativeLayout>
+
+
 
 
             <LinearLayout
+
+                android:layout_alignLeft="@+id/article_item_image"
+                android:layout_alignRight="@+id/article_item_image"
+                android:layout_alignBottom="@+id/article_item_image"
+
                 android:weightSum="4"
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/article_item_title"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="1dp"
+                    android:gravity="center"
+                    android:textColor="#fff"
+
+                    android:fontFamily="sans-serif-light"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
                 <ImageView
                     android:id="@+id/article_item_source_logo"
                     android:src="@drawable/new_vision_logo_square"
@@ -67,16 +70,19 @@
                     <TextView
                         android:id="@+id/article_item_source_name"
                         android:text="New Vision"
+                        android:textColor="#fff"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content" />
                     <TextView
                         android:text="2hrs ago"
+                        android:textColor="#fff"
                         android:id="@+id/article_item_time_ago"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content" />
                     </LinearLayout>
 
                 </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
 

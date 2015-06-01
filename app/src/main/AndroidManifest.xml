@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="io.aggreg.app" >
-    <uses-sdk tools:overrideLibrary="com.github.amlcurran.showcaseview"/>
+
+    <uses-sdk tools:overrideLibrary="com.github.amlcurran.showcaseview" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
@@ -17,9 +18,10 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <provider
-            android:name="io.aggreg.app.provider.AggregioProvider"
+            android:name=".provider.AggregioProvider"
             android:authorities="io.aggreg.app.provider"
             android:exported="false" />
+
         <service android:name=".sync.AuthenticatorService" >
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
@@ -43,19 +45,7 @@
         </service>
 
         <activity
-            android:name=".ManageSourcesActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_name"
-            android:theme="@style/FullscreenTheme" >
-            <!--<intent-filter>-->
-                <!--&lt;!&ndash;<action android:name="android.intent.action.MAIN" />&ndash;&gt;-->
-
-                <!--&lt;!&ndash;<category android:name="android.intent.category.LAUNCHER" />&ndash;&gt;-->
-            <!--</intent-filter>-->
-        </activity>
-        <activity
-            android:name=".BrowseArticlesActivity"
-            android:theme="@style/AppThemeTransparent"
+            android:name=".ui.BrowseArticlesActivity"
             android:label="@string/title_activity_browse_articles" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -64,16 +54,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name=".ui.SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity>
         <activity
-            android:name=".ArticleDetailActivity"
+            android:name=".ui.ArticleDetailActivity"
             android:label="@string/title_activity_article_detail"
-            android:parentActivityName=".BrowseArticlesActivity" >
+            android:parentActivityName=".ui.BrowseArticlesActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="io.aggreg.app.BrowseArticlesActivity" />
+                android:value=".ui.BrowseArticlesActivity" />
         </activity>
     </application>
 

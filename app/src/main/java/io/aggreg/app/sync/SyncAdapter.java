@@ -30,7 +30,7 @@ import java.util.List;
 
 import io.aggreg.app.provider.article.ArticleColumns;
 import io.aggreg.app.provider.category.CategoryColumns;
-import io.aggreg.app.provider.newssource.NewsSourceColumns;
+import io.aggreg.app.provider.publisher.PublisherColumns;
 
 /**
  * Handle the transfer of data between a server and an
@@ -101,13 +101,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             ContentValues contentValues = null;
             for(BackendAfrinewsApiNewsSourceMessage newsSource: newsSourceCollectionMessage.getItems()){
                 contentValues = new ContentValues();
-                contentValues.put(NewsSourceColumns._ID, newsSource.getId());
-                contentValues.put(NewsSourceColumns.NAME, newsSource.getName());
-                contentValues.put(NewsSourceColumns.WEBSITE, newsSource.getWebsite());
-                contentValues.put(NewsSourceColumns.COUNTRY, newsSource.getCountry());
+                contentValues.put(PublisherColumns._ID, newsSource.getId());
+                contentValues.put(PublisherColumns.NAME, newsSource.getName());
+                contentValues.put(PublisherColumns.WEBSITE, newsSource.getWebsite());
+                contentValues.put(PublisherColumns.COUNTRY, newsSource.getCountry());
                 contentValuesList.add(contentValues);
             }
-            mContentResolver.bulkInsert(NewsSourceColumns.CONTENT_URI, contentValuesList.toArray(new ContentValues[contentValuesList.size()]));
+            mContentResolver.bulkInsert(PublisherColumns.CONTENT_URI, contentValuesList.toArray(new ContentValues[contentValuesList.size()]));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -125,7 +125,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 contentValues.put(ArticleColumns.TEXT, s.getText());
                 contentValues.put(ArticleColumns.LINK, " ");
                 contentValues.put(ArticleColumns.CATEGORY_ID, s.getCategoryId());
-                contentValues.put(ArticleColumns.NEWS_SOURCE_ID, s.getNewsSourceId());
+                contentValues.put(ArticleColumns.PUBLISHER_ID, s.getNewsSourceId());
                 try {
                     contentValues.put(ArticleColumns.IMAGE, s.getImageUrl().get(0));
                 }catch (Exception e){

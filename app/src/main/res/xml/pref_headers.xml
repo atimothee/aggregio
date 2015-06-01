@@ -2,13 +2,13 @@
 
     <!-- These settings headers are only used on tablets. -->
 
-    <header android:fragment="io.aggreg.app.SettingsActivity$GeneralPreferenceFragment"
+    <header android:fragment="io.aggreg.app.ui.SettingsActivity$GeneralPreferenceFragment"
         android:title="@string/pref_header_general" />
 
-    <header android:fragment="io.aggreg.app.SettingsActivity$NotificationPreferenceFragment"
+    <header android:fragment="io.aggreg.app.ui.SettingsActivity$NotificationPreferenceFragment"
         android:title="@string/pref_header_notifications" />
 
-    <header android:fragment="io.aggreg.app.SettingsActivity$DataSyncPreferenceFragment"
+    <header android:fragment="io.aggreg.app.ui.SettingsActivity$DataSyncPreferenceFragment"
         android:title="@string/pref_header_data_sync" />
 
 </preference-headers>

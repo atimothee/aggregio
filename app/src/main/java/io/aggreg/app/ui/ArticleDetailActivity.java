@@ -1,4 +1,4 @@
-package io.aggreg.app;
+package io.aggreg.app.ui;
 
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -10,6 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+
+import io.aggreg.app.R;
 
 
 public class ArticleDetailActivity extends ActionBarActivity {

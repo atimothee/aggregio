@@ -32,11 +32,11 @@
             },
         },
         {
-            "name": "news_source_id",
+            "name": "publisher_id",
             "type": "Long",
             "nullable": false,
             "foreignKey": {
-                "table": "news_source",
+                "table": "publisher",
                 "onDelete": "CASCADE",
             },
         }
