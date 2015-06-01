@@ -62,7 +62,7 @@ public class ArticlesFragment extends Fragment implements AbsListView.OnItemClic
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new SimpleCursorAdapter(getActivity(), R.layout.article_item, null,
+        mAdapter = new SimpleCursorAdapter(getActivity(), R.layout.article_item_, null,
                 COLUMNS, VIEW_IDS, 0);
         mAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
             @Override
