@@ -13,14 +13,13 @@ import android.content.Context;
 import android.content.SyncResult;
 import android.os.Bundle;
 import android.util.Log;
-
-import com.appspot.afrinewscentral.afrinews.Afrinews;
-import com.appspot.afrinewscentral.afrinews.model.BackendAfrinewsApiCategoryCollectionMessage;
-import com.appspot.afrinewscentral.afrinews.model.BackendAfrinewsApiCategoryMessage;
-import com.appspot.afrinewscentral.afrinews.model.BackendAfrinewsApiNewsSourceCollectionMessage;
-import com.appspot.afrinewscentral.afrinews.model.BackendAfrinewsApiNewsSourceMessage;
-import com.appspot.afrinewscentral.afrinews.model.BackendAfrinewsApiStoryCollection;
-import com.appspot.afrinewscentral.afrinews.model.BackendAfrinewsApiStoryMessage;
+import com.appspot.aggregio_web.aggregio.Aggregio;
+import com.appspot.aggregio_web.aggregio.model.ApiAggregioArticleCollection;
+import com.appspot.aggregio_web.aggregio.model.ApiAggregioArticleMessage;
+import com.appspot.aggregio_web.aggregio.model.ApiAggregioCategoryCollectionMessage;
+import com.appspot.aggregio_web.aggregio.model.ApiAggregioCategoryMessage;
+import com.appspot.aggregio_web.aggregio.model.ApiAggregioPublisherCollectionMessage;
+import com.appspot.aggregio_web.aggregio.model.ApiAggregioPublisherMessage;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.json.gson.GsonFactory;
 
@@ -73,59 +72,60 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
 
-        Afrinews.Builder builder = new Afrinews.Builder(
+        Aggregio.Builder builder = new Aggregio.Builder(
                 AndroidHttp.newCompatibleTransport(), new GsonFactory(), null);
-        Afrinews service = builder.build();
-        BackendAfrinewsApiCategoryCollectionMessage categoryCollectionMessage = null;
-//        try {
-//            categoryCollectionMessage = service.categories().list().execute();
-//            List<ContentValues> contentValuesList = new ArrayList<>();
-//            ContentValues contentValues = null;
-//            Log.d("SYNC", "size "+categoryCollectionMessage.getItems().size());
-//            for (BackendAfrinewsApiCategoryMessage category: categoryCollectionMessage.getItems()){
-//                contentValues = new ContentValues();
-//                Log.d("sync", "id "+category.getName());
-//                contentValues.put(CategoryColumns._ID, category.getId());
-//                contentValues.put(CategoryColumns.NAME, category.getName());
-//                contentValuesList.add(contentValues);
-//            }
-//            mContentResolver.bulkInsert(CategoryColumns.CONTENT_URI, contentValuesList.toArray(new ContentValues[contentValuesList.size()]));
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        try {
-//            BackendAfrinewsApiNewsSourceCollectionMessage newsSourceCollectionMessage = service.newsSources().list().execute();
-//            List<ContentValues> contentValuesList = new ArrayList<>();
-//            ContentValues contentValues = null;
-//            for(BackendAfrinewsApiNewsSourceMessage newsSource: newsSourceCollectionMessage.getItems()){
-//                contentValues = new ContentValues();
-//                contentValues.put(PublisherColumns._ID, newsSource.getId());
-//                contentValues.put(PublisherColumns.NAME, newsSource.getName());
-//                contentValues.put(PublisherColumns.WEBSITE, newsSource.getWebsite());
-//                contentValues.put(PublisherColumns.COUNTRY, newsSource.getCountry());
-//                contentValuesList.add(contentValues);
-//            }
-//            mContentResolver.bulkInsert(PublisherColumns.CONTENT_URI, contentValuesList.toArray(new ContentValues[contentValuesList.size()]));
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        Aggregio service = builder.build();
+        ApiAggregioCategoryCollectionMessage categoryCollectionMessage = null;
+        try {
+            categoryCollectionMessage = service.categories().list().execute();
+            List<ContentValues> contentValuesList = new ArrayList<>();
+            ContentValues contentValues = null;
+            Log.d("SYNC", "size "+categoryCollectionMessage.getItems().size());
+            for (ApiAggregioCategoryMessage category: categoryCollectionMessage.getItems()){
+                contentValues = new ContentValues();
+                Log.d("sync", "id "+category.getName());
+                contentValues.put(CategoryColumns._ID, category.getId());
+                contentValues.put(CategoryColumns.NAME, category.getName());
+                contentValuesList.add(contentValues);
+            }
+            mContentResolver.bulkInsert(CategoryColumns.CONTENT_URI, contentValuesList.toArray(new ContentValues[contentValuesList.size()]));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         try {
-            BackendAfrinewsApiStoryCollection storyCollection = service.stories().list().execute();
-            Log.d("sync", "size "+storyCollection.getItems().size());
+            ApiAggregioPublisherCollectionMessage publisherCollectionMessage = service.publishers().list().execute();
+            List<ContentValues> contentValuesList = new ArrayList<>();
+            ContentValues contentValues = null;
+            for(ApiAggregioPublisherMessage newsSource: publisherCollectionMessage.getItems()){
+                contentValues = new ContentValues();
+                contentValues.put(PublisherColumns._ID, newsSource.getId());
+                contentValues.put(PublisherColumns.NAME, newsSource.getName());
+                contentValues.put(PublisherColumns.WEBSITE, newsSource.getWebsite());
+                contentValues.put(PublisherColumns.COUNTRY, newsSource.getCountry());
+                contentValuesList.add(contentValues);
+            }
+            mContentResolver.bulkInsert(PublisherColumns.CONTENT_URI, contentValuesList.toArray(new ContentValues[contentValuesList.size()]));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            ApiAggregioArticleCollection articleCollection = service.articles().list().execute();
+            Log.d("sync", "size " + articleCollection.getItems().size());
             List<ContentValues> contentValuesList = new ArrayList<>();
             ContentValues contentValues = new ContentValues();
-            for(BackendAfrinewsApiStoryMessage s: storyCollection.getItems()){
+            for(ApiAggregioArticleMessage s: articleCollection.getItems()){
                 contentValues = new ContentValues();
                 contentValues.put(ArticleColumns._ID, s.getId());
                 contentValues.put(ArticleColumns.TITLE, s.getTitle());
                 contentValues.put(ArticleColumns.TEXT, s.getText());
                 contentValues.put(ArticleColumns.LINK, " ");
                 contentValues.put(ArticleColumns.CATEGORY_ID, s.getCategoryId());
-                contentValues.put(ArticleColumns.PUBLISHER_ID, s.getNewsSourceId());
+                contentValues.put(ArticleColumns.PUBLISHER_ID, s.getPublisherId());
+                contentValues.put(ArticleColumns.PUB_DATE, s.getPubDate().getValue());
                 try {
                     contentValues.put(ArticleColumns.IMAGE, s.getImageUrl().get(0));
                 }catch (Exception e){

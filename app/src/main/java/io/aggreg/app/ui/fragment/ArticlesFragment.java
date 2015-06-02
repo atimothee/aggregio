@@ -52,7 +52,7 @@ public class ArticlesFragment extends Fragment implements AbsListView.OnItemClic
     }
 
     public interface OnFragmentInteractionListener {
-        public void openArticleDetail(Long articleId);
+        public void openArticleDetail(String articleId);
     }
 
     @Override
@@ -112,7 +112,7 @@ public class ArticlesFragment extends Fragment implements AbsListView.OnItemClic
 
         ArticleSelection selection = new ArticleSelection();
         selection.categoryId(args.getLong(ARG_PARAM_CATEGORY_ID));
-        return new CursorLoader(getActivity(), ArticleColumns.CONTENT_URI, null, selection.sel(), selection.args(), null);
+        return new CursorLoader(getActivity(), ArticleColumns.CONTENT_URI, null, selection.sel(), selection.args(), ArticleColumns.TABLE_NAME+"."+ArticleColumns.PUB_DATE+" DESC");
     }
 
     @Override
@@ -132,7 +132,7 @@ public class ArticlesFragment extends Fragment implements AbsListView.OnItemClic
         cursor.moveToPosition(position);
         Log.d(LOG_TAG, "id param is " + id);
         Log.d(LOG_TAG, "id cursor is "+cursor.getLong(cursor.getColumnIndex(ArticleColumns._ID)));
-        mListener.openArticleDetail(cursor.getLong(cursor.getColumnIndex(ArticleColumns._ID)));
+        mListener.openArticleDetail(cursor.getString(cursor.getColumnIndex(ArticleColumns.LINK)));
     }
 
     @Override

@@ -1,4 +1,4 @@
-package io.aggreg.app.provider.publisher;
+package io.aggreg.app.provider.articleimage;
 
 import android.net.Uri;
 import android.provider.BaseColumns;
@@ -10,10 +10,10 @@ import io.aggreg.app.provider.category.CategoryColumns;
 import io.aggreg.app.provider.publisher.PublisherColumns;
 
 /**
- * Columns for the {@code publisher} table.
+ * Columns for the {@code article_image} table.
  */
-public class PublisherColumns implements BaseColumns {
-    public static final String TABLE_NAME = "publisher";
+public class ArticleImageColumns implements BaseColumns {
+    public static final String TABLE_NAME = "article_image";
     public static final Uri CONTENT_URI = Uri.parse(AggregioProvider.CONTENT_URI_BASE + "/" + TABLE_NAME);
 
     /**
@@ -21,13 +21,9 @@ public class PublisherColumns implements BaseColumns {
      */
     public static final String _ID = BaseColumns._ID;
 
-    public static final String IMAGE_URL = "publisher__image_url";
+    public static final String IMAGE_URL = "article_image__image_url";
 
-    public static final String WEBSITE = "website";
-
-    public static final String NAME = "publisher__name";
-
-    public static final String COUNTRY = "country";
+    public static final String ARTICLE_ID = "article_id";
 
 
     public static final String DEFAULT_ORDER = TABLE_NAME + "." +_ID;
@@ -36,9 +32,7 @@ public class PublisherColumns implements BaseColumns {
     public static final String[] ALL_COLUMNS = new String[] {
             _ID,
             IMAGE_URL,
-            WEBSITE,
-            NAME,
-            COUNTRY
+            ARTICLE_ID
     };
     // @formatter:on
 
@@ -46,11 +40,10 @@ public class PublisherColumns implements BaseColumns {
         if (projection == null) return true;
         for (String c : projection) {
             if (c.equals(IMAGE_URL) || c.contains("." + IMAGE_URL)) return true;
-            if (c.equals(WEBSITE) || c.contains("." + WEBSITE)) return true;
-            if (c.equals(NAME) || c.contains("." + NAME)) return true;
-            if (c.equals(COUNTRY) || c.contains("." + COUNTRY)) return true;
+            if (c.equals(ARTICLE_ID) || c.contains("." + ARTICLE_ID)) return true;
         }
         return false;
     }
 
+    public static final String PREFIX_ARTICLE = TABLE_NAME + "__" + ArticleColumns.TABLE_NAME;
 }

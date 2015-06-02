@@ -20,8 +20,6 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import com.appspot.afrinewscentral.afrinews.Afrinews;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.json.gson.GsonFactory;
@@ -37,7 +35,7 @@ import io.aggreg.app.utils.AccountUtils;
 public class BrowseArticlesActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks, ArticlesFragment.OnFragmentInteractionListener, ActionBar.TabListener {
     private SharedPreferences settings;
     private GoogleAccountCredential credential;
-    private Afrinews service;
+    //private Afrinews service;
     private static final int REQUEST_ACCOUNT_PICKER = 2;
     private String PREF_ACCOUNT_NAME = "account";
     private String accountName = "aggregio";
@@ -96,10 +94,10 @@ public class BrowseArticlesActivity extends ActionBarActivity implements LoaderM
                 "Aggregio", 0);
         credential = GoogleAccountCredential.usingAudience(this,
                 "server:712181347012-8fpgao7adir66k4sgf54k804c6qtb4dg.apps.googleusercontent.com");
-        Afrinews.Builder builder = new Afrinews.Builder(
-                AndroidHttp.newCompatibleTransport(), new GsonFactory(),
-                credential);
-        service = builder.build();
+//        Afrinews.Builder builder = new Afrinews.Builder(
+//                AndroidHttp.newCompatibleTransport(), new GsonFactory(),
+//                credential);
+//        service = builder.build();
 
         if (credential.getSelectedAccountName() != null) {
             // Already signed in, begin app!
@@ -151,7 +149,7 @@ public class BrowseArticlesActivity extends ActionBarActivity implements LoaderM
     }
 
     @Override
-    public void openArticleDetail(Long articleId) {
+    public void openArticleDetail(String articleId) {
         Intent i = new Intent(this, ArticleDetailActivity.class);
         i.putExtra(ArticleDetailFragment.ARG_ARTICLE_ID, articleId);
         startActivity(i);
@@ -160,6 +158,7 @@ public class BrowseArticlesActivity extends ActionBarActivity implements LoaderM
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
 
+        mViewPager.setCurrentItem(tab.getPosition());
     }
 
     @Override

@@ -13,6 +13,7 @@ import android.util.Log;
 import io.aggreg.app.BuildConfig;
 import io.aggreg.app.provider.base.BaseContentProvider;
 import io.aggreg.app.provider.article.ArticleColumns;
+import io.aggreg.app.provider.articleimage.ArticleImageColumns;
 import io.aggreg.app.provider.category.CategoryColumns;
 import io.aggreg.app.provider.publisher.PublisherColumns;
 
@@ -30,11 +31,14 @@ public class AggregioProvider extends BaseContentProvider {
     private static final int URI_TYPE_ARTICLE = 0;
     private static final int URI_TYPE_ARTICLE_ID = 1;
 
-    private static final int URI_TYPE_CATEGORY = 2;
-    private static final int URI_TYPE_CATEGORY_ID = 3;
+    private static final int URI_TYPE_ARTICLE_IMAGE = 2;
+    private static final int URI_TYPE_ARTICLE_IMAGE_ID = 3;
 
-    private static final int URI_TYPE_PUBLISHER = 4;
-    private static final int URI_TYPE_PUBLISHER_ID = 5;
+    private static final int URI_TYPE_CATEGORY = 4;
+    private static final int URI_TYPE_CATEGORY_ID = 5;
+
+    private static final int URI_TYPE_PUBLISHER = 6;
+    private static final int URI_TYPE_PUBLISHER_ID = 7;
 
 
 
@@ -43,6 +47,8 @@ public class AggregioProvider extends BaseContentProvider {
     static {
         URI_MATCHER.addURI(AUTHORITY, ArticleColumns.TABLE_NAME, URI_TYPE_ARTICLE);
         URI_MATCHER.addURI(AUTHORITY, ArticleColumns.TABLE_NAME + "/#", URI_TYPE_ARTICLE_ID);
+        URI_MATCHER.addURI(AUTHORITY, ArticleImageColumns.TABLE_NAME, URI_TYPE_ARTICLE_IMAGE);
+        URI_MATCHER.addURI(AUTHORITY, ArticleImageColumns.TABLE_NAME + "/#", URI_TYPE_ARTICLE_IMAGE_ID);
         URI_MATCHER.addURI(AUTHORITY, CategoryColumns.TABLE_NAME, URI_TYPE_CATEGORY);
         URI_MATCHER.addURI(AUTHORITY, CategoryColumns.TABLE_NAME + "/#", URI_TYPE_CATEGORY_ID);
         URI_MATCHER.addURI(AUTHORITY, PublisherColumns.TABLE_NAME, URI_TYPE_PUBLISHER);
@@ -67,6 +73,11 @@ public class AggregioProvider extends BaseContentProvider {
                 return TYPE_CURSOR_DIR + ArticleColumns.TABLE_NAME;
             case URI_TYPE_ARTICLE_ID:
                 return TYPE_CURSOR_ITEM + ArticleColumns.TABLE_NAME;
+
+            case URI_TYPE_ARTICLE_IMAGE:
+                return TYPE_CURSOR_DIR + ArticleImageColumns.TABLE_NAME;
+            case URI_TYPE_ARTICLE_IMAGE_ID:
+                return TYPE_CURSOR_ITEM + ArticleImageColumns.TABLE_NAME;
 
             case URI_TYPE_CATEGORY:
                 return TYPE_CURSOR_DIR + CategoryColumns.TABLE_NAME;
@@ -134,6 +145,23 @@ public class AggregioProvider extends BaseContentProvider {
                 res.orderBy = ArticleColumns.DEFAULT_ORDER;
                 break;
 
+            case URI_TYPE_ARTICLE_IMAGE:
+            case URI_TYPE_ARTICLE_IMAGE_ID:
+                res.table = ArticleImageColumns.TABLE_NAME;
+                res.idColumn = ArticleImageColumns._ID;
+                res.tablesWithJoins = ArticleImageColumns.TABLE_NAME;
+                if (ArticleColumns.hasColumns(projection) || CategoryColumns.hasColumns(projection) || PublisherColumns.hasColumns(projection)) {
+                    res.tablesWithJoins += " LEFT OUTER JOIN " + ArticleColumns.TABLE_NAME + " AS " + ArticleImageColumns.PREFIX_ARTICLE + " ON " + ArticleImageColumns.TABLE_NAME + "." + ArticleImageColumns.ARTICLE_ID + "=" + ArticleImageColumns.PREFIX_ARTICLE + "." + ArticleColumns._ID;
+                }
+                if (CategoryColumns.hasColumns(projection)) {
+                    res.tablesWithJoins += " LEFT OUTER JOIN " + CategoryColumns.TABLE_NAME + " AS " + ArticleColumns.PREFIX_CATEGORY + " ON " + ArticleImageColumns.PREFIX_ARTICLE + "." + ArticleColumns.CATEGORY_ID + "=" + ArticleColumns.PREFIX_CATEGORY + "." + CategoryColumns._ID;
+                }
+                if (PublisherColumns.hasColumns(projection)) {
+                    res.tablesWithJoins += " LEFT OUTER JOIN " + PublisherColumns.TABLE_NAME + " AS " + ArticleColumns.PREFIX_PUBLISHER + " ON " + ArticleImageColumns.PREFIX_ARTICLE + "." + ArticleColumns.PUBLISHER_ID + "=" + ArticleColumns.PREFIX_PUBLISHER + "." + PublisherColumns._ID;
+                }
+                res.orderBy = ArticleImageColumns.DEFAULT_ORDER;
+                break;
+
             case URI_TYPE_CATEGORY:
             case URI_TYPE_CATEGORY_ID:
                 res.table = CategoryColumns.TABLE_NAME;
@@ -156,6 +184,7 @@ public class AggregioProvider extends BaseContentProvider {
 
         switch (matchedId) {
             case URI_TYPE_ARTICLE_ID:
+            case URI_TYPE_ARTICLE_IMAGE_ID:
             case URI_TYPE_CATEGORY_ID:
             case URI_TYPE_PUBLISHER_ID:
                 id = uri.getLastPathSegment();

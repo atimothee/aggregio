@@ -34,10 +34,10 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     private static String LOG_TAG = ArticleDetailFragment.class.getSimpleName();
 
     private OnFragmentInteractionListener mListener;
-    public static ArticleDetailFragment newInstance(Long articleId) {
+    public static ArticleDetailFragment newInstance(String articleId) {
         ArticleDetailFragment fragment = new ArticleDetailFragment();
         Bundle args = new Bundle();
-        args.putLong(ARG_ARTICLE_ID, articleId);
+        args.putString(ARG_ARTICLE_ID, articleId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -103,7 +103,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
 //        return null;
         //TODO: Fix bug, why doesnt it return data??
         ArticleSelection articleSelection = new ArticleSelection();
-        articleSelection.id(bundle.getLong(ARG_ARTICLE_ID));
+        articleSelection.link(bundle.getString(ARG_ARTICLE_ID));
         return new CursorLoader(getActivity(), ArticleColumns.CONTENT_URI, new String[]{ArticleColumns.TEXT}, articleSelection.sel(), articleSelection.args(), null);
     }
 

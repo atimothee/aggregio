@@ -24,7 +24,7 @@ public class ArticleDetailActivity extends ActionBarActivity implements ArticleD
         setContentView(R.layout.activity_article_detail);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, ArticleDetailFragment.newInstance(getIntent().getLongExtra(ArticleDetailFragment.ARG_ARTICLE_ID,0)))
+                    .add(R.id.container, ArticleDetailFragment.newInstance(getIntent().getStringExtra(ArticleDetailFragment.ARG_ARTICLE_ID)))
                     .commit();
         }
     }

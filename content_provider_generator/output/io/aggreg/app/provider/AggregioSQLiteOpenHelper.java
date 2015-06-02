@@ -11,6 +11,7 @@ import android.util.Log;
 
 import io.aggreg.app.BuildConfig;
 import io.aggreg.app.provider.article.ArticleColumns;
+import io.aggreg.app.provider.articleimage.ArticleImageColumns;
 import io.aggreg.app.provider.category.CategoryColumns;
 import io.aggreg.app.provider.publisher.PublisherColumns;
 
@@ -36,6 +37,14 @@ public class AggregioSQLiteOpenHelper extends SQLiteOpenHelper {
             + ArticleColumns.PUBLISHER_ID + " INTEGER NOT NULL "
             + ", CONSTRAINT fk_category_id FOREIGN KEY (" + ArticleColumns.CATEGORY_ID + ") REFERENCES category (_id) ON DELETE CASCADE"
             + ", CONSTRAINT fk_publisher_id FOREIGN KEY (" + ArticleColumns.PUBLISHER_ID + ") REFERENCES publisher (_id) ON DELETE CASCADE"
+            + " );";
+
+    public static final String SQL_CREATE_TABLE_ARTICLE_IMAGE = "CREATE TABLE IF NOT EXISTS "
+            + ArticleImageColumns.TABLE_NAME + " ( "
+            + ArticleImageColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + ArticleImageColumns.IMAGE_URL + " TEXT NOT NULL, "
+            + ArticleImageColumns.ARTICLE_ID + " INTEGER "
+            + ", CONSTRAINT fk_article_id FOREIGN KEY (" + ArticleImageColumns.ARTICLE_ID + ") REFERENCES article (_id) ON DELETE CASCADE"
             + " );";
 
     public static final String SQL_CREATE_TABLE_CATEGORY = "CREATE TABLE IF NOT EXISTS "
@@ -109,6 +118,7 @@ public class AggregioSQLiteOpenHelper extends SQLiteOpenHelper {
         if (BuildConfig.DEBUG) Log.d(TAG, "onCreate");
         mOpenHelperCallbacks.onPreCreate(mContext, db);
         db.execSQL(SQL_CREATE_TABLE_ARTICLE);
+        db.execSQL(SQL_CREATE_TABLE_ARTICLE_IMAGE);
         db.execSQL(SQL_CREATE_TABLE_CATEGORY);
         db.execSQL(SQL_CREATE_TABLE_PUBLISHER);
         mOpenHelperCallbacks.onPostCreate(mContext, db);
