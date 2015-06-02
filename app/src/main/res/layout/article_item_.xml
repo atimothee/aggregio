@@ -85,13 +85,11 @@
                                 android:layout_height="wrap_content"
                                 android:text="New Vision"
                                 android:textColor="@android:color/secondary_text_dark" />
-
-                            <TextView
+                            <com.github.curioustechizen.ago.RelativeTimeTextView
                                 android:id="@+id/article_item_time_ago"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
-                                android:text="2hrs ago"
-                                android:textColor="@android:color/secondary_text_dark" />
+                                android:textColor="@android:color/secondary_text_dark"/>
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="0dp"

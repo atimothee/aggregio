@@ -98,12 +98,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             ApiAggregioPublisherCollectionMessage publisherCollectionMessage = service.publishers().list().execute();
             List<ContentValues> contentValuesList = new ArrayList<>();
             ContentValues contentValues = null;
-            for(ApiAggregioPublisherMessage newsSource: publisherCollectionMessage.getItems()){
+            for(ApiAggregioPublisherMessage publisher: publisherCollectionMessage.getItems()){
                 contentValues = new ContentValues();
-                contentValues.put(PublisherColumns._ID, newsSource.getId());
-                contentValues.put(PublisherColumns.NAME, newsSource.getName());
-                contentValues.put(PublisherColumns.WEBSITE, newsSource.getWebsite());
-                contentValues.put(PublisherColumns.COUNTRY, newsSource.getCountry());
+                contentValues.put(PublisherColumns._ID, publisher.getId());
+                contentValues.put(PublisherColumns.NAME, publisher.getName());
+                contentValues.put(PublisherColumns.WEBSITE, publisher.getWebsite());
+                contentValues.put(PublisherColumns.COUNTRY, publisher.getCountry());
                 contentValuesList.add(contentValues);
             }
             mContentResolver.bulkInsert(PublisherColumns.CONTENT_URI, contentValuesList.toArray(new ContentValues[contentValuesList.size()]));
@@ -122,7 +122,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 contentValues.put(ArticleColumns._ID, s.getId());
                 contentValues.put(ArticleColumns.TITLE, s.getTitle());
                 contentValues.put(ArticleColumns.TEXT, s.getText());
-                contentValues.put(ArticleColumns.LINK, " ");
+                contentValues.put(ArticleColumns.LINK, s.getLink());
                 contentValues.put(ArticleColumns.CATEGORY_ID, s.getCategoryId());
                 contentValues.put(ArticleColumns.PUBLISHER_ID, s.getPublisherId());
                 contentValues.put(ArticleColumns.PUB_DATE, s.getPubDate().getValue());

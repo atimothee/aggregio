@@ -39,5 +39,6 @@ dependencies {
     compile 'com.etsy.android.grid:library:1.0.5'
     compile 'com.sothree.slidinguppanel:library:3.0.0'
     compile 'com.github.curioustechizen.android-ago:library:1.2.0'
+    compile 'com.android.support:design:22.2.0'
 
 }

@@ -104,20 +104,22 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         //TODO: Fix bug, why doesnt it return data??
         ArticleSelection articleSelection = new ArticleSelection();
         articleSelection.link(bundle.getString(ARG_ARTICLE_ID));
-        return new CursorLoader(getActivity(), ArticleColumns.CONTENT_URI, new String[]{ArticleColumns.TEXT}, articleSelection.sel(), articleSelection.args(), null);
+        Log.d(LOG_TAG, "arg id is " + getArguments().getString(ARG_ARTICLE_ID));
+        Log.d(LOG_TAG, "bundle id is " + bundle.getString(ARG_ARTICLE_ID));
+        return new CursorLoader(getActivity(), ArticleColumns.CONTENT_URI, ArticleColumns.ALL_COLUMNS, articleSelection.sel(), articleSelection.args(), null);
     }
 
     @Override
     public void onLoadFinished(Loader loader, Object data) {
 
 
-        Cursor mCursor = (Cursor) data;
-        Log.d(LOG_TAG, "detail cursor count is "+mCursor.getCount());
-        if(mCursor.getCount() != 0){
-            mCursor.moveToFirst();
-            articleText.setText(mCursor.getString(mCursor.getColumnIndex(ArticleColumns.TEXT)));
-            articleTitle.setText(mCursor.getString(mCursor.getColumnIndex(ArticleColumns.TITLE)));
-            Picasso.with(getActivity()).load(mCursor.getString(mCursor.getColumnIndex(ArticleColumns.IMAGE))).into(articleImage);
+        Cursor c = (Cursor) data;
+        Log.d(LOG_TAG, "detail cursor count is " + c.getCount());
+        if(c.getCount() != 0){
+            c.moveToFirst();
+            articleText.setText(c.getString(c.getColumnIndex(ArticleColumns.TEXT)));
+            articleTitle.setText(c.getString(c.getColumnIndex(ArticleColumns.TITLE)));
+            Picasso.with(getActivity()).load(c.getString(c.getColumnIndex(ArticleColumns.IMAGE))).into(articleImage);
         }
 
     }

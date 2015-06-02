@@ -18,6 +18,8 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+
+import com.github.curioustechizen.ago.RelativeTimeTextView;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -80,6 +82,11 @@ public class ArticlesFragment extends Fragment implements AbsListView.OnItemClic
                     ((TextView) view).setText(cursor.getString(cursor.getColumnIndex(PublisherColumns.NAME)));
                     return true;
                 }
+                else if (view.getId() == R.id.article_item_time_ago) {
+                    ((RelativeTimeTextView) view).setReferenceTime(cursor.getLong(cursor.getColumnIndex(ArticleColumns.PUB_DATE)));
+                    return true;
+                }
+                //TODO: Shouldnt be returning true
                 return true;
             }
         });
