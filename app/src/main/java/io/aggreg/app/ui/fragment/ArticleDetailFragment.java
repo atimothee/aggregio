@@ -140,7 +140,13 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
             String title = c.getString(c.getColumnIndex(ArticleColumns.TITLE));
             articleTitle.setText(title);
             collapsingToolbar.setTitle(title);
-            Glide.with(getActivity()).load(c.getString(c.getColumnIndex(ArticleColumns.IMAGE))).into(articleImage);
+            String imageUrl = c.getString(c.getColumnIndex(ArticleColumns.IMAGE));
+            if(imageUrl!=null) {
+                articleImage.setVisibility(View.VISIBLE);
+                Glide.with(getActivity()).load(imageUrl).into(articleImage);
+            }else {
+                articleImage.setVisibility(View.GONE);
+            }
             publisherName.setText(c.getString(c.getColumnIndex(PublisherColumns.NAME)));
             timeAgo.setReferenceTime(c.getLong(c.getColumnIndex(ArticleColumns.PUB_DATE)));
         }

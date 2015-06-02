@@ -1,0 +1,68 @@
+package io.aggreg.app.ui;
+
+import android.database.Cursor;
+
+import io.aggreg.app.provider.article.ArticleColumns;
+import io.aggreg.app.provider.publisher.PublisherColumns;
+
+/**
+ * Created by Timo on 6/3/15.
+ */
+public class MyListItem{
+    private String title;
+    private Long timeAgo;
+    private String publisherName;
+    private String image;
+    private String publisherLogo;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Long getTimeAgo() {
+        return timeAgo;
+    }
+
+    public void setTimeAgo(Long timeAgo) {
+        this.timeAgo = timeAgo;
+    }
+
+    public String getPublisherName() {
+        return publisherName;
+    }
+
+    public void setPublisherName(String publisherName) {
+        this.publisherName = publisherName;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getPublisherLogo() {
+        return publisherLogo;
+    }
+
+    public void setPublisherLogo(String publisherLogo) {
+        this.publisherLogo = publisherLogo;
+    }
+
+    public static MyListItem fromCursor(Cursor cursor) {
+
+        MyListItem item = new MyListItem();
+        item.setTitle(cursor.getString(cursor.getColumnIndex(ArticleColumns.TITLE)));
+        item.setPublisherName(cursor.getString(cursor.getColumnIndex(PublisherColumns.NAME)));
+        item.setImage(cursor.getString(cursor.getColumnIndex(ArticleColumns.IMAGE)));
+        item.setPublisherLogo(cursor.getString(cursor.getColumnIndex(PublisherColumns.IMAGE_URL)));
+        item.setTimeAgo(cursor.getLong(cursor.getColumnIndex(ArticleColumns.PUB_DATE)));
+        return item;
+    }
+}
