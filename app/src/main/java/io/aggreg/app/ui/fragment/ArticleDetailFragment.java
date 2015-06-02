@@ -4,10 +4,14 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,9 +30,10 @@ import io.aggreg.app.provider.article.ArticleSelection;
 
 public class ArticleDetailFragment extends Fragment implements LoaderManager.LoaderCallbacks{
     private TextView articleText;
-    private TextView publisherName;
     private TextView articleTitle;
+    private TextView publisherName;
     private ImageView articleImage;
+    private CollapsingToolbarLayout collapsingToolbar;
     public static final String ARG_ARTICLE_ID = "article_id";
     private static int ARTICLE_DETAIL_LOADER = 5;
     private static String LOG_TAG = ArticleDetailFragment.class.getSimpleName();
@@ -60,7 +65,15 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_article_detail, container, false);
+
+
+        View view = inflater.inflate(R.layout.fragment_article_detail_, container, false);
+        final Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        collapsingToolbar =
+                (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
         articleText = (TextView) view.findViewById(R.id.article_detail_text);
         articleTitle = (TextView) view.findViewById(R.id.article_detail_title);
         articleImage = (ImageView) view.findViewById(R.id.article_detail_image);
@@ -118,7 +131,9 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         if(c.getCount() != 0){
             c.moveToFirst();
             articleText.setText(c.getString(c.getColumnIndex(ArticleColumns.TEXT)));
-            articleTitle.setText(c.getString(c.getColumnIndex(ArticleColumns.TITLE)));
+            String title = c.getString(c.getColumnIndex(ArticleColumns.TITLE));
+            articleTitle.setText(title);
+            collapsingToolbar.setTitle(title);
             Picasso.with(getActivity()).load(c.getString(c.getColumnIndex(ArticleColumns.IMAGE))).into(articleImage);
         }
 

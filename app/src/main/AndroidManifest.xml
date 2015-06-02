@@ -60,6 +60,7 @@
         <activity
             android:name=".ui.ArticleDetailActivity"
             android:label="@string/title_activity_article_detail"
+            android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".ui.BrowseArticlesActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
