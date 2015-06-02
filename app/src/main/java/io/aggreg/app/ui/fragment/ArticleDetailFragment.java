@@ -20,6 +20,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.github.curioustechizen.ago.RelativeTimeTextView;
 import com.squareup.picasso.Picasso;
 
 import io.aggreg.app.R;
@@ -27,11 +29,13 @@ import io.aggreg.app.provider.AggregioProvider;
 import io.aggreg.app.provider.article.ArticleColumns;
 import io.aggreg.app.provider.article.ArticleCursor;
 import io.aggreg.app.provider.article.ArticleSelection;
+import io.aggreg.app.provider.publisher.PublisherColumns;
 
 public class ArticleDetailFragment extends Fragment implements LoaderManager.LoaderCallbacks{
     private TextView articleText;
     private TextView articleTitle;
     private TextView publisherName;
+    private RelativeTimeTextView timeAgo;
     private ImageView articleImage;
     private CollapsingToolbarLayout collapsingToolbar;
     public static final String ARG_ARTICLE_ID = "article_id";
@@ -75,6 +79,8 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         collapsingToolbar =
                 (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
         articleText = (TextView) view.findViewById(R.id.article_detail_text);
+        publisherName = (TextView) view.findViewById(R.id.article_detail_publisher_name);
+        timeAgo = (RelativeTimeTextView) view.findViewById(R.id.article_detail_time_ago);
         articleTitle = (TextView) view.findViewById(R.id.article_detail_title);
         articleImage = (ImageView) view.findViewById(R.id.article_detail_image);
         return view;
@@ -119,7 +125,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         articleSelection.link(bundle.getString(ARG_ARTICLE_ID));
         Log.d(LOG_TAG, "arg id is " + getArguments().getString(ARG_ARTICLE_ID));
         Log.d(LOG_TAG, "bundle id is " + bundle.getString(ARG_ARTICLE_ID));
-        return new CursorLoader(getActivity(), ArticleColumns.CONTENT_URI, ArticleColumns.ALL_COLUMNS, articleSelection.sel(), articleSelection.args(), null);
+        return new CursorLoader(getActivity(), ArticleColumns.CONTENT_URI, null, articleSelection.sel(), articleSelection.args(), null);
     }
 
     @Override
@@ -134,7 +140,9 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
             String title = c.getString(c.getColumnIndex(ArticleColumns.TITLE));
             articleTitle.setText(title);
             collapsingToolbar.setTitle(title);
-            Picasso.with(getActivity()).load(c.getString(c.getColumnIndex(ArticleColumns.IMAGE))).into(articleImage);
+            Glide.with(getActivity()).load(c.getString(c.getColumnIndex(ArticleColumns.IMAGE))).into(articleImage);
+            publisherName.setText(c.getString(c.getColumnIndex(PublisherColumns.NAME)));
+            timeAgo.setReferenceTime(c.getLong(c.getColumnIndex(ArticleColumns.PUB_DATE)));
         }
 
     }

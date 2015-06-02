@@ -47,16 +47,56 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:paddingTop="24dp">
+            <LinearLayout
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:weightSum="5"
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/article_item_source_logo"
+                    android:src="@drawable/new_vision_logo_square"
+                    android:padding="2dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp" />
 
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/card_margin">
+
+                <LinearLayout
+                    android:layout_weight="3"
+                    android:orientation="vertical"
+                    android:layout_alignRight="@+id/article_item_source_logo"
+                    android:layout_width="0dp"
+                    android:paddingLeft="2dp"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/article_detail_publisher_name"
+                        android:text="New Vision"
+                        android:textColor="@android:color/secondary_text_light"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content" />
+                    <com.github.curioustechizen.ago.RelativeTimeTextView
+                        android:text="2hrs ago"
+                        android:textColor="@android:color/secondary_text_light"
+                        android:id="@+id/article_detail_time_ago"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!--<android.support.v7.widget.CardView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginBottom="@dimen/card_margin"-->
+                <!--android:layout_marginLeft="@dimen/card_margin"-->
+                <!--android:layout_marginRight="@dimen/card_margin">-->
 
                 <LinearLayout
                     style="@style/Widget.CardContent"
@@ -69,9 +109,46 @@
                         android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                     <TextView
+                        android:lineSpacingMultiplier="1.2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/article_detail_text"/>
+
+                </LinearLayout>
+            <LinearLayout
+                style="@style/Widget.CardContent"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="View on Web"/>
+            </LinearLayout>
+
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/card_margin"
+                android:layout_marginLeft="@dimen/card_margin"
+                android:layout_marginRight="@dimen/card_margin">
+
+                <LinearLayout
+                    style="@style/Widget.CardContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Read Next"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/cheese_ipsum" />
 
                 </LinearLayout>
 
