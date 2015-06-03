@@ -8,7 +8,7 @@
             android:title="@string/nav_read_now" />
         <item
             android:id="@+id/nav_manage_sources"
-            android:icon="@drawable/ic_my_library_books_grey"
+            android:icon="@drawable/ic_my_library_books_black_24dp"
             android:title="@string/nav_manage_sources" />
     </group>
     <item android:title="@string/nav_app_group_title">

@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         final ActionBar ab = getSupportActionBar();
         if (ab != null) {
             ab.setSubtitle(getResources().getString(R.string.app_country));
-            ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+            ab.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
             ab.setDisplayHomeAsUpEnabled(true);
         }
 
@@ -84,9 +84,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Boolean currentValue = prefs.getBoolean(References.KEY_TOGGLE_GRID, false);
         if(currentValue) {
 
-                    fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_view_stream_white_48dp));
+                    fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_view_stream_white_24dp));
         }else {
-            fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_view_quilt_white_48dp));
+            fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_view_quilt_white_24dp));
 
         }
 
@@ -101,9 +101,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 editor.putBoolean(References.KEY_TOGGLE_GRID, newValue);
                 editor.apply();
                 if(newValue) {
-                    fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_view_stream_white_48dp));
+                    fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_view_stream_white_24dp));
                 }else {
-                    fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_view_quilt_white_48dp));
+                    fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_view_quilt_white_24dp));
 
                 }
                 viewPager.setAdapter(mSectionsPagerAdapter);
