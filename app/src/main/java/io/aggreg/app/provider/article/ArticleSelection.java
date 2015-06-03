@@ -359,6 +359,11 @@ public class ArticleSelection extends AbstractSelection<ArticleSelection> {
         return this;
     }
 
+    public ArticleSelection publisherFollowing(Boolean value) {
+        addEquals(PublisherColumns.FOLLOWING, toObjectArray(value));
+        return this;
+    }
+
     public ArticleSelection publisherWebsite(String... value) {
         addEquals(PublisherColumns.WEBSITE, value);
         return this;

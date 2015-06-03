@@ -58,6 +58,7 @@ public class AggregioSQLiteOpenHelper extends SQLiteOpenHelper {
             + PublisherColumns.TABLE_NAME + " ( "
             + PublisherColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + PublisherColumns.IMAGE_URL + " TEXT, "
+            + PublisherColumns.FOLLOWING + " INTEGER, "
             + PublisherColumns.WEBSITE + " TEXT, "
             + PublisherColumns.NAME + " TEXT, "
             + PublisherColumns.COUNTRY + " TEXT "

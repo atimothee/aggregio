@@ -1,5 +1,6 @@
 package io.aggreg.app.ui.adapter;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import io.aggreg.app.R;
+import io.aggreg.app.provider.publisher.PublisherColumns;
+import io.aggreg.app.provider.publisher.PublisherContentValues;
+import io.aggreg.app.provider.publisher.PublisherSelection;
 import io.aggreg.app.ui.widget.CheckableLinearLayout;
 
 /**
@@ -48,17 +52,34 @@ public class PublisherListCursorAdapter extends CursorRecyclerViewAdapter<Publis
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final Cursor cursor) {
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+        final CheckableLinearLayout view = (CheckableLinearLayout)viewHolder.itemView;
+        view.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                CheckableLinearLayout checkableLinearLayout = (CheckableLinearLayout)view;
-                checkableLinearLayout.toggle();
-                if(checkableLinearLayout.isChecked()){
-                    viewHolder.checkboxImage.setVisibility(View.VISIBLE);
-                }else{
-                    viewHolder.checkboxImage.setVisibility(View.INVISIBLE);
-                }
+            public void onClick(View view1) {
+                view.toggle();
+            }
+        });
 
+        view.setOnCheckedChangeListener(new CheckableLinearLayout.OnCheckedChangeListener() {
+            PublisherSelection publisherSelection = new PublisherSelection();
+            PublisherContentValues contentValues = new PublisherContentValues();
+
+            @Override
+            public void onCheckedChanged(View checkableView, boolean isChecked) {
+                publisherSelection.id(cursor.getLong(cursor.getColumnIndex(PublisherColumns._ID)));
+                if (isChecked) {
+                    viewHolder.checkboxImage.setVisibility(View.VISIBLE);
+                    //contentValues.putFollowing(true);
+//                    contentValues.putCountry("Uganda");
+//                    contentValues.update(mContext.getContentResolver(), publisherSelection);
+
+                } else {
+                    viewHolder.checkboxImage.setVisibility(View.INVISIBLE);
+//                    contentValues.putCountry("Uganda");
+//                    //contentValues.putFollowing(false);
+//                    contentValues.update(mContext.getContentResolver(), publisherSelection);
+
+                }
             }
         });
         PublisherItem myListItem = PublisherItem.fromCursor(cursor);
@@ -69,6 +90,9 @@ public class PublisherListCursorAdapter extends CursorRecyclerViewAdapter<Publis
         }else{
             Glide.with(mContext).load(R.drawable.new_vision_logo_square).into(viewHolder.publisherImage);
             //viewHolder.publisherImage.setVisibility(View.GONE);
+        }
+        if(myListItem.getFollowing()){
+            ((CheckableLinearLayout) viewHolder.itemView).setChecked(true);
         }
     }
 }

@@ -11,6 +11,16 @@ public class PublisherItem {
     private String publisherName;
     private String publisherLogo;
 
+    public Boolean getFollowing() {
+        return following;
+    }
+
+    public void setFollowing(Boolean following) {
+        this.following = following;
+    }
+
+    private Boolean following;
+
     public String getPublisherName() {
         return publisherName;
     }
@@ -31,6 +41,13 @@ public class PublisherItem {
 
         PublisherItem item = new PublisherItem();
         item.setPublisherName(cursor.getString(cursor.getColumnIndex(PublisherColumns.NAME)));
+        item.setPublisherLogo(cursor.getString(cursor.getColumnIndex(PublisherColumns.IMAGE_URL)));
+        if(cursor.getString(cursor.getColumnIndex(PublisherColumns.COUNTRY))!=null){
+            if(cursor.getString(cursor.getColumnIndex(PublisherColumns.COUNTRY)).equalsIgnoreCase("Uganda")){
+            item.setFollowing(true);
+        }}else{
+            item.setFollowing(false);
+        }
         item.setPublisherLogo(cursor.getString(cursor.getColumnIndex(PublisherColumns.IMAGE_URL)));
         return item;
     }

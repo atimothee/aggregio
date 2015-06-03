@@ -152,6 +152,16 @@ public class ArticleImageCursor extends AbstractCursor implements ArticleImageMo
     }
 
     /**
+     * Get the {@code following} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public Boolean getArticlePublisherFollowing() {
+        Boolean res = getBooleanOrNull(PublisherColumns.FOLLOWING);
+        return res;
+    }
+
+    /**
      * Get the {@code website} value.
      * Can be {@code null}.
      */

@@ -420,6 +420,11 @@ public class ArticleImageSelection extends AbstractSelection<ArticleImageSelecti
         return this;
     }
 
+    public ArticleImageSelection articlePublisherFollowing(Boolean value) {
+        addEquals(PublisherColumns.FOLLOWING, toObjectArray(value));
+        return this;
+    }
+
     public ArticleImageSelection articlePublisherWebsite(String... value) {
         addEquals(PublisherColumns.WEBSITE, value);
         return this;

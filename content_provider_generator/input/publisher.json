@@ -6,6 +6,10 @@
             "type": "String",
         },
         {
+            "name": "following",
+            "type": "Boolean",
+        },
+        {
             "name": "website",
             "type": "String",
         },

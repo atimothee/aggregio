@@ -133,6 +133,16 @@ public class ArticleCursor extends AbstractCursor implements ArticleModel {
     }
 
     /**
+     * Get the {@code following} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public Boolean getPublisherFollowing() {
+        Boolean res = getBooleanOrNull(PublisherColumns.FOLLOWING);
+        return res;
+    }
+
+    /**
      * Get the {@code website} value.
      * Can be {@code null}.
      */

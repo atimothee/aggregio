@@ -82,6 +82,11 @@ public class PublisherSelection extends AbstractSelection<PublisherSelection> {
         return this;
     }
 
+    public PublisherSelection following(Boolean value) {
+        addEquals(PublisherColumns.FOLLOWING, toObjectArray(value));
+        return this;
+    }
+
     public PublisherSelection website(String... value) {
         addEquals(PublisherColumns.WEBSITE, value);
         return this;
