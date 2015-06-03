@@ -23,9 +23,6 @@ import io.aggreg.app.R;
 import io.aggreg.app.provider.article.ArticleColumns;
 import io.aggreg.app.ui.fragment.ArticleDetailFragment;
 
-/**
- * Created by skyfishjy on 10/31/14.
- */
 public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleListCursorAdapter.ViewHolder>{
     private Context mContext;
     private static String LOG_TAG = ArticleListCursorAdapter.class.getSimpleName();

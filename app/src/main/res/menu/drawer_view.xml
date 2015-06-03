@@ -26,7 +26,7 @@
             android:icon="@drawable/ic_my_library_books_grey"
             android:title="My Sources" />
     </group>
-    <item android:title="App">
+    <item android:title="Application">
         <menu>
             <item
                 android:id="@+id/nav_settings"

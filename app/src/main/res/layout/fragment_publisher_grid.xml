@@ -16,8 +16,8 @@
         android:gravity="center_horizontal"
         android:text="Follow all your favourite news sites and blogs."/>
 
-    <GridView android:id="@android:id/list" android:layout_width="match_parent"
-        android:layout_height="wrap_content" android:columnWidth="120dp" android:numColumns="2"/>
+    <android.support.v7.widget.RecyclerView android:id="@android:id/list" android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 
 </LinearLayout>
