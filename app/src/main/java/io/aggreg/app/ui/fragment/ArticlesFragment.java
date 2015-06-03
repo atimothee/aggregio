@@ -1,9 +1,11 @@
 package io.aggreg.app.ui.fragment;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -12,12 +14,17 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.transition.AutoTransition;
+import android.transition.Scene;
+import android.transition.Transition;
+import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -102,8 +109,13 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_article, container, false);
         recyclerView = (RecyclerView) view.findViewById(android.R.id.list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        //recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        SharedPreferences prefs = getActivity().getSharedPreferences("settings", getActivity().MODE_PRIVATE);
+        if(prefs.getBoolean("view_as_grid", false) == true){
+            recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        }else {
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        }
+
 
         //recyclerView.setOnItemClickListener(this);
 
@@ -133,15 +145,6 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
 
     }
 
-//    @Override
-//    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//        Cursor cursor = mAdapter.getCursor();
-//        cursor.moveToPosition(position);
-//        Log.d(LOG_TAG, "id param is " + id);
-//        Log.d(LOG_TAG, "id cursor is "+cursor.getLong(cursor.getColumnIndex(ArticleColumns._ID)));
-//        mListener.openArticleDetail(cursor.getString(cursor.getColumnIndex(ArticleColumns.LINK)));
-//    }
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -157,5 +160,10 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+
+    private void toggle() {
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
     }
 }

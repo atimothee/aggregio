@@ -17,6 +17,7 @@
 package io.aggreg.app.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public static int PUBLISHER_LOADER = 0;
     TabLayout tabLayout;
     ViewPager viewPager;
+    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,12 +91,34 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             viewPager.setAdapter(mSectionsPagerAdapter);
         }
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        SharedPreferences prefs = getSharedPreferences("settings", MODE_PRIVATE);
+        Boolean currentValue = prefs.getBoolean("view_as_grid", false);
+        if(currentValue) {
+            fab.setImageDrawable(getResources().
+                    getDrawable(R.drawable.ic_view_quilt_white_48dp));
+        }else {
+            fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_view_stream_white_48dp));
+        }
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+//                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+                SharedPreferences prefs = getSharedPreferences("settings", MODE_PRIVATE);
+                Boolean oldValue = prefs.getBoolean("view_as_grid", false);
+                SharedPreferences.Editor editor = prefs.edit();
+                Boolean newValue = !oldValue;
+                editor.putBoolean("view_as_grid", newValue);
+                editor.commit();
+                if(newValue) {
+                    fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_view_quilt_white_48dp));
+                }else {
+                    fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_view_stream_white_48dp));
+                }
+                viewPager.invalidate();
+                //mSectionsPagerAdapter.notifyDataSetChanged();
             }
         });
 
