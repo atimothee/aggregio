@@ -163,7 +163,7 @@
         android:layout_width="wrap_content"
         app:layout_anchor="@id/appbar"
         app:layout_anchorGravity="bottom|right|end"
-        android:src="@drawable/ic_discuss"
+        android:src="@drawable/ic_share_white"
         android:layout_margin="@dimen/fab_margin"
         android:clickable="true"/>
 

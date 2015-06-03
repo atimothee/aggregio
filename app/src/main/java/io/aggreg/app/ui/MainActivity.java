@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         setSupportActionBar(toolbar);
 
         final ActionBar ab = getSupportActionBar();
+        ab.setSubtitle("Uganda");
         ab.setHomeAsUpIndicator(R.drawable.ic_menu);
         ab.setDisplayHomeAsUpEnabled(true);
 
@@ -131,7 +132,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 menuItem.setChecked(true);
+                if(menuItem.getItemId() == R.id.nav_manage_sources){
+                    startActivity(new Intent(MainActivity.this, PublisherActivity.class));
+                }
                 mDrawerLayout.closeDrawers();
+
                 return true;
             }
         });

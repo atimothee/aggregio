@@ -19,16 +19,20 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_dashboard"
-            android:title="Read" />
+            android:icon="@drawable/read_now"
+            android:title="Read Now" />
         <item
             android:id="@+id/nav_manage_sources"
-            android:icon="@drawable/ic_dashboard"
-            android:title="Manage Sources" />
-        <item
-            android:id="@+id/nav_settings"
-            android:icon="@drawable/ic_dashboard"
-            android:title="Settings" />
+            android:icon="@drawable/ic_my_library_books_grey"
+            android:title="My Sources" />
     </group>
+    <item android:title="App">
+        <menu>
+            <item
+                android:title="Settings" />
+            <item
+                android:title="Help and feedback" />
+        </menu>
+    </item>
 
 </menu>
