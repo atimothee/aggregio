@@ -95,10 +95,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         SharedPreferences prefs = getSharedPreferences("settings", MODE_PRIVATE);
         Boolean currentValue = prefs.getBoolean("view_as_grid", false);
         if(currentValue) {
-            fab.setImageDrawable(getResources().
-                    getDrawable(R.drawable.ic_view_quilt_white_48dp));
+
+                    fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_view_stream_white_48dp));
         }else {
-            fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_view_stream_white_48dp));
+            fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_view_quilt_white_48dp));
+
         }
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -113,12 +114,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 editor.putBoolean("view_as_grid", newValue);
                 editor.commit();
                 if(newValue) {
-                    fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_view_quilt_white_48dp));
-                }else {
                     fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_view_stream_white_48dp));
+                }else {
+                    fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_view_quilt_white_48dp));
+
                 }
-                viewPager.invalidate();
                 //mSectionsPagerAdapter.notifyDataSetChanged();
+                viewPager.setAdapter(mSectionsPagerAdapter);
+                tabLayout.setupWithViewPager(viewPager);
             }
         });
 
