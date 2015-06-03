@@ -48,7 +48,7 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_article, container, false);
+        View view = inflater.inflate(R.layout.fragment_article_list, container, false);
         recyclerView = (RecyclerView) view.findViewById(android.R.id.list);
         SharedPreferences prefs = getActivity().getSharedPreferences(References.KEY_PREFERENCES, Context.MODE_PRIVATE);
         if(prefs.getBoolean(References.KEY_TOGGLE_GRID, false)){

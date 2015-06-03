@@ -64,7 +64,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
 
 
 
-        View view = inflater.inflate(R.layout.fragment_article_detail_, container, false);
+        View view = inflater.inflate(R.layout.fragment_article_detail, container, false);
         final Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         try {

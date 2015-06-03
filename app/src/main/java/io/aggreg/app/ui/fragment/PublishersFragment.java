@@ -49,7 +49,7 @@ public class PublishersFragment extends Fragment implements LoaderManager.Loader
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_publisher_grid, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_publishers, container, false);
         gridView = (RecyclerView)rootView.findViewById(android.R.id.list);
         gridView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         return rootView;

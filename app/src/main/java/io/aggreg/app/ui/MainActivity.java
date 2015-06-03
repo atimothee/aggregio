@@ -27,7 +27,6 @@ import android.view.View;
 
 import io.aggreg.app.R;
 import io.aggreg.app.provider.category.CategoryColumns;
-import io.aggreg.app.ui.fragment.ArticleDetailFragment;
 import io.aggreg.app.ui.fragment.ArticlesFragment;
 import io.aggreg.app.utils.AccountUtils;
 import io.aggreg.app.utils.References;
@@ -118,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_browse_articles, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
