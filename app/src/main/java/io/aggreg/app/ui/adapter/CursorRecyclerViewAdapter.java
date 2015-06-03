@@ -1,4 +1,4 @@
-package io.aggreg.app.ui;
+package io.aggreg.app.ui.adapter;
 
 /*
  * Copyright (C) 2014 skyfish.jy@gmail.com

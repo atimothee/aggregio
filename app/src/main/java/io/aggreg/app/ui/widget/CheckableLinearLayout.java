@@ -1,4 +1,4 @@
-package io.aggreg.app.ui;
+package io.aggreg.app.ui.widget;
 
 
 import android.content.Context;

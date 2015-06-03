@@ -9,11 +9,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,14 +19,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
-import com.squareup.picasso.Picasso;
 
 import io.aggreg.app.R;
-import io.aggreg.app.provider.AggregioProvider;
 import io.aggreg.app.provider.article.ArticleColumns;
-import io.aggreg.app.provider.article.ArticleCursor;
 import io.aggreg.app.provider.article.ArticleSelection;
 import io.aggreg.app.provider.publisher.PublisherColumns;
+import io.aggreg.app.utils.References;
 
 public class ArticleDetailFragment extends Fragment implements LoaderManager.LoaderCallbacks{
     private TextView articleText;
@@ -38,15 +33,13 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     private RelativeTimeTextView timeAgo;
     private ImageView articleImage;
     private CollapsingToolbarLayout collapsingToolbar;
-    public static final String ARG_ARTICLE_ID = "article_id";
-    private static int ARTICLE_DETAIL_LOADER = 5;
     private static String LOG_TAG = ArticleDetailFragment.class.getSimpleName();
 
     private OnFragmentInteractionListener mListener;
     public static ArticleDetailFragment newInstance(String articleId) {
         ArticleDetailFragment fragment = new ArticleDetailFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_ARTICLE_ID, articleId);
+        args.putString(References.ARG_KEY_ARTICLE_LINK, articleId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,7 +50,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getLoaderManager().initLoader(ARTICLE_DETAIL_LOADER, getArguments(), this);
+        getLoaderManager().initLoader(References.ARTICLE_DETAIL_LOADER, getArguments(), this);
     }
 
     @Override
@@ -74,7 +67,11 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         View view = inflater.inflate(R.layout.fragment_article_detail_, container, false);
         final Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        try {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         collapsingToolbar =
                 (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
@@ -84,13 +81,6 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         articleTitle = (TextView) view.findViewById(R.id.article_detail_title);
         articleImage = (ImageView) view.findViewById(R.id.article_detail_image);
         return view;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override
@@ -112,19 +102,9 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
 
     @Override
     public Loader onCreateLoader(int i, Bundle bundle) {
-//        if(i == ARTICLE_DETAIL_LOADER) {
-//            ArticleSelection selection = new ArticleSelection();
-//
-//            selection.id(getArguments().getLong(ARG_ARTICLE_ID));
-//            Log.d(LOG_TAG, "arg id is " + getArguments().getLong(ARG_ARTICLE_ID));
-//            return new CursorLoader(getActivity(), ArticleColumns.CONTENT_URI, null, selection.sel(), selection.args(), null);
-//        }
-//        return null;
-        //TODO: Fix bug, why doesnt it return data??
+
         ArticleSelection articleSelection = new ArticleSelection();
-        articleSelection.link(bundle.getString(ARG_ARTICLE_ID));
-        Log.d(LOG_TAG, "arg id is " + getArguments().getString(ARG_ARTICLE_ID));
-        Log.d(LOG_TAG, "bundle id is " + bundle.getString(ARG_ARTICLE_ID));
+        articleSelection.link(bundle.getString(References.ARG_KEY_ARTICLE_LINK));
         return new CursorLoader(getActivity(), ArticleColumns.CONTENT_URI, null, articleSelection.sel(), articleSelection.args(), null);
     }
 
@@ -133,7 +113,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
 
 
         Cursor c = (Cursor) data;
-        Log.d(LOG_TAG, "detail cursor count is " + c.getCount());
+
         if(c.getCount() != 0){
             c.moveToFirst();
             articleText.setText(c.getString(c.getColumnIndex(ArticleColumns.TEXT)));

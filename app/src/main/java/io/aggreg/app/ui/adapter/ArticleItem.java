@@ -1,4 +1,4 @@
-package io.aggreg.app.ui;
+package io.aggreg.app.ui.adapter;
 
 import android.database.Cursor;
 
@@ -8,7 +8,7 @@ import io.aggreg.app.provider.publisher.PublisherColumns;
 /**
  * Created by Timo on 6/3/15.
  */
-public class MyListItem{
+public class ArticleItem {
     private String title;
     private Long timeAgo;
     private String publisherName;
@@ -55,9 +55,9 @@ public class MyListItem{
         this.publisherLogo = publisherLogo;
     }
 
-    public static MyListItem fromCursor(Cursor cursor) {
+    public static ArticleItem fromCursor(Cursor cursor) {
 
-        MyListItem item = new MyListItem();
+        ArticleItem item = new ArticleItem();
         item.setTitle(cursor.getString(cursor.getColumnIndex(ArticleColumns.TITLE)));
         item.setPublisherName(cursor.getString(cursor.getColumnIndex(PublisherColumns.NAME)));
         item.setImage(cursor.getString(cursor.getColumnIndex(ArticleColumns.IMAGE)));

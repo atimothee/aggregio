@@ -5,29 +5,19 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
 
 import io.aggreg.app.R;
 import io.aggreg.app.provider.publisher.PublisherColumns;
-import io.aggreg.app.ui.PublisherListCursorAdapter;
+import io.aggreg.app.ui.adapter.PublisherListCursorAdapter;
 
 public class PublishersFragment extends Fragment implements LoaderManager.LoaderCallbacks{
 
@@ -62,7 +52,6 @@ public class PublishersFragment extends Fragment implements LoaderManager.Loader
         View rootView = inflater.inflate(R.layout.fragment_publisher_grid, container, false);
         gridView = (RecyclerView)rootView.findViewById(android.R.id.list);
         gridView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        gridView.hea
         return rootView;
     }
 

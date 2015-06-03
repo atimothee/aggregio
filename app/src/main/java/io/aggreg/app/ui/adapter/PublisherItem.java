@@ -1,8 +1,7 @@
-package io.aggreg.app.ui;
+package io.aggreg.app.ui.adapter;
 
 import android.database.Cursor;
 
-import io.aggreg.app.provider.article.ArticleColumns;
 import io.aggreg.app.provider.publisher.PublisherColumns;
 
 /**

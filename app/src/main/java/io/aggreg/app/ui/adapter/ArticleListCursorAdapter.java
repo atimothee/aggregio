@@ -1,4 +1,4 @@
-package io.aggreg.app.ui;
+package io.aggreg.app.ui.adapter;
 
 /**
  * Created by Timo on 6/3/15.
@@ -17,11 +17,11 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
 
-import java.util.List;
-
 import io.aggreg.app.R;
 import io.aggreg.app.provider.article.ArticleColumns;
+import io.aggreg.app.ui.ArticleDetailActivity;
 import io.aggreg.app.ui.fragment.ArticleDetailFragment;
+import io.aggreg.app.utils.References;
 
 public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleListCursorAdapter.ViewHolder>{
     private Context mContext;
@@ -64,17 +64,17 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
         cursor.moveToPosition(viewHolder.getLayoutPosition());
         Log.d(LOG_TAG, "id cursor is " + cursor.getLong(cursor.getColumnIndex(ArticleColumns._ID)));
                 Intent i = new Intent(mContext, ArticleDetailActivity.class);
-                i.putExtra(ArticleDetailFragment.ARG_ARTICLE_ID, cursor.getString(cursor.getColumnIndex(ArticleColumns.LINK)));
+                i.putExtra(References.ARG_KEY_ARTICLE_LINK, cursor.getString(cursor.getColumnIndex(ArticleColumns.LINK)));
                 mContext.startActivity(i);
             }
         });
-        MyListItem myListItem = MyListItem.fromCursor(cursor);
-        viewHolder.articleTitle.setText(myListItem.getTitle());
-        viewHolder.publisherName.setText(myListItem.getPublisherName());
-        viewHolder.timeAgo.setReferenceTime(myListItem.getTimeAgo());
-        if(myListItem.getImage()!=null) {
+        ArticleItem articleItem = ArticleItem.fromCursor(cursor);
+        viewHolder.articleTitle.setText(articleItem.getTitle());
+        viewHolder.publisherName.setText(articleItem.getPublisherName());
+        viewHolder.timeAgo.setReferenceTime(articleItem.getTimeAgo());
+        if(articleItem.getImage()!=null) {
             viewHolder.articleImage.setVisibility(View.VISIBLE);
-            Glide.with(mContext).load(myListItem.getImage()).into(viewHolder.articleImage);
+            Glide.with(mContext).load(articleItem.getImage()).into(viewHolder.articleImage);
         }else{
             viewHolder.articleImage.setVisibility(View.GONE);
         }
