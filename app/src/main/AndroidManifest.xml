@@ -3,8 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="io.aggreg.app" >
 
-    <uses-sdk tools:overrideLibrary="com.github.amlcurran.showcaseview" />
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
@@ -47,7 +45,7 @@
 
         <activity
             android:name=".ui.MainActivity"
-            android:label="@string/title_activity_browse_articles" >
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -64,7 +62,6 @@
             android:value=".ui.MainActivity" />
         <activity
             android:name=".ui.ArticleDetailActivity"
-            android:label="@string/title_activity_article_detail"
             android:parentActivityName=".ui.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
