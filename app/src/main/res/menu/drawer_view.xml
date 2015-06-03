@@ -29,6 +29,7 @@
     <item android:title="App">
         <menu>
             <item
+                android:id="@+id/nav_settings"
                 android:title="Settings" />
             <item
                 android:title="Help and feedback" />

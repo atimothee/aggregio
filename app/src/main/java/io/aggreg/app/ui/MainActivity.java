@@ -161,6 +161,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 menuItem.setChecked(true);
                 if(menuItem.getItemId() == R.id.nav_manage_sources){
                     startActivity(new Intent(MainActivity.this, PublisherActivity.class));
+                }else if(menuItem.getItemId() == R.id.nav_settings){
+                    startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                 }
                 mDrawerLayout.closeDrawers();
 
