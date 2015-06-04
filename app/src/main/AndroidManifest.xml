@@ -18,7 +18,7 @@
         tools:replace="android:theme">
         <provider
             android:name=".provider.AggregioProvider"
-            android:authorities="io.aggreg.app.provider"
+            android:authorities="${applicationId}.provider"
             android:exported="false" />
 
         <service android:name=".sync.AuthenticatorService" >

@@ -7,7 +7,6 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import io.aggreg.app.BuildConfig;
@@ -24,8 +23,7 @@ public class AggregioProvider extends BaseContentProvider {
 
     private static final String TYPE_CURSOR_ITEM = "vnd.android.cursor.item/";
     private static final String TYPE_CURSOR_DIR = "vnd.android.cursor.dir/";
-
-    public static final String AUTHORITY = "io.aggreg.app.provider";
+    public static final String AUTHORITY = BuildConfig.APPLICATION_ID + ".provider";
     public static final String CONTENT_URI_BASE = "content://" + AUTHORITY;
 
     private static final int URI_TYPE_ARTICLE = 0;

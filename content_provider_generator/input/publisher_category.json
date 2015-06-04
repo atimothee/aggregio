@@ -1,0 +1,22 @@
+{
+    "fields": [
+        {
+            "name": "publisher_id",
+            "type": "Long",
+            "nullable": false,
+            "foreignKey": {
+                "table": "publisher",
+                "onDelete": "CASCADE",
+            },
+        },
+        {
+            "name": "category_id",
+            "type": "Long",
+            "nullable": false,
+            "foreignKey": {
+                "table": "category",
+                "onDelete": "CASCADE",
+            },
+        }
+    ],
+}

@@ -11,6 +11,24 @@ android {
         versionCode 1
         versionName "1.0"
     }
+    productFlavors {
+        kenya {
+            applicationId "io.aggreg.app.kenya"
+            resValue "string", "app_name", "Aggregio Kenya"
+            resValue "string", "app_country", "Kenya"
+            resValue "string", "authorities", applicationId + '.provider'
+            resValue "string", "account_type", "io.aggreg.kenya"
+        }
+        uganda {
+            applicationId "io.aggreg.app.uganda"
+            resValue "string", "app_name", "Aggregio Uganda"
+            resValue "string", "app_country", "Uganda"
+            resValue "string", "authorities", applicationId + '.provider'
+            resValue "string", "account_type", "io.aggreg.uganda"
+        }
+
+
+    }
     buildTypes {
         release {
             minifyEnabled false

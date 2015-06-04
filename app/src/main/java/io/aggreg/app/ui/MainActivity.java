@@ -26,6 +26,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import io.aggreg.app.R;
+import io.aggreg.app.provider.AggregioProvider;
 import io.aggreg.app.provider.category.CategoryColumns;
 import io.aggreg.app.ui.fragment.ArticlesFragment;
 import io.aggreg.app.utils.AccountUtils;
@@ -49,8 +50,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         settingsBundle.putBoolean(
                 ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         Account account = new AccountUtils(getApplicationContext()).getSyncAccount();
-        //ContentResolver.setSyncAutomatically(account, AggregioProvider.AUTHORITY, true);
-        //ContentResolver.requestSync(account, AggregioProvider.AUTHORITY, settingsBundle);
+        ContentResolver.setSyncAutomatically(account, AggregioProvider.AUTHORITY, true);
+        ContentResolver.requestSync(account, AggregioProvider.AUTHORITY, settingsBundle);
         categoriesCursor = null;
         getSupportLoaderManager().initLoader(References.PUBLISHER_LOADER, null, this);
         setContentView(R.layout.activity_main);
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         final ActionBar ab = getSupportActionBar();
         if (ab != null) {
+            ab.setTitle(getResources().getString(R.string.app_name_general));
             ab.setSubtitle(getResources().getString(R.string.app_country));
             ab.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
             ab.setDisplayHomeAsUpEnabled(true);
