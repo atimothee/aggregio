@@ -26,8 +26,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 import io.aggreg.app.R;
-import io.aggreg.app.provider.AggregioProvider;
 import io.aggreg.app.provider.category.CategoryColumns;
+import io.aggreg.app.provider.publishercategory.PublisherCategoryColumns;
+import io.aggreg.app.provider.publishercategory.PublisherCategorySelection;
 import io.aggreg.app.ui.fragment.ArticlesFragment;
 import io.aggreg.app.utils.AccountUtils;
 import io.aggreg.app.utils.References;
@@ -36,7 +37,7 @@ import io.aggreg.app.utils.References;
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks{
 
     private DrawerLayout mDrawerLayout;
-    private Cursor categoriesCursor;
+    private Cursor publisherCategoriesCursor;
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -50,9 +51,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         settingsBundle.putBoolean(
                 ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         Account account = new AccountUtils(getApplicationContext()).getSyncAccount();
-        ContentResolver.setSyncAutomatically(account, AggregioProvider.AUTHORITY, true);
-        ContentResolver.requestSync(account, AggregioProvider.AUTHORITY, settingsBundle);
-        categoriesCursor = null;
+        //ContentResolver.setSyncAutomatically(account, AggregioProvider.AUTHORITY, true);
+        //ContentResolver.requestSync(account, AggregioProvider.AUTHORITY, settingsBundle);
+        publisherCategoriesCursor = null;
         getSupportLoaderManager().initLoader(References.PUBLISHER_LOADER, null, this);
         setContentView(R.layout.activity_main);
 
@@ -160,9 +161,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         @Override
         public Fragment getItem(int position) {
 
-            if(categoriesCursor != null) {
-                categoriesCursor.moveToPosition(position);
-                Long categoryId = categoriesCursor.getLong(categoriesCursor.getColumnIndex(CategoryColumns._ID));
+            if(publisherCategoriesCursor != null) {
+                publisherCategoriesCursor.moveToPosition(position);
+                Long categoryId = publisherCategoriesCursor.getLong(publisherCategoriesCursor.getColumnIndex(CategoryColumns._ID));
                 return ArticlesFragment.newInstance(categoryId);
             }
             return ArticlesFragment.newInstance((long) 0);
@@ -171,8 +172,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         @Override
         public int getCount() {
 
-            if(categoriesCursor != null) {
-                return categoriesCursor.getCount();
+            if(publisherCategoriesCursor != null) {
+                return publisherCategoriesCursor.getCount();
             }
             return 0;
         }
@@ -180,9 +181,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         @Override
         public CharSequence getPageTitle(int position) {
 
-            if(categoriesCursor != null) {
-                categoriesCursor.moveToPosition(position);
-                return categoriesCursor.getString(categoriesCursor.getColumnIndex(CategoryColumns.NAME)).toUpperCase();
+            if(publisherCategoriesCursor != null) {
+                publisherCategoriesCursor.moveToPosition(position);
+                return publisherCategoriesCursor.getString(publisherCategoriesCursor.getColumnIndex(CategoryColumns.NAME)).toUpperCase();
             }
             return null;
         }
@@ -191,15 +192,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public Loader onCreateLoader(int i, Bundle bundle) {
 
-        String[] COLUMNS = {CategoryColumns._ID, CategoryColumns.NAME};
-
-        return new CursorLoader(this, CategoryColumns.CONTENT_URI, COLUMNS, null, null, null);
+        //TODO: Select where category is unique
+        PublisherCategorySelection selection = new PublisherCategorySelection();
+        //selection.categoryIdGt()
+        return new CursorLoader(this, PublisherCategoryColumns.CONTENT_URI, null, null, null, null);
     }
 
     @Override
     public void onLoadFinished(Loader loader, Object data) {
 
-        categoriesCursor = (Cursor) data;
+        publisherCategoriesCursor = (Cursor) data;
         mSectionsPagerAdapter.notifyDataSetChanged();
         tabLayout.setupWithViewPager(viewPager);
     }

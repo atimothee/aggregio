@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -27,6 +28,7 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
 
     private static String LOG_TAG = ArticlesFragment.class.getSimpleName();
     private RecyclerView recyclerView;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     public ArticlesFragment() {
     }
 
@@ -49,6 +51,20 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_article_list, container, false);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
+        //TODO: Get these colours straight
+        //TODO: See if swipe, with bars can be used instead
+        mSwipeRefreshLayout.setColorSchemeResources(
+                R.color.theme_accent_1, R.color.theme_accent_2,
+                R.color.theme_accent_1, R.color.theme_accent_2);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //TODO: Trigger sync adapter, in mode to use last sync datetime
+                //TODO: finally call on refreshcomplete when sync finishes
+            }
+        });
+
         recyclerView = (RecyclerView) view.findViewById(android.R.id.list);
         SharedPreferences prefs = getActivity().getSharedPreferences(References.KEY_PREFERENCES, Context.MODE_PRIVATE);
         if(prefs.getBoolean(References.KEY_TOGGLE_GRID, false)){

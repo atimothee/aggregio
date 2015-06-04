@@ -14,6 +14,7 @@ import io.aggreg.app.provider.article.ArticleColumns;
 import io.aggreg.app.provider.articleimage.ArticleImageColumns;
 import io.aggreg.app.provider.category.CategoryColumns;
 import io.aggreg.app.provider.publisher.PublisherColumns;
+import io.aggreg.app.provider.publishercategory.PublisherCategoryColumns;
 
 public class AggregioSQLiteOpenHelper extends SQLiteOpenHelper {
     private static final String TAG = AggregioSQLiteOpenHelper.class.getSimpleName();
@@ -62,6 +63,15 @@ public class AggregioSQLiteOpenHelper extends SQLiteOpenHelper {
             + PublisherColumns.WEBSITE + " TEXT, "
             + PublisherColumns.NAME + " TEXT, "
             + PublisherColumns.COUNTRY + " TEXT "
+            + " );";
+
+    public static final String SQL_CREATE_TABLE_PUBLISHER_CATEGORY = "CREATE TABLE IF NOT EXISTS "
+            + PublisherCategoryColumns.TABLE_NAME + " ( "
+            + PublisherCategoryColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + PublisherCategoryColumns.PUBLISHER_ID + " INTEGER NOT NULL, "
+            + PublisherCategoryColumns.CATEGORY_ID + " INTEGER NOT NULL "
+            + ", CONSTRAINT fk_publisher_id FOREIGN KEY (" + PublisherCategoryColumns.PUBLISHER_ID + ") REFERENCES publisher (_id) ON DELETE CASCADE"
+            + ", CONSTRAINT fk_category_id FOREIGN KEY (" + PublisherCategoryColumns.CATEGORY_ID + ") REFERENCES category (_id) ON DELETE CASCADE"
             + " );";
 
     // @formatter:on
@@ -122,6 +132,7 @@ public class AggregioSQLiteOpenHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_TABLE_ARTICLE_IMAGE);
         db.execSQL(SQL_CREATE_TABLE_CATEGORY);
         db.execSQL(SQL_CREATE_TABLE_PUBLISHER);
+        db.execSQL(SQL_CREATE_TABLE_PUBLISHER_CATEGORY);
         mOpenHelperCallbacks.onPostCreate(mContext, db);
     }
 

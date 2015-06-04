@@ -16,6 +16,7 @@ import io.aggreg.app.provider.article.ArticleColumns;
 import io.aggreg.app.provider.articleimage.ArticleImageColumns;
 import io.aggreg.app.provider.category.CategoryColumns;
 import io.aggreg.app.provider.publisher.PublisherColumns;
+import io.aggreg.app.provider.publishercategory.PublisherCategoryColumns;
 
 public class AggregioProvider extends BaseContentProvider {
     private static final String TAG = AggregioProvider.class.getSimpleName();
@@ -40,6 +41,9 @@ public class AggregioProvider extends BaseContentProvider {
     private static final int URI_TYPE_PUBLISHER = 6;
     private static final int URI_TYPE_PUBLISHER_ID = 7;
 
+    private static final int URI_TYPE_PUBLISHER_CATEGORY = 8;
+    private static final int URI_TYPE_PUBLISHER_CATEGORY_ID = 9;
+
 
 
     private static final UriMatcher URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
@@ -53,6 +57,8 @@ public class AggregioProvider extends BaseContentProvider {
         URI_MATCHER.addURI(AUTHORITY, CategoryColumns.TABLE_NAME + "/#", URI_TYPE_CATEGORY_ID);
         URI_MATCHER.addURI(AUTHORITY, PublisherColumns.TABLE_NAME, URI_TYPE_PUBLISHER);
         URI_MATCHER.addURI(AUTHORITY, PublisherColumns.TABLE_NAME + "/#", URI_TYPE_PUBLISHER_ID);
+        URI_MATCHER.addURI(AUTHORITY, PublisherCategoryColumns.TABLE_NAME, URI_TYPE_PUBLISHER_CATEGORY);
+        URI_MATCHER.addURI(AUTHORITY, PublisherCategoryColumns.TABLE_NAME + "/#", URI_TYPE_PUBLISHER_CATEGORY_ID);
     }
 
     @Override
@@ -88,6 +94,11 @@ public class AggregioProvider extends BaseContentProvider {
                 return TYPE_CURSOR_DIR + PublisherColumns.TABLE_NAME;
             case URI_TYPE_PUBLISHER_ID:
                 return TYPE_CURSOR_ITEM + PublisherColumns.TABLE_NAME;
+
+            case URI_TYPE_PUBLISHER_CATEGORY:
+                return TYPE_CURSOR_DIR + PublisherCategoryColumns.TABLE_NAME;
+            case URI_TYPE_PUBLISHER_CATEGORY_ID:
+                return TYPE_CURSOR_ITEM + PublisherCategoryColumns.TABLE_NAME;
 
         }
         return null;
@@ -178,6 +189,20 @@ public class AggregioProvider extends BaseContentProvider {
                 res.orderBy = PublisherColumns.DEFAULT_ORDER;
                 break;
 
+            case URI_TYPE_PUBLISHER_CATEGORY:
+            case URI_TYPE_PUBLISHER_CATEGORY_ID:
+                res.table = PublisherCategoryColumns.TABLE_NAME;
+                res.idColumn = PublisherCategoryColumns._ID;
+                res.tablesWithJoins = PublisherCategoryColumns.TABLE_NAME;
+                if (PublisherColumns.hasColumns(projection)) {
+                    res.tablesWithJoins += " LEFT OUTER JOIN " + PublisherColumns.TABLE_NAME + " AS " + PublisherCategoryColumns.PREFIX_PUBLISHER + " ON " + PublisherCategoryColumns.TABLE_NAME + "." + PublisherCategoryColumns.PUBLISHER_ID + "=" + PublisherCategoryColumns.PREFIX_PUBLISHER + "." + PublisherColumns._ID;
+                }
+                if (CategoryColumns.hasColumns(projection)) {
+                    res.tablesWithJoins += " LEFT OUTER JOIN " + CategoryColumns.TABLE_NAME + " AS " + PublisherCategoryColumns.PREFIX_CATEGORY + " ON " + PublisherCategoryColumns.TABLE_NAME + "." + PublisherCategoryColumns.CATEGORY_ID + "=" + PublisherCategoryColumns.PREFIX_CATEGORY + "." + CategoryColumns._ID;
+                }
+                res.orderBy = PublisherCategoryColumns.DEFAULT_ORDER;
+                break;
+
             default:
                 throw new IllegalArgumentException("The uri '" + uri + "' is not supported by this ContentProvider");
         }
@@ -187,6 +212,7 @@ public class AggregioProvider extends BaseContentProvider {
             case URI_TYPE_ARTICLE_IMAGE_ID:
             case URI_TYPE_CATEGORY_ID:
             case URI_TYPE_PUBLISHER_ID:
+            case URI_TYPE_PUBLISHER_CATEGORY_ID:
                 id = uri.getLastPathSegment();
         }
         if (id != null) {
