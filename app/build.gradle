@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "io.aggreg.app"
-        minSdkVersion 14
+        minSdkVersion 9
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
@@ -15,6 +15,7 @@ android {
         kenya {
             applicationId "io.aggreg.app.kenya"
             resValue "string", "app_name", "Aggregio Kenya"
+            resValue "string", "app_version", "Version 1.0-BETA"
             resValue "string", "app_country", "Kenya"
             resValue "string", "authorities", applicationId + '.provider'
             resValue "string", "account_type", "io.aggreg.kenya"
@@ -22,6 +23,7 @@ android {
         uganda {
             applicationId "io.aggreg.app.uganda"
             resValue "string", "app_name", "Aggregio Uganda"
+            resValue "string", "app_version", "Version 1.0-BETA"
             resValue "string", "app_country", "Uganda"
             resValue "string", "authorities", applicationId + '.provider'
             resValue "string", "account_type", "io.aggreg.uganda"

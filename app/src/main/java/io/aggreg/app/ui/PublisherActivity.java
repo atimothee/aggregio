@@ -6,9 +6,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import io.aggreg.app.R;
-import io.aggreg.app.ui.fragment.PublishersFragment;
+import io.aggreg.app.ui.fragment.SelectPublishersFragment;
 
-public class PublisherActivity extends AppCompatActivity implements PublishersFragment.OnFragmentInteractionListener{
+public class PublisherActivity extends AppCompatActivity implements SelectPublishersFragment.OnFragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,7 +16,7 @@ public class PublisherActivity extends AppCompatActivity implements PublishersFr
         setContentView(R.layout.activity_publisher);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PublishersFragment())
+                    .add(R.id.container, new SelectPublishersFragment())
                     .commit();
         }
     }

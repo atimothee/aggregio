@@ -1,6 +1,5 @@
 package io.aggreg.app.ui.adapter;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
@@ -45,7 +44,7 @@ public class PublisherListCursorAdapter extends CursorRecyclerViewAdapter<Publis
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.publisher_list_item, parent, false);
+                .inflate(R.layout.select_publisher_list_item, parent, false);
         ViewHolder vh = new ViewHolder(itemView);
         return vh;
     }

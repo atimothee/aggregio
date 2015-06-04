@@ -102,6 +102,16 @@ public class ArticleImageCursor extends AbstractCursor implements ArticleImageMo
     }
 
     /**
+     * Get the {@code book_marked} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public Boolean getArticleBookMarked() {
+        Boolean res = getBooleanOrNull(ArticleColumns.BOOK_MARKED);
+        return res;
+    }
+
+    /**
      * Get the {@code category_id} value.
      * Can be {@code null}.
      */

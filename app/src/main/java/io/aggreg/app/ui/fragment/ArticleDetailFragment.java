@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -33,6 +34,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     private RelativeTimeTextView timeAgo;
     private ImageView articleImage;
     private CollapsingToolbarLayout collapsingToolbar;
+    private FloatingActionButton bookmarkFab;
     private static String LOG_TAG = ArticleDetailFragment.class.getSimpleName();
 
     private OnFragmentInteractionListener mListener;
@@ -80,6 +82,13 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         timeAgo = (RelativeTimeTextView) view.findViewById(R.id.article_detail_time_ago);
         articleTitle = (TextView) view.findViewById(R.id.article_detail_title);
         articleImage = (ImageView) view.findViewById(R.id.article_detail_image);
+        bookmarkFab = (FloatingActionButton)view.findViewById(R.id.fab);
+        bookmarkFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO: Bookmark article, then notify dataset changed
+            }
+        });
         return view;
     }
 

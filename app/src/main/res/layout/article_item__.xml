@@ -78,7 +78,7 @@
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:textSize="12sp"
-                                android:textColor="@android:color/secondary_text_light"/>
+                                android:textColor="@android:color/tertiary_text_light"/>
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="0dp"

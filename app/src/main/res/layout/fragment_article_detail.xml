@@ -83,20 +83,13 @@
                         android:layout_height="wrap_content" />
                     <com.github.curioustechizen.ago.RelativeTimeTextView
                         android:text="2hrs ago"
-                        android:textColor="@android:color/secondary_text_light"
+                        android:textColor="@android:color/tertiary_text_light"
                         android:id="@+id/article_detail_time_ago"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
 
             </LinearLayout>
-
-            <!--<android.support.v7.widget.CardView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginBottom="@dimen/card_margin"-->
-                <!--android:layout_marginLeft="@dimen/card_margin"-->
-                <!--android:layout_marginRight="@dimen/card_margin">-->
 
                 <LinearLayout
                     style="@style/Widget.CardContent"
@@ -109,6 +102,8 @@
                         android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                     <TextView
+                        android:paddingTop="5dp"
+                        android:textColor="@android:color/secondary_text_light"
                         android:lineSpacingMultiplier="1.2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -123,7 +118,7 @@
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="View on Web"/>
+                    android:text="@string/view_on_web"/>
             </LinearLayout>
 
 
@@ -142,7 +137,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Read Next"
+                        android:text="@string/read_next"
                         android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                     <TextView
@@ -162,7 +157,7 @@
         android:layout_width="wrap_content"
         app:layout_anchor="@id/appbar"
         app:layout_anchorGravity="bottom|right|end"
-        android:src="@drawable/ic_share_white_24dp"
+        android:src="@drawable/ic_bookmark_white_24dp"
         android:layout_margin="@dimen/fab_margin"
         android:clickable="true"/>
 

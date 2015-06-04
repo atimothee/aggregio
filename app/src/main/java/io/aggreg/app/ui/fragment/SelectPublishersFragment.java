@@ -19,20 +19,20 @@ import io.aggreg.app.R;
 import io.aggreg.app.provider.publisher.PublisherColumns;
 import io.aggreg.app.ui.adapter.PublisherListCursorAdapter;
 
-public class PublishersFragment extends Fragment implements LoaderManager.LoaderCallbacks{
+public class SelectPublishersFragment extends Fragment implements LoaderManager.LoaderCallbacks{
 
     private OnFragmentInteractionListener mListener;
     private static String[] COLUMNS = {PublisherColumns.NAME, PublisherColumns.IMAGE_URL};
     private static int[] VIEW_IDS = {R.id.publisher_item_name, R.id.publisher_item_logo};
     private static int PUBLISHER_LOADER  = 6;
-    private static String LOG_TAG = PublishersFragment.class.getSimpleName();
+    private static String LOG_TAG = SelectPublishersFragment.class.getSimpleName();
     RecyclerView gridView;
 
-    public static PublishersFragment newInstance() {
-        return new PublishersFragment();
+    public static SelectPublishersFragment newInstance() {
+        return new SelectPublishersFragment();
     }
 
-    public PublishersFragment() {
+    public SelectPublishersFragment() {
     }
 
     @Override

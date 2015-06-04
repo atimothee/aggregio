@@ -48,6 +48,13 @@ public interface ArticleModel extends BaseModel {
     String getText();
 
     /**
+     * Get the {@code book_marked} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    Boolean getBookMarked();
+
+    /**
      * Get the {@code category_id} value.
      */
     long getCategoryId();

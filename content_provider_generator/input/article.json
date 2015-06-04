@@ -22,6 +22,10 @@
             "name": "text",
             "type": "String",
         },
+	{
+            "name": "book_marked",
+            "type": "Boolean",
+        },
         {
             "name": "category_id",
             "type": "Long",

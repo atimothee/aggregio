@@ -209,6 +209,11 @@ public class ArticleSelection extends AbstractSelection<ArticleSelection> {
         return this;
     }
 
+    public ArticleSelection bookMarked(Boolean value) {
+        addEquals(ArticleColumns.BOOK_MARKED, toObjectArray(value));
+        return this;
+    }
+
     public ArticleSelection categoryId(long... value) {
         addEquals(ArticleColumns.CATEGORY_ID, toObjectArray(value));
         return this;

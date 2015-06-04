@@ -270,6 +270,11 @@ public class ArticleImageSelection extends AbstractSelection<ArticleImageSelecti
         return this;
     }
 
+    public ArticleImageSelection articleBookMarked(Boolean value) {
+        addEquals(ArticleColumns.BOOK_MARKED, toObjectArray(value));
+        return this;
+    }
+
     public ArticleImageSelection articleCategoryId(Long... value) {
         addEquals(ArticleColumns.CATEGORY_ID, value);
         return this;

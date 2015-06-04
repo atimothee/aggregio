@@ -77,6 +77,16 @@ public class ArticleContentValues extends AbstractContentValues {
         return this;
     }
 
+    public ArticleContentValues putBookMarked(@Nullable Boolean value) {
+        mContentValues.put(ArticleColumns.BOOK_MARKED, value);
+        return this;
+    }
+
+    public ArticleContentValues putBookMarkedNull() {
+        mContentValues.putNull(ArticleColumns.BOOK_MARKED);
+        return this;
+    }
+
     public ArticleContentValues putCategoryId(long value) {
         mContentValues.put(ArticleColumns.CATEGORY_ID, value);
         return this;

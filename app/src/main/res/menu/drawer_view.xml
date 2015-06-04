@@ -5,11 +5,15 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/read_now"
-            android:title="@string/nav_read_now" />
+            android:title="@string/nav_read_news" />
         <item
             android:id="@+id/nav_manage_sources"
             android:icon="@drawable/ic_my_library_books_black_24dp"
             android:title="@string/nav_manage_sources" />
+        <item
+            android:id="@+id/nav_bookmarks"
+            android:icon="@drawable/ic_my_library_books_black_24dp"
+            android:title="@string/nav_read_bookmarks" />
     </group>
     <item android:title="@string/nav_app_group_title">
         <menu>

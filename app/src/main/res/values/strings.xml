@@ -4,11 +4,25 @@
     <string name="app_name_general">Aggregio</string>
     <string name="account_name">aggregio</string>
     <string name="action_settings">Settings</string>
+    <string name="action_share">Share</string>
+    <string name="action_open_in_browser">Open in browser</string>
     <string name="title_activity_publisher">Manage Sources</string>
-    <string name="nav_read_now">Read Now</string>
+    <string name="nav_read_news">Read News</string>
+    <string name="nav_read_bookmarks">Bookmarks</string>
     <string name="nav_manage_sources">Manage Sources</string>
     <string name="nav_app_group_title">Application</string>
     <string name="nav_help">Help and feedback</string>
+    <string name="view_on_web">View on Web</string>
+    <string name="read_next">Read Next</string>
+    <string name="pref_title_download_images">Download Images via Wi-Fi only</string>
+    <string name="pref_description_download_images">To reduce carrier data charges, don\'t download images over mobile networks</string>
+    <string name="pref_title_open_source_licenses">Open Source Licenses</string>
+    <string name="pref_description_open_source_licenses">Legal information about licenses</string>
+    <string name="pref_title_usage_policy">Usage Policy</string>
+    <string name="pref_description_usage_policy">Aggregio is for personal and non-commercial use only.</string>
+    <string name="pref_title_article_text_size">Article text size</string>
+    <string name="title_activity_bookmarks">My Bookmarks</string>
+    <string name="hello_world">Hello world!</string>
 
 
 </resources>

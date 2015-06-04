@@ -83,6 +83,16 @@ public class ArticleCursor extends AbstractCursor implements ArticleModel {
     }
 
     /**
+     * Get the {@code book_marked} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public Boolean getBookMarked() {
+        Boolean res = getBooleanOrNull(ArticleColumns.BOOK_MARKED);
+        return res;
+    }
+
+    /**
      * Get the {@code category_id} value.
      */
     public long getCategoryId() {

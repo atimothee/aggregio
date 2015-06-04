@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<io.aggreg.app.ui.widget.CheckableLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,40 +9,43 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_gravity="center"
+        android:layout_margin="@dimen/card_margin"
         android:elevation="100dp"
         card_view:cardCornerRadius="2dp">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_alignParentTop="true"
-        android:adjustViewBounds="true"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="fitCenter"
-        android:src="@drawable/new_vision_logo_square"
-        android:id="@+id/publisher_item_logo"
-        />
-        <TextView
-            android:layout_below="@+id/publisher_item_logo"
-            android:padding="5dp"
-            android:gravity="center"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/publisher_item_name"/>
+            <ImageView
+                android:layout_alignParentTop="true"
+                android:adjustViewBounds="true"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
+                android:src="@drawable/new_vision_logo_square"
+                android:id="@+id/publisher_item_logo"
+                />
+            <TextView
+                android:maxHeight="30dp"
+                android:ellipsize="marquee"
+                android:layout_below="@+id/publisher_item_logo"
+                android:padding="5dp"
+                android:gravity="center"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/publisher_item_name"/>
 
-        <ImageView
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:visibility="gone"
-            android:id="@+id/publisher_item_checkbox"
-            android:layout_gravity="top|end"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/blue_checkbox"
-            android:contentDescription="@null" />
-    </RelativeLayout>
+            <ImageView
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:visibility="gone"
+                android:id="@+id/publisher_item_checkbox"
+                android:layout_gravity="top|end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/blue_checkbox"
+                android:contentDescription="@null" />
+        </RelativeLayout>
     </android.support.v7.widget.CardView>
 
-</io.aggreg.app.ui.widget.CheckableLinearLayout>
+</LinearLayout>

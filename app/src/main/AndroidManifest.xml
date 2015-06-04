@@ -15,7 +15,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.Aggregio.NoActionBar"
-        tools:replace="android:theme">
+        tools:replace="android:theme" >
         <provider
             android:name=".provider.AggregioProvider"
             android:authorities="${applicationId}.provider"
@@ -57,9 +57,11 @@
             android:label="@string/title_activity_settings"
             android:parentActivityName=".ui.MainActivity" >
         </activity>
+
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".ui.MainActivity" />
+
         <activity
             android:name=".ui.ArticleDetailActivity"
             android:parentActivityName=".ui.MainActivity" >
@@ -68,14 +70,21 @@
                 android:value=".ui.MainActivity" />
         </activity>
         <activity
-            android:theme="@style/Theme.Aggregio"
             android:name=".ui.PublisherActivity"
             android:label="@string/title_activity_publisher"
-            android:parentActivityName=".ui.MainActivity">
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/Theme.Aggregio" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.MainActivity" />
-
+        </activity>
+        <activity
+            android:name=".ui.BookmarksActivity"
+            android:label="@string/title_activity_bookmarks"
+            android:parentActivityName=".ui.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="io.aggreg.app.ui.MainActivity" />
         </activity>
     </application>
 

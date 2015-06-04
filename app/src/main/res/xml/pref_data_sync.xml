@@ -12,6 +12,12 @@
         android:negativeButtonText="@null"
         android:positiveButtonText="@null" />
 
+    <CheckBoxPreference
+        android:key="download_images_checkbox"
+        android:title="@string/pref_title_download_images"
+        android:summary="@string/pref_description_download_images"
+        android:defaultValue="true" />
+
     <!-- This preference simply launches an intent when selected. Use this UI sparingly, per
          design guidelines. -->
     <Preference android:title="@string/pref_title_system_sync_settings">
