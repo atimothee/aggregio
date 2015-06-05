@@ -25,6 +25,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+
 import io.aggreg.app.R;
 import io.aggreg.app.provider.category.CategoryColumns;
 import io.aggreg.app.provider.publishercategory.PublisherCategoryColumns;
@@ -42,10 +46,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private FloatingActionButton fab;
+    HashMap<Long, String> categories;
+    HashSet<String> pagerTitles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        pagerTitles = new HashSet();
         Bundle settingsBundle = new Bundle();
         settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         settingsBundle.putBoolean(
@@ -154,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
+
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -162,9 +170,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         public Fragment getItem(int position) {
 
             if(publisherCategoriesCursor != null) {
-                publisherCategoriesCursor.moveToPosition(position);
-                Long categoryId = publisherCategoriesCursor.getLong(publisherCategoriesCursor.getColumnIndex(CategoryColumns._ID));
-                return ArticlesFragment.newInstance(categoryId);
+                if(publisherCategoriesCursor.getCount()!=0) {
+                    publisherCategoriesCursor.moveToPosition(position);
+                    Long categoryId = publisherCategoriesCursor.getLong(publisherCategoriesCursor.getColumnIndex(CategoryColumns._ID));
+                    return ArticlesFragment.newInstance(categoryId);
+                }
             }
             return ArticlesFragment.newInstance((long) 0);
         }
@@ -181,11 +191,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         @Override
         public CharSequence getPageTitle(int position) {
 
-            if(publisherCategoriesCursor != null) {
-                publisherCategoriesCursor.moveToPosition(position);
-                return publisherCategoriesCursor.getString(publisherCategoriesCursor.getColumnIndex(CategoryColumns.NAME)).toUpperCase();
-            }
-            return null;
+            return (String) pagerTitles.toArray()[position];
         }
     }
 
@@ -202,6 +208,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public void onLoadFinished(Loader loader, Object data) {
 
         publisherCategoriesCursor = (Cursor) data;
+        if(publisherCategoriesCursor != null) {
+        if(publisherCategoriesCursor.getCount()!=0) {
+            publisherCategoriesCursor.moveToFirst();
+            do {
+                pagerTitles.add(publisherCategoriesCursor.getString(publisherCategoriesCursor.getColumnIndex(CategoryColumns.NAME)));
+//            categories.put(publisherCategoriesCursor.getLong(publisherCategoriesCursor.getColumnIndex(PublisherCategoryColumns.CATEGORY_ID)),
+//                    publisherCategoriesCursor.getString(publisherCategoriesCursor.getColumnIndex(CategoryColumns.NAME)));
+
+            } while (publisherCategoriesCursor.moveToNext());
+        }
+        }
         mSectionsPagerAdapter.notifyDataSetChanged();
         tabLayout.setupWithViewPager(viewPager);
     }
