@@ -29,9 +29,7 @@ import android.view.View;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
 
 import io.aggreg.app.R;
 import io.aggreg.app.provider.AggregioProvider;
@@ -153,8 +151,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_view_quilt_white_24dp));
 
                 }
+                int currentPosition = viewPager.getCurrentItem();
                 viewPager.setAdapter(mSectionsPagerAdapter);
                 tabLayout.setupWithViewPager(viewPager);
+                if(currentPosition!=0){
+                    viewPager.setCurrentItem(currentPosition);
+                }
             }
         });
 

@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -40,6 +41,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     private CollapsingToolbarLayout collapsingToolbar;
     private FloatingActionButton bookmarkFab;
     private static String LOG_TAG = ArticleDetailFragment.class.getSimpleName();
+
 
     private OnFragmentInteractionListener mListener;
     public static ArticleDetailFragment newInstance(String articleId) {
@@ -71,7 +73,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
 
 
         View view = inflater.inflate(R.layout.fragment_article_detail, container, false);
-        final Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         try {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -86,13 +88,13 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         timeAgo = (RelativeTimeTextView) view.findViewById(R.id.article_detail_time_ago);
         articleTitle = (TextView) view.findViewById(R.id.article_detail_title);
         articleImage = (ImageView) view.findViewById(R.id.article_detail_image);
-//        bookmarkFab = (FloatingActionButton)view.findViewById(R.id.fab);
-//        bookmarkFab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                //TODO: Bookmark article, then notify dataset changed
-//            }
-//        });
+        bookmarkFab = (FloatingActionButton)view.findViewById(R.id.bookmark_fab);
+        bookmarkFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO: Bookmark article, then notify dataset changed
+            }
+        });
         return view;
     }
 
@@ -131,7 +133,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
             c.moveToFirst();
             //articleText.setText(c.getString(c.getColumnIndex(ArticleColumns.TEXT)));
             articleText.setText(Html.fromHtml(c.getString(c.getColumnIndex(ArticleColumns.TEXT))));
-            Log.d(LOG_TAG, "html is "+c.getString(c.getColumnIndex(ArticleColumns.TEXT)));
+            Log.d(LOG_TAG, "html is " + c.getString(c.getColumnIndex(ArticleColumns.TEXT)));
             articleText.setMovementMethod(LinkMovementMethod.getInstance());
             String title = c.getString(c.getColumnIndex(ArticleColumns.TITLE));
             articleTitle.setText(title);
