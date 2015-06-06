@@ -73,6 +73,7 @@ public class AggregioSQLiteOpenHelper extends SQLiteOpenHelper {
             + PublisherCategoryColumns.CATEGORY_ID + " INTEGER NOT NULL "
             + ", CONSTRAINT fk_publisher_id FOREIGN KEY (" + PublisherCategoryColumns.PUBLISHER_ID + ") REFERENCES publisher (_id) ON DELETE CASCADE"
             + ", CONSTRAINT fk_category_id FOREIGN KEY (" + PublisherCategoryColumns.CATEGORY_ID + ") REFERENCES category (_id) ON DELETE CASCADE"
+            + ", CONSTRAINT unique_name UNIQUE (category_id, publisher_id) ON CONFLICT REPLACE"
             + " );";
 
     // @formatter:on

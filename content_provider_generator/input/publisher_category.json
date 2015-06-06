@@ -19,4 +19,10 @@
             },
         }
     ],
+	"constraints": [
+        {
+            "name": "unique_name",
+            "definition": "UNIQUE (category_id, publisher_id) ON CONFLICT REPLACE"
+        }
+    ]
 }

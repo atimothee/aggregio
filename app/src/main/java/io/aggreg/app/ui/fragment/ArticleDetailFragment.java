@@ -12,6 +12,10 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,13 +86,13 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         timeAgo = (RelativeTimeTextView) view.findViewById(R.id.article_detail_time_ago);
         articleTitle = (TextView) view.findViewById(R.id.article_detail_title);
         articleImage = (ImageView) view.findViewById(R.id.article_detail_image);
-        bookmarkFab = (FloatingActionButton)view.findViewById(R.id.fab);
-        bookmarkFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO: Bookmark article, then notify dataset changed
-            }
-        });
+//        bookmarkFab = (FloatingActionButton)view.findViewById(R.id.fab);
+//        bookmarkFab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                //TODO: Bookmark article, then notify dataset changed
+//            }
+//        });
         return view;
     }
 
@@ -125,7 +129,10 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
 
         if(c.getCount() != 0){
             c.moveToFirst();
-            articleText.setText(c.getString(c.getColumnIndex(ArticleColumns.TEXT)));
+            //articleText.setText(c.getString(c.getColumnIndex(ArticleColumns.TEXT)));
+            articleText.setText(Html.fromHtml(c.getString(c.getColumnIndex(ArticleColumns.TEXT))));
+            Log.d(LOG_TAG, "html is "+c.getString(c.getColumnIndex(ArticleColumns.TEXT)));
+            articleText.setMovementMethod(LinkMovementMethod.getInstance());
             String title = c.getString(c.getColumnIndex(ArticleColumns.TITLE));
             articleTitle.setText(title);
             collapsingToolbar.setTitle(title);

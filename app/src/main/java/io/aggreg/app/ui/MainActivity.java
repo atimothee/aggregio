@@ -21,15 +21,20 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
 import io.aggreg.app.R;
+import io.aggreg.app.provider.AggregioProvider;
 import io.aggreg.app.provider.category.CategoryColumns;
 import io.aggreg.app.provider.publishercategory.PublisherCategoryColumns;
 import io.aggreg.app.provider.publishercategory.PublisherCategorySelection;
@@ -46,11 +51,43 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private FloatingActionButton fab;
-    HashMap<Long, String> categories;
-    HashSet<String> pagerTitles;
+    HashSet<Category> pagerTitles;
+    private static final String LOG_TAG = MainActivity.class.getSimpleName();
+
+    class Category{
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder(17, 31). // two randomly chosen prime numbers
+                    // if deriving: appendSuper(super.hashCode()).
+                    append(name).toHashCode();
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (!(obj instanceof Category))
+                return false;
+            if (obj == this)
+                return true;
+
+            Category rhs = (Category) obj;
+            return new EqualsBuilder().
+                    // if deriving: appendSuper(super.equals(obj)).
+                            append(name, rhs.name).
+                    isEquals();
+        }
+
+        public Category(Long id, String name){
+            this.id = id;
+            this.name = name;
+        }
+        public Long id;
+        public String name;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         pagerTitles = new HashSet();
         Bundle settingsBundle = new Bundle();
@@ -58,8 +95,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         settingsBundle.putBoolean(
                 ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         Account account = new AccountUtils(getApplicationContext()).getSyncAccount();
-        //ContentResolver.setSyncAutomatically(account, AggregioProvider.AUTHORITY, true);
-        //ContentResolver.requestSync(account, AggregioProvider.AUTHORITY, settingsBundle);
+        ContentResolver.setSyncAutomatically(account, AggregioProvider.AUTHORITY, true);
+        ContentResolver.requestSync(account, AggregioProvider.AUTHORITY, settingsBundle);
         publisherCategoriesCursor = null;
         getSupportLoaderManager().initLoader(References.PUBLISHER_LOADER, null, this);
         setContentView(R.layout.activity_main);
@@ -122,6 +159,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         });
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
     }
 
@@ -168,30 +206,19 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         @Override
         public Fragment getItem(int position) {
-
-            if(publisherCategoriesCursor != null) {
-                if(publisherCategoriesCursor.getCount()!=0) {
-                    publisherCategoriesCursor.moveToPosition(position);
-                    Long categoryId = publisherCategoriesCursor.getLong(publisherCategoriesCursor.getColumnIndex(CategoryColumns._ID));
-                    return ArticlesFragment.newInstance(categoryId);
-                }
-            }
-            return ArticlesFragment.newInstance((long) 0);
+            return ArticlesFragment.newInstance(((Category)pagerTitles.toArray()[position]).id);
         }
 
         @Override
         public int getCount() {
-
-            if(publisherCategoriesCursor != null) {
-                return publisherCategoriesCursor.getCount();
-            }
-            return 0;
+            return pagerTitles.size();
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
+            Log.d(LOG_TAG, "Pagertitles charseq count is "+pagerTitles.size());
 
-            return (String) pagerTitles.toArray()[position];
+            return ((Category) pagerTitles.toArray()[position]).name;
         }
     }
 
@@ -212,13 +239,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         if(publisherCategoriesCursor.getCount()!=0) {
             publisherCategoriesCursor.moveToFirst();
             do {
-                pagerTitles.add(publisherCategoriesCursor.getString(publisherCategoriesCursor.getColumnIndex(CategoryColumns.NAME)));
+                pagerTitles.add(new Category(publisherCategoriesCursor.getLong(publisherCategoriesCursor.getColumnIndex(PublisherCategoryColumns._ID)),publisherCategoriesCursor.getString(publisherCategoriesCursor.getColumnIndex(CategoryColumns.NAME))));
 //            categories.put(publisherCategoriesCursor.getLong(publisherCategoriesCursor.getColumnIndex(PublisherCategoryColumns.CATEGORY_ID)),
 //                    publisherCategoriesCursor.getString(publisherCategoriesCursor.getColumnIndex(CategoryColumns.NAME)));
 
             } while (publisherCategoriesCursor.moveToNext());
         }
         }
+        Log.d(LOG_TAG, "set size is "+pagerTitles.size());
         mSectionsPagerAdapter.notifyDataSetChanged();
         tabLayout.setupWithViewPager(viewPager);
     }
