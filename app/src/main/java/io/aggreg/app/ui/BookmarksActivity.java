@@ -6,6 +6,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import io.aggreg.app.R;
+import io.aggreg.app.ui.fragment.ArticleDetailFragment;
+import io.aggreg.app.ui.fragment.BookmarksFragment;
+import io.aggreg.app.utils.References;
 
 public class BookmarksActivity extends ActionBarActivity {
 
@@ -13,6 +16,11 @@ public class BookmarksActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookmarks);
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container, new BookmarksFragment())
+                    .commit();
+        }
     }
 
 
