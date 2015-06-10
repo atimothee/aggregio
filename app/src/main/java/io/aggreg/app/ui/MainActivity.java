@@ -93,8 +93,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         settingsBundle.putBoolean(
                 ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         Account account = new AccountUtils(getApplicationContext()).getSyncAccount();
-        ContentResolver.setSyncAutomatically(account, AggregioProvider.AUTHORITY, true);
-        ContentResolver.requestSync(account, AggregioProvider.AUTHORITY, settingsBundle);
+        //ContentResolver.setSyncAutomatically(account, AggregioProvider.AUTHORITY, true);
+        //ContentResolver.requestSync(account, AggregioProvider.AUTHORITY, settingsBundle);
         publisherCategoriesCursor = null;
         getSupportLoaderManager().initLoader(References.PUBLISHER_LOADER, null, this);
         setContentView(R.layout.activity_main);

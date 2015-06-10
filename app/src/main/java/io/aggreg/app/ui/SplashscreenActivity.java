@@ -1,9 +1,9 @@
 package io.aggreg.app.ui;
 
-import io.aggreg.app.ui.util.SystemUiHider;
-
+import android.accounts.Account;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -17,10 +17,13 @@ import android.view.View;
 import org.codechimp.apprater.AppRater;
 
 import io.aggreg.app.R;
+import io.aggreg.app.provider.AggregioProvider;
+import io.aggreg.app.utils.AccountUtils;
+import io.aggreg.app.utils.References;
 
 public class SplashscreenActivity extends AppCompatActivity {
     final String PREFS_NAME = "MyPrefsFile";
-    final String KEY_FIRST_TIME_PREF = "first_time___";
+    final String KEY_FIRST_TIME_PREF = "first_time_";
     protected int _splashTime = 2000;
 
     @Override
@@ -34,6 +37,14 @@ public class SplashscreenActivity extends AppCompatActivity {
         if (settings.getBoolean(KEY_FIRST_TIME_PREF, true)) {
             //the app is being launched for first time, do something
             Log.d(SplashscreenActivity.class.getSimpleName(), "First time");
+            Bundle settingsBundle = new Bundle();
+            settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+            settingsBundle.putBoolean(
+                    ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+            settingsBundle.putString(References.ARG_KEY_SYNC_TYPE, References.SYNC_TYPE_PUBLISHER);
+            Account account = new AccountUtils(getApplicationContext()).getSyncAccount();
+            ContentResolver.setSyncAutomatically(account, AggregioProvider.AUTHORITY, true);
+            ContentResolver.requestSync(account, AggregioProvider.AUTHORITY, settingsBundle);
 
             // first time task
 

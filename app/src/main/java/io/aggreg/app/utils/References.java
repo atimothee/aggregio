@@ -15,6 +15,7 @@ public class References {
     public static final String ARG_KEY_ARTICLE_LINK = "article_id";
     public static final String ARG_KEY_SYNC_TYPE = "sync_type";
     public static final String SYNC_TYPE_ARTICLE = "sync_type_article";
+    public static final String SYNC_TYPE_ARTICLE_CURSOR = "sync_type_article_cursor";
     public static final String SYNC_TYPE_CATEGORY = "sync_type_category";
     public static final String SYNC_TYPE_PUBLISHER = "sync_type_publisher";
 

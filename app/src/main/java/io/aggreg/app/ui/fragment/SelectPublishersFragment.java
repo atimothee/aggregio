@@ -9,15 +9,19 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.zip.Inflater;
+
 import io.aggreg.app.R;
 import io.aggreg.app.provider.selectpublisher.SelectPublisherColumns;
 import io.aggreg.app.ui.adapter.SelectPublisherListCursorAdapter;
+import io.aggreg.app.ui.adapter.SelectPublishersAdapter;
 import io.aggreg.app.utils.References;
 
 public class SelectPublishersFragment extends Fragment implements LoaderManager.LoaderCallbacks{
@@ -79,9 +83,16 @@ public class SelectPublishersFragment extends Fragment implements LoaderManager.
 
     @Override
     public void onLoadFinished(Loader loader, Object data) {
-        Log.d(LOG_TAG, "publishers size is " + ((Cursor) data).getCount());
-        SelectPublisherListCursorAdapter adapter = new SelectPublisherListCursorAdapter(getActivity(), (Cursor)data);
-        gridView.setAdapter(adapter);
+        if(data!=null) {
+            Log.d(LOG_TAG, "publishers size is " + ((Cursor) data).getCount());
+            SelectPublishersAdapter adapter = new SelectPublishersAdapter(getActivity(), (Cursor) data);
+            LayoutInflater inflater = LayoutInflater.from(getActivity());
+            View headerView = inflater.inflate(R.layout.publisher_grid_header, null);
+            View footerView = inflater.inflate(R.layout.publisher_grid_footer, null);
+            adapter.addHeader(headerView);
+            //adapter.addFooter(footerView);
+            gridView.setAdapter(adapter);
+        }
 
     }
 

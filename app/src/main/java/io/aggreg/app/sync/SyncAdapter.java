@@ -10,6 +10,7 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.SyncResult;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,10 +36,12 @@ import io.aggreg.app.provider.publisher.PublisherColumns;
 import io.aggreg.app.provider.publishercategory.PublisherCategoryColumns;
 import io.aggreg.app.provider.publishercategory.PublisherCategoryCursor;
 import io.aggreg.app.provider.publishercategory.PublisherCategorySelection;
+import io.aggreg.app.provider.selectpublisher.SelectPublisherColumns;
 import io.aggreg.app.utils.References;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
     private static final String LOG_TAG = SyncAdapter.class.getSimpleName();
+    private static final String KEY_LAST_SYNC = "last_sync";
     ContentResolver mContentResolver;
 
     public SyncAdapter(Context context, boolean autoInitialize) {
@@ -61,88 +64,83 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
         //TODO: Fetch, store cursor in prefs, also store last sync date for articles
 
+//        SharedPreferences prefs = getContext().getSharedPreferences(References.KEY_PREFERENCES, Context.MODE_PRIVATE);
+//        Long lastSyncDate = prefs.getLong(KEY_LAST_SYNC, 0);
+//        SharedPreferences.Editor editor = prefs.edit();
+        Log.d(LOG_TAG, " extras "+extras.toString());
+
         String countryName = getContext().getString(R.string.app_country);
         Aggregio.Builder builder = new Aggregio.Builder(
                 AndroidHttp.newCompatibleTransport(), new GsonFactory(), null);
         Aggregio service = builder.build();
+        String syncType = extras.getString(References.ARG_KEY_SYNC_TYPE);
 
-        // if(extras.getString(References.ARG_KEY_SYNC_TYPE).equalsIgnoreCase(References.SYNC_TYPE_PUBLISHER)){
+        if (syncType.equalsIgnoreCase(References.SYNC_TYPE_PUBLISHER)) {
+            Log.d(LOG_TAG, "sync "+extras.getString(References.ARG_KEY_SYNC_TYPE));
 
-
-        ApiAggregioPublisherCollectionMessage publisherCollectionMessage = null;
-        try {
-            publisherCollectionMessage = service.publishers().list(countryName).execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        List<ContentValues> publisherContentValuesList = new ArrayList<>();
-        ContentValues publisherContentValues = null;
-        if (publisherCollectionMessage != null) {
-            for (ApiAggregioPublisherMessage publisher : publisherCollectionMessage.getItems()) {
-                publisherContentValues = new ContentValues();
-                publisherContentValues.put(PublisherColumns._ID, publisher.getId());
-                publisherContentValues.put(PublisherColumns.NAME, publisher.getName());
-                publisherContentValues.put(PublisherColumns.WEBSITE, publisher.getWebsite());
-                publisherContentValuesList.add(publisherContentValues);
+            ApiAggregioPublisherCollectionMessage publisherCollectionMessage = null;
+            try {
+                publisherCollectionMessage = service.publishers().list(countryName).execute();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        }
-        try {
-            mContentResolver.bulkInsert(PublisherColumns.CONTENT_URI, publisherContentValuesList.toArray(new ContentValues[publisherContentValuesList.size()]));
-
-        } catch (Exception e) {
-            //e.printStackTrace();
-        }
-        //}else if(extras.getString(References.ARG_KEY_SYNC_TYPE).equalsIgnoreCase(References.SYNC_TYPE_CATEGORY)){
-
-        ApiAggregioCategoryCollectionMessage categoryCollectionMessage = null;
-
-        try {
-            categoryCollectionMessage = service.categories().list(countryName).execute();
-        } catch (IOException e) {
-            //e.printStackTrace();
-        }
-        List<ContentValues> categoryContentValuesList = new ArrayList<>();
-        List<ContentValues> publisherCategoryContentValuesList = new ArrayList<>();
-        ContentValues categoryContentValues = null;
-        if (categoryCollectionMessage != null) {
-            for (ApiAggregioCategoryMessage category : categoryCollectionMessage.getItems()) {
-                categoryContentValues = new ContentValues();
-                categoryContentValues.put(CategoryColumns._ID, category.getId());
-                categoryContentValues.put(CategoryColumns.NAME, category.getName());
-                try {
-                    mContentResolver.insert(CategoryColumns.CONTENT_URI, categoryContentValues);
-                }catch (Exception e){
-
+            List<ContentValues> publisherContentValuesList = new ArrayList<>();
+            ContentValues publisherContentValues = null;
+            if (publisherCollectionMessage != null) {
+                for (ApiAggregioPublisherMessage publisher : publisherCollectionMessage.getItems()) {
+                    publisherContentValues = new ContentValues();
+                    publisherContentValues.put(SelectPublisherColumns._ID, publisher.getId());
+                    publisherContentValues.put(SelectPublisherColumns.NAME, publisher.getName());
+                    publisherContentValues.put(SelectPublisherColumns.WEBSITE, publisher.getWebsite());
+                    publisherContentValuesList.add(publisherContentValues);
                 }
+            }
+            try {
+                mContentResolver.bulkInsert(SelectPublisherColumns.CONTENT_URI, publisherContentValuesList.toArray(new ContentValues[publisherContentValuesList.size()]));
 
-                //publisherCategoryContentValuesList = new ArrayList<>();
-                for (Long publisherId : category.getPublishers()) {
-                    ContentValues publisherCategoryContentValues = new ContentValues();
-                    publisherCategoryContentValues.put(PublisherCategoryColumns.CATEGORY_ID, category.getId());
-                    publisherCategoryContentValues.put(PublisherCategoryColumns.PUBLISHER_ID, publisherId);
-                    //publisherCategoryContentValuesList.add(publisherCategoryContentValues);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        } else if (syncType.equalsIgnoreCase(References.SYNC_TYPE_CATEGORY)) {
+
+            ApiAggregioCategoryCollectionMessage categoryCollectionMessage = null;
+
+            try {
+                categoryCollectionMessage = service.categories().list(countryName).execute();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            List<ContentValues> publisherCategoryContentValuesList = new ArrayList<>();
+            ContentValues categoryContentValues = null;
+            if (categoryCollectionMessage != null) {
+                for (ApiAggregioCategoryMessage category : categoryCollectionMessage.getItems()) {
+                    categoryContentValues = new ContentValues();
+                    categoryContentValues.put(CategoryColumns._ID, category.getId());
+                    categoryContentValues.put(CategoryColumns.NAME, category.getName());
                     try {
-                        mContentResolver.insert(PublisherCategoryColumns.CONTENT_URI, publisherCategoryContentValues);
-                    }catch (Exception e){
+                        mContentResolver.insert(CategoryColumns.CONTENT_URI, categoryContentValues);
+                    } catch (Exception e) {
 
                     }
+
+                    publisherCategoryContentValuesList = new ArrayList<>();
+                    for (Long publisherId : category.getPublishers()) {
+                        ContentValues publisherCategoryContentValues = new ContentValues();
+                        publisherCategoryContentValues.put(PublisherCategoryColumns.CATEGORY_ID, category.getId());
+                        publisherCategoryContentValues.put(PublisherCategoryColumns.PUBLISHER_ID, publisherId);
+                        publisherCategoryContentValuesList.add(publisherCategoryContentValues);
+                    }
                 }
-                categoryContentValuesList.add(categoryContentValues);
             }
-        }
-        try {
-            //mContentResolver.bulkInsert(CategoryColumns.CONTENT_URI, categoryContentValuesList.toArray(new ContentValues[categoryContentValuesList.size()]));
-        } catch (Exception e) {
-            //e.printStackTrace();
-        }
-        try {
-            //mContentResolver.bulkInsert(PublisherCategoryColumns.CONTENT_URI, publisherCategoryContentValuesList.toArray(new ContentValues[publisherCategoryContentValuesList.size()]));
-        } catch (Exception e) {
-            //e.printStackTrace();
-        }
+            try {
+                mContentResolver.bulkInsert(PublisherCategoryColumns.CONTENT_URI, publisherCategoryContentValuesList.toArray(new ContentValues[publisherCategoryContentValuesList.size()]));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
 
-        //}else if(extras.getString(References.ARG_KEY_SYNC_TYPE).equalsIgnoreCase(References.SYNC_TYPE_ARTICLE)){
+        } else if (syncType.equalsIgnoreCase(References.SYNC_TYPE_ARTICLE)) {
 
 
                 /*TODO: Use cursor endpoint instead if from scroll
@@ -151,14 +149,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                  TODO: Save cursor in prefs
                  TODO: Save last sync datetime
                  */
-        Log.d(LOG_TAG, "Reached here");
+            Log.d(LOG_TAG, "Reached here");
 
-        PublisherCategorySelection selection = new PublisherCategorySelection();
-        PublisherCategoryCursor publisherCategoryCursor = selection.query(mContentResolver, null, null);
-        publisherCategoryCursor.moveToFirst();
-        Long categoryId = null;
-        Long publisherId = null;
-        if (publisherCategoryCursor != null) {
+            PublisherCategorySelection selection = new PublisherCategorySelection();
+            PublisherCategoryCursor publisherCategoryCursor = selection.query(mContentResolver, null, null);
+            publisherCategoryCursor.moveToFirst();
+            Long categoryId = null;
+            Long publisherId = null;
             if (publisherCategoryCursor.getCount() != 0) {
 
 
@@ -169,7 +166,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                     try {
                         articleCollection = service.articles().cursorList(publisherId, categoryId).execute();
                     } catch (IOException e) {
-                        //e.printStackTrace();
+                        e.printStackTrace();
                     }
                     List<ContentValues> articlesContentValuesList = new ArrayList<>();
                     ContentValues articleContentValues;
@@ -196,17 +193,23 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                     try {
                         mContentResolver.bulkInsert(ArticleColumns.CONTENT_URI, articlesContentValuesList.toArray(new ContentValues[articlesContentValuesList.size()]));
                     } catch (Exception e) {
-                        //e.printStackTrace();
+                        e.printStackTrace();
                     }
 
                 }
 
                 while (publisherCategoryCursor.moveToNext());
             }
+
+
+        }else if (syncType.equalsIgnoreCase(References.SYNC_TYPE_ARTICLE_CURSOR)) {
+
+//            if(lastSyncDate!=0){
+//
+//            }else{
+//
+//            }
         }
-
-
-        // }
 
     }
 }
