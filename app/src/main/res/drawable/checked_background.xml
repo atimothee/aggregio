@@ -1,21 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!--<item android:drawable="@drawable/holobutton_btn_default_pressed_holo_light"-->
-        <!--android:state_checked="true"-->
-        <!--android:state_pressed="true" />-->
-    <!--<item android:drawable="@drawable/holobutton_btn_default_focused_holo_light"-->
-        <!--android:state_checked="true"-->
-        <!--android:state_focused="true" />-->
-    <item
+        <!-- Enabled states -->
 
-        android:drawable="@drawable/holobutton_btn_default_pressed_holo_light"
-        android:state_checked="true" />
+        <item android:state_checked="true"
+            android:drawable="@drawable/apptheme_btn_default_normal_holo_light" />
 
-    <!--<item android:drawable="@drawable/holobutton_btn_default_disabled_holo_light"-->
-        <!--android:state_pressed="true" />-->
-    <!--<item android:drawable="@drawable/holobutton_btn_default_disabled_focused_holo_light"-->
-        <!--android:state_focused="true" />-->
-    <!--<item android:drawable="@dr" />-->
+        <!-- Disabled states -->
+        <item android:state_checked="false"
+            android:drawable="@drawable/apptheme_btn_default_disabled_holo_light" />
+
+        <item android:state_focused="true"
+            android:drawable="@drawable/apptheme_btn_default_focused_holo_light" />
 
 </selector>

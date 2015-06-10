@@ -53,7 +53,14 @@ public class SelectPublishersFragment extends Fragment implements LoaderManager.
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_publishers, container, false);
         gridView = (RecyclerView)rootView.findViewById(android.R.id.list);
-        gridView.setLayoutManager(new GridLayoutManager(getActivity(), 3, GridLayoutManager.VERTICAL, false));
+        GridLayoutManager manager = new GridLayoutManager(getActivity(), 3, GridLayoutManager.VERTICAL, false);
+        manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return position == 0 ? 3 : 1;
+            }
+        });
+        gridView.setLayoutManager(manager);
         //gridView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         //gridView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return rootView;
