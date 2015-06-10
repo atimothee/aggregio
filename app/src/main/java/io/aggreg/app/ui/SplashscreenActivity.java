@@ -20,7 +20,8 @@ import io.aggreg.app.R;
 
 public class SplashscreenActivity extends AppCompatActivity {
     final String PREFS_NAME = "MyPrefsFile";
-    protected int _splashTime = 5000;
+    final String KEY_FIRST_TIME_PREF = "first_time___";
+    protected int _splashTime = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,14 +31,14 @@ public class SplashscreenActivity extends AppCompatActivity {
 
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 
-        if (settings.getBoolean("my_first_time", true)) {
+        if (settings.getBoolean(KEY_FIRST_TIME_PREF, true)) {
             //the app is being launched for first time, do something
             Log.d(SplashscreenActivity.class.getSimpleName(), "First time");
 
             // first time task
 
             // record the fact that the app has been started at least once
-            settings.edit().putBoolean("my_first_time", false).commit();
+            settings.edit().putBoolean(KEY_FIRST_TIME_PREF, false).commit();
             Thread splashTread = new Thread() {
                 @Override
                 public void run() {
@@ -66,4 +67,9 @@ public class SplashscreenActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
     }
+}

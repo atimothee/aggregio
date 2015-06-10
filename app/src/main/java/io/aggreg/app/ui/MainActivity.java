@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private FloatingActionButton fab;
+    //private FloatingActionButton fab;
     HashSet<Category> pagerTitles;
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
@@ -124,41 +124,41 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         if (viewPager != null) {
             viewPager.setAdapter(mSectionsPagerAdapter);
         }
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        SharedPreferences prefs = getSharedPreferences(References.KEY_PREFERENCES, MODE_PRIVATE);
-        Boolean currentValue = prefs.getBoolean(References.KEY_TOGGLE_GRID, false);
-        if(currentValue) {
+//        fab = (FloatingActionButton) findViewById(R.id.fab);
+//        SharedPreferences prefs = getSharedPreferences(References.KEY_PREFERENCES, MODE_PRIVATE);
+//        Boolean currentValue = prefs.getBoolean(References.KEY_TOGGLE_GRID, false);
+//        if(currentValue) {
+//
+//                    fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_view_stream_white_24dp));
+//        }else {
+//            fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_view_quilt_white_24dp));
+//
+//        }
 
-                    fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_view_stream_white_24dp));
-        }else {
-            fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_view_quilt_white_24dp));
-
-        }
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                SharedPreferences prefs = getSharedPreferences(References.KEY_PREFERENCES, MODE_PRIVATE);
-                Boolean oldValue = prefs.getBoolean(References.KEY_TOGGLE_GRID, false);
-                SharedPreferences.Editor editor = prefs.edit();
-                Boolean newValue = !oldValue;
-                editor.putBoolean(References.KEY_TOGGLE_GRID, newValue);
-                editor.apply();
-                if(newValue) {
-                    fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_view_stream_white_24dp));
-                }else {
-                    fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_view_quilt_white_24dp));
-
-                }
-                int currentPosition = viewPager.getCurrentItem();
-                viewPager.setAdapter(mSectionsPagerAdapter);
-                tabLayout.setupWithViewPager(viewPager);
-                if(currentPosition!=0){
-                    viewPager.setCurrentItem(currentPosition);
-                }
-            }
-        });
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                SharedPreferences prefs = getSharedPreferences(References.KEY_PREFERENCES, MODE_PRIVATE);
+//                Boolean oldValue = prefs.getBoolean(References.KEY_TOGGLE_GRID, false);
+//                SharedPreferences.Editor editor = prefs.edit();
+//                Boolean newValue = !oldValue;
+//                editor.putBoolean(References.KEY_TOGGLE_GRID, newValue);
+//                editor.apply();
+//                if(newValue) {
+//                    fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_view_stream_white_24dp));
+//                }else {
+//                    fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_view_quilt_white_24dp));
+//
+//                }
+//                int currentPosition = viewPager.getCurrentItem();
+//                viewPager.setAdapter(mSectionsPagerAdapter);
+//                tabLayout.setupWithViewPager(viewPager);
+//                if(currentPosition!=0){
+//                    viewPager.setCurrentItem(currentPosition);
+//                }
+//            }
+//        });
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
@@ -248,9 +248,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             } while (publisherCategoriesCursor.moveToNext());
         }
         }
-        Log.d(LOG_TAG, "set size is "+pagerTitles.size());
-        mSectionsPagerAdapter.notifyDataSetChanged();
+        Log.d(LOG_TAG, "set size is " + pagerTitles.size());
         tabLayout.setupWithViewPager(viewPager);
+        mSectionsPagerAdapter.notifyDataSetChanged();
+        //tabLayout.setupWithViewPager(viewPager);
     }
 
     @Override

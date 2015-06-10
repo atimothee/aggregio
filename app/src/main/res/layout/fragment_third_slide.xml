@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#5C6BC0"
+    android:background="@color/theme_primary_dark"
     android:layout_weight="10"
     android:id="@+id/main">
 
@@ -14,10 +14,10 @@
         android:paddingLeft="32dp"
         android:layout_weight="3"
         android:fontFamily="sans-serif-thin"
-        android:textColor="#ffffff"
+        android:textColor="@color/abc_primary_text_material_dark"
         android:paddingRight="32dp"
         android:textSize="28sp"
-        android:text="Bookmark and Share"/>
+        android:text="@string/bookmark_short"/>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -32,7 +32,7 @@
             android:layout_gravity="center"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:src="@drawable/social_media_campaign_512"/>
+            android:src="@drawable/add_bookmark_solid_interface_symbol_512"/>
     </LinearLayout>
     <TextView
         android:layout_width="wrap_content"
@@ -40,11 +40,11 @@
         android:layout_weight="3"
         android:layout_gravity="center"
         android:gravity="center"
-        android:textColor="#ffffff"
+        android:textColor="@color/abc_primary_text_material_dark"
         android:paddingLeft="64dp"
         android:paddingRight="64dp"
         android:textSize="16sp"
-        android:text="Bookmark stories you don't have time to read for later and share with your friends."/>
+        android:text="@string/bookmark_long"/>
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="64dp" />

@@ -17,7 +17,7 @@ android:id="@+id/main">
     android:textColor="@color/abc_primary_text_material_dark"
     android:paddingRight="32dp"
     android:textSize="28sp"
-    android:text="All in one"/>
+    android:text="@string/all_in_one_short"/>
 
 <LinearLayout
     android:layout_width="fill_parent"
@@ -25,15 +25,6 @@ android:id="@+id/main">
     android:orientation="vertical"
     android:gravity="center"
     android:layout_weight="5">
-    <!--<de.hdodenhof.circleimageview.CircleImageView-->
-        <!--android:layout_centerInParent="true"-->
-        <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-        <!--android:id="@+id/profile_image"-->
-        <!--android:layout_width="200dp"-->
-        <!--android:layout_height="200dp"-->
-        <!--android:background="#FFF"-->
-        <!--android:src="@drawable/folded_newspaper_512"-->
-        <!--/>-->
 
     <ImageView
         android:layout_width="wrap_content"
@@ -53,7 +44,7 @@ android:id="@+id/main">
     android:paddingLeft="64dp"
     android:paddingRight="64dp"
     android:textSize="16sp"
-    android:text="Discover and read all the news you care about in a single app"/>
+    android:text="@string/all_in_one_long"/>
 <TextView
     android:layout_width="fill_parent"
     android:layout_height="64dp" />

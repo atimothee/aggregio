@@ -30,6 +30,12 @@
     <string name="title_activity_splashscreen">SplashscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="without_internet_long">Read your favourite stories even when you\'re offline</string>
+    <string name="without_internet_short">Even without an internet connection</string>
+    <string name="all_in_one_short">All in one</string>
+    <string name="all_in_one_long">Discover and read all the news you care about in a single app</string>
+    <string name="bookmark_short">Bookmark and Share</string>
+    <string name="bookmark_long">Bookmark stories you don\'t have time to read for later and share with your friends.</string>
 
 
 </resources>

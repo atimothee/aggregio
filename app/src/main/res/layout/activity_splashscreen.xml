@@ -16,11 +16,14 @@
                 android:paddingRight="16dp"
                 android:src="@drawable/aggregio_text_logo"/>
     <ImageView
-        android:layout_below="@+id/text_logo"
+        android:layout_alignLeft="@+id/text_logo"
+        android:layout_alignRight="@+id/text_logo"
+        android:layout_alignTop="@+id/text_logo"
+        android:paddingBottom="16dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/flag"/>
+        android:src="@drawable/flag_250"/>
 
         </RelativeLayout>

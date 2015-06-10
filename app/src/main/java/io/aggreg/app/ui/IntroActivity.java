@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.github.paolorotolo.appintro.AppIntro;
 
+import io.aggreg.app.R;
 import io.aggreg.app.ui.fragment.FirstSlide;
 import io.aggreg.app.ui.fragment.SecondSlide;
 import io.aggreg.app.ui.fragment.ThirdSlide;
@@ -24,7 +25,8 @@ public class IntroActivity extends AppIntro{
         addSlide(new ThirdSlide(), getApplicationContext());
 
         // You can override bar/separator color if you want.
-        setBarColor(Color.parseColor("#3F51B5"));
+        //setBarColor(Color.parseColor("#3F51B5"));
+        setBarColor(getResources().getColor(R.color.theme_accent_3));
         setSeparatorColor(Color.parseColor("#2196F3"));
 
         // You can also hide Skip button
@@ -47,5 +49,11 @@ public class IntroActivity extends AppIntro{
         Intent i = new Intent();
         i.setClass(IntroActivity.this, MainActivity.class);
         startActivity(i);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
     }
 }
