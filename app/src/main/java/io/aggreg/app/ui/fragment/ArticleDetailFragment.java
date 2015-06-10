@@ -28,6 +28,8 @@ import com.github.curioustechizen.ago.RelativeTimeTextView;
 
 import io.aggreg.app.R;
 import io.aggreg.app.provider.article.ArticleColumns;
+import io.aggreg.app.provider.article.ArticleContentValues;
+import io.aggreg.app.provider.article.ArticleCursor;
 import io.aggreg.app.provider.article.ArticleSelection;
 import io.aggreg.app.provider.publisher.PublisherColumns;
 import io.aggreg.app.utils.References;
@@ -41,6 +43,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     private CollapsingToolbarLayout collapsingToolbar;
     private FloatingActionButton bookmarkFab;
     private static String LOG_TAG = ArticleDetailFragment.class.getSimpleName();
+    private Cursor articlesCursor;
 
 
     private OnFragmentInteractionListener mListener;
@@ -93,6 +96,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
             @Override
             public void onClick(View view) {
                 //TODO: Bookmark article, then notify dataset changed
+                toggleBookmark(articlesCursor.getLong(articlesCursor.getColumnIndex(ArticleColumns._ID)));
             }
         });
         return view;
@@ -127,26 +131,30 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     public void onLoadFinished(Loader loader, Object data) {
 
 
-        Cursor c = (Cursor) data;
 
-        if(c.getCount() != 0){
-            c.moveToFirst();
-            //articleText.setText(c.getString(c.getColumnIndex(ArticleColumns.TEXT)));
-            articleText.setText(Html.fromHtml(c.getString(c.getColumnIndex(ArticleColumns.TEXT))));
-            Log.d(LOG_TAG, "html is " + c.getString(c.getColumnIndex(ArticleColumns.TEXT)));
+        articlesCursor = (Cursor) data;
+
+        if(articlesCursor.getCount() != 0){
+            articlesCursor.moveToFirst();
+            articleText.setText(Html.fromHtml(articlesCursor.getString(articlesCursor.getColumnIndex(ArticleColumns.TEXT))));
+            //Log.d(LOG_TAG, "html is " + articlesCursor.getString(articlesCursor.getColumnIndex(ArticleColumns.TEXT)));
             articleText.setMovementMethod(LinkMovementMethod.getInstance());
-            String title = c.getString(c.getColumnIndex(ArticleColumns.TITLE));
+            String title = articlesCursor.getString(articlesCursor.getColumnIndex(ArticleColumns.TITLE));
             articleTitle.setText(title);
             collapsingToolbar.setTitle(title);
-            String imageUrl = c.getString(c.getColumnIndex(ArticleColumns.IMAGE));
+            String imageUrl = articlesCursor.getString(articlesCursor.getColumnIndex(ArticleColumns.IMAGE));
             if(imageUrl!=null) {
                 articleImage.setVisibility(View.VISIBLE);
                 Glide.with(getActivity()).load(imageUrl).into(articleImage);
             }else {
                 articleImage.setVisibility(View.GONE);
             }
-            publisherName.setText(c.getString(c.getColumnIndex(PublisherColumns.NAME)));
-            timeAgo.setReferenceTime(c.getLong(c.getColumnIndex(ArticleColumns.PUB_DATE)));
+            publisherName.setText(articlesCursor.getString(articlesCursor.getColumnIndex(PublisherColumns.NAME)));
+            timeAgo.setReferenceTime(articlesCursor.getLong(articlesCursor.getColumnIndex(ArticleColumns.PUB_DATE)));
+            int bookmarked = articlesCursor.getInt(articlesCursor.getColumnIndex(ArticleColumns.BOOK_MARKED));
+            if(bookmarked == 1){
+                bookmarkFab.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.ic_bookmark_white_24dp));
+            }
         }
 
     }
@@ -159,6 +167,29 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
+    }
+
+    private void toggleBookmark(Long articleId){
+        ArticleContentValues articleContentValues;
+        ArticleSelection articleSelection = new ArticleSelection();
+        articleSelection.id(articleId);
+        ArticleCursor articleCursor = articleSelection.query(getActivity().getContentResolver());
+        articleCursor.moveToFirst();
+        Boolean bookMarked = articleCursor.getBookMarked();
+        if(bookMarked == null) {
+            articleContentValues = new ArticleContentValues();
+            articleContentValues.putBookMarked(true);
+            articleContentValues.update(getActivity().getContentResolver(), articleSelection);
+        }
+        else if(bookMarked) {
+            articleContentValues = new ArticleContentValues();
+            articleContentValues.putBookMarked(false);
+            articleContentValues.update(getActivity().getContentResolver(), articleSelection);
+        }else{
+            articleContentValues = new ArticleContentValues();
+            articleContentValues.putBookMarked(true);
+            articleContentValues.update(getActivity().getContentResolver(), articleSelection);
+        }
     }
 
 }
