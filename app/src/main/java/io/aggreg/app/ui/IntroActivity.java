@@ -5,6 +5,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import com.github.paolorotolo.appintro.AppIntro;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import io.aggreg.app.R;
 import io.aggreg.app.ui.fragment.FirstSlide;
@@ -31,6 +34,24 @@ public class IntroActivity extends AppIntro{
 
         // You can also hide Skip button
         showSkipButton(true);
+        GoogleAnalytics analytics = GoogleAnalytics.getInstance(IntroActivity.this);
+        Tracker tracker = analytics.newTracker("UA-XXXX-Y"); // Send hits to tracker id UA-XXXX-Y
+
+// All subsequent hits will be send with screen name = "main screen"
+        tracker.setScreenName("main screen");
+
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("UX")
+                .setAction("click")
+                .setLabel("submit")
+                .build());
+
+// Builder parameters can overwrite the screen name set on the tracker.
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("UX")
+                .setAction("click")
+                .setLabel("help popup")
+                .build());
     }
 
     @Override

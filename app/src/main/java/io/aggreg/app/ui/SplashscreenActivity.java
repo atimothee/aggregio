@@ -14,6 +14,9 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
+
 import org.codechimp.apprater.AppRater;
 
 import io.aggreg.app.R;
@@ -25,11 +28,23 @@ public class SplashscreenActivity extends AppCompatActivity {
     final String PREFS_NAME = "MyPrefsFile";
     final String KEY_FIRST_TIME_PREF = "first_time_";
     protected int _splashTime = 2000;
+    public static GoogleAnalytics analytics;
+    public static Tracker tracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splashscreen);
+        analytics = GoogleAnalytics.getInstance(this);
+        analytics.setLocalDispatchPeriod(1800);
+
+        tracker = analytics.newTracker("UA-63988121-1"); // Replace with actual tracker/property Id
+        tracker.enableExceptionReporting(true);
+        tracker.enableAdvertisingIdCollection(true);
+        tracker.enableAutoActivityTracking(true);
+
+    // Enable Advertising Features.
+        tracker.enableAdvertisingIdCollection(true);
         AppRater.app_launched(this);
 
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
