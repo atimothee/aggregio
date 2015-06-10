@@ -162,16 +162,6 @@ public class ArticleImageCursor extends AbstractCursor implements ArticleImageMo
     }
 
     /**
-     * Get the {@code following} value.
-     * Can be {@code null}.
-     */
-    @Nullable
-    public Boolean getArticlePublisherFollowing() {
-        Boolean res = getBooleanOrNull(PublisherColumns.FOLLOWING);
-        return res;
-    }
-
-    /**
      * Get the {@code website} value.
      * Can be {@code null}.
      */
@@ -198,6 +188,16 @@ public class ArticleImageCursor extends AbstractCursor implements ArticleImageMo
     @Nullable
     public String getArticlePublisherCountry() {
         String res = getStringOrNull(PublisherColumns.COUNTRY);
+        return res;
+    }
+
+    /**
+     * Get the {@code tag_line} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public String getArticlePublisherTagLine() {
+        String res = getStringOrNull(PublisherColumns.TAG_LINE);
         return res;
     }
 }

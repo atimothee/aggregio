@@ -425,11 +425,6 @@ public class ArticleImageSelection extends AbstractSelection<ArticleImageSelecti
         return this;
     }
 
-    public ArticleImageSelection articlePublisherFollowing(Boolean value) {
-        addEquals(PublisherColumns.FOLLOWING, toObjectArray(value));
-        return this;
-    }
-
     public ArticleImageSelection articlePublisherWebsite(String... value) {
         addEquals(PublisherColumns.WEBSITE, value);
         return this;
@@ -517,6 +512,36 @@ public class ArticleImageSelection extends AbstractSelection<ArticleImageSelecti
 
     public ArticleImageSelection articlePublisherCountryEndsWith(String... value) {
         addEndsWith(PublisherColumns.COUNTRY, value);
+        return this;
+    }
+
+    public ArticleImageSelection articlePublisherTagLine(String... value) {
+        addEquals(PublisherColumns.TAG_LINE, value);
+        return this;
+    }
+
+    public ArticleImageSelection articlePublisherTagLineNot(String... value) {
+        addNotEquals(PublisherColumns.TAG_LINE, value);
+        return this;
+    }
+
+    public ArticleImageSelection articlePublisherTagLineLike(String... value) {
+        addLike(PublisherColumns.TAG_LINE, value);
+        return this;
+    }
+
+    public ArticleImageSelection articlePublisherTagLineContains(String... value) {
+        addContains(PublisherColumns.TAG_LINE, value);
+        return this;
+    }
+
+    public ArticleImageSelection articlePublisherTagLineStartsWith(String... value) {
+        addStartsWith(PublisherColumns.TAG_LINE, value);
+        return this;
+    }
+
+    public ArticleImageSelection articlePublisherTagLineEndsWith(String... value) {
+        addEndsWith(PublisherColumns.TAG_LINE, value);
         return this;
     }
 }

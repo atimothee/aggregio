@@ -16,15 +16,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import io.aggreg.app.R;
-import io.aggreg.app.provider.publisher.PublisherColumns;
-import io.aggreg.app.ui.adapter.PublisherListCursorAdapter;
+import io.aggreg.app.provider.selectpublisher.SelectPublisherColumns;
+import io.aggreg.app.ui.adapter.SelectPublisherListCursorAdapter;
+import io.aggreg.app.utils.References;
 
 public class SelectPublishersFragment extends Fragment implements LoaderManager.LoaderCallbacks{
 
     private OnFragmentInteractionListener mListener;
-    private static String[] COLUMNS = {PublisherColumns.NAME, PublisherColumns.IMAGE_URL};
-    private static int[] VIEW_IDS = {R.id.publisher_item_name, R.id.publisher_item_logo};
-    private static int PUBLISHER_LOADER  = 6;
     private static String LOG_TAG = SelectPublishersFragment.class.getSimpleName();
     RecyclerView gridView;
 
@@ -38,7 +36,7 @@ public class SelectPublishersFragment extends Fragment implements LoaderManager.
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getLoaderManager().initLoader(PUBLISHER_LOADER, getArguments(), this);
+        getLoaderManager().initLoader(References.PUBLISHER_LOADER, getArguments(), this);
     }
 
     @Override
@@ -51,7 +49,9 @@ public class SelectPublishersFragment extends Fragment implements LoaderManager.
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_publishers, container, false);
         gridView = (RecyclerView)rootView.findViewById(android.R.id.list);
-        gridView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        gridView.setLayoutManager(new GridLayoutManager(getActivity(), 3, GridLayoutManager.VERTICAL, false));
+        //gridView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        //gridView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return rootView;
     }
 
@@ -74,13 +74,13 @@ public class SelectPublishersFragment extends Fragment implements LoaderManager.
 
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
-        return new CursorLoader(getActivity(), PublisherColumns.CONTENT_URI, null, null, null, null);
+        return new CursorLoader(getActivity(), SelectPublisherColumns.CONTENT_URI, null, null, null, null);
     }
 
     @Override
     public void onLoadFinished(Loader loader, Object data) {
         Log.d(LOG_TAG, "publishers size is " + ((Cursor) data).getCount());
-        PublisherListCursorAdapter adapter = new PublisherListCursorAdapter(getActivity(), (Cursor)data);
+        SelectPublisherListCursorAdapter adapter = new SelectPublisherListCursorAdapter(getActivity(), (Cursor)data);
         gridView.setAdapter(adapter);
 
     }
@@ -92,6 +92,10 @@ public class SelectPublishersFragment extends Fragment implements LoaderManager.
 
 
     public interface OnFragmentInteractionListener {
+
+    }
+
+    private void togglePublisher(){
 
     }
 

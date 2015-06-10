@@ -49,16 +49,6 @@ public class PublisherCategoryCursor extends AbstractCursor implements Publisher
     }
 
     /**
-     * Get the {@code following} value.
-     * Can be {@code null}.
-     */
-    @Nullable
-    public Boolean getPublisherFollowing() {
-        Boolean res = getBooleanOrNull(PublisherColumns.FOLLOWING);
-        return res;
-    }
-
-    /**
      * Get the {@code website} value.
      * Can be {@code null}.
      */
@@ -85,6 +75,16 @@ public class PublisherCategoryCursor extends AbstractCursor implements Publisher
     @Nullable
     public String getPublisherCountry() {
         String res = getStringOrNull(PublisherColumns.COUNTRY);
+        return res;
+    }
+
+    /**
+     * Get the {@code tag_line} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public String getPublisherTagLine() {
+        String res = getStringOrNull(PublisherColumns.TAG_LINE);
         return res;
     }
 

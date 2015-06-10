@@ -9,6 +9,7 @@ import io.aggreg.app.provider.articleimage.ArticleImageColumns;
 import io.aggreg.app.provider.category.CategoryColumns;
 import io.aggreg.app.provider.publisher.PublisherColumns;
 import io.aggreg.app.provider.publishercategory.PublisherCategoryColumns;
+import io.aggreg.app.provider.selectpublisher.SelectPublisherColumns;
 
 /**
  * Columns for the {@code publisher_category} table.

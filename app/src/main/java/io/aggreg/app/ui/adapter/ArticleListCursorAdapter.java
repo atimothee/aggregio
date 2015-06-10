@@ -78,6 +78,6 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
         }else{
             viewHolder.articleImage.setVisibility(View.GONE);
         }
-        //Glide.with(mContext).load(myListItem.getPublisherLogo()).into(viewHolder.publisherImage);
+        //Glide.with(mContext).load(myListItem.getPublisherLogoUrl()).into(viewHolder.publisherImage);
     }
 }

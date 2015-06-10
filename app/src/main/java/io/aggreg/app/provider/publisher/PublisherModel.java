@@ -20,13 +20,6 @@ public interface PublisherModel extends BaseModel {
     String getImageUrl();
 
     /**
-     * Get the {@code following} value.
-     * Can be {@code null}.
-     */
-    @Nullable
-    Boolean getFollowing();
-
-    /**
      * Get the {@code website} value.
      * Can be {@code null}.
      */
@@ -46,4 +39,11 @@ public interface PublisherModel extends BaseModel {
      */
     @Nullable
     String getCountry();
+
+    /**
+     * Get the {@code tag_line} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    String getTagLine();
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="6">
+    <View
+        android:layout_weight="3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"/>
+    <Button
+        android:layout_weight="3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_gravity="end"
+        android:text="Get Started"
+        android:background="@color/theme_accent_3"
+        android:textColor="@color/primary_text_default_material_dark"/>
+
+</LinearLayout>

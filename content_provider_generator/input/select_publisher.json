@@ -6,6 +6,11 @@
             "type": "String",
         },
         {
+            "name": "selected",
+            "type": "Boolean",
+            "default": false,
+        },
+        {
             "name": "website",
             "type": "String",
         },

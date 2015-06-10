@@ -1,4 +1,4 @@
-package io.aggreg.app.provider.publisher;
+package io.aggreg.app.provider.selectpublisher;
 
 import java.util.Date;
 
@@ -9,10 +9,10 @@ import android.support.annotation.Nullable;
 import io.aggreg.app.provider.base.AbstractCursor;
 
 /**
- * Cursor wrapper for the {@code publisher} table.
+ * Cursor wrapper for the {@code select_publisher} table.
  */
-public class PublisherCursor extends AbstractCursor implements PublisherModel {
-    public PublisherCursor(Cursor cursor) {
+public class SelectPublisherCursor extends AbstractCursor implements SelectPublisherModel {
+    public SelectPublisherCursor(Cursor cursor) {
         super(cursor);
     }
 
@@ -20,7 +20,7 @@ public class PublisherCursor extends AbstractCursor implements PublisherModel {
      * Primary key.
      */
     public long getId() {
-        Long res = getLongOrNull(PublisherColumns._ID);
+        Long res = getLongOrNull(SelectPublisherColumns._ID);
         if (res == null)
             throw new NullPointerException("The value of '_id' in the database was null, which is not allowed according to the model definition");
         return res;
@@ -32,7 +32,17 @@ public class PublisherCursor extends AbstractCursor implements PublisherModel {
      */
     @Nullable
     public String getImageUrl() {
-        String res = getStringOrNull(PublisherColumns.IMAGE_URL);
+        String res = getStringOrNull(SelectPublisherColumns.IMAGE_URL);
+        return res;
+    }
+
+    /**
+     * Get the {@code selected} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public Boolean getSelected() {
+        Boolean res = getBooleanOrNull(SelectPublisherColumns.SELECTED);
         return res;
     }
 
@@ -42,7 +52,7 @@ public class PublisherCursor extends AbstractCursor implements PublisherModel {
      */
     @Nullable
     public String getWebsite() {
-        String res = getStringOrNull(PublisherColumns.WEBSITE);
+        String res = getStringOrNull(SelectPublisherColumns.WEBSITE);
         return res;
     }
 
@@ -52,7 +62,7 @@ public class PublisherCursor extends AbstractCursor implements PublisherModel {
      */
     @Nullable
     public String getName() {
-        String res = getStringOrNull(PublisherColumns.NAME);
+        String res = getStringOrNull(SelectPublisherColumns.NAME);
         return res;
     }
 
@@ -62,7 +72,7 @@ public class PublisherCursor extends AbstractCursor implements PublisherModel {
      */
     @Nullable
     public String getCountry() {
-        String res = getStringOrNull(PublisherColumns.COUNTRY);
+        String res = getStringOrNull(SelectPublisherColumns.COUNTRY);
         return res;
     }
 
@@ -72,7 +82,7 @@ public class PublisherCursor extends AbstractCursor implements PublisherModel {
      */
     @Nullable
     public String getTagLine() {
-        String res = getStringOrNull(PublisherColumns.TAG_LINE);
+        String res = getStringOrNull(SelectPublisherColumns.TAG_LINE);
         return res;
     }
 }

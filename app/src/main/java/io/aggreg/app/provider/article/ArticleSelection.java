@@ -364,11 +364,6 @@ public class ArticleSelection extends AbstractSelection<ArticleSelection> {
         return this;
     }
 
-    public ArticleSelection publisherFollowing(Boolean value) {
-        addEquals(PublisherColumns.FOLLOWING, toObjectArray(value));
-        return this;
-    }
-
     public ArticleSelection publisherWebsite(String... value) {
         addEquals(PublisherColumns.WEBSITE, value);
         return this;
@@ -456,6 +451,36 @@ public class ArticleSelection extends AbstractSelection<ArticleSelection> {
 
     public ArticleSelection publisherCountryEndsWith(String... value) {
         addEndsWith(PublisherColumns.COUNTRY, value);
+        return this;
+    }
+
+    public ArticleSelection publisherTagLine(String... value) {
+        addEquals(PublisherColumns.TAG_LINE, value);
+        return this;
+    }
+
+    public ArticleSelection publisherTagLineNot(String... value) {
+        addNotEquals(PublisherColumns.TAG_LINE, value);
+        return this;
+    }
+
+    public ArticleSelection publisherTagLineLike(String... value) {
+        addLike(PublisherColumns.TAG_LINE, value);
+        return this;
+    }
+
+    public ArticleSelection publisherTagLineContains(String... value) {
+        addContains(PublisherColumns.TAG_LINE, value);
+        return this;
+    }
+
+    public ArticleSelection publisherTagLineStartsWith(String... value) {
+        addStartsWith(PublisherColumns.TAG_LINE, value);
+        return this;
+    }
+
+    public ArticleSelection publisherTagLineEndsWith(String... value) {
+        addEndsWith(PublisherColumns.TAG_LINE, value);
         return this;
     }
 }

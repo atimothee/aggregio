@@ -38,16 +38,6 @@ public class PublisherContentValues extends AbstractContentValues {
         return this;
     }
 
-    public PublisherContentValues putFollowing(@Nullable Boolean value) {
-        mContentValues.put(PublisherColumns.FOLLOWING, value);
-        return this;
-    }
-
-    public PublisherContentValues putFollowingNull() {
-        mContentValues.putNull(PublisherColumns.FOLLOWING);
-        return this;
-    }
-
     public PublisherContentValues putWebsite(@Nullable String value) {
         mContentValues.put(PublisherColumns.WEBSITE, value);
         return this;
@@ -75,6 +65,16 @@ public class PublisherContentValues extends AbstractContentValues {
 
     public PublisherContentValues putCountryNull() {
         mContentValues.putNull(PublisherColumns.COUNTRY);
+        return this;
+    }
+
+    public PublisherContentValues putTagLine(@Nullable String value) {
+        mContentValues.put(PublisherColumns.TAG_LINE, value);
+        return this;
+    }
+
+    public PublisherContentValues putTagLineNull() {
+        mContentValues.putNull(PublisherColumns.TAG_LINE);
         return this;
     }
 }

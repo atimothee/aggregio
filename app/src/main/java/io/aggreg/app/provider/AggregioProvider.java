@@ -17,6 +17,7 @@ import io.aggreg.app.provider.articleimage.ArticleImageColumns;
 import io.aggreg.app.provider.category.CategoryColumns;
 import io.aggreg.app.provider.publisher.PublisherColumns;
 import io.aggreg.app.provider.publishercategory.PublisherCategoryColumns;
+import io.aggreg.app.provider.selectpublisher.SelectPublisherColumns;
 
 public class AggregioProvider extends BaseContentProvider {
     private static final String TAG = AggregioProvider.class.getSimpleName();
@@ -26,7 +27,7 @@ public class AggregioProvider extends BaseContentProvider {
     private static final String TYPE_CURSOR_ITEM = "vnd.android.cursor.item/";
     private static final String TYPE_CURSOR_DIR = "vnd.android.cursor.dir/";
 
-    public static final String AUTHORITY = BuildConfig.APPLICATION_ID + ".provider";
+    public static final String AUTHORITY = "io.aggreg.app.provider";
     public static final String CONTENT_URI_BASE = "content://" + AUTHORITY;
 
     private static final int URI_TYPE_ARTICLE = 0;
@@ -44,6 +45,9 @@ public class AggregioProvider extends BaseContentProvider {
     private static final int URI_TYPE_PUBLISHER_CATEGORY = 8;
     private static final int URI_TYPE_PUBLISHER_CATEGORY_ID = 9;
 
+    private static final int URI_TYPE_SELECT_PUBLISHER = 10;
+    private static final int URI_TYPE_SELECT_PUBLISHER_ID = 11;
+
 
 
     private static final UriMatcher URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
@@ -59,6 +63,8 @@ public class AggregioProvider extends BaseContentProvider {
         URI_MATCHER.addURI(AUTHORITY, PublisherColumns.TABLE_NAME + "/#", URI_TYPE_PUBLISHER_ID);
         URI_MATCHER.addURI(AUTHORITY, PublisherCategoryColumns.TABLE_NAME, URI_TYPE_PUBLISHER_CATEGORY);
         URI_MATCHER.addURI(AUTHORITY, PublisherCategoryColumns.TABLE_NAME + "/#", URI_TYPE_PUBLISHER_CATEGORY_ID);
+        URI_MATCHER.addURI(AUTHORITY, SelectPublisherColumns.TABLE_NAME, URI_TYPE_SELECT_PUBLISHER);
+        URI_MATCHER.addURI(AUTHORITY, SelectPublisherColumns.TABLE_NAME + "/#", URI_TYPE_SELECT_PUBLISHER_ID);
     }
 
     @Override
@@ -99,6 +105,11 @@ public class AggregioProvider extends BaseContentProvider {
                 return TYPE_CURSOR_DIR + PublisherCategoryColumns.TABLE_NAME;
             case URI_TYPE_PUBLISHER_CATEGORY_ID:
                 return TYPE_CURSOR_ITEM + PublisherCategoryColumns.TABLE_NAME;
+
+            case URI_TYPE_SELECT_PUBLISHER:
+                return TYPE_CURSOR_DIR + SelectPublisherColumns.TABLE_NAME;
+            case URI_TYPE_SELECT_PUBLISHER_ID:
+                return TYPE_CURSOR_ITEM + SelectPublisherColumns.TABLE_NAME;
 
         }
         return null;
@@ -203,6 +214,14 @@ public class AggregioProvider extends BaseContentProvider {
                 res.orderBy = PublisherCategoryColumns.DEFAULT_ORDER;
                 break;
 
+            case URI_TYPE_SELECT_PUBLISHER:
+            case URI_TYPE_SELECT_PUBLISHER_ID:
+                res.table = SelectPublisherColumns.TABLE_NAME;
+                res.idColumn = SelectPublisherColumns._ID;
+                res.tablesWithJoins = SelectPublisherColumns.TABLE_NAME;
+                res.orderBy = SelectPublisherColumns.DEFAULT_ORDER;
+                break;
+
             default:
                 throw new IllegalArgumentException("The uri '" + uri + "' is not supported by this ContentProvider");
         }
@@ -213,6 +232,7 @@ public class AggregioProvider extends BaseContentProvider {
             case URI_TYPE_CATEGORY_ID:
             case URI_TYPE_PUBLISHER_ID:
             case URI_TYPE_PUBLISHER_CATEGORY_ID:
+            case URI_TYPE_SELECT_PUBLISHER_ID:
                 id = uri.getLastPathSegment();
         }
         if (id != null) {

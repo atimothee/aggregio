@@ -1,4 +1,4 @@
-package io.aggreg.app.provider.publisher;
+package io.aggreg.app.provider.selectpublisher;
 
 import io.aggreg.app.provider.base.BaseModel;
 
@@ -8,9 +8,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 /**
- * Data model for the {@code publisher} table.
+ * Data model for the {@code select_publisher} table.
  */
-public interface PublisherModel extends BaseModel {
+public interface SelectPublisherModel extends BaseModel {
 
     /**
      * Get the {@code image_url} value.
@@ -18,6 +18,13 @@ public interface PublisherModel extends BaseModel {
      */
     @Nullable
     String getImageUrl();
+
+    /**
+     * Get the {@code selected} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    Boolean getSelected();
 
     /**
      * Get the {@code website} value.

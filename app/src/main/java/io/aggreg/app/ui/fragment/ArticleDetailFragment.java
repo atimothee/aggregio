@@ -137,7 +137,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         if(articlesCursor.getCount() != 0){
             articlesCursor.moveToFirst();
             articleText.setText(Html.fromHtml(articlesCursor.getString(articlesCursor.getColumnIndex(ArticleColumns.TEXT))));
-            //Log.d(LOG_TAG, "html is " + articlesCursor.getString(articlesCursor.getColumnIndex(ArticleColumns.TEXT)));
+            Log.d(LOG_TAG, "html is " + articlesCursor.getString(articlesCursor.getColumnIndex(ArticleColumns.TEXT)));
             articleText.setMovementMethod(LinkMovementMethod.getInstance());
             String title = articlesCursor.getString(articlesCursor.getColumnIndex(ArticleColumns.TITLE));
             articleTitle.setText(title);
