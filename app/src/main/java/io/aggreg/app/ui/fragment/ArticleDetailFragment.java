@@ -47,10 +47,10 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
 
 
     private OnFragmentInteractionListener mListener;
-    public static ArticleDetailFragment newInstance(String articleId) {
+    public static ArticleDetailFragment newInstance(String articleLink) {
         ArticleDetailFragment fragment = new ArticleDetailFragment();
         Bundle args = new Bundle();
-        args.putString(References.ARG_KEY_ARTICLE_LINK, articleId);
+        args.putString(References.ARG_KEY_ARTICLE_LINK, articleLink);
         fragment.setArguments(args);
         return fragment;
     }
@@ -96,7 +96,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
             @Override
             public void onClick(View view) {
                 //TODO: Bookmark article, then notify dataset changed
-                toggleBookmark(articlesCursor.getLong(articlesCursor.getColumnIndex(ArticleColumns._ID)));
+                toggleBookmark();
             }
         });
         return view;
@@ -153,7 +153,9 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
             timeAgo.setReferenceTime(articlesCursor.getLong(articlesCursor.getColumnIndex(ArticleColumns.PUB_DATE)));
             int bookmarked = articlesCursor.getInt(articlesCursor.getColumnIndex(ArticleColumns.BOOK_MARKED));
             if(bookmarked == 1){
-                bookmarkFab.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.ic_bookmark_white_24dp));
+                bookmarkFab.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_bookmark_white_24dp));
+            }else if(bookmarked == 0){
+                bookmarkFab.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_bookmark_outline_white_24dp));
             }
         }
 
@@ -169,10 +171,10 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         public void onFragmentInteraction(Uri uri);
     }
 
-    private void toggleBookmark(Long articleId){
+    private void toggleBookmark(){
         ArticleContentValues articleContentValues;
         ArticleSelection articleSelection = new ArticleSelection();
-        articleSelection.id(articleId);
+        articleSelection.link(getArguments().getString(References.ARG_KEY_ARTICLE_LINK));
         ArticleCursor articleCursor = articleSelection.query(getActivity().getContentResolver());
         articleCursor.moveToFirst();
         Boolean bookMarked = articleCursor.getBookMarked();
@@ -185,7 +187,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
             articleContentValues = new ArticleContentValues();
             articleContentValues.putBookMarked(false);
             articleContentValues.update(getActivity().getContentResolver(), articleSelection);
-        }else{
+        }else if(!bookMarked){
             articleContentValues = new ArticleContentValues();
             articleContentValues.putBookMarked(true);
             articleContentValues.update(getActivity().getContentResolver(), articleSelection);

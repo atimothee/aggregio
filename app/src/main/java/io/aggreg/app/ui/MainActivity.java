@@ -191,6 +191,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                             startActivity(new Intent(MainActivity.this, PublisherActivity.class));
                         } else if (menuItem.getItemId() == R.id.nav_settings) {
                             startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                        } else if (menuItem.getItemId() == R.id.nav_bookmarks) {
+                            startActivity(new Intent(MainActivity.this, BookmarksActivity.class));
                         }
                         mDrawerLayout.closeDrawers();
 

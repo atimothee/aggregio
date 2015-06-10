@@ -75,6 +75,7 @@
         <activity
             android:name=".ui.BookmarksActivity"
             android:label="@string/title_activity_bookmarks"
+            android:theme="@style/Theme.Aggregio"
             android:parentActivityName=".ui.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
