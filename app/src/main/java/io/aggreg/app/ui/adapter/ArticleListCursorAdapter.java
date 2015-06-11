@@ -19,7 +19,9 @@ import com.github.curioustechizen.ago.RelativeTimeTextView;
 
 import io.aggreg.app.R;
 import io.aggreg.app.provider.article.ArticleColumns;
+import io.aggreg.app.provider.publisher.PublisherColumns;
 import io.aggreg.app.ui.ArticleDetailActivity;
+import io.aggreg.app.ui.PublisherArticlesActivity;
 import io.aggreg.app.ui.fragment.ArticleDetailFragment;
 import io.aggreg.app.utils.References;
 
@@ -79,5 +81,13 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
             viewHolder.articleImage.setVisibility(View.GONE);
         }
         //Glide.with(mContext).load(myListItem.getPublisherLogoUrl()).into(viewHolder.publisherImage);
+        viewHolder.publisherImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(mContext, PublisherArticlesActivity.class);
+                i.putExtra(References.ARG_KEY_PUBLISHER_ID, cursor.getLong(cursor.getColumnIndex(ArticleColumns.PUBLISHER_ID)));
+                mContext.startActivity(i);
+            }
+        });
     }
 }

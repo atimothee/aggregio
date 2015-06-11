@@ -12,6 +12,7 @@ public class References {
     public static final String KEY_PREFERENCES = "preferences";
 
     public static String ARG_KEY_CATEGORY_ID = "category_id";
+    public static String ARG_KEY_PUBLISHER_ID = "publisher_id";
     public static final String ARG_KEY_ARTICLE_LINK = "article_id";
     public static final String ARG_KEY_SYNC_TYPE = "sync_type";
     public static final String SYNC_TYPE_ARTICLE = "sync_type_article";

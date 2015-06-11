@@ -87,6 +87,7 @@
                             android:orientation="vertical">
 
                             <ImageView
+                                android:clickable="true"
                                 android:layout_gravity="bottom|right"
                                 android:id="@+id/article_item_source_logo"
                                 android:layout_width="40dp"

@@ -36,5 +36,6 @@
     <string name="all_in_one_long">Discover and read all the news you care about in a single app</string>
     <string name="bookmark_short">Bookmark and Share</string>
     <string name="bookmark_long">Bookmark stories you don\'t have time to read for later and share with your friends on social media.</string>
+    <string name="title_activity_publisher_articles">PublisherArticlesActivity</string>
 
 </resources>

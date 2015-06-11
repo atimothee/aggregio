@@ -1,5 +1,6 @@
 package io.aggreg.app.ui;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
@@ -43,7 +44,11 @@ public class ArticleDetailActivity extends AppCompatActivity implements ArticleD
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            return true;
+            startActivity(new Intent(ArticleDetailActivity.this, SettingsActivity.class));
+        }else if(id ==R.id.action_open_in_brower){
+            //TODO: Open in webview
+        }else if(id==R.id.action_share){
+            //TODO: Share article
         }
 
         return super.onOptionsItemSelected(item);
