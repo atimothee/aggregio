@@ -11,6 +11,14 @@ android {
         versionCode 1
         versionName "1.0"
     }
+    signingConfigs {
+        release {
+            storeFile file("../keystore/aggregiokeystore.jks")
+            storePassword "oigergga"
+            keyAlias "Midas"
+            keyPassword "sadim0779685241"
+        }
+    }
     productFlavors {
         kenya {
             applicationId "io.aggreg.app.kenya"
@@ -32,146 +40,146 @@ android {
             resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
             resValue "string", "analytics_tracker_id", "UA-63988121-1"
         }
-        tanzania {
-            applicationId "io.aggreg.app.tanzania"
-            resValue "string", "app_name", "Aggregio TZ"
-            resValue "string", "app_version", "Version 1.0-BETA"
-            resValue "string", "app_country", "Tanzania"
-            resValue "string", "authorities", applicationId + '.provider'
-            resValue "string", "account_type", "io.aggreg.tanzania"
-            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
-            resValue "string", "analytics_tracker_id", "UA-63988121-1"
-        }
-        nigeria {
-            applicationId "io.aggreg.app.nigeria"
-            resValue "string", "app_name", "Aggregio NG"
-            resValue "string", "app_version", "Version 1.0-BETA"
-            resValue "string", "app_country", "Nigeria"
-            resValue "string", "authorities", applicationId + '.provider'
-            resValue "string", "account_type", "io.aggreg.nigeria"
-            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
-            resValue "string", "analytics_tracker_id", "UA-63988121-1"
-        }
-        southafrica {
-            applicationId "io.aggreg.app.southafrica"
-            resValue "string", "app_name", "Aggregio ZA"
-            resValue "string", "app_version", "Version 1.0-BETA"
-            resValue "string", "app_country", "South Africa"
-            resValue "string", "authorities", applicationId + '.provider'
-            resValue "string", "account_type", "io.aggreg.southafrica"
-            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
-            resValue "string", "analytics_tracker_id", "UA-63988121-1"
-        }
-        ghana {
-            applicationId "io.aggreg.app.ghana"
-            resValue "string", "app_name", "Aggregio GH"
-            resValue "string", "app_version", "Version 1.0-BETA"
-            resValue "string", "app_country", "Ghana"
-            resValue "string", "authorities", applicationId + '.provider'
-            resValue "string", "account_type", "io.aggreg.ghana"
-            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
-            resValue "string", "analytics_tracker_id", "UA-63988121-1"
-        }
-        rwanda {
-            applicationId "io.aggreg.app.rwanda"
-            resValue "string", "app_name", "Aggregio RW"
-            resValue "string", "app_version", "Version 1.0-BETA"
-            resValue "string", "app_country", "Rwanda"
-            resValue "string", "authorities", applicationId + '.provider'
-            resValue "string", "account_type", "io.aggreg.rwanda"
-            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
-            resValue "string", "analytics_tracker_id", "UA-63988121-1"
-        }
-        malawi {
-            applicationId "io.aggreg.app.malawi"
-            resValue "string", "app_name", "Aggregio Malawi"
-            resValue "string", "app_version", "Version 1.0-BETA"
-            resValue "string", "app_country", "Malawi"
-            resValue "string", "authorities", applicationId + '.provider'
-            resValue "string", "account_type", "io.aggreg.malawi"
-            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
-            resValue "string", "analytics_tracker_id", "UA-63988121-1"
-        }
-        zambia {
-            applicationId "io.aggreg.app.zambia"
-            resValue "string", "app_name", "Aggregio Zambia"
-            resValue "string", "app_version", "Version 1.0-BETA"
-            resValue "string", "app_country", "Zambia"
-            resValue "string", "authorities", applicationId + '.provider'
-            resValue "string", "account_type", "io.aggreg.zambia"
-            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
-            resValue "string", "analytics_tracker_id", "UA-63988121-1"
-        }
-        zimbabwe {
-            applicationId "io.aggreg.app.zimbabwe"
-            resValue "string", "app_name", "Aggregio Zimbabwe"
-            resValue "string", "app_version", "Version 1.0-BETA"
-            resValue "string", "app_country", "Zimbabwe"
-            resValue "string", "authorities", applicationId + '.provider'
-            resValue "string", "account_type", "io.aggreg.zimbabwe"
-            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
-            resValue "string", "analytics_tracker_id", "UA-63988121-1"
-        }
-        swaziland {
-            applicationId "io.aggreg.app.swaziland"
-            resValue "string", "app_name", "Aggregio Swaziland"
-            resValue "string", "app_version", "Version 1.0-BETA"
-            resValue "string", "app_country", "Swaziland"
-            resValue "string", "authorities", applicationId + '.provider'
-            resValue "string", "account_type", "io.aggreg.swaziland"
-            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
-            resValue "string", "analytics_tracker_id", "UA-63988121-1"
-        }
-        lesotho {
-            applicationId "io.aggreg.app.lesotho"
-            resValue "string", "app_name", "Aggregio Lesotho"
-            resValue "string", "app_version", "Version 1.0-BETA"
-            resValue "string", "app_country", "Lesotho"
-            resValue "string", "authorities", applicationId + '.provider'
-            resValue "string", "account_type", "io.aggreg.lesotho"
-            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
-            resValue "string", "analytics_tracker_id", "UA-63988121-1"
-        }
-        southsudan {
-            applicationId "io.aggreg.app.southsudan"
-            resValue "string", "app_name", "Aggregio SouthSudan"
-            resValue "string", "app_version", "Version 1.0-BETA"
-            resValue "string", "app_country", "SouthSudan"
-            resValue "string", "authorities", applicationId + '.provider'
-            resValue "string", "account_type", "io.aggreg.southsudan"
-            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
-            resValue "string", "analytics_tracker_id", "UA-63988121-1"
-        }
-        botswana {
-            applicationId "io.aggreg.app.botswana"
-            resValue "string", "app_name", "Aggregio Botswana"
-            resValue "string", "app_version", "Version 1.0-BETA"
-            resValue "string", "app_country", "Botswana"
-            resValue "string", "authorities", applicationId + '.provider'
-            resValue "string", "account_type", "io.aggreg.botswana"
-            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
-            resValue "string", "analytics_tracker_id", "UA-63988121-1"
-        }
-        somalia {
-            applicationId "io.aggreg.app.somalia"
-            resValue "string", "app_name", "Aggregio Somalia"
-            resValue "string", "app_version", "Version 1.0-BETA"
-            resValue "string", "app_country", "Somalia"
-            resValue "string", "authorities", applicationId + '.provider'
-            resValue "string", "account_type", "io.aggreg.somalia"
-            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
-            resValue "string", "analytics_tracker_id", "UA-63988121-1"
-        }
-        namibia {
-            applicationId "io.aggreg.app.namibia"
-            resValue "string", "app_name", "Aggregio Namibia"
-            resValue "string", "app_version", "Version 1.0-BETA"
-            resValue "string", "app_country", "Namibia"
-            resValue "string", "authorities", applicationId + '.provider'
-            resValue "string", "account_type", "io.aggreg.namibia"
-            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
-            resValue "string", "analytics_tracker_id", "UA-63988121-1"
-        }
+//        tanzania {
+//            applicationId "io.aggreg.app.tanzania"
+//            resValue "string", "app_name", "Aggregio TZ"
+//            resValue "string", "app_version", "Version 1.0-BETA"
+//            resValue "string", "app_country", "Tanzania"
+//            resValue "string", "authorities", applicationId + '.provider'
+//            resValue "string", "account_type", "io.aggreg.tanzania"
+//            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
+//            resValue "string", "analytics_tracker_id", "UA-63988121-1"
+//        }
+//        nigeria {
+//            applicationId "io.aggreg.app.nigeria"
+//            resValue "string", "app_name", "Aggregio NG"
+//            resValue "string", "app_version", "Version 1.0-BETA"
+//            resValue "string", "app_country", "Nigeria"
+//            resValue "string", "authorities", applicationId + '.provider'
+//            resValue "string", "account_type", "io.aggreg.nigeria"
+//            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
+//            resValue "string", "analytics_tracker_id", "UA-63988121-1"
+//        }
+//        southafrica {
+//            applicationId "io.aggreg.app.southafrica"
+//            resValue "string", "app_name", "Aggregio ZA"
+//            resValue "string", "app_version", "Version 1.0-BETA"
+//            resValue "string", "app_country", "South Africa"
+//            resValue "string", "authorities", applicationId + '.provider'
+//            resValue "string", "account_type", "io.aggreg.southafrica"
+//            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
+//            resValue "string", "analytics_tracker_id", "UA-63988121-1"
+//        }
+//        ghana {
+//            applicationId "io.aggreg.app.ghana"
+//            resValue "string", "app_name", "Aggregio GH"
+//            resValue "string", "app_version", "Version 1.0-BETA"
+//            resValue "string", "app_country", "Ghana"
+//            resValue "string", "authorities", applicationId + '.provider'
+//            resValue "string", "account_type", "io.aggreg.ghana"
+//            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
+//            resValue "string", "analytics_tracker_id", "UA-63988121-1"
+//        }
+//        rwanda {
+//            applicationId "io.aggreg.app.rwanda"
+//            resValue "string", "app_name", "Aggregio RW"
+//            resValue "string", "app_version", "Version 1.0-BETA"
+//            resValue "string", "app_country", "Rwanda"
+//            resValue "string", "authorities", applicationId + '.provider'
+//            resValue "string", "account_type", "io.aggreg.rwanda"
+//            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
+//            resValue "string", "analytics_tracker_id", "UA-63988121-1"
+//        }
+//        malawi {
+//            applicationId "io.aggreg.app.malawi"
+//            resValue "string", "app_name", "Aggregio Malawi"
+//            resValue "string", "app_version", "Version 1.0-BETA"
+//            resValue "string", "app_country", "Malawi"
+//            resValue "string", "authorities", applicationId + '.provider'
+//            resValue "string", "account_type", "io.aggreg.malawi"
+//            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
+//            resValue "string", "analytics_tracker_id", "UA-63988121-1"
+//        }
+//        zambia {
+//            applicationId "io.aggreg.app.zambia"
+//            resValue "string", "app_name", "Aggregio Zambia"
+//            resValue "string", "app_version", "Version 1.0-BETA"
+//            resValue "string", "app_country", "Zambia"
+//            resValue "string", "authorities", applicationId + '.provider'
+//            resValue "string", "account_type", "io.aggreg.zambia"
+//            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
+//            resValue "string", "analytics_tracker_id", "UA-63988121-1"
+//        }
+//        zimbabwe {
+//            applicationId "io.aggreg.app.zimbabwe"
+//            resValue "string", "app_name", "Aggregio Zimbabwe"
+//            resValue "string", "app_version", "Version 1.0-BETA"
+//            resValue "string", "app_country", "Zimbabwe"
+//            resValue "string", "authorities", applicationId + '.provider'
+//            resValue "string", "account_type", "io.aggreg.zimbabwe"
+//            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
+//            resValue "string", "analytics_tracker_id", "UA-63988121-1"
+//        }
+//        swaziland {
+//            applicationId "io.aggreg.app.swaziland"
+//            resValue "string", "app_name", "Aggregio Swaziland"
+//            resValue "string", "app_version", "Version 1.0-BETA"
+//            resValue "string", "app_country", "Swaziland"
+//            resValue "string", "authorities", applicationId + '.provider'
+//            resValue "string", "account_type", "io.aggreg.swaziland"
+//            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
+//            resValue "string", "analytics_tracker_id", "UA-63988121-1"
+//        }
+//        lesotho {
+//            applicationId "io.aggreg.app.lesotho"
+//            resValue "string", "app_name", "Aggregio Lesotho"
+//            resValue "string", "app_version", "Version 1.0-BETA"
+//            resValue "string", "app_country", "Lesotho"
+//            resValue "string", "authorities", applicationId + '.provider'
+//            resValue "string", "account_type", "io.aggreg.lesotho"
+//            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
+//            resValue "string", "analytics_tracker_id", "UA-63988121-1"
+//        }
+//        southsudan {
+//            applicationId "io.aggreg.app.southsudan"
+//            resValue "string", "app_name", "Aggregio SouthSudan"
+//            resValue "string", "app_version", "Version 1.0-BETA"
+//            resValue "string", "app_country", "SouthSudan"
+//            resValue "string", "authorities", applicationId + '.provider'
+//            resValue "string", "account_type", "io.aggreg.southsudan"
+//            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
+//            resValue "string", "analytics_tracker_id", "UA-63988121-1"
+//        }
+//        botswana {
+//            applicationId "io.aggreg.app.botswana"
+//            resValue "string", "app_name", "Aggregio Botswana"
+//            resValue "string", "app_version", "Version 1.0-BETA"
+//            resValue "string", "app_country", "Botswana"
+//            resValue "string", "authorities", applicationId + '.provider'
+//            resValue "string", "account_type", "io.aggreg.botswana"
+//            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
+//            resValue "string", "analytics_tracker_id", "UA-63988121-1"
+//        }
+//        somalia {
+//            applicationId "io.aggreg.app.somalia"
+//            resValue "string", "app_name", "Aggregio Somalia"
+//            resValue "string", "app_version", "Version 1.0-BETA"
+//            resValue "string", "app_country", "Somalia"
+//            resValue "string", "authorities", applicationId + '.provider'
+//            resValue "string", "account_type", "io.aggreg.somalia"
+//            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
+//            resValue "string", "analytics_tracker_id", "UA-63988121-1"
+//        }
+//        namibia {
+//            applicationId "io.aggreg.app.namibia"
+//            resValue "string", "app_name", "Aggregio Namibia"
+//            resValue "string", "app_version", "Version 1.0-BETA"
+//            resValue "string", "app_country", "Namibia"
+//            resValue "string", "authorities", applicationId + '.provider'
+//            resValue "string", "account_type", "io.aggreg.namibia"
+//            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
+//            resValue "string", "analytics_tracker_id", "UA-63988121-1"
+//        }
 
 
     }
@@ -179,6 +187,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 }

@@ -45,7 +45,7 @@ public class ArticleDetailActivity extends AppCompatActivity implements ArticleD
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             startActivity(new Intent(ArticleDetailActivity.this, SettingsActivity.class));
-        }else if(id ==R.id.action_open_in_brower){
+        }else if(id ==R.id.action_open_in_browser){
             //TODO: Open in webview
         }else if(id==R.id.action_share){
             //TODO: Share article
