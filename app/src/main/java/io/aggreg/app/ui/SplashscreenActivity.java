@@ -38,7 +38,8 @@ public class SplashscreenActivity extends AppCompatActivity {
         analytics = GoogleAnalytics.getInstance(this);
         analytics.setLocalDispatchPeriod(1800);
 
-        tracker = analytics.newTracker("UA-63988121-1"); // Replace with actual tracker/property Id
+        //tracker = analytics.newTracker("UA-63988121-1"); // Replace with actual tracker/property Id
+        tracker = analytics.newTracker(getString(R.string.analytics_tracker_id)); // Replace with actual tracker/property Id
         tracker.enableExceptionReporting(true);
         tracker.enableAdvertisingIdCollection(true);
         tracker.enableAutoActivityTracking(true);

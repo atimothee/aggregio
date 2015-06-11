@@ -24,6 +24,6 @@
         android:paddingRight="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/flag_250"/>
+        android:src="@drawable/flag_200"/>
 
         </RelativeLayout>

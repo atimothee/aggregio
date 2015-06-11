@@ -18,6 +18,7 @@ import io.aggreg.app.ui.fragment.ThirdSlide;
  * Created by Timo on 6/10/15.
  */
 public class IntroActivity extends AppIntro{
+    Tracker tracker;
     @Override
     public void init(Bundle bundle) {
 
@@ -35,16 +36,13 @@ public class IntroActivity extends AppIntro{
         // You can also hide Skip button
         showSkipButton(true);
         GoogleAnalytics analytics = GoogleAnalytics.getInstance(IntroActivity.this);
-        Tracker tracker = analytics.newTracker("UA-XXXX-Y"); // Send hits to tracker id UA-XXXX-Y
+        //Tracker tracker = analytics.newTracker("UA-XXXX-Y"); // Send hits to tracker id UA-XXXX-Y
+        tracker = analytics.newTracker(getString(R.string.analytics_tracker_id)); // Send hits to tracker id UA-XXXX-Y
 
 // All subsequent hits will be send with screen name = "main screen"
-        tracker.setScreenName("main screen");
+        tracker.setScreenName("intro screen");
 
-        tracker.send(new HitBuilders.EventBuilder()
-                .setCategory("UX")
-                .setAction("click")
-                .setLabel("submit")
-                .build());
+
 
 // Builder parameters can overwrite the screen name set on the tracker.
         tracker.send(new HitBuilders.EventBuilder()
@@ -56,13 +54,21 @@ public class IntroActivity extends AppIntro{
 
     @Override
     public void onSkipPressed() {
-
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("UX")
+                .setAction("click")
+                .setLabel("skip")
+                .build());
         launch();
     }
 
     @Override
     public void onDonePressed() {
-
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("UX")
+                .setAction("click")
+                .setLabel("done")
+                .build());
         launch();
     }
 

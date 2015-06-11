@@ -25,6 +25,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.analytics.Tracker;
 
 import io.aggreg.app.R;
 import io.aggreg.app.provider.article.ArticleColumns;
@@ -44,6 +47,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     private FloatingActionButton bookmarkFab;
     private static String LOG_TAG = ArticleDetailFragment.class.getSimpleName();
     private Cursor articlesCursor;
+    Tracker tracker;
 
 
     private OnFragmentInteractionListener mListener;
@@ -76,6 +80,10 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
 
 
         View view = inflater.inflate(R.layout.fragment_article_detail, container, false);
+        //AdRequest.Builder.class
+        AdView mAdView = (AdView) view.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
+        mAdView.loadAd(adRequest);
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         try {
