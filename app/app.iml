@@ -115,10 +115,10 @@
     <orderEntry type="library" exported="" name="google-http-client-jackson2-1.20.0" level="project" />
     <orderEntry type="library" exported="" name="google-api-client-android-1.20.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-gcm-7.5.0" level="project" />
+    <orderEntry type="library" exported="" name="aggregio_web_appspot_com-aggregio-v1.0-20150612115842-java-1.20.0-sources" level="project" />
     <orderEntry type="library" exported="" name="guava-jdk5-13.0" level="project" />
     <orderEntry type="library" exported="" name="licensesdialog-1.7.0" level="project" />
     <orderEntry type="library" exported="" name="appintro-1.1.0" level="project" />
-    <orderEntry type="library" exported="" name="aggregio-v1.0-1.20.0-SNAPSHOT" level="project" />
     <orderEntry type="library" exported="" name="play-services-analytics-7.5.0" level="project" />
     <orderEntry type="library" exported="" name="google-api-client-1.20.0" level="project" />
     <orderEntry type="library" exported="" name="glide-3.6.0" level="project" />
