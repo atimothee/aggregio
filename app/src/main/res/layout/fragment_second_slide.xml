@@ -32,7 +32,7 @@
             android:layout_gravity="center"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:src="@drawable/download_from_cloud_512"/>
+            android:src="@drawable/download_fromcloud_512"/>
     </LinearLayout>
     <TextView
         android:layout_width="wrap_content"
