@@ -214,5 +214,4 @@ dependencies {
     compile 'com.google.android.gms:play-services-analytics:7.5.0'
     compile 'com.google.android.gms:play-services-gcm:7.5.0'
     compile 'com.google.android.gms:play-services-ads:7.5.0'
-    compile files('libs/aggregio_web_appspot_com_aggregio_v1.jar')
 }
