@@ -20,16 +20,16 @@ android {
         }
     }
     productFlavors {
-        kenya {
-            applicationId "io.aggreg.app.kenya"
-            resValue "string", "app_name", "Aggregio KE"
-            resValue "string", "app_version", "Version 1.0-BETA"
-            resValue "string", "app_country", "Kenya"
-            resValue "string", "authorities", applicationId + '.provider'
-            resValue "string", "account_type", "io.aggreg.kenya"
-            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
-            resValue "string", "analytics_tracker_id", "UA-63988121-1"
-        }
+//        kenya {
+//            applicationId "io.aggreg.app.kenya"
+//            resValue "string", "app_name", "Aggregio KE"
+//            resValue "string", "app_version", "Version 1.0-BETA"
+//            resValue "string", "app_country", "Kenya"
+//            resValue "string", "authorities", applicationId + '.provider'
+//            resValue "string", "account_type", "io.aggreg.kenya"
+//            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
+//            resValue "string", "analytics_tracker_id", "UA-63988121-1"
+//        }
         uganda {
             applicationId "io.aggreg.app.uganda"
             resValue "string", "app_name", "Aggregio UG"
