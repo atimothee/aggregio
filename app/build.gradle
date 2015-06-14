@@ -27,7 +27,6 @@ android {
 //            resValue "string", "app_country", "Kenya"
 //            resValue "string", "authorities", applicationId + '.provider'
 //            resValue "string", "account_type", "io.aggreg.kenya"
-//            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
 //            resValue "string", "analytics_tracker_id", "UA-63988121-1"
 //        }
         uganda {
@@ -37,7 +36,6 @@ android {
             resValue "string", "app_country", "Uganda"
             resValue "string", "authorities", applicationId + '.provider'
             resValue "string", "account_type", "io.aggreg.uganda"
-            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
             resValue "string", "analytics_tracker_id", "UA-63988121-1"
         }
 //        tanzania {
@@ -47,7 +45,6 @@ android {
 //            resValue "string", "app_country", "Tanzania"
 //            resValue "string", "authorities", applicationId + '.provider'
 //            resValue "string", "account_type", "io.aggreg.tanzania"
-//            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
 //            resValue "string", "analytics_tracker_id", "UA-63988121-1"
 //        }
 //        nigeria {
@@ -57,7 +54,6 @@ android {
 //            resValue "string", "app_country", "Nigeria"
 //            resValue "string", "authorities", applicationId + '.provider'
 //            resValue "string", "account_type", "io.aggreg.nigeria"
-//            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
 //            resValue "string", "analytics_tracker_id", "UA-63988121-1"
 //        }
 //        southafrica {
@@ -67,7 +63,6 @@ android {
 //            resValue "string", "app_country", "South Africa"
 //            resValue "string", "authorities", applicationId + '.provider'
 //            resValue "string", "account_type", "io.aggreg.southafrica"
-//            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
 //            resValue "string", "analytics_tracker_id", "UA-63988121-1"
 //        }
 //        ghana {
@@ -77,7 +72,6 @@ android {
 //            resValue "string", "app_country", "Ghana"
 //            resValue "string", "authorities", applicationId + '.provider'
 //            resValue "string", "account_type", "io.aggreg.ghana"
-//            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
 //            resValue "string", "analytics_tracker_id", "UA-63988121-1"
 //        }
 //        rwanda {
@@ -87,7 +81,6 @@ android {
 //            resValue "string", "app_country", "Rwanda"
 //            resValue "string", "authorities", applicationId + '.provider'
 //            resValue "string", "account_type", "io.aggreg.rwanda"
-//            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
 //            resValue "string", "analytics_tracker_id", "UA-63988121-1"
 //        }
 //        malawi {
@@ -97,7 +90,6 @@ android {
 //            resValue "string", "app_country", "Malawi"
 //            resValue "string", "authorities", applicationId + '.provider'
 //            resValue "string", "account_type", "io.aggreg.malawi"
-//            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
 //            resValue "string", "analytics_tracker_id", "UA-63988121-1"
 //        }
 //        zambia {
@@ -107,7 +99,6 @@ android {
 //            resValue "string", "app_country", "Zambia"
 //            resValue "string", "authorities", applicationId + '.provider'
 //            resValue "string", "account_type", "io.aggreg.zambia"
-//            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
 //            resValue "string", "analytics_tracker_id", "UA-63988121-1"
 //        }
 //        zimbabwe {
@@ -117,7 +108,6 @@ android {
 //            resValue "string", "app_country", "Zimbabwe"
 //            resValue "string", "authorities", applicationId + '.provider'
 //            resValue "string", "account_type", "io.aggreg.zimbabwe"
-//            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
 //            resValue "string", "analytics_tracker_id", "UA-63988121-1"
 //        }
 //        swaziland {
@@ -127,7 +117,6 @@ android {
 //            resValue "string", "app_country", "Swaziland"
 //            resValue "string", "authorities", applicationId + '.provider'
 //            resValue "string", "account_type", "io.aggreg.swaziland"
-//            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
 //            resValue "string", "analytics_tracker_id", "UA-63988121-1"
 //        }
 //        lesotho {
@@ -137,7 +126,6 @@ android {
 //            resValue "string", "app_country", "Lesotho"
 //            resValue "string", "authorities", applicationId + '.provider'
 //            resValue "string", "account_type", "io.aggreg.lesotho"
-//            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
 //            resValue "string", "analytics_tracker_id", "UA-63988121-1"
 //        }
 //        southsudan {
@@ -147,7 +135,6 @@ android {
 //            resValue "string", "app_country", "SouthSudan"
 //            resValue "string", "authorities", applicationId + '.provider'
 //            resValue "string", "account_type", "io.aggreg.southsudan"
-//            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
 //            resValue "string", "analytics_tracker_id", "UA-63988121-1"
 //        }
 //        botswana {
@@ -157,7 +144,6 @@ android {
 //            resValue "string", "app_country", "Botswana"
 //            resValue "string", "authorities", applicationId + '.provider'
 //            resValue "string", "account_type", "io.aggreg.botswana"
-//            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
 //            resValue "string", "analytics_tracker_id", "UA-63988121-1"
 //        }
 //        somalia {
@@ -167,7 +153,6 @@ android {
 //            resValue "string", "app_country", "Somalia"
 //            resValue "string", "authorities", applicationId + '.provider'
 //            resValue "string", "account_type", "io.aggreg.somalia"
-//            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
 //            resValue "string", "analytics_tracker_id", "UA-63988121-1"
 //        }
 //        namibia {
@@ -177,7 +162,6 @@ android {
 //            resValue "string", "app_country", "Namibia"
 //            resValue "string", "authorities", applicationId + '.provider'
 //            resValue "string", "account_type", "io.aggreg.namibia"
-//            resValue "string", "banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
 //            resValue "string", "analytics_tracker_id", "UA-63988121-1"
 //        }
 
@@ -194,7 +178,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    //compile([group: 'com.appspot.aggregio_web', name: 'aggregio', version: 'v1.0-1.20.0-SNAPSHOT'])
+    compile([group: 'com.appspot.aggregio_web', name: 'aggregio', version: 'v1.0-1.20.0-SNAPSHOT'])
     compile 'com.google.api-client:google-api-client-android:1.20.0' exclude module: 'httpclient'
     compile 'com.google.http-client:google-http-client-gson:1.20.0' exclude module: 'httpclient'
     // optional
@@ -213,5 +197,4 @@ dependencies {
     compile 'com.android.support:support-v4:22.2.0'
     compile 'com.google.android.gms:play-services-analytics:7.5.0'
     compile 'com.google.android.gms:play-services-gcm:7.5.0'
-    compile 'com.google.android.gms:play-services-ads:7.5.0'
 }

@@ -7,8 +7,9 @@ import android.view.MenuItem;
 
 import io.aggreg.app.R;
 import io.aggreg.app.ui.fragment.SelectPublishersFragment;
+import io.aggreg.app.utils.References;
 
-public class PublisherActivity extends AppCompatActivity implements SelectPublishersFragment.OnFragmentInteractionListener{
+public class ManagePublishersActivity extends AppCompatActivity implements SelectPublishersFragment.OnFragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,7 +17,7 @@ public class PublisherActivity extends AppCompatActivity implements SelectPublis
         setContentView(R.layout.activity_publisher);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new SelectPublishersFragment())
+                    .add(R.id.container, SelectPublishersFragment.newInstance(References.ACTIVITY_TYPE_MANAGE_PUBLISHERS))
                     .commit();
         }
     }
@@ -37,5 +38,10 @@ public class PublisherActivity extends AppCompatActivity implements SelectPublis
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onFabClicked() {
+        finish();
     }
 }

@@ -73,6 +73,7 @@ public class SelectPublisherListCursorAdapter extends CursorRecyclerViewAdapter<
                     selectPublisherContentValues.putSelected(true);
                     SelectPublisherSelection selectPublisherSelection = new SelectPublisherSelection();
                     selectPublisherSelection.id(cursor.getLong(cursor.getColumnIndex(PublisherColumns._ID)));
+                    selectPublisherSelection.notify(false);
                     selectPublisherContentValues.update(mContext.getContentResolver(), selectPublisherSelection);
 
                     //TODO: insert or update
@@ -100,6 +101,7 @@ public class SelectPublisherListCursorAdapter extends CursorRecyclerViewAdapter<
                     PublisherSelection publisherSelection = new PublisherSelection();
                     publisherSelection.id(cursor.getLong(cursor.getColumnIndex(SelectPublisherColumns._ID)));
                     try {
+
                         publisherSelection.delete(mContext.getContentResolver());
                     }catch (Exception e){
                         e.printStackTrace();

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -29,9 +30,14 @@ public class SelectPublishersFragment extends Fragment implements LoaderManager.
     private OnFragmentInteractionListener mListener;
     private static String LOG_TAG = SelectPublishersFragment.class.getSimpleName();
     RecyclerView gridView;
+    private FloatingActionButton doneFab;
 
-    public static SelectPublishersFragment newInstance() {
-        return new SelectPublishersFragment();
+    public static SelectPublishersFragment newInstance(String activityType) {
+        SelectPublishersFragment selectPublishersFragment = new SelectPublishersFragment();
+        Bundle args = new Bundle();
+        args.putString(References.ARG_KEY_PUBLISHER_ACTIVITY_TYPE, activityType);
+        selectPublishersFragment.setArguments(args);
+        return selectPublishersFragment;
     }
 
     public SelectPublishersFragment() {
@@ -52,6 +58,19 @@ public class SelectPublishersFragment extends Fragment implements LoaderManager.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_publishers, container, false);
+        doneFab = (FloatingActionButton)rootView.findViewById(R.id.done_fab);
+        if(getArguments().getString(References.ARG_KEY_PUBLISHER_ACTIVITY_TYPE).equalsIgnoreCase(References.ACTIVITY_TYPE_SETUP_PUBLISHERS)){
+            doneFab.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_arrow_forward_white_24dp));
+        }else if(getArguments().getString(References.ARG_KEY_PUBLISHER_ACTIVITY_TYPE).equalsIgnoreCase(References.ACTIVITY_TYPE_MANAGE_PUBLISHERS)){
+            doneFab.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_done_white_24dp));
+        }
+
+        doneFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.onFabClicked();
+            }
+        });
         gridView = (RecyclerView)rootView.findViewById(android.R.id.list);
         GridLayoutManager manager = new GridLayoutManager(getActivity(), 3, GridLayoutManager.VERTICAL, false);
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -110,11 +129,8 @@ public class SelectPublishersFragment extends Fragment implements LoaderManager.
 
 
     public interface OnFragmentInteractionListener {
-
+        void onFabClicked();
     }
 
-    private void togglePublisher(){
-
-    }
 
 }

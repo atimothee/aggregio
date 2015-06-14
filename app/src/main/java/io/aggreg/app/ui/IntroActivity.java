@@ -1,6 +1,7 @@
 package io.aggreg.app.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -13,6 +14,7 @@ import io.aggreg.app.R;
 import io.aggreg.app.ui.fragment.FirstSlide;
 import io.aggreg.app.ui.fragment.SecondSlide;
 import io.aggreg.app.ui.fragment.ThirdSlide;
+import io.aggreg.app.utils.References;
 
 /**
  * Created by Timo on 6/10/15.
@@ -35,46 +37,47 @@ public class IntroActivity extends AppIntro{
 
         // You can also hide Skip button
         showSkipButton(true);
-        GoogleAnalytics analytics = GoogleAnalytics.getInstance(IntroActivity.this);
+        //GoogleAnalytics analytics = GoogleAnalytics.getInstance(IntroActivity.this);
         //Tracker tracker = analytics.newTracker("UA-XXXX-Y"); // Send hits to tracker id UA-XXXX-Y
-        tracker = analytics.newTracker(getString(R.string.analytics_tracker_id)); // Send hits to tracker id UA-XXXX-Y
+        //tracker = analytics.newTracker(getString(R.string.analytics_tracker_id)); // Send hits to tracker id UA-XXXX-Y
 
 // All subsequent hits will be send with screen name = "main screen"
-        tracker.setScreenName("intro screen");
+        //tracker.setScreenName("intro screen");
 
 
 
 // Builder parameters can overwrite the screen name set on the tracker.
-        tracker.send(new HitBuilders.EventBuilder()
-                .setCategory("UX")
-                .setAction("click")
-                .setLabel("help popup")
-                .build());
+//        tracker.send(new HitBuilders.EventBuilder()
+//                .setCategory("UX")
+//                .setAction("click")
+//                .setLabel("help popup")
+//                .build());
     }
 
     @Override
     public void onSkipPressed() {
-        tracker.send(new HitBuilders.EventBuilder()
-                .setCategory("UX")
-                .setAction("click")
-                .setLabel("skip")
-                .build());
+//        tracker.send(new HitBuilders.EventBuilder()
+//                .setCategory("UX")
+//                .setAction("click")
+//                .setLabel("skip")
+//                .build());
         launch();
     }
 
     @Override
     public void onDonePressed() {
-        tracker.send(new HitBuilders.EventBuilder()
-                .setCategory("UX")
-                .setAction("click")
-                .setLabel("done")
-                .build());
+//        tracker.send(new HitBuilders.EventBuilder()
+//                .setCategory("UX")
+//                .setAction("click")
+//                .setLabel("done")
+//                .build());
         launch();
     }
 
     private void launch(){
+
         Intent i = new Intent();
-        i.setClass(IntroActivity.this, MainActivity.class);
+        i.setClass(IntroActivity.this, SelectPublishersActivity.class);
         startActivity(i);
     }
 

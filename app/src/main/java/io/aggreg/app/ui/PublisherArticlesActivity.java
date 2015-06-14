@@ -7,8 +7,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import io.aggreg.app.R;
+import io.aggreg.app.ui.fragment.SelectPublishersFragment;
 
-public class PublisherArticlesActivity extends AppCompatActivity {
+public class PublisherArticlesActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

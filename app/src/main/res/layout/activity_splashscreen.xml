@@ -15,15 +15,24 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:src="@drawable/aggregio_text_logo"/>
-    <ImageView
-        android:layout_alignLeft="@+id/text_logo"
-        android:layout_alignRight="@+id/text_logo"
-        android:layout_alignBottom="@+id/text_logo"
-        android:paddingBottom="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/flag_200"/>
+    <!--<ImageView-->
+        <!--android:layout_alignLeft="@+id/text_logo"-->
+        <!--android:layout_alignRight="@+id/text_logo"-->
+        <!--android:layout_alignBottom="@+id/text_logo"-->
+        <!--android:paddingBottom="16dp"-->
+        <!--android:paddingLeft="16dp"-->
+        <!--android:paddingRight="16dp"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:src="@drawable/flag_200"/>-->
+    <!--<TextView-->
+        <!--android:textAppearance="?android:textAppearanceMedium"-->
+        <!--android:fontFamily="light"-->
+        <!--android:textColor="@color/primary_text_default_material_dark"-->
+        <!--android:layout_alignBottom="@+id/text_logo"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="center_horizontal"-->
+        <!--android:text="All your news in one app!"/>-->
 
         </RelativeLayout>

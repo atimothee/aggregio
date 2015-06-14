@@ -22,11 +22,10 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.Tracker;
 
 import io.aggreg.app.R;
@@ -80,10 +79,6 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
 
 
         View view = inflater.inflate(R.layout.fragment_article_detail, container, false);
-        //AdRequest.Builder.class
-        AdView mAdView = (AdView) view.findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
-        mAdView.loadAd(adRequest);
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         try {
@@ -182,24 +177,37 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     private void toggleBookmark(){
         ArticleContentValues articleContentValues;
         ArticleSelection articleSelection = new ArticleSelection();
-        articleSelection.link(getArguments().getString(References.ARG_KEY_ARTICLE_LINK));
         ArticleCursor articleCursor = articleSelection.query(getActivity().getContentResolver());
         articleCursor.moveToFirst();
         Boolean bookMarked = articleCursor.getBookMarked();
         if(bookMarked == null) {
-            articleContentValues = new ArticleContentValues();
-            articleContentValues.putBookMarked(true);
-            articleContentValues.update(getActivity().getContentResolver(), articleSelection);
+            bookMark();
         }
         else if(bookMarked) {
-            articleContentValues = new ArticleContentValues();
-            articleContentValues.putBookMarked(false);
-            articleContentValues.update(getActivity().getContentResolver(), articleSelection);
-        }else if(!bookMarked){
-            articleContentValues = new ArticleContentValues();
-            articleContentValues.putBookMarked(true);
-            articleContentValues.update(getActivity().getContentResolver(), articleSelection);
+            unBookMark();
+
+        }else {
+            bookMark();
         }
+    }
+
+    private void bookMark(){
+        ArticleSelection articleSelection = new ArticleSelection();
+        articleSelection.link(getArguments().getString(References.ARG_KEY_ARTICLE_LINK));
+        ArticleContentValues articleContentValues = new ArticleContentValues();
+        articleContentValues.putBookMarked(true);
+        articleContentValues.update(getActivity().getContentResolver(), articleSelection);
+        Toast.makeText(getActivity(), "The article was bookmarked", Toast.LENGTH_SHORT).show();
+    }
+
+    private void unBookMark(){
+        ArticleSelection articleSelection = new ArticleSelection();
+        articleSelection.link(getArguments().getString(References.ARG_KEY_ARTICLE_LINK));
+        ArticleContentValues articleContentValues = new ArticleContentValues();
+        articleContentValues = new ArticleContentValues();
+        articleContentValues.putBookMarked(false);
+        articleContentValues.update(getActivity().getContentResolver(), articleSelection);
+        Toast.makeText(getActivity(), "The bookmark was removed", Toast.LENGTH_SHORT).show();
     }
 
 }

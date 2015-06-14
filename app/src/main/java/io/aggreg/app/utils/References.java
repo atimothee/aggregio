@@ -10,15 +10,21 @@ public class References {
 
     public static final String KEY_TOGGLE_GRID = "toggle_grid";
     public static final String KEY_PREFERENCES = "preferences";
+    public static final String KEY_PREF_FIRST_TIME = "first_time";
+    public static final String KEY_LAST_SYNC = "last_sync";
+    public static final String ARG_IS_FIRST_TIME = "is_first_time";
 
     public static String ARG_KEY_CATEGORY_ID = "category_id";
     public static String ARG_KEY_PUBLISHER_ID = "publisher_id";
     public static final String ARG_KEY_ARTICLE_LINK = "article_id";
     public static final String ARG_KEY_SYNC_TYPE = "sync_type";
-    public static final String SYNC_TYPE_ARTICLE = "sync_type_article";
-    public static final String SYNC_TYPE_ARTICLE_CURSOR = "sync_type_article_cursor";
+    public static final String SYNC_TYPE_ARTICLE_REFRESH = "sync_type_article_refresh";
     public static final String SYNC_TYPE_CATEGORY = "sync_type_category";
     public static final String SYNC_TYPE_PUBLISHER = "sync_type_publisher";
+    public static final String SYNC_TYPE_FIRST_TIME = "sync_type_first_time";
+    public static final String ARG_KEY_PUBLISHER_ACTIVITY_TYPE = "activity_type";
+    public static final String ACTIVITY_TYPE_SETUP_PUBLISHERS = "activity_type_setup_publishers";
+    public static final String ACTIVITY_TYPE_MANAGE_PUBLISHERS = "activity_type_manage_publishers";
 
     public static final String AUTHORITY = BuildConfig.APPLICATION_ID + ".provider";
 }

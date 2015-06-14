@@ -3,10 +3,8 @@ package io.aggreg.app.ui;
 import android.accounts.Account;
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -25,6 +23,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -35,7 +34,6 @@ import io.aggreg.app.R;
 import io.aggreg.app.provider.AggregioProvider;
 import io.aggreg.app.provider.category.CategoryColumns;
 import io.aggreg.app.provider.publishercategory.PublisherCategoryColumns;
-import io.aggreg.app.provider.publishercategory.PublisherCategorySelection;
 import io.aggreg.app.ui.fragment.ArticlesFragment;
 import io.aggreg.app.utils.AccountUtils;
 import io.aggreg.app.utils.References;
@@ -48,9 +46,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    //private FloatingActionButton fab;
-    HashSet<Category> pagerTitles;
+    HashSet pagerTitles;
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    private ProgressBar progressBar;
 
     class Category{
         @Override
@@ -87,17 +85,25 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
 
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        progressBar = (ProgressBar)findViewById(R.id.progress_bar);
+        if(getIntent().getBooleanExtra(References.ARG_IS_FIRST_TIME, false)){
+            viewPager.setVisibility(View.INVISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
+        }
         pagerTitles = new HashSet();
         Bundle settingsBundle = new Bundle();
         settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         settingsBundle.putBoolean(
                 ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        settingsBundle.putString(References.ARG_KEY_SYNC_TYPE, References.SYNC_TYPE_CATEGORY);
         Account account = new AccountUtils(getApplicationContext()).getSyncAccount();
         ContentResolver.setSyncAutomatically(account, AggregioProvider.AUTHORITY, true);
         ContentResolver.requestSync(account, AggregioProvider.AUTHORITY, settingsBundle);
         publisherCategoriesCursor = null;
         getSupportLoaderManager().initLoader(References.PUBLISHER_LOADER, null, this);
-        setContentView(R.layout.activity_main);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -120,45 +126,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
+
         if (viewPager != null) {
             viewPager.setAdapter(mSectionsPagerAdapter);
         }
-//        fab = (FloatingActionButton) findViewById(R.id.fab);
-//        SharedPreferences prefs = getSharedPreferences(References.KEY_PREFERENCES, MODE_PRIVATE);
-//        Boolean currentValue = prefs.getBoolean(References.KEY_TOGGLE_GRID, false);
-//        if(currentValue) {
-//
-//                    fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_view_stream_white_24dp));
-//        }else {
-//            fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_view_quilt_white_24dp));
-//
-//        }
-
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                SharedPreferences prefs = getSharedPreferences(References.KEY_PREFERENCES, MODE_PRIVATE);
-//                Boolean oldValue = prefs.getBoolean(References.KEY_TOGGLE_GRID, false);
-//                SharedPreferences.Editor editor = prefs.edit();
-//                Boolean newValue = !oldValue;
-//                editor.putBoolean(References.KEY_TOGGLE_GRID, newValue);
-//                editor.apply();
-//                if(newValue) {
-//                    fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_view_stream_white_24dp));
-//                }else {
-//                    fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_view_quilt_white_24dp));
-//
-//                }
-//                int currentPosition = viewPager.getCurrentItem();
-//                viewPager.setAdapter(mSectionsPagerAdapter);
-//                tabLayout.setupWithViewPager(viewPager);
-//                if(currentPosition!=0){
-//                    viewPager.setCurrentItem(currentPosition);
-//                }
-//            }
-//        });
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
@@ -188,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         menuItem.setChecked(true);
                         if (menuItem.getItemId() == R.id.nav_manage_sources) {
-                            startActivity(new Intent(MainActivity.this, PublisherActivity.class));
+                            startActivity(new Intent(MainActivity.this, ManagePublishersActivity.class));
                         } else if (menuItem.getItemId() == R.id.nav_settings) {
                             startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                         } else if (menuItem.getItemId() == R.id.nav_bookmarks) {
@@ -230,8 +201,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public Loader onCreateLoader(int i, Bundle bundle) {
 
         //TODO: Select where category is unique
-        PublisherCategorySelection selection = new PublisherCategorySelection();
-        //selection.categoryIdGt()
         return new CursorLoader(this, PublisherCategoryColumns.CONTENT_URI, null, null, null, null);
     }
 
@@ -244,16 +213,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             publisherCategoriesCursor.moveToFirst();
             do {
                 pagerTitles.add(new Category(publisherCategoriesCursor.getLong(publisherCategoriesCursor.getColumnIndex(PublisherCategoryColumns._ID)),publisherCategoriesCursor.getString(publisherCategoriesCursor.getColumnIndex(CategoryColumns.NAME))));
-//            categories.put(publisherCategoriesCursor.getLong(publisherCategoriesCursor.getColumnIndex(PublisherCategoryColumns.CATEGORY_ID)),
-//                    publisherCategoriesCursor.getString(publisherCategoriesCursor.getColumnIndex(CategoryColumns.NAME)));
-
             } while (publisherCategoriesCursor.moveToNext());
         }
         }
         Log.d(LOG_TAG, "set size is " + pagerTitles.size());
-        tabLayout.setupWithViewPager(viewPager);
         mSectionsPagerAdapter.notifyDataSetChanged();
-        //tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     @Override

@@ -10,12 +10,14 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import io.aggreg.app.R;
 import io.aggreg.app.provider.article.ArticleColumns;
@@ -62,13 +64,18 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
             public void onRefresh() {
                 //TODO: Trigger sync adapter, in mode to use last sync datetime
                 //TODO: finally call on refreshcomplete when sync finishes
+                Toast.makeText(getActivity(), "Refresh complete", Toast.LENGTH_LONG).show();
             }
+
         });
 
         recyclerView = (RecyclerView) view.findViewById(android.R.id.list);
         SharedPreferences prefs = getActivity().getSharedPreferences(References.KEY_PREFERENCES, Context.MODE_PRIVATE);
         if(prefs.getBoolean(References.KEY_TOGGLE_GRID, false)){
-            recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+            StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+            staggeredGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
+            recyclerView.setLayoutManager(staggeredGridLayoutManager);
+
         }else {
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         }

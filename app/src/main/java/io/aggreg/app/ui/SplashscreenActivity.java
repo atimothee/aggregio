@@ -25,8 +25,6 @@ import io.aggreg.app.utils.AccountUtils;
 import io.aggreg.app.utils.References;
 
 public class SplashscreenActivity extends AppCompatActivity {
-    final String PREFS_NAME = "MyPrefsFile";
-    final String KEY_FIRST_TIME_PREF = "first_time_";
     protected int _splashTime = 2000;
     public static GoogleAnalytics analytics;
     public static Tracker tracker;
@@ -48,11 +46,10 @@ public class SplashscreenActivity extends AppCompatActivity {
         tracker.enableAdvertisingIdCollection(true);
         AppRater.app_launched(this);
 
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences settings = getSharedPreferences(References.KEY_PREFERENCES, 0);
 
-        if (settings.getBoolean(KEY_FIRST_TIME_PREF, true)) {
+        if (settings.getBoolean(References.KEY_PREF_FIRST_TIME, true)) {
             //the app is being launched for first time, do something
-            Log.d(SplashscreenActivity.class.getSimpleName(), "First time");
             Bundle settingsBundle = new Bundle();
             settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
             settingsBundle.putBoolean(
@@ -64,8 +61,7 @@ public class SplashscreenActivity extends AppCompatActivity {
 
             // first time task
 
-            // record the fact that the app has been started at least once
-            settings.edit().putBoolean(KEY_FIRST_TIME_PREF, false).commit();
+
             Thread splashTread = new Thread() {
                 @Override
                 public void run() {
