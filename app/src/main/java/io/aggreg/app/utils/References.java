@@ -10,9 +10,10 @@ public class References {
 
     public static final String KEY_TOGGLE_GRID = "toggle_grid";
     public static final String KEY_PREFERENCES = "preferences";
-    public static final String KEY_PREF_FIRST_TIME = "first_time";
+    public static final String KEY_APP_SETUP = "first_time";
     public static final String KEY_LAST_SYNC = "last_sync";
     public static final String ARG_IS_FIRST_TIME = "is_first_time";
+    public static final String KEY_INTRO_SHOWN = "into_shown";
 
     public static String ARG_KEY_CATEGORY_ID = "category_id";
     public static String ARG_KEY_PUBLISHER_ID = "publisher_id";

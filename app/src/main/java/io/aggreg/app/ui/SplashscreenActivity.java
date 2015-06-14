@@ -1,18 +1,11 @@
 package io.aggreg.app.ui;
 
 import android.accounts.Account;
-import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
@@ -47,8 +40,9 @@ public class SplashscreenActivity extends AppCompatActivity {
         AppRater.app_launched(this);
 
         SharedPreferences settings = getSharedPreferences(References.KEY_PREFERENCES, 0);
-
-        if (settings.getBoolean(References.KEY_PREF_FIRST_TIME, true)) {
+        Boolean appSetUp = settings.getBoolean(References.KEY_APP_SETUP, false);
+        Boolean introShown = settings.getBoolean(References.KEY_INTRO_SHOWN, false);
+        if (!introShown) {
             //the app is being launched for first time, do something
             Bundle settingsBundle = new Bundle();
             settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
@@ -81,8 +75,12 @@ public class SplashscreenActivity extends AppCompatActivity {
                 }
             };
             splashTread.start();
+        }else if(introShown && !appSetUp){
+            Intent i = new Intent();
+            i.setClass(SplashscreenActivity.this, SelectPublishersActivity.class);
+            startActivity(i);
         }
-        else{
+        else if(introShown && appSetUp){
             Intent i = new Intent();
             i.setClass(SplashscreenActivity.this, MainActivity.class);
             startActivity(i);

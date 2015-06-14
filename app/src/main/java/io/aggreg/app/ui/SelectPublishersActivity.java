@@ -2,7 +2,6 @@ package io.aggreg.app.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -18,9 +17,7 @@ public class SelectPublishersActivity extends AppCompatActivity implements Selec
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publisher);
-        // record the fact that the app has been started at least once
-        SharedPreferences settings = getSharedPreferences(References.KEY_PREFERENCES, 0);
-        settings.edit().putBoolean(References.KEY_PREF_FIRST_TIME, false).apply();
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, SelectPublishersFragment.newInstance(References.ACTIVITY_TYPE_SETUP_PUBLISHERS))
@@ -52,6 +49,9 @@ public class SelectPublishersActivity extends AppCompatActivity implements Selec
 
     @Override
     public void onFabClicked() {
+        // record the fact that the app has been started at least once
+        SharedPreferences settings = getSharedPreferences(References.KEY_PREFERENCES, 0);
+        settings.edit().putBoolean(References.KEY_APP_SETUP, true).apply();
 
         Intent i = new Intent(SelectPublishersActivity.this, MainActivity.class);
         i.putExtra(References.ARG_IS_FIRST_TIME, true);
