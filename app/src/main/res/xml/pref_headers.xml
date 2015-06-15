@@ -11,4 +11,7 @@
     <header android:fragment="io.aggreg.app.ui.SettingsActivity$DataSyncPreferenceFragment"
         android:title="@string/pref_header_data_sync" />
 
+    <header android:fragment="io.aggreg.app.ui.SettingsActivity$AboutPreferenceFragment"
+        android:title="@string/pref_header_about" />
+
 </preference-headers>

@@ -44,4 +44,10 @@ public class ManagePublishersActivity extends AppCompatActivity implements Selec
     public void onFabClicked() {
         finish();
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
+    }
 }

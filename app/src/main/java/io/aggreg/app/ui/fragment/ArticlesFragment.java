@@ -70,8 +70,8 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
         });
 
         recyclerView = (RecyclerView) view.findViewById(android.R.id.list);
-        SharedPreferences prefs = getActivity().getSharedPreferences(References.KEY_PREFERENCES, Context.MODE_PRIVATE);
-        if(prefs.getBoolean(References.KEY_TOGGLE_GRID, false)){
+        boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
+        if (tabletSize) {
             StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
             staggeredGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
             recyclerView.setLayoutManager(staggeredGridLayoutManager);

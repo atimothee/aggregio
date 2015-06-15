@@ -50,7 +50,7 @@
                         android:id="@+id/article_item_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif"
+                        android:fontFamily="sans-serif-light"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@android:color/primary_text_light" />
 

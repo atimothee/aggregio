@@ -88,6 +88,7 @@
         </service>
 
         <activity
+            android:theme="@style/Theme.Aggregio"
             android:name=".ui.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName=".ui.MainActivity" >

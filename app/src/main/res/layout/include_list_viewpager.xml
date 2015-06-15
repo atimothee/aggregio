@@ -38,11 +38,14 @@
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
             app:tabIndicatorHeight="5dp"
-            app:tabIndicatorColor="@color/theme_accent_3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
     </android.support.design.widget.AppBarLayout>
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="192dp"-->
+        <!--android:background="@color/theme_primary"/>-->
     <ProgressBar
         android:id="@+id/progress_bar"
         android:visibility="gone"

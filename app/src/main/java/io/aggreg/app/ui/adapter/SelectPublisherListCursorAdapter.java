@@ -73,7 +73,7 @@ public class SelectPublisherListCursorAdapter extends CursorRecyclerViewAdapter<
                     selectPublisherContentValues.putSelected(true);
                     SelectPublisherSelection selectPublisherSelection = new SelectPublisherSelection();
                     selectPublisherSelection.id(cursor.getLong(cursor.getColumnIndex(PublisherColumns._ID)));
-                    selectPublisherSelection.notify(false);
+                    //selectPublisherSelection.notify(false);
                     selectPublisherContentValues.update(mContext.getContentResolver(), selectPublisherSelection);
 
                     //TODO: insert or update

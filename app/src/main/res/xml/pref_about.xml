@@ -4,16 +4,19 @@
         android:key="licenses"
         android:title="@string/pref_title_open_source_licenses"
         android:description="@string/pref_description_open_source_licenses"
+        android:summary="@string/pref_description_open_source_licenses"
         />
     <Preference
         android:key="usage_policy"
         android:title="@string/pref_title_usage_policy"
         android:description="@string/pref_description_usage_policy"
+        android:summary="@string/pref_description_usage_policy"
         />
     <Preference
         android:key="version"
         android:title="@string/app_name"
         android:description="@string/app_version"
+        android:summary="@string/app_version"
         />
 
 </PreferenceScreen>

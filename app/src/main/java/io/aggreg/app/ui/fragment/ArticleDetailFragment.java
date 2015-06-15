@@ -140,7 +140,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         if(articlesCursor.getCount() != 0){
             articlesCursor.moveToFirst();
             articleText.setText(Html.fromHtml(articlesCursor.getString(articlesCursor.getColumnIndex(ArticleColumns.TEXT))));
-            Log.d(LOG_TAG, "html is " + articlesCursor.getString(articlesCursor.getColumnIndex(ArticleColumns.TEXT)));
+            Log.d(LOG_TAG, "link is " + articlesCursor.getString(articlesCursor.getColumnIndex(ArticleColumns.LINK)));
             articleText.setMovementMethod(LinkMovementMethod.getInstance());
             String title = articlesCursor.getString(articlesCursor.getColumnIndex(ArticleColumns.TITLE));
             articleTitle.setText(title);
@@ -175,8 +175,8 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     }
 
     private void toggleBookmark(){
-        ArticleContentValues articleContentValues;
         ArticleSelection articleSelection = new ArticleSelection();
+        articleSelection.link(getArguments().getString(References.ARG_KEY_ARTICLE_LINK));
         ArticleCursor articleCursor = articleSelection.query(getActivity().getContentResolver());
         articleCursor.moveToFirst();
         Boolean bookMarked = articleCursor.getBookMarked();

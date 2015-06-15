@@ -97,9 +97,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         settingsBundle.putBoolean(
                 ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-        settingsBundle.putString(References.ARG_KEY_SYNC_TYPE, References.SYNC_TYPE_CATEGORY);
+        settingsBundle.putString(References.ARG_KEY_SYNC_TYPE, References.SYNC_TYPE_FIRST_TIME);
         Account account = new AccountUtils(getApplicationContext()).getSyncAccount();
-        ContentResolver.setSyncAutomatically(account, AggregioProvider.AUTHORITY, true);
         ContentResolver.requestSync(account, AggregioProvider.AUTHORITY, settingsBundle);
         publisherCategoriesCursor = null;
         getSupportLoaderManager().initLoader(References.PUBLISHER_LOADER, null, this);
@@ -207,8 +206,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoadFinished(Loader loader, Object data) {
 
+
         publisherCategoriesCursor = (Cursor) data;
         if(publisherCategoriesCursor != null) {
+            Log.d(LOG_TAG, "publisher category size is "+((Cursor)data).getCount());
         if(publisherCategoriesCursor.getCount()!=0) {
             publisherCategoriesCursor.moveToFirst();
             do {

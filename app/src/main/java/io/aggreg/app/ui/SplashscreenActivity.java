@@ -19,24 +19,24 @@ import io.aggreg.app.utils.References;
 
 public class SplashscreenActivity extends AppCompatActivity {
     protected int _splashTime = 2000;
-    public static GoogleAnalytics analytics;
-    public static Tracker tracker;
+//    public static GoogleAnalytics analytics;
+//    public static Tracker tracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splashscreen);
-        analytics = GoogleAnalytics.getInstance(this);
-        analytics.setLocalDispatchPeriod(1800);
-
-        //tracker = analytics.newTracker("UA-63988121-1"); // Replace with actual tracker/property Id
-        tracker = analytics.newTracker(getString(R.string.analytics_tracker_id)); // Replace with actual tracker/property Id
-        tracker.enableExceptionReporting(true);
-        tracker.enableAdvertisingIdCollection(true);
-        tracker.enableAutoActivityTracking(true);
-
-    // Enable Advertising Features.
-        tracker.enableAdvertisingIdCollection(true);
+//        analytics = GoogleAnalytics.getInstance(this);
+//        analytics.setLocalDispatchPeriod(1800);
+//
+//        //tracker = analytics.newTracker("UA-63988121-1"); // Replace with actual tracker/property Id
+//        tracker = analytics.newTracker(getString(R.string.analytics_tracker_id)); // Replace with actual tracker/property Id
+//        tracker.enableExceptionReporting(true);
+//        tracker.enableAdvertisingIdCollection(true);
+//        tracker.enableAutoActivityTracking(true);
+//
+//    // Enable Advertising Features.
+//        tracker.enableAdvertisingIdCollection(true);
         AppRater.app_launched(this);
 
         SharedPreferences settings = getSharedPreferences(References.KEY_PREFERENCES, 0);
@@ -50,7 +50,7 @@ public class SplashscreenActivity extends AppCompatActivity {
                     ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
             settingsBundle.putString(References.ARG_KEY_SYNC_TYPE, References.SYNC_TYPE_PUBLISHER);
             Account account = new AccountUtils(getApplicationContext()).getSyncAccount();
-            ContentResolver.setSyncAutomatically(account, AggregioProvider.AUTHORITY, true);
+            //ContentResolver.setSyncAutomatically(account, AggregioProvider.AUTHORITY, true);
             ContentResolver.requestSync(account, AggregioProvider.AUTHORITY, settingsBundle);
 
             // first time task

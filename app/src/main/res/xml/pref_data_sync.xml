@@ -4,7 +4,7 @@
          dismiss it. -->
     <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
     <ListPreference
-        android:key="sync_frequency"
+        android:key="@string/pref_key_sync_frequency"
         android:title="@string/pref_title_sync_frequency"
         android:entries="@array/pref_sync_frequency_titles"
         android:entryValues="@array/pref_sync_frequency_values"
@@ -14,14 +14,10 @@
 
     <CheckBoxPreference
         android:key="download_images_checkbox"
-        android:title="@string/pref_title_download_images"
-        android:summary="@string/pref_description_download_images"
+        android:title="@string/pref_title_fetch_images"
+        android:summary="@string/pref_description_fetch_images"
         android:defaultValue="true" />
 
-    <!-- This preference simply launches an intent when selected. Use this UI sparingly, per
-         design guidelines. -->
-    <Preference android:title="@string/pref_title_system_sync_settings">
-        <intent android:action="android.settings.SYNC_SETTINGS" />
-    </Preference>
+
 
 </PreferenceScreen>

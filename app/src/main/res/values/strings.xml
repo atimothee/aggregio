@@ -14,8 +14,8 @@
     <string name="nav_help">Help and feedback</string>
     <string name="view_on_web">View on Web</string>
     <string name="read_next">Read Next</string>
-    <string name="pref_title_download_images">Download Images via Wi-Fi only</string>
-    <string name="pref_description_download_images">To reduce carrier data charges, don\'t download images over mobile networks</string>
+    <string name="pref_title_fetch_images">Fetch Images via Wi-Fi only</string>
+    <string name="pref_description_fetch_images">To reduce carrier data charges, don\'t fetch images over mobile networks</string>
     <string name="pref_title_open_source_licenses">Open Source Licenses</string>
     <string name="pref_description_open_source_licenses">Legal information about licenses</string>
     <string name="pref_title_usage_policy">Usage Policy</string>
@@ -38,5 +38,7 @@
     <string name="bookmark_long">Bookmark stories you don\'t have time to read for later and share with your friends on social media.</string>
     <string name="title_activity_publisher_articles">PublisherArticlesActivity</string>
     <string name="title_activity_select_publishers">SelectPublishersActivity</string>
+    <string name="pref_key_article_text_size">article_text_size</string>
+    <string name="pref_key_sync_frequency">sync_frequency</string>
 
 </resources>

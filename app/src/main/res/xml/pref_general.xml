@@ -1,7 +1,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ListPreference
-        android:key="article_text_size"
+        android:key="@string/pref_key_article_text_size"
         android:title="@string/pref_title_article_text_size"
         android:defaultValue="-1"
         android:entries="@array/pref_article_text_size_list_titles"
