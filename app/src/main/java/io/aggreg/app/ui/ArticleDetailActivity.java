@@ -34,25 +34,7 @@ public class ArticleDetailActivity extends AppCompatActivity implements ArticleD
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_article_detail, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            startActivity(new Intent(ArticleDetailActivity.this, SettingsActivity.class));
-        }else if(id ==R.id.action_open_in_browser){
-            //TODO: Open in webview
-        }else if(id==R.id.action_share){
-            //TODO: Share article
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void onFragmentInteraction(Uri uri) {

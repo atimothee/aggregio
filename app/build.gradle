@@ -192,7 +192,7 @@ dependencies {
     compile 'com.flipboard:bottomsheet-core:1.1.0'
     compile 'com.flipboard:bottomsheet-commons:1.1.0'
     compile 'com.github.paolorotolo:appintro:1.1.0'
-    compile 'com.github.codechimp-org.apprater:library:1.0.+'
+    compile 'com.github.codechimp-org.apprater:library:1.0.29'
     compile 'de.psdev.licensesdialog:licensesdialog:1.7.0'
     compile 'com.android.support:support-v4:22.2.0'
     compile 'com.google.android.gms:play-services-analytics:7.5.0'

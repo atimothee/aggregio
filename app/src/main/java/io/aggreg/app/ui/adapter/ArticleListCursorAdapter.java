@@ -39,14 +39,12 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
         public TextView publisherName;
         public RelativeTimeTextView timeAgo;
         public ImageView articleImage;
-        public ImageView publisherImage;
         public ViewHolder(View view) {
             super(view);
             articleTitle = (TextView)view.findViewById(R.id.article_item_title);
             publisherName = (TextView)view.findViewById(R.id.article_item_source_name);
             timeAgo = (RelativeTimeTextView)view.findViewById(R.id.article_item_time_ago);
             articleImage = (ImageView)view.findViewById(R.id.article_item_image);
-            publisherImage = (ImageView)view.findViewById(R.id.article_item_source_logo);
         }
     }
 
@@ -80,14 +78,5 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
         }else{
             viewHolder.articleImage.setVisibility(View.GONE);
         }
-        //Glide.with(mContext).load(myListItem.getPublisherLogoUrl()).into(viewHolder.publisherImage);
-        viewHolder.publisherImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(mContext, PublisherArticlesActivity.class);
-                i.putExtra(References.ARG_KEY_PUBLISHER_ID, cursor.getLong(cursor.getColumnIndex(ArticleColumns.PUBLISHER_ID)));
-                mContext.startActivity(i);
-            }
-        });
     }
 }

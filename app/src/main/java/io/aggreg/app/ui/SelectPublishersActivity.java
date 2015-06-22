@@ -57,4 +57,10 @@ public class SelectPublishersActivity extends AppCompatActivity implements Selec
         i.putExtra(References.ARG_IS_FIRST_TIME, true);
         startActivity(i);
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
+    }
 }

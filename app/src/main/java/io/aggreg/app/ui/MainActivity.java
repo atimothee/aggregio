@@ -88,18 +88,24 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         setContentView(R.layout.activity_main);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         progressBar = (ProgressBar)findViewById(R.id.progress_bar);
-        if(getIntent().getBooleanExtra(References.ARG_IS_FIRST_TIME, false)){
-            viewPager.setVisibility(View.INVISIBLE);
-            progressBar.setVisibility(View.VISIBLE);
-        }
-        pagerTitles = new HashSet();
+        Account account = new AccountUtils(getApplicationContext()).getSyncAccount();
         Bundle settingsBundle = new Bundle();
         settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         settingsBundle.putBoolean(
                 ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-        settingsBundle.putString(References.ARG_KEY_SYNC_TYPE, References.SYNC_TYPE_FIRST_TIME);
-        Account account = new AccountUtils(getApplicationContext()).getSyncAccount();
-        ContentResolver.requestSync(account, AggregioProvider.AUTHORITY, settingsBundle);
+        if(getIntent().getBooleanExtra(References.ARG_IS_FIRST_TIME, false)){
+
+            settingsBundle.putString(References.ARG_KEY_SYNC_TYPE, References.SYNC_TYPE_FIRST_TIME);
+            ContentResolver.requestSync(account, AggregioProvider.AUTHORITY, settingsBundle);
+        }else{
+            settingsBundle.putBoolean(
+                    ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+            settingsBundle.putString(References.ARG_KEY_SYNC_TYPE, References.SYNC_TYPE_ARTICLE_REFRESH);
+            ContentResolver.requestSync(account, AggregioProvider.AUTHORITY, settingsBundle);
+
+        }
+        pagerTitles = new HashSet();
+
         publisherCategoriesCursor = null;
         getSupportLoaderManager().initLoader(References.PUBLISHER_LOADER, null, this);
 

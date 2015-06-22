@@ -21,6 +21,7 @@ import java.util.zip.Inflater;
 
 import io.aggreg.app.R;
 import io.aggreg.app.provider.selectpublisher.SelectPublisherColumns;
+import io.aggreg.app.provider.selectpublisher.SelectPublisherCursor;
 import io.aggreg.app.ui.adapter.SelectPublisherListCursorAdapter;
 import io.aggreg.app.ui.adapter.SelectPublishersAdapter;
 import io.aggreg.app.utils.References;
@@ -31,6 +32,8 @@ public class SelectPublishersFragment extends Fragment implements LoaderManager.
     private static String LOG_TAG = SelectPublishersFragment.class.getSimpleName();
     RecyclerView gridView;
     private FloatingActionButton doneFab;
+    private Cursor mCursor;
+    View headerView;
 
     public static SelectPublishersFragment newInstance(String activityType) {
         SelectPublishersFragment selectPublishersFragment = new SelectPublishersFragment();
@@ -82,6 +85,9 @@ public class SelectPublishersFragment extends Fragment implements LoaderManager.
         gridView.setLayoutManager(manager);
         //gridView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         //gridView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        headerView = inflater.inflate(R.layout.publisher_grid_header, null);
+
         return rootView;
     }
 
@@ -109,15 +115,30 @@ public class SelectPublishersFragment extends Fragment implements LoaderManager.
 
     @Override
     public void onLoadFinished(Loader loader, Object data) {
+        Log.d(LOG_TAG, "pub cursor load finished");
+        int mScrollPosition = 0;
+        RecyclerView.LayoutManager layoutManager = gridView.getLayoutManager();
+        if(layoutManager != null && layoutManager instanceof LinearLayoutManager){
+            mScrollPosition = ((LinearLayoutManager) layoutManager).findFirstCompletelyVisibleItemPosition();
+            Log.d(LOG_TAG, "pub cursor position "+mScrollPosition);
+        }
+
+
         if(data!=null) {
             Log.d(LOG_TAG, "publishers size is " + ((Cursor) data).getCount());
-            SelectPublishersAdapter adapter = new SelectPublishersAdapter(getActivity(), (Cursor) data);
-            LayoutInflater inflater = LayoutInflater.from(getActivity());
-            View headerView = inflater.inflate(R.layout.publisher_grid_header, null);
-            View footerView = inflater.inflate(R.layout.publisher_grid_footer, null);
+            mCursor = (Cursor) data;
+            SelectPublishersAdapter adapter = new SelectPublishersAdapter(getActivity(), mCursor);
             adapter.addHeader(headerView);
             //adapter.addFooter(footerView);
             gridView.setAdapter(adapter);
+
+            if (layoutManager != null) {
+//                int count = layoutManager.getChildCount();
+//                if (mScrollPosition != RecyclerView.NO_POSITION && mScrollPosition < count) {
+                    layoutManager.scrollToPosition(mScrollPosition);
+                    Log.d(LOG_TAG, "pub cursor scrolled to position " + mScrollPosition);
+                //}
+            }
         }
 
     }
@@ -125,12 +146,14 @@ public class SelectPublishersFragment extends Fragment implements LoaderManager.
     @Override
     public void onLoaderReset(Loader loader) {
 
+        Log.d(LOG_TAG, "pub cursor load reset");
     }
 
 
     public interface OnFragmentInteractionListener {
         void onFabClicked();
     }
+
 
 
 }

@@ -116,9 +116,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             PublisherCategorySelection selection = new PublisherCategorySelection();
             selection.categoryId(categoryId);
             PublisherCategoryCursor publisherCategoryCursor = selection.query(mContentResolver, null, null);
-            do{
-                refreshArticles(service, publisherCategoryCursor.getPublisherId(), categoryId);
-            }while(publisherCategoryCursor.moveToNext());
+            publisherCategoryCursor.moveToFirst();
+            if(publisherCategoryCursor.getCount()!=0) {
+                do {
+                    refreshArticles(service, publisherCategoryCursor.getPublisherId(), categoryId);
+                } while (publisherCategoryCursor.moveToNext());
+            }
 
 
             Log.d(LOG_TAG, "sync type "+ References.SYNC_TYPE_ARTICLE_REFRESH);

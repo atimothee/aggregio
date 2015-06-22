@@ -70,15 +70,11 @@ public class SelectPublishersAdapter extends HeaderViewRecyclerAdapter<SelectPub
             ((CheckableLinearLayout) viewHolder.itemView).setChecked(false);
         }
         viewHolder.publisherName.setText(myListItem.getPublisherName());
-        if(myListItem.getPublisherLogoUrl()!=null) {
-            viewHolder.publisherImage.setVisibility(View.VISIBLE);
-            Glide.with(mContext).load(myListItem.getPublisherLogoUrl()).into(viewHolder.publisherImage);
-        }else{
-            Glide.with(mContext).load(R.drawable.new_vision_logo_square).into(viewHolder.publisherImage);
-            //viewHolder.publisherImage.setVisibility(View.GONE);
-        }
+        viewHolder.publisherImage.setVisibility(View.VISIBLE);
+        Glide.with(mContext).load(myListItem.getPublisherLogoUrl()).into(viewHolder.publisherImage);
         final Long publisherId = cursor.getLong(cursor.getColumnIndex(SelectPublisherColumns._ID));
         final String publisherName = cursor.getString(cursor.getColumnIndex(SelectPublisherColumns.NAME));
+        final String publisherImage = cursor.getString(cursor.getColumnIndex(SelectPublisherColumns.IMAGE_URL));
         CheckableLinearLayout view = (CheckableLinearLayout)viewHolder.itemView;
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,6 +104,7 @@ public class SelectPublishersAdapter extends HeaderViewRecyclerAdapter<SelectPub
                     ContentValues publisherContentValues = new ContentValues();
                     publisherContentValues.put(PublisherColumns._ID, publisherId);
                     publisherContentValues.put(PublisherColumns.NAME, publisherName);
+                    publisherContentValues.put(PublisherColumns.IMAGE_URL, publisherImage);
                     try {
                         mContext.getContentResolver().insert(PublisherColumns.CONTENT_URI, publisherContentValues);
                     } catch (Exception e) {

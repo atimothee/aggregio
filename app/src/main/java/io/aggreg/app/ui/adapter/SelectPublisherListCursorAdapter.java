@@ -73,6 +73,7 @@ public class SelectPublisherListCursorAdapter extends CursorRecyclerViewAdapter<
                     selectPublisherContentValues.putSelected(true);
                     SelectPublisherSelection selectPublisherSelection = new SelectPublisherSelection();
                     selectPublisherSelection.id(cursor.getLong(cursor.getColumnIndex(PublisherColumns._ID)));
+                    selectPublisherSelection.notify(false);
                     //selectPublisherSelection.notify(false);
                     selectPublisherContentValues.update(mContext.getContentResolver(), selectPublisherSelection);
 
@@ -113,13 +114,8 @@ public class SelectPublisherListCursorAdapter extends CursorRecyclerViewAdapter<
 
         SelectPublisherItem myListItem = SelectPublisherItem.fromCursor(cursor);
         viewHolder.publisherName.setText(myListItem.getPublisherName());
-        if(myListItem.getPublisherLogoUrl()!=null) {
             viewHolder.publisherImage.setVisibility(View.VISIBLE);
             Glide.with(mContext).load(myListItem.getPublisherLogoUrl()).into(viewHolder.publisherImage);
-        }else{
-            Glide.with(mContext).load(R.drawable.new_vision_logo_square).into(viewHolder.publisherImage);
-            //viewHolder.publisherImage.setVisibility(View.GONE);
-        }
         if(myListItem.getSelected()){
             ((CheckableLinearLayout) viewHolder.itemView).setChecked(true);
         }

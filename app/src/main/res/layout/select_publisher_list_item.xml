@@ -18,10 +18,9 @@
     <ImageView
         android:layout_alignParentTop="true"
         android:adjustViewBounds="true"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="fitCenter"
-        android:src="@drawable/new_vision_logo_square"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
         android:id="@+id/publisher_item_logo"
         />
         <TextView

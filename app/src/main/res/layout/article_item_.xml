@@ -101,8 +101,7 @@
                                 android:layout_gravity="bottom|right"
                                 android:id="@+id/article_item_source_logo"
                                 android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:src="@drawable/new_vision_logo_square" />
+                                android:layout_height="40dp" />
 
 
                     </LinearLayout>
