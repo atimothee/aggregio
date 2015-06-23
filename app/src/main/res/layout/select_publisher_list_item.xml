@@ -16,6 +16,7 @@
         android:layout_height="match_parent">
 
     <ImageView
+        android:src="@drawable/no_img_placeholder"
         android:layout_alignParentTop="true"
         android:adjustViewBounds="true"
         android:layout_width="100dp"

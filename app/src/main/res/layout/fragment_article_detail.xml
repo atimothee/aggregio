@@ -163,14 +163,17 @@
                 <RelativeLayout
                     android:id="@+id/article_related1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="80dp">
                     <ImageView
                         android:visibility="gone"
                         android:id="@+id/article_related1_image"
                         android:layout_width="80dp"
                         android:scaleType="centerCrop"
-                        android:layout_height="80dp" />
+                        android:layout_height="match_parent" />
                     <TextView
+                        android:fontFamily="sans-serif"
+                        android:maxLines="2"
+                        android:ellipsize="marquee"
                         android:padding="5dp"
                         android:textColor="@color/body_text_1"
                         android:layout_toRightOf="@+id/article_related1_image"
@@ -201,14 +204,17 @@
                 <RelativeLayout
                     android:id="@+id/article_related2"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="80dp">
                     <ImageView
                         android:visibility="gone"
                         android:id="@+id/article_related2_image"
                         android:layout_width="80dp"
                         android:scaleType="centerCrop"
-                        android:layout_height="80dp" />
+                        android:layout_height="match_parent" />
                     <TextView
+                        android:fontFamily="sans-serif"
+                        android:maxLines="2"
+                        android:ellipsize="marquee"
                         android:padding="5dp"
                         android:textColor="@color/body_text_1"
                         android:layout_toRightOf="@+id/article_related2_image"
@@ -239,14 +245,17 @@
                 <RelativeLayout
                     android:id="@+id/article_related3"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="80dp">
                     <ImageView
                         android:visibility="gone"
                         android:id="@+id/article_related3_image"
                         android:layout_width="80dp"
                         android:scaleType="centerCrop"
-                        android:layout_height="80dp" />
+                        android:layout_height="match_parent" />
                     <TextView
+                        android:fontFamily="sans-serif"
+                        android:maxLines="2"
+                        android:ellipsize="marquee"
                         android:padding="5dp"
                         android:textColor="@color/body_text_1"
                         android:layout_toRightOf="@+id/article_related3_image"
