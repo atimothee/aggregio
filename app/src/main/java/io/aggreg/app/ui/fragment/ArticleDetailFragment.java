@@ -214,7 +214,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                 collapsingToolbar.setTitle(title);
                 String imageUrl = articleCursor.getString(articleCursor.getColumnIndex(ArticleColumns.IMAGE));
                 if (imageUrl != null) {
-                    Glide.with(getActivity()).load(imageUrl).into(articleImage);
+                    Glide.with(getActivity()).load(imageUrl).placeholder(R.drawable.no_img_placeholder).centerCrop().into(articleImage);
                 }
                 else {
                     //articleImageFrame.setLayoutParams(new CollapsingToolbarLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100));

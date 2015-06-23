@@ -31,6 +31,7 @@ import java.sql.Ref;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import io.aggreg.app.R;
 import io.aggreg.app.provider.article.ArticleColumns;
@@ -127,7 +128,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 publisherCategoryCursor.moveToFirst();
                 if (publisherCategoryCursor.getCount() != 0) {
                     do {
-                        refreshArticles(service, publisherCategoryCursor.getPublisherId(), publisherCategoryCursor.getCategoryId());
+                        try {
+                            refreshArticles(service, publisherCategoryCursor.getPublisherId(), publisherCategoryCursor.getCategoryId());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     } while (publisherCategoryCursor.moveToNext());
                 }
             }
@@ -142,7 +147,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         }
     }
 
-    private void refreshArticles(Aggregio service, Long publisherId, Long categoryId){
+    private void refreshArticles(Aggregio service, Long publisherId, Long categoryId) throws IOException {
         SharedPreferences prefs = getContext().getSharedPreferences(References.KEY_PREFERENCES, Context.MODE_PRIVATE);
         String key = References.KEY_LAST_SYNC+categoryId+publisherId;
         Long lastSyncDate = prefs.getLong(key, 0);
@@ -150,8 +155,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         if(lastSyncDate == 0){
             lastSyncDate = null;
         }
-        //ApiAggregioArticleCollection articleCollection = service.articles().cursorList(categoryId, publisherId, lastSyncDate).execute();
-        //saveArticles(articleCollection);
+        ApiAggregioArticleCollection articleCollection = service.articles().cursorList(publisherId, categoryId)
+                .setLastSyncDateMilliseconds(lastSyncDate)
+                .setLastSyncDateTimeZoneOffset(Long.valueOf(TimeZone.getTimeZone("Africa/Kampala").getOffset(System.currentTimeMillis())))
+                .execute();
+        saveArticles(articleCollection);
         editor.putLong(key, new Date().getTime());
         editor.commit();
     }

@@ -76,7 +76,7 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
         viewHolder.timeAgo.setReferenceTime(articleItem.getTimeAgo());
         if(articleItem.getImage()!=null) {
             viewHolder.articleImage.setVisibility(View.VISIBLE);
-            Glide.with(mContext).load(articleItem.getImage()).into(viewHolder.articleImage);
+            Glide.with(mContext).load(articleItem.getImage()).fitCenter().placeholder(R.drawable.no_img_placeholder).into(viewHolder.articleImage);
         }else{
             viewHolder.articleImage.setVisibility(View.GONE);
         }
