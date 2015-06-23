@@ -5,9 +5,9 @@ import io.aggreg.app.BuildConfig;
 public class References {
     public static final int PUBLISHER_LOADER = 0;
     public static final int ARTICLES_LOADER = 1;
-    public static final int ARTICLE_DETAIL_LOADER = 5;
-    public static final int ARTICLE_RELATED_LOADER = 6;
-    public static final int BOOKMARKS_LOADER = 7;
+    public static final int ARTICLE_DETAIL_LOADER = 2;
+    public static final int ARTICLE_RELATED_LOADER = 3;
+    public static final int BOOKMARKS_LOADER = 4;
 
     public static final String KEY_TOGGLE_GRID = "toggle_grid";
     public static final String KEY_PREFERENCES = "preferences";

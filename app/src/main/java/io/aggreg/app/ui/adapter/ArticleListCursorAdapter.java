@@ -19,6 +19,7 @@ import com.github.curioustechizen.ago.RelativeTimeTextView;
 
 import io.aggreg.app.R;
 import io.aggreg.app.provider.article.ArticleColumns;
+import io.aggreg.app.provider.category.CategoryColumns;
 import io.aggreg.app.provider.publisher.PublisherColumns;
 import io.aggreg.app.ui.ArticleDetailActivity;
 import io.aggreg.app.ui.PublisherArticlesActivity;
@@ -65,6 +66,7 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
         Log.d(LOG_TAG, "id cursor is " + cursor.getLong(cursor.getColumnIndex(ArticleColumns._ID)));
                 Intent i = new Intent(mContext, ArticleDetailActivity.class);
                 i.putExtra(References.ARG_KEY_ARTICLE_LINK, cursor.getString(cursor.getColumnIndex(ArticleColumns.LINK)));
+                i.putExtra(References.ARG_KEY_CATEGORY_ID, cursor.getLong(cursor.getColumnIndex(ArticleColumns.CATEGORY_ID)));
                 mContext.startActivity(i);
             }
         });

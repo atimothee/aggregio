@@ -17,19 +17,33 @@ import android.os.Build;
 
 import io.aggreg.app.R;
 import io.aggreg.app.ui.fragment.ArticleDetailFragment;
+import io.aggreg.app.ui.fragment.ArticlesFragment;
 import io.aggreg.app.utils.References;
 
 
 public class ArticleDetailActivity extends AppCompatActivity implements ArticleDetailFragment.OnFragmentInteractionListener{
 
+    Boolean isTablet;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_detail);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, ArticleDetailFragment.newInstance(getIntent().getStringExtra(References.ARG_KEY_ARTICLE_LINK)))
-                    .commit();
+        isTablet = getResources().getBoolean(R.bool.isTablet);
+        if(isTablet){
+
+            if (savedInstanceState == null) {
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.article_list_container, ArticlesFragment.newInstance(getIntent().getLongExtra(References.ARG_KEY_CATEGORY_ID, 0)))
+                        .add(R.id.article_detail_container, ArticleDetailFragment.newInstance(getIntent().getStringExtra(References.ARG_KEY_ARTICLE_LINK), getIntent().getLongExtra(References.ARG_KEY_CATEGORY_ID, 0)))
+                        .commit();
+            }
+        }else {
+
+            if (savedInstanceState == null) {
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.container, ArticleDetailFragment.newInstance(getIntent().getStringExtra(References.ARG_KEY_ARTICLE_LINK), getIntent().getLongExtra(References.ARG_KEY_CATEGORY_ID, 0)))
+                                .commit();
+            }
         }
     }
 

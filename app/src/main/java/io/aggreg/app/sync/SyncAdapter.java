@@ -112,15 +112,24 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
         } else if (syncType.equalsIgnoreCase(References.SYNC_TYPE_ARTICLE_REFRESH)) {
 
-            Long categoryId = extras.getLong(References.ARG_KEY_CATEGORY_ID);
+
+
             PublisherCategorySelection selection = new PublisherCategorySelection();
-            selection.categoryId(categoryId);
+            Log.d(LOG_TAG, "category id is "+extras.getLong(References.ARG_KEY_CATEGORY_ID));
+            if(extras.getLong(References.ARG_KEY_CATEGORY_ID)==0){
+
+            }else{
+                Long categoryId = extras.getLong(References.ARG_KEY_CATEGORY_ID);
+                selection.categoryId(categoryId);
+            }
             PublisherCategoryCursor publisherCategoryCursor = selection.query(mContentResolver, null, null);
-            publisherCategoryCursor.moveToFirst();
-            if(publisherCategoryCursor.getCount()!=0) {
-                do {
-                    refreshArticles(service, publisherCategoryCursor.getPublisherId(), categoryId);
-                } while (publisherCategoryCursor.moveToNext());
+            if(publisherCategoryCursor != null) {
+                publisherCategoryCursor.moveToFirst();
+                if (publisherCategoryCursor.getCount() != 0) {
+                    do {
+                        refreshArticles(service, publisherCategoryCursor.getPublisherId(), publisherCategoryCursor.getCategoryId());
+                    } while (publisherCategoryCursor.moveToNext());
+                }
             }
 
 

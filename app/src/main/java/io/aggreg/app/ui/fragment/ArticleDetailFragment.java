@@ -11,7 +11,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -25,6 +27,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,16 +35,19 @@ import com.bumptech.glide.Glide;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
 import com.google.android.gms.analytics.Tracker;
 
+import java.sql.Ref;
+
 import io.aggreg.app.R;
 import io.aggreg.app.provider.article.ArticleColumns;
 import io.aggreg.app.provider.article.ArticleContentValues;
 import io.aggreg.app.provider.article.ArticleCursor;
 import io.aggreg.app.provider.article.ArticleSelection;
 import io.aggreg.app.provider.publisher.PublisherColumns;
+import io.aggreg.app.ui.ArticleDetailActivity;
 import io.aggreg.app.ui.SettingsActivity;
 import io.aggreg.app.utils.References;
 
-public class ArticleDetailFragment extends Fragment implements LoaderManager.LoaderCallbacks{
+public class ArticleDetailFragment extends Fragment implements LoaderManager.LoaderCallbacks, View.OnClickListener{
     private TextView articleText;
     private TextView articleTitle;
     private TextView publisherName;
@@ -53,15 +59,31 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     private FloatingActionButton bookmarkFab;
     private static String LOG_TAG = ArticleDetailFragment.class.getSimpleName();
     private Cursor articleCursor;
+    private Cursor relatedCursor;
     private Button viewOnWeb;
     Tracker tracker;
+    private ImageView related1Image;
+    private ImageView related2Image;
+    private ImageView related3Image;
+    private TextView related1Title;
+    private TextView related2Title;
+    private TextView related3Title;
+    private RelativeLayout articleRelated1;
+    private RelativeLayout articleRelated2;
+    private RelativeLayout articleRelated3;
+    private RelativeTimeTextView timeAgoRelated1;
+    private RelativeTimeTextView timeAgoRelated2;
+    private RelativeTimeTextView timeAgoRelated3;
+    private ShareActionProvider mShareActionProvider;
+    private String mShareString;
 
 
     private OnFragmentInteractionListener mListener;
-    public static ArticleDetailFragment newInstance(String articleLink) {
+    public static ArticleDetailFragment newInstance(String articleLink, Long categoryId) {
         ArticleDetailFragment fragment = new ArticleDetailFragment();
         Bundle args = new Bundle();
         args.putString(References.ARG_KEY_ARTICLE_LINK, articleLink);
+        args.putLong(References.ARG_KEY_CATEGORY_ID, categoryId);
         fragment.setArguments(args);
         fragment.setHasOptionsMenu(true);
         return fragment;
@@ -120,6 +142,18 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                 openInBrowser();
             }
         });
+        related1Title = (TextView)view.findViewById(R.id.article_related1_title);
+        related2Title = (TextView)view.findViewById(R.id.article_related2_title);
+        related3Title = (TextView)view.findViewById(R.id.article_related3_title);
+        related1Image = (ImageView)view.findViewById(R.id.article_related1_image);
+        related2Image = (ImageView)view.findViewById(R.id.article_related2_image);
+        related3Image = (ImageView)view.findViewById(R.id.article_related3_image);
+        articleRelated1 = (RelativeLayout)view.findViewById(R.id.article_related1);
+        articleRelated2 = (RelativeLayout)view.findViewById(R.id.article_related2);
+        articleRelated3 = (RelativeLayout)view.findViewById(R.id.article_related3);
+        timeAgoRelated1 = (RelativeTimeTextView)view.findViewById(R.id.article_related1_timeago);
+        timeAgoRelated2 = (RelativeTimeTextView)view.findViewById(R.id.article_related2_timeago);
+        timeAgoRelated3 = (RelativeTimeTextView)view.findViewById(R.id.article_related3_timeago);
         return view;
     }
 
@@ -146,8 +180,17 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
 
             ArticleSelection articleSelection = new ArticleSelection();
             articleSelection.link(bundle.getString(References.ARG_KEY_ARTICLE_LINK));
+            articleSelection.limit(1);
             return new CursorLoader(getActivity(), ArticleColumns.CONTENT_URI, null, articleSelection.sel(), articleSelection.args(), null);
         }else if(i == References.ARTICLE_RELATED_LOADER){
+            ArticleSelection articleSelection = new ArticleSelection();
+            String[] COLUMNS = {ArticleColumns._ID, ArticleColumns.TITLE, ArticleColumns.IMAGE, ArticleColumns.CATEGORY_ID, ArticleColumns.PUB_DATE, ArticleColumns.LINK, PublisherColumns.NAME, PublisherColumns.IMAGE_URL};
+
+            Log.d(LOG_TAG, "related cursor category id "+bundle.getLong(References.ARG_KEY_CATEGORY_ID));
+            Log.d(LOG_TAG, "related cursor article link " + bundle.getString(References.ARG_KEY_ARTICLE_LINK));
+            articleSelection.categoryId(bundle.getLong(References.ARG_KEY_CATEGORY_ID));
+            //articleSelection.linkNot(bundle.getString(References.ARG_KEY_ARTICLE_LINK));
+            return new CursorLoader(getActivity(), ArticleColumns.CONTENT_URI, COLUMNS, articleSelection.sel(), articleSelection.args(), "RANDOM() LIMIT 3");
 
         }
         return null;
@@ -171,11 +214,11 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                 collapsingToolbar.setTitle(title);
                 String imageUrl = articleCursor.getString(articleCursor.getColumnIndex(ArticleColumns.IMAGE));
                 if (imageUrl != null) {
-                    articleImage.setVisibility(View.VISIBLE);
                     Glide.with(getActivity()).load(imageUrl).into(articleImage);
-                } else {
-                    articleImage.setVisibility(View.GONE);
-                    articleImageFrame.setVisibility(View.GONE);
+                }
+                else {
+                    //articleImageFrame.setLayoutParams(new CollapsingToolbarLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100));
+
                 }
                 Glide.with(getActivity()).load(articleCursor.getString(articleCursor.getColumnIndex(PublisherColumns.IMAGE_URL))).into(publisherLogo);
                 publisherName.setText(articleCursor.getString(articleCursor.getColumnIndex(PublisherColumns.NAME)));
@@ -186,8 +229,42 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                 } else if (bookmarked == 0) {
                     bookmarkFab.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_bookmark_outline_white_24dp));
                 }
+                mShareString = articleCursor.getString(articleCursor.getColumnIndex(ArticleColumns.TITLE))
+                        +" "
+                        +articleCursor.getString(articleCursor.getColumnIndex(ArticleColumns.LINK));
             }
         }else if(loader.getId() == References.ARTICLE_RELATED_LOADER){
+            Log.d(LOG_TAG, "related cursor load finished");
+
+            relatedCursor = (Cursor) data;
+            if(relatedCursor != null){
+                Log.d(LOG_TAG, "related cursor count is "+relatedCursor.getCount());
+                if(relatedCursor.getCount()!=0){
+                    Log.d(LOG_TAG, "related cursor count is "+relatedCursor.getCount());
+                    relatedCursor.moveToFirst();
+                    int i = 0;
+                    RelativeLayout[] articleRelatedViews = {articleRelated1, articleRelated2, articleRelated3};
+                    TextView[] relatedTextViews = {related1Title, related2Title, related3Title};
+                    ImageView[] relatedImageViews = {related1Image, related2Image, related3Image};
+                    RelativeTimeTextView[] timeAgoRelatedViews = {timeAgoRelated1, timeAgoRelated2, timeAgoRelated3};
+                    do{
+
+                        Log.d(LOG_TAG, "looped related");
+                        relatedTextViews[i].setText(relatedCursor.getString(relatedCursor.getColumnIndex(ArticleColumns.TITLE)));
+                        String imageUrl = relatedCursor.getString(relatedCursor.getColumnIndex(ArticleColumns.IMAGE));
+                        if(imageUrl != null) {
+                            relatedImageViews[i].setVisibility(View.VISIBLE);
+                            Glide.with(getActivity()).load(imageUrl).into(relatedImageViews[i]);
+                        }
+                        articleRelatedViews[i].setOnClickListener(this);
+                        timeAgoRelatedViews[i].setReferenceTime(relatedCursor.getLong(relatedCursor.getColumnIndex(ArticleColumns.PUB_DATE)));
+                        i++;
+                        if(i>2){
+                            break;
+                        }
+                    }while (relatedCursor.moveToNext());
+                }
+            }
 
         }
 
@@ -195,6 +272,39 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
 
     @Override
     public void onLoaderReset(Loader loader) {
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        Intent i = new Intent(getActivity(), ArticleDetailActivity.class);
+
+        switch (view.getId()){
+            case R.id.article_related1:
+                relatedCursor.moveToPosition(0);
+
+                i.putExtra(References.ARG_KEY_ARTICLE_LINK, relatedCursor.getString(relatedCursor.getColumnIndex(ArticleColumns.LINK)));
+                Log.d(LOG_TAG, "related cursor link " + relatedCursor.getString(relatedCursor.getColumnIndex(ArticleColumns.LINK)));
+                i.putExtra(References.ARG_KEY_CATEGORY_ID, relatedCursor.getLong(relatedCursor.getColumnIndex(ArticleColumns.CATEGORY_ID)));
+                getActivity().startActivity(i);
+                break;
+            case R.id.article_related2:
+                relatedCursor.moveToPosition(1);
+                i.putExtra(References.ARG_KEY_ARTICLE_LINK, relatedCursor.getString(relatedCursor.getColumnIndex(ArticleColumns.LINK)));
+                Log.d(LOG_TAG, "related cursor link "+relatedCursor.getString(relatedCursor.getColumnIndex(ArticleColumns.LINK)));
+                i.putExtra(References.ARG_KEY_CATEGORY_ID, relatedCursor.getLong(relatedCursor.getColumnIndex(ArticleColumns.CATEGORY_ID)));
+                getActivity().startActivity(i);
+                break;
+            case R.id.article_related3:
+                relatedCursor.moveToPosition(2);
+                i.putExtra(References.ARG_KEY_ARTICLE_LINK, relatedCursor.getString(relatedCursor.getColumnIndex(ArticleColumns.LINK)));
+                Log.d(LOG_TAG, "related cursor link "+relatedCursor.getString(relatedCursor.getColumnIndex(ArticleColumns.LINK)));
+                i.putExtra(References.ARG_KEY_CATEGORY_ID, relatedCursor.getLong(relatedCursor.getColumnIndex(ArticleColumns.CATEGORY_ID)));
+                getActivity().startActivity(i);
+                break;
+            default:
+                break;
+        }
 
     }
 
@@ -243,6 +353,11 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_article_detail, menu);
+        MenuItem item = menu.findItem(R.id.action_share);
+
+        // Fetch and store ShareActionProvider
+        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+        setShareIntent(createShareIntent());
     }
 
     @Override
@@ -265,6 +380,21 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
 
+    }
+
+    // Call to update the share intent
+    private void setShareIntent(Intent shareIntent) {
+        if (mShareActionProvider != null) {
+            mShareActionProvider.setShareIntent(shareIntent);
+        }
+    }
+
+    private Intent createShareIntent(){
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, mShareString);
+        return shareIntent;
     }
 
 }

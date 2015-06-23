@@ -98,8 +98,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             settingsBundle.putString(References.ARG_KEY_SYNC_TYPE, References.SYNC_TYPE_FIRST_TIME);
             ContentResolver.requestSync(account, AggregioProvider.AUTHORITY, settingsBundle);
         }else{
-            settingsBundle.putBoolean(
-                    ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
             settingsBundle.putString(References.ARG_KEY_SYNC_TYPE, References.SYNC_TYPE_ARTICLE_REFRESH);
             ContentResolver.requestSync(account, AggregioProvider.AUTHORITY, settingsBundle);
 
