@@ -15,7 +15,6 @@ import io.aggreg.app.provider.articleimage.ArticleImageColumns;
 import io.aggreg.app.provider.category.CategoryColumns;
 import io.aggreg.app.provider.publisher.PublisherColumns;
 import io.aggreg.app.provider.publishercategory.PublisherCategoryColumns;
-import io.aggreg.app.provider.selectpublisher.SelectPublisherColumns;
 
 public class AggregioSQLiteOpenHelper extends SQLiteOpenHelper {
     private static final String TAG = AggregioSQLiteOpenHelper.class.getSimpleName();
@@ -64,7 +63,8 @@ public class AggregioSQLiteOpenHelper extends SQLiteOpenHelper {
             + PublisherColumns.WEBSITE + " TEXT, "
             + PublisherColumns.NAME + " TEXT, "
             + PublisherColumns.COUNTRY + " TEXT, "
-            + PublisherColumns.TAG_LINE + " TEXT "
+            + PublisherColumns.TAG_LINE + " TEXT, "
+            + PublisherColumns.FOLLOWING + " INTEGER "
             + " );";
 
     public static final String SQL_CREATE_TABLE_PUBLISHER_CATEGORY = "CREATE TABLE IF NOT EXISTS "
@@ -75,17 +75,6 @@ public class AggregioSQLiteOpenHelper extends SQLiteOpenHelper {
             + ", CONSTRAINT fk_publisher_id FOREIGN KEY (" + PublisherCategoryColumns.PUBLISHER_ID + ") REFERENCES publisher (_id) ON DELETE CASCADE"
             + ", CONSTRAINT fk_category_id FOREIGN KEY (" + PublisherCategoryColumns.CATEGORY_ID + ") REFERENCES category (_id) ON DELETE CASCADE"
             + ", CONSTRAINT unique_name UNIQUE (category_id, publisher_id) ON CONFLICT REPLACE"
-            + " );";
-
-    public static final String SQL_CREATE_TABLE_SELECT_PUBLISHER = "CREATE TABLE IF NOT EXISTS "
-            + SelectPublisherColumns.TABLE_NAME + " ( "
-            + SelectPublisherColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + SelectPublisherColumns.IMAGE_URL + " TEXT, "
-            + SelectPublisherColumns.SELECTED + " INTEGER, "
-            + SelectPublisherColumns.WEBSITE + " TEXT, "
-            + SelectPublisherColumns.NAME + " TEXT, "
-            + SelectPublisherColumns.COUNTRY + " TEXT, "
-            + SelectPublisherColumns.TAG_LINE + " TEXT "
             + " );";
 
     // @formatter:on
@@ -147,7 +136,6 @@ public class AggregioSQLiteOpenHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_TABLE_CATEGORY);
         db.execSQL(SQL_CREATE_TABLE_PUBLISHER);
         db.execSQL(SQL_CREATE_TABLE_PUBLISHER_CATEGORY);
-        db.execSQL(SQL_CREATE_TABLE_SELECT_PUBLISHER);
         mOpenHelperCallbacks.onPostCreate(mContext, db);
     }
 

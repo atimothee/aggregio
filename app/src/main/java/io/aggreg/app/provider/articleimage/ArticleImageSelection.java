@@ -544,4 +544,9 @@ public class ArticleImageSelection extends AbstractSelection<ArticleImageSelecti
         addEndsWith(PublisherColumns.TAG_LINE, value);
         return this;
     }
+
+    public ArticleImageSelection articlePublisherFollowing(Boolean value) {
+        addEquals(PublisherColumns.FOLLOWING, toObjectArray(value));
+        return this;
+    }
 }

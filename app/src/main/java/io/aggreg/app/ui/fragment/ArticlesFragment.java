@@ -1,5 +1,7 @@
 package io.aggreg.app.ui.fragment;
 
+import android.accounts.Account;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -20,17 +22,18 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import io.aggreg.app.R;
+import io.aggreg.app.provider.AggregioProvider;
 import io.aggreg.app.provider.article.ArticleColumns;
 import io.aggreg.app.provider.article.ArticleSelection;
 import io.aggreg.app.provider.publisher.PublisherColumns;
 import io.aggreg.app.ui.adapter.ArticleListCursorAdapter;
+import io.aggreg.app.utils.AccountUtils;
 import io.aggreg.app.utils.References;
 
 public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCallbacks {
 
     private static String LOG_TAG = ArticlesFragment.class.getSimpleName();
     private RecyclerView recyclerView;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
     public ArticlesFragment() {
     }
 
@@ -53,21 +56,6 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_article_list, container, false);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
-        //TODO: Get these colours straight
-        //TODO: See if swipe, with bars can be used instead
-        mSwipeRefreshLayout.setColorSchemeResources(
-                R.color.theme_accent_1, R.color.theme_accent_2,
-                R.color.theme_accent_1, R.color.theme_accent_2);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                //TODO: Trigger sync adapter, in mode to use last sync datetime
-                //TODO: finally call on refreshcomplete when sync finishes
-                Toast.makeText(getActivity(), "Refresh complete", Toast.LENGTH_LONG).show();
-            }
-
-        });
 
         recyclerView = (RecyclerView) view.findViewById(android.R.id.list);
         boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
@@ -87,9 +75,11 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
 
-        String[] COLUMNS = {ArticleColumns._ID, ArticleColumns.TITLE, ArticleColumns.IMAGE, ArticleColumns.CATEGORY_ID,ArticleColumns.PUB_DATE, ArticleColumns.LINK, PublisherColumns.NAME, PublisherColumns.IMAGE_URL};
+        String[] COLUMNS = {ArticleColumns._ID, ArticleColumns.TITLE, ArticleColumns.IMAGE, ArticleColumns.CATEGORY_ID,ArticleColumns.PUB_DATE, ArticleColumns.LINK, PublisherColumns.NAME, PublisherColumns.IMAGE_URL, PublisherColumns.FOLLOWING};
         ArticleSelection selection = new ArticleSelection();
+        //selection.publisherFollowing(false);
         selection.categoryId(args.getLong(References.ARG_KEY_CATEGORY_ID));
+
         return new CursorLoader(getActivity(), ArticleColumns.CONTENT_URI, COLUMNS, selection.sel(), selection.args(), ArticleColumns.TABLE_NAME+"."+ArticleColumns.PUB_DATE+" DESC");
     }
 

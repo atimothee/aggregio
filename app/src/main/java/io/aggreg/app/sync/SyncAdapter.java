@@ -29,6 +29,7 @@ import com.google.api.client.util.DateTime;
 import java.io.IOException;
 import java.sql.Ref;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -36,10 +37,10 @@ import java.util.TimeZone;
 import io.aggreg.app.R;
 import io.aggreg.app.provider.article.ArticleColumns;
 import io.aggreg.app.provider.category.CategoryColumns;
+import io.aggreg.app.provider.publisher.PublisherColumns;
 import io.aggreg.app.provider.publishercategory.PublisherCategoryColumns;
 import io.aggreg.app.provider.publishercategory.PublisherCategoryCursor;
 import io.aggreg.app.provider.publishercategory.PublisherCategorySelection;
-import io.aggreg.app.provider.selectpublisher.SelectPublisherColumns;
 import io.aggreg.app.utils.References;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
@@ -90,15 +91,15 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             if (publisherCollectionMessage != null) {
                 for (ApiAggregioPublisherMessage publisher : publisherCollectionMessage.getItems()) {
                     publisherContentValues = new ContentValues();
-                    publisherContentValues.put(SelectPublisherColumns._ID, publisher.getId());
-                    publisherContentValues.put(SelectPublisherColumns.NAME, publisher.getName());
-                    publisherContentValues.put(SelectPublisherColumns.WEBSITE, publisher.getWebsite());
-                    publisherContentValues.put(SelectPublisherColumns.IMAGE_URL, publisher.getImageUrl());
+                    publisherContentValues.put(PublisherColumns._ID, publisher.getId());
+                    publisherContentValues.put(PublisherColumns.NAME, publisher.getName());
+                    publisherContentValues.put(PublisherColumns.WEBSITE, publisher.getWebsite());
+                    publisherContentValues.put(PublisherColumns.IMAGE_URL, publisher.getImageUrl());
                     publisherContentValuesList.add(publisherContentValues);
                 }
             }
             try {
-                mContentResolver.bulkInsert(SelectPublisherColumns.CONTENT_URI, publisherContentValuesList.toArray(new ContentValues[publisherContentValuesList.size()]));
+                mContentResolver.bulkInsert(PublisherColumns.CONTENT_URI, publisherContentValuesList.toArray(new ContentValues[publisherContentValuesList.size()]));
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -122,6 +123,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             }else{
                 Long categoryId = extras.getLong(References.ARG_KEY_CATEGORY_ID);
                 selection.categoryId(categoryId);
+                selection.publisherFollowing(true);
+                //TODO: where publisher is being followed
+                //selection.pub
             }
             PublisherCategoryCursor publisherCategoryCursor = selection.query(mContentResolver, null, null);
             if(publisherCategoryCursor != null) {
@@ -156,9 +160,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             lastSyncDate = null;
         }
         ApiAggregioArticleCollection articleCollection = service.articles().cursorList(publisherId, categoryId)
-                .setLastSyncDateMilliseconds(lastSyncDate)
-                .setLastSyncDateTimeZoneOffset(Long.valueOf(TimeZone.getTimeZone("Africa/Kampala").getOffset(System.currentTimeMillis())))
-                .execute();
+                .setLastSyncDate(lastSyncDate)
+                        .execute();
+        Log.d(LOG_TAG, "executed refresh "+lastSyncDate.toString());
         saveArticles(articleCollection);
         editor.putLong(key, new Date().getTime());
         editor.commit();

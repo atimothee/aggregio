@@ -483,4 +483,9 @@ public class ArticleSelection extends AbstractSelection<ArticleSelection> {
         addEndsWith(PublisherColumns.TAG_LINE, value);
         return this;
     }
+
+    public ArticleSelection publisherFollowing(Boolean value) {
+        addEquals(PublisherColumns.FOLLOWING, toObjectArray(value));
+        return this;
+    }
 }

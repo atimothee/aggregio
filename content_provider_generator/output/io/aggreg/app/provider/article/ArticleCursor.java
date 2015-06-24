@@ -181,4 +181,14 @@ public class ArticleCursor extends AbstractCursor implements ArticleModel {
         String res = getStringOrNull(PublisherColumns.TAG_LINE);
         return res;
     }
+
+    /**
+     * Get the {@code following} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public Boolean getPublisherFollowing() {
+        Boolean res = getBooleanOrNull(PublisherColumns.FOLLOWING);
+        return res;
+    }
 }

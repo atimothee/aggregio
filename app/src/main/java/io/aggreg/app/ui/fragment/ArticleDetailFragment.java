@@ -17,6 +17,7 @@ import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -76,6 +77,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     private RelativeTimeTextView timeAgoRelated3;
     private ShareActionProvider mShareActionProvider;
     private String mShareString;
+    private int imageWidth;
 
 
     private OnFragmentInteractionListener mListener;
@@ -102,6 +104,11 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DisplayMetrics displayMetrics = getActivity().getResources().getDisplayMetrics();
+
+        //float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+        //float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        imageWidth = (int)(displayMetrics.widthPixels);
     }
 
     @Override
@@ -214,7 +221,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                 collapsingToolbar.setTitle(title);
                 String imageUrl = articleCursor.getString(articleCursor.getColumnIndex(ArticleColumns.IMAGE));
                 if (imageUrl != null) {
-                    Glide.with(getActivity()).load(imageUrl).fitCenter().placeholder(R.drawable.no_img_placeholder).into(articleImage);
+                    Glide.with(getActivity()).load(imageUrl+"=s"+imageWidth).placeholder(R.drawable.no_img_placeholder).into(articleImage);
                 }
                 else {
                     //articleImageFrame.setLayoutParams(new CollapsingToolbarLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100));
@@ -254,7 +261,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                         String imageUrl = relatedCursor.getString(relatedCursor.getColumnIndex(ArticleColumns.IMAGE));
                         if(imageUrl != null) {
                             relatedImageViews[i].setVisibility(View.VISIBLE);
-                            Glide.with(getActivity()).load(imageUrl).fitCenter().placeholder(R.drawable.no_img_placeholder).into(relatedImageViews[i]);
+                            Glide.with(getActivity()).load(imageUrl).placeholder(R.drawable.no_img_placeholder).into(relatedImageViews[i]);
                         }
                         articleRelatedViews[i].setOnClickListener(this);
                         timeAgoRelatedViews[i].setReferenceTime(relatedCursor.getLong(relatedCursor.getColumnIndex(ArticleColumns.PUB_DATE)));

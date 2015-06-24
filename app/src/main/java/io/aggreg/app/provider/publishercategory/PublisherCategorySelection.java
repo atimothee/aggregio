@@ -234,6 +234,11 @@ public class PublisherCategorySelection extends AbstractSelection<PublisherCateg
         return this;
     }
 
+    public PublisherCategorySelection publisherFollowing(Boolean value) {
+        addEquals(PublisherColumns.FOLLOWING, toObjectArray(value));
+        return this;
+    }
+
     public PublisherCategorySelection categoryId(long... value) {
         addEquals(PublisherCategoryColumns.CATEGORY_ID, toObjectArray(value));
         return this;

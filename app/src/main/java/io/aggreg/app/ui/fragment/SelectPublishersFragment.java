@@ -20,9 +20,7 @@ import android.view.ViewGroup;
 import java.util.zip.Inflater;
 
 import io.aggreg.app.R;
-import io.aggreg.app.provider.selectpublisher.SelectPublisherColumns;
-import io.aggreg.app.provider.selectpublisher.SelectPublisherCursor;
-import io.aggreg.app.ui.adapter.SelectPublisherListCursorAdapter;
+import io.aggreg.app.provider.publisher.PublisherColumns;
 import io.aggreg.app.ui.adapter.SelectPublishersAdapter;
 import io.aggreg.app.utils.References;
 
@@ -110,7 +108,7 @@ public class SelectPublishersFragment extends Fragment implements LoaderManager.
 
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
-        return new CursorLoader(getActivity(), SelectPublisherColumns.CONTENT_URI, null, null, null, null);
+        return new CursorLoader(getActivity(), PublisherColumns.CONTENT_URI, null, null, null, null);
     }
 
     @Override

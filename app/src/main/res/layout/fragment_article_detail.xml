@@ -94,7 +94,6 @@
                     android:layout_height="wrap_content">
                     <TextView
                         android:id="@+id/article_detail_publisher_name"
-                        android:text="New Vision"
                         android:textColor="@android:color/secondary_text_light"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content" />

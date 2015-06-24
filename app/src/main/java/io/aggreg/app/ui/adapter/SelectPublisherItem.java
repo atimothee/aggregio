@@ -3,7 +3,6 @@ package io.aggreg.app.ui.adapter;
 import android.database.Cursor;
 
 import io.aggreg.app.provider.publisher.PublisherColumns;
-import io.aggreg.app.provider.selectpublisher.SelectPublisherColumns;
 
 /**
  * Created by Timo on 6/3/15.
@@ -11,14 +10,14 @@ import io.aggreg.app.provider.selectpublisher.SelectPublisherColumns;
 public class SelectPublisherItem {
     private String publisherName;
     private String publisherLogoUrl;
-    private Boolean selected;
+    private Boolean following;
 
-    public Boolean getSelected() {
-        return selected;
+    public Boolean getFollowing() {
+        return following;
     }
 
-    public void setSelected(Boolean selected) {
-        this.selected = selected;
+    public void setFollowing(Boolean following) {
+        this.following = following;
     }
 
     public String getPublisherName() {
@@ -40,13 +39,13 @@ public class SelectPublisherItem {
     public static SelectPublisherItem fromCursor(Cursor cursor) {
 
         SelectPublisherItem item = new SelectPublisherItem();
-        item.setPublisherName(cursor.getString(cursor.getColumnIndex(SelectPublisherColumns.NAME)));
-        item.setPublisherLogoUrl(cursor.getString(cursor.getColumnIndex(SelectPublisherColumns.IMAGE_URL)));
-        int selected = cursor.getInt(cursor.getColumnIndex(SelectPublisherColumns.SELECTED));
+        item.setPublisherName(cursor.getString(cursor.getColumnIndex(PublisherColumns.NAME)));
+        item.setPublisherLogoUrl(cursor.getString(cursor.getColumnIndex(PublisherColumns.IMAGE_URL)));
+        int selected = cursor.getInt(cursor.getColumnIndex(PublisherColumns.FOLLOWING));
         if(selected == 1){
-            item.setSelected(true);
+            item.setFollowing(true);
         }else{
-            item.setSelected(false);
+            item.setFollowing(false);
         }
         return item;
     }

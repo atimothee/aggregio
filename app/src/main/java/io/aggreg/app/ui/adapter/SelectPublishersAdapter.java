@@ -1,9 +1,9 @@
 package io.aggreg.app.ui.adapter;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +15,8 @@ import com.bumptech.glide.Glide;
 
 import io.aggreg.app.R;
 import io.aggreg.app.provider.publisher.PublisherColumns;
+import io.aggreg.app.provider.publisher.PublisherContentValues;
 import io.aggreg.app.provider.publisher.PublisherSelection;
-import io.aggreg.app.provider.selectpublisher.SelectPublisherColumns;
-import io.aggreg.app.provider.selectpublisher.SelectPublisherContentValues;
-import io.aggreg.app.provider.selectpublisher.SelectPublisherSelection;
 import io.aggreg.app.ui.widget.CheckableLinearLayout;
 
 /**
@@ -27,10 +25,16 @@ import io.aggreg.app.ui.widget.CheckableLinearLayout;
 public class SelectPublishersAdapter extends HeaderViewRecyclerAdapter<SelectPublishersAdapter.ViewHolder>{
     private Context mContext;
     private static String LOG_TAG = ArticleListCursorAdapter.class.getSimpleName();
+    private int imageWidth;
 
     public SelectPublishersAdapter(Context context, Cursor cursor){
         super(context,cursor);
         this.mContext = context;
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+
+        //float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        this.imageWidth = (int)(150*dpWidth);
     }
 
     @Override
@@ -62,19 +66,22 @@ public class SelectPublishersAdapter extends HeaderViewRecyclerAdapter<SelectPub
     @Override
     protected void onBindBasicViewHolder(final ViewHolder viewHolder, int position, Cursor cursor) {
         SelectPublisherItem myListItem = SelectPublisherItem.fromCursor(cursor);
-        if(myListItem.getSelected()){
+        if(myListItem.getFollowing()){
             viewHolder.checkboxImage.setVisibility(View.VISIBLE);
             ((CheckableLinearLayout) viewHolder.itemView).setChecked(true);
+
         }else{
             viewHolder.checkboxImage.setVisibility(View.INVISIBLE);
             ((CheckableLinearLayout) viewHolder.itemView).setChecked(false);
+            viewHolder.publisherName.setTextColor(mContext.getResources().getColor(android.R.color.tertiary_text_light));
+            viewHolder.publisherImage.setAlpha(90);
         }
         viewHolder.publisherName.setText(myListItem.getPublisherName());
         viewHolder.publisherImage.setVisibility(View.VISIBLE);
-        Glide.with(mContext).load(myListItem.getPublisherLogoUrl()).into(viewHolder.publisherImage);
-        final Long publisherId = cursor.getLong(cursor.getColumnIndex(SelectPublisherColumns._ID));
-        final String publisherName = cursor.getString(cursor.getColumnIndex(SelectPublisherColumns.NAME));
-        final String publisherImage = cursor.getString(cursor.getColumnIndex(SelectPublisherColumns.IMAGE_URL));
+        Glide.with(mContext).load(myListItem.getPublisherLogoUrl()).placeholder(R.drawable.no_img_placeholder).into(viewHolder.publisherImage);
+        final Long publisherId = cursor.getLong(cursor.getColumnIndex(PublisherColumns._ID));
+        final String publisherName = cursor.getString(cursor.getColumnIndex(PublisherColumns.NAME));
+        final String publisherImage = cursor.getString(cursor.getColumnIndex(PublisherColumns.IMAGE_URL));
         CheckableLinearLayout view = (CheckableLinearLayout)viewHolder.itemView;
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,40 +97,24 @@ public class SelectPublishersAdapter extends HeaderViewRecyclerAdapter<SelectPub
             public void onCheckedChanged(View checkableView, boolean isChecked) {
                 Log.d(LOG_TAG, "checked changed");
                 if (isChecked) {
-                    SelectPublisherContentValues selectPublisherContentValues = new SelectPublisherContentValues();
-                    selectPublisherContentValues.putSelected(true);
-                    SelectPublisherSelection selectPublisherSelection = new SelectPublisherSelection();
-                    selectPublisherSelection.id(publisherId);
+                    PublisherContentValues publisherContentValues = new PublisherContentValues();
+                    publisherContentValues.putFollowing(true);
+                    PublisherSelection publisherSelection = new PublisherSelection();
+                    publisherSelection.id(publisherId);
                     try {
-                        selectPublisherContentValues.update(mContext.getContentResolver(), selectPublisherSelection);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                    //TODO: insert or update
-                    ContentValues publisherContentValues = new ContentValues();
-                    publisherContentValues.put(PublisherColumns._ID, publisherId);
-                    publisherContentValues.put(PublisherColumns.NAME, publisherName);
-                    publisherContentValues.put(PublisherColumns.IMAGE_URL, publisherImage);
-                    try {
-                        mContext.getContentResolver().insert(PublisherColumns.CONTENT_URI, publisherContentValues);
+                        publisherContentValues.update(mContext.getContentResolver(), publisherSelection);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
 
                 } else{
-                    SelectPublisherContentValues selectPublisherContentValues = new SelectPublisherContentValues();
-                    selectPublisherContentValues.putSelected(false);
-                    SelectPublisherSelection selectPublisherSelection = new SelectPublisherSelection();
-                    selectPublisherSelection.id(publisherId);
-                    selectPublisherContentValues.update(mContext.getContentResolver(), selectPublisherSelection);
-
-                    //delete
+                    PublisherContentValues publisherContentValues = new PublisherContentValues();
+                    publisherContentValues.putFollowing(false);
                     PublisherSelection publisherSelection = new PublisherSelection();
                     publisherSelection.id(publisherId);
                     try {
-                        publisherSelection.delete(mContext.getContentResolver());
-                    }catch (Exception e){
+                        publisherContentValues.update(mContext.getContentResolver(), publisherSelection);
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
 

@@ -201,4 +201,9 @@ public class PublisherSelection extends AbstractSelection<PublisherSelection> {
         addEndsWith(PublisherColumns.TAG_LINE, value);
         return this;
     }
+
+    public PublisherSelection following(Boolean value) {
+        addEquals(PublisherColumns.FOLLOWING, toObjectArray(value));
+        return this;
+    }
 }

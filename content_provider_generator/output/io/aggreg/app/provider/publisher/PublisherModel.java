@@ -46,4 +46,11 @@ public interface PublisherModel extends BaseModel {
      */
     @Nullable
     String getTagLine();
+
+    /**
+     * Get the {@code following} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    Boolean getFollowing();
 }

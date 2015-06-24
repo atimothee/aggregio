@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,10 +30,16 @@ import io.aggreg.app.utils.References;
 public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleListCursorAdapter.ViewHolder>{
     private Context mContext;
     private static String LOG_TAG = ArticleListCursorAdapter.class.getSimpleName();
+    private int imageWidth;
 
     public ArticleListCursorAdapter(Context context,Cursor cursor){
         super(context,cursor);
         this.mContext = context;
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+
+        //float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+        //float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        this.imageWidth = (int)(displayMetrics.widthPixels);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -76,7 +83,7 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
         viewHolder.timeAgo.setReferenceTime(articleItem.getTimeAgo());
         if(articleItem.getImage()!=null) {
             viewHolder.articleImage.setVisibility(View.VISIBLE);
-            Glide.with(mContext).load(articleItem.getImage()).fitCenter().placeholder(R.drawable.no_img_placeholder).into(viewHolder.articleImage);
+            Glide.with(mContext).load(articleItem.getImage()+"=s"+imageWidth).centerCrop().placeholder(R.drawable.no_img_placeholder).into(viewHolder.articleImage);
         }else{
             viewHolder.articleImage.setVisibility(View.GONE);
         }

@@ -37,7 +37,6 @@ public class SplashscreenActivity extends AppCompatActivity {
 //
 //    // Enable Advertising Features.
 //        tracker.enableAdvertisingIdCollection(true);
-        AppRater.app_launched(this);
 
         SharedPreferences settings = getSharedPreferences(References.KEY_PREFERENCES, 0);
         Boolean appSetUp = settings.getBoolean(References.KEY_APP_SETUP, false);

@@ -75,4 +75,14 @@ public class PublisherCursor extends AbstractCursor implements PublisherModel {
         String res = getStringOrNull(PublisherColumns.TAG_LINE);
         return res;
     }
+
+    /**
+     * Get the {@code following} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public Boolean getFollowing() {
+        Boolean res = getBooleanOrNull(PublisherColumns.FOLLOWING);
+        return res;
+    }
 }

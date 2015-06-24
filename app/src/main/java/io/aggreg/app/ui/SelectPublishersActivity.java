@@ -1,5 +1,7 @@
 package io.aggreg.app.ui;
 
+import android.accounts.Account;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,7 +10,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import io.aggreg.app.R;
+import io.aggreg.app.provider.AggregioProvider;
 import io.aggreg.app.ui.fragment.SelectPublishersFragment;
+import io.aggreg.app.utils.AccountUtils;
 import io.aggreg.app.utils.References;
 
 public class SelectPublishersActivity extends AppCompatActivity implements SelectPublishersFragment.OnFragmentInteractionListener {

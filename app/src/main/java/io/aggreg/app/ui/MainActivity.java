@@ -27,6 +27,7 @@ import android.widget.ProgressBar;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.codechimp.apprater.AppRater;
 
 import java.util.HashSet;
 
@@ -136,6 +137,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        AppRater.app_launched(this);
 
     }
 
