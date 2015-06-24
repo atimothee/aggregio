@@ -15,6 +15,12 @@ public class References {
     public static final String KEY_LAST_SYNC = "last_sync";
     public static final String ARG_IS_FIRST_TIME = "is_first_time";
     public static final String KEY_INTRO_SHOWN = "into_shown";
+    public static final String ARG_KEY_NOTIFICATION_TITLE = "title";
+    public static final String ARG_GCM_ID_KEY = "id";
+    public static final String GCM_KEY_TYPE = "type";
+    public static final String GCM_TYPE_TICKLE = "tickle";
+    public static final String GCM_TYPE_NOTIFICATION = "notification";
+    public static final String SYNC_TYPE_GCM_REGISTER_DEVICE = "register_device";
 
     public static String ARG_KEY_CATEGORY_ID = "category_id";
     public static String ARG_KEY_PUBLISHER_ID = "publisher_id";
@@ -27,6 +33,11 @@ public class References {
     public static final String ARG_KEY_PUBLISHER_ACTIVITY_TYPE = "activity_type";
     public static final String ACTIVITY_TYPE_SETUP_PUBLISHERS = "activity_type_setup_publishers";
     public static final String ACTIVITY_TYPE_MANAGE_PUBLISHERS = "activity_type_manage_publishers";
+
+    public final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    public static final String PROPERTY_REG_ID = "registration_id";
+    public static final String PROPERTY_APP_VERSION = "appVersion";
+    public static final String SENDER_ID = "10592780844";
 
     public static final String AUTHORITY = BuildConfig.APPLICATION_ID + ".provider";
 }
