@@ -23,6 +23,7 @@ import com.appspot.aggregio_web.aggregio.model.ApiAggregioCategoryMessage;
 import com.appspot.aggregio_web.aggregio.model.ApiAggregioPublisherCollectionMessage;
 import com.appspot.aggregio_web.aggregio.model.ApiAggregioPublisherMessage;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.android.gms.iid.InstanceID;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.json.gson.GsonFactory;
 
@@ -141,14 +142,16 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 setUpCategories(service, countryName);
                 initialSyncArticles(service);
             } else if(syncType.equalsIgnoreCase(References.SYNC_TYPE_GCM_REGISTER_DEVICE)) {
-                String regId;
                 String msg = "";
 
 
                 try {
-                        GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(getContext());
-
-                        regId = gcm.register(References.SENDER_ID);
+//                        GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(getContext());
+//
+//                        regId = gcm.register(References.SENDER_ID);
+                        InstanceID instanceID = InstanceID.getInstance(getContext());
+                    String regId = instanceID.getToken(getContext().getString(R.string.gcm_defaultSenderId),
+                            GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
                         msg = "Device registered, registration ID=" + regId;
                         sendRegistrationId(regId);
                         AccountUtils.storeRegistrationId(getContext(), regId);
