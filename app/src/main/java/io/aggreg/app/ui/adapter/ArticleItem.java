@@ -1,6 +1,7 @@
 package io.aggreg.app.ui.adapter;
 
 import android.database.Cursor;
+import android.text.Html;
 
 import io.aggreg.app.provider.article.ArticleColumns;
 import io.aggreg.app.provider.publisher.PublisherColumns;
@@ -10,6 +11,16 @@ import io.aggreg.app.provider.publisher.PublisherColumns;
  */
 public class ArticleItem {
     private String title;
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    private String text;
     private Long timeAgo;
     private String publisherName;
     private String image;
@@ -59,6 +70,7 @@ public class ArticleItem {
 
         ArticleItem item = new ArticleItem();
         item.setTitle(cursor.getString(cursor.getColumnIndex(ArticleColumns.TITLE)));
+        item.setText(cursor.getString(cursor.getColumnIndex(ArticleColumns.TEXT)));
         item.setPublisherName(cursor.getString(cursor.getColumnIndex(PublisherColumns.NAME)));
         item.setImage(cursor.getString(cursor.getColumnIndex(ArticleColumns.IMAGE)));
         item.setPublisherLogo(cursor.getString(cursor.getColumnIndex(PublisherColumns.IMAGE_URL)));

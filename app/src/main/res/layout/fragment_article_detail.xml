@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -58,12 +59,15 @@
         </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
+    <RelativeLayout
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -172,7 +176,7 @@
                     <TextView
                         android:fontFamily="sans-serif"
                         android:maxLines="2"
-                        android:ellipsize="marquee"
+                        android:ellipsize="end"
                         android:padding="5dp"
                         android:textColor="@color/body_text_1"
                         android:layout_toRightOf="@+id/article_related1_image"
@@ -213,7 +217,7 @@
                     <TextView
                         android:fontFamily="sans-serif"
                         android:maxLines="2"
-                        android:ellipsize="marquee"
+                        android:ellipsize="end"
                         android:padding="5dp"
                         android:textColor="@color/body_text_1"
                         android:layout_toRightOf="@+id/article_related2_image"
@@ -254,7 +258,7 @@
                     <TextView
                         android:fontFamily="sans-serif"
                         android:maxLines="2"
-                        android:ellipsize="marquee"
+                        android:ellipsize="end"
                         android:padding="5dp"
                         android:textColor="@color/body_text_1"
                         android:layout_toRightOf="@+id/article_related3_image"
@@ -275,10 +279,27 @@
                 </RelativeLayout>
 
             </android.support.v7.widget.CardView>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="50dp"/>
+
 
         </LinearLayout>
 
+
+
+
     </android.support.v4.widget.NestedScrollView>
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            ads:adSize="BANNER"
+            ads:adUnitId="@string/test_banner_ad_unit_id">
+        </com.google.android.gms.ads.AdView>
+    </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/bookmark_fab"
@@ -289,5 +310,6 @@
         android:src="@drawable/ic_bookmark_outline_white_24dp"
         android:layout_margin="@dimen/fab_margin"
         android:clickable="true"/>
+
 
 </android.support.design.widget.CoordinatorLayout>

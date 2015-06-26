@@ -34,6 +34,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.Tracker;
 
 import java.sql.Ref;
@@ -161,6 +163,13 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         timeAgoRelated1 = (RelativeTimeTextView)view.findViewById(R.id.article_related1_timeago);
         timeAgoRelated2 = (RelativeTimeTextView)view.findViewById(R.id.article_related2_timeago);
         timeAgoRelated3 = (RelativeTimeTextView)view.findViewById(R.id.article_related3_timeago);
+        AdView mAdView = (AdView) view.findViewById(R.id.adView);
+        Log.d(LOG_TAG, "test ad unit id " + getString(R.string.test_banner_ad_unit_id));
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice("40F568795D1384A9EC06ABA81110930E")
+                .build();
+        mAdView.loadAd(adRequest);
         return view;
     }
 

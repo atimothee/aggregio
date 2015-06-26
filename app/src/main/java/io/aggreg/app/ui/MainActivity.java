@@ -27,6 +27,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
@@ -157,6 +159,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             Log.i(LOG_TAG, "No valid Google Play Services APK found.");
         }
         AppRater.app_launched(this);
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        Log.d(LOG_TAG, "test ad unit id "+getString(R.string.test_banner_ad_unit_id));
+        AdRequest adRequest = new AdRequest.Builder()
+        .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+        .addTestDevice("40F568795D1384A9EC06ABA81110930E")
+                .build();
+        mAdView.loadAd(adRequest);
 
     }
 

@@ -25,7 +25,7 @@
 
             <RelativeLayout
 
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                     <ImageView
@@ -53,6 +53,14 @@
                         android:fontFamily="sans-serif"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@android:color/primary_text_light" />
+                    <TextView
+                        android:visibility="gone"
+                        android:maxLines="2"
+                        android:ellipsize="end"
+                        android:id="@+id/article_item_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/secondary_text_light" />
 
 
                     <LinearLayout
@@ -71,8 +79,7 @@
                                 android:id="@+id/article_item_source_name"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
-                                android:text="New Vision"
-                                android:textColor="@android:color/secondary_text_light" />
+                                android:textColor="@android:color/tertiary_text_light" />
                             <com.github.curioustechizen.ago.RelativeTimeTextView
                                 android:id="@+id/article_item_time_ago"
                                 android:layout_width="fill_parent"

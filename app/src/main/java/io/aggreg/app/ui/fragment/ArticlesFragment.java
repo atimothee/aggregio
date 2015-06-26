@@ -75,7 +75,7 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
 
-        String[] COLUMNS = {ArticleColumns._ID, ArticleColumns.TITLE, ArticleColumns.IMAGE, ArticleColumns.CATEGORY_ID,ArticleColumns.PUB_DATE, ArticleColumns.LINK, PublisherColumns.NAME, PublisherColumns.IMAGE_URL, PublisherColumns.FOLLOWING};
+        String[] COLUMNS = {ArticleColumns._ID, ArticleColumns.TITLE, ArticleColumns.IMAGE, ArticleColumns.CATEGORY_ID,ArticleColumns.PUB_DATE, ArticleColumns.LINK, ArticleColumns.TEXT, PublisherColumns.NAME, PublisherColumns.IMAGE_URL, PublisherColumns.FOLLOWING};
         ArticleSelection selection = new ArticleSelection();
         //selection.publisherFollowing(false);
         selection.categoryId(args.getLong(References.ARG_KEY_CATEGORY_ID));

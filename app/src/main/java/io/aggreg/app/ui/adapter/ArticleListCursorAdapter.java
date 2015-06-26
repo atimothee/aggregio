@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
+import com.squareup.picasso.Picasso;
 
 import io.aggreg.app.R;
 import io.aggreg.app.provider.article.ArticleColumns;
@@ -44,12 +46,14 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView articleTitle;
+        public TextView articleText;
         public TextView publisherName;
         public RelativeTimeTextView timeAgo;
         public ImageView articleImage;
         public ViewHolder(View view) {
             super(view);
             articleTitle = (TextView)view.findViewById(R.id.article_item_title);
+            articleText = (TextView)view.findViewById(R.id.article_item_text);
             publisherName = (TextView)view.findViewById(R.id.article_item_source_name);
             timeAgo = (RelativeTimeTextView)view.findViewById(R.id.article_item_time_ago);
             articleImage = (ImageView)view.findViewById(R.id.article_item_image);
@@ -69,8 +73,8 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-        cursor.moveToPosition(viewHolder.getLayoutPosition());
-        Log.d(LOG_TAG, "id cursor is " + cursor.getLong(cursor.getColumnIndex(ArticleColumns._ID)));
+                cursor.moveToPosition(viewHolder.getLayoutPosition());
+                Log.d(LOG_TAG, "id cursor is " + cursor.getLong(cursor.getColumnIndex(ArticleColumns._ID)));
                 Intent i = new Intent(mContext, ArticleDetailActivity.class);
                 i.putExtra(References.ARG_KEY_ARTICLE_LINK, cursor.getString(cursor.getColumnIndex(ArticleColumns.LINK)));
                 i.putExtra(References.ARG_KEY_CATEGORY_ID, cursor.getLong(cursor.getColumnIndex(ArticleColumns.CATEGORY_ID)));
@@ -79,13 +83,19 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
         });
         ArticleItem articleItem = ArticleItem.fromCursor(cursor);
         viewHolder.articleTitle.setText(articleItem.getTitle());
+
         viewHolder.publisherName.setText(articleItem.getPublisherName());
         viewHolder.timeAgo.setReferenceTime(articleItem.getTimeAgo());
         if(articleItem.getImage()!=null) {
             viewHolder.articleImage.setVisibility(View.VISIBLE);
-            Glide.with(mContext).load(articleItem.getImage()+"=s"+imageWidth).centerCrop().placeholder(R.drawable.no_img_placeholder).into(viewHolder.articleImage);
+            viewHolder.articleText.setVisibility(View.GONE);
+            //Glide.with(mContext).load(articleItem.getImage()+"=s"+imageWidth).placeholder(R.drawable.no_img_placeholder).fitCenter().into(viewHolder.articleImage);
+            Picasso.with(mContext).load(articleItem.getImage()+"=s"+imageWidth).placeholder(R.drawable.no_img_placeholder).fit().centerCrop().into(viewHolder.articleImage);
         }else{
+            viewHolder.articleText.setVisibility(View.VISIBLE);
+            viewHolder.articleText.setText(Html.fromHtml(articleItem.getText()).toString());
             viewHolder.articleImage.setVisibility(View.GONE);
+
         }
     }
 }
