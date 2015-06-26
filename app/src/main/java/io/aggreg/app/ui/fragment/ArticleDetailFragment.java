@@ -37,6 +37,7 @@ import com.github.curioustechizen.ago.RelativeTimeTextView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.Tracker;
+import com.squareup.picasso.Picasso;
 
 import java.sql.Ref;
 
@@ -270,7 +271,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                         String imageUrl = relatedCursor.getString(relatedCursor.getColumnIndex(ArticleColumns.IMAGE));
                         if(imageUrl != null) {
                             relatedImageViews[i].setVisibility(View.VISIBLE);
-                            Glide.with(getActivity()).load(imageUrl).placeholder(R.drawable.no_img_placeholder).into(relatedImageViews[i]);
+                            Picasso.with(getActivity()).load(imageUrl).placeholder(R.drawable.no_img_placeholder).fit().centerCrop().into(relatedImageViews[i]);
                         }
                         articleRelatedViews[i].setOnClickListener(this);
                         timeAgoRelatedViews[i].setReferenceTime(relatedCursor.getLong(relatedCursor.getColumnIndex(ArticleColumns.PUB_DATE)));

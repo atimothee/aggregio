@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -33,6 +34,7 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
     private Context mContext;
     private static String LOG_TAG = ArticleListCursorAdapter.class.getSimpleName();
     private int imageWidth;
+    private boolean isTablet;
 
     public ArticleListCursorAdapter(Context context,Cursor cursor){
         super(context,cursor);
@@ -42,6 +44,7 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
         //float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
         //float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         this.imageWidth = (int)(displayMetrics.widthPixels);
+        this.isTablet = mContext.getResources().getBoolean(R.bool.isTablet);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -62,8 +65,15 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.article_item__, parent, false);
+
+        View itemView;
+        if (isTablet) {
+            itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.article_item__grid, parent, false);
+        }else{
+            itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.article_item__, parent, false);
+        }
         ViewHolder vh = new ViewHolder(itemView);
         return vh;
     }
@@ -83,6 +93,14 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
         });
         ArticleItem articleItem = ArticleItem.fromCursor(cursor);
         viewHolder.articleTitle.setText(articleItem.getTitle());
+//        StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) viewHolder.itemView.getLayoutParams();
+//
+//        if(viewHolder.articleTitle.getLineCount()>2){
+//            layoutParams.setFullSpan(true);
+//        }
+//        else{
+//           // layoutParams.setFullSpan(false);
+//        }
 
         viewHolder.publisherName.setText(articleItem.getPublisherName());
         viewHolder.timeAgo.setReferenceTime(articleItem.getTimeAgo());
@@ -91,11 +109,16 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
             viewHolder.articleText.setVisibility(View.GONE);
             //Glide.with(mContext).load(articleItem.getImage()+"=s"+imageWidth).placeholder(R.drawable.no_img_placeholder).fitCenter().into(viewHolder.articleImage);
             Picasso.with(mContext).load(articleItem.getImage()+"=s"+imageWidth).placeholder(R.drawable.no_img_placeholder).fit().centerCrop().into(viewHolder.articleImage);
+
         }else{
-            viewHolder.articleText.setVisibility(View.VISIBLE);
-            viewHolder.articleText.setText(Html.fromHtml(articleItem.getText()).toString());
+            if(!isTablet){
+                viewHolder.articleText.setVisibility(View.VISIBLE);
+                viewHolder.articleText.setText(Html.fromHtml(articleItem.getText()).toString());
+            }
+
             viewHolder.articleImage.setVisibility(View.GONE);
 
         }
+
     }
 }

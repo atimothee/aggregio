@@ -58,10 +58,10 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
         View view = inflater.inflate(R.layout.fragment_article_list, container, false);
 
         recyclerView = (RecyclerView) view.findViewById(android.R.id.list);
-        boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
-        if (tabletSize) {
+        boolean isTablet = getResources().getBoolean(R.bool.isTablet);
+        if (isTablet) {
             StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-            staggeredGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
+            //staggeredGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
             recyclerView.setLayoutManager(staggeredGridLayoutManager);
 
         }else {
