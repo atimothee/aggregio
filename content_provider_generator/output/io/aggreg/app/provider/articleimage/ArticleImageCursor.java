@@ -112,6 +112,16 @@ public class ArticleImageCursor extends AbstractCursor implements ArticleImageMo
     }
 
     /**
+     * Get the {@code is_read} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public Boolean getArticleIsRead() {
+        Boolean res = getBooleanOrNull(ArticleColumns.IS_READ);
+        return res;
+    }
+
+    /**
      * Get the {@code category_id} value.
      * Can be {@code null}.
      */

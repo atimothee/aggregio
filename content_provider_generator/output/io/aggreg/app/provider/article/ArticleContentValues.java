@@ -87,6 +87,16 @@ public class ArticleContentValues extends AbstractContentValues {
         return this;
     }
 
+    public ArticleContentValues putIsRead(@Nullable Boolean value) {
+        mContentValues.put(ArticleColumns.IS_READ, value);
+        return this;
+    }
+
+    public ArticleContentValues putIsReadNull() {
+        mContentValues.putNull(ArticleColumns.IS_READ);
+        return this;
+    }
+
     public ArticleContentValues putCategoryId(long value) {
         mContentValues.put(ArticleColumns.CATEGORY_ID, value);
         return this;

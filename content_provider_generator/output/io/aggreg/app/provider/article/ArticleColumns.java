@@ -34,6 +34,8 @@ public class ArticleColumns implements BaseColumns {
 
     public static final String BOOK_MARKED = "book_marked";
 
+    public static final String IS_READ = "is_read";
+
     public static final String CATEGORY_ID = "category_id";
 
     public static final String PUBLISHER_ID = "publisher_id";
@@ -50,6 +52,7 @@ public class ArticleColumns implements BaseColumns {
             PUB_DATE,
             TEXT,
             BOOK_MARKED,
+            IS_READ,
             CATEGORY_ID,
             PUBLISHER_ID
     };
@@ -64,6 +67,7 @@ public class ArticleColumns implements BaseColumns {
             if (c.equals(PUB_DATE) || c.contains("." + PUB_DATE)) return true;
             if (c.equals(TEXT) || c.contains("." + TEXT)) return true;
             if (c.equals(BOOK_MARKED) || c.contains("." + BOOK_MARKED)) return true;
+            if (c.equals(IS_READ) || c.contains("." + IS_READ)) return true;
             if (c.equals(CATEGORY_ID) || c.contains("." + CATEGORY_ID)) return true;
             if (c.equals(PUBLISHER_ID) || c.contains("." + PUBLISHER_ID)) return true;
         }

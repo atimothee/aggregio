@@ -38,20 +38,11 @@ public class IntroActivity extends AppIntro{
         // You can also hide Skip button
         showSkipButton(true);
         GoogleAnalytics analytics = GoogleAnalytics.getInstance(IntroActivity.this);
-        tracker = analytics.newTracker(getString(R.string.ga_trackingId)); // Send hits to tracker id UA-XXXX-Y
-//
-// //All subsequent hits will be send with screen name = "main screen"
-        tracker.setScreenName("intro screen");
+        tracker = analytics.newTracker(getString(R.string.analytics_tracker_id));tracker.setScreenName("intro screen");
 
 
-
- //Builder parameters can overwrite the screen name set on the tracker.
-//        tracker.send(new HitBuilders.EventBuilder()
-//                .setCategory("UX")
-//                .setAction("click")
-//                .setLabel("help popup")
-//                .build());
     }
+
 
     @Override
     public void onSkipPressed() {

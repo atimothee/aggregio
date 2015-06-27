@@ -11,7 +11,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.squareup.picasso.Picasso;
 
 import io.aggreg.app.R;
 import io.aggreg.app.provider.publisher.PublisherColumns;
@@ -26,6 +29,7 @@ public class SelectPublishersAdapter extends HeaderViewRecyclerAdapter<SelectPub
     private Context mContext;
     private static String LOG_TAG = ArticleListCursorAdapter.class.getSimpleName();
     private int imageWidth;
+    private Tracker tracker;
 
     public SelectPublishersAdapter(Context context, Cursor cursor){
         super(context,cursor);
@@ -35,6 +39,8 @@ public class SelectPublishersAdapter extends HeaderViewRecyclerAdapter<SelectPub
         //float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         this.imageWidth = (int)(150*dpWidth);
+        GoogleAnalytics analytics = GoogleAnalytics.getInstance(mContext);
+        tracker = analytics.newTracker(mContext.getString(R.string.analytics_tracker_id));tracker.setScreenName("intro screen");
     }
 
     @Override
@@ -78,7 +84,7 @@ public class SelectPublishersAdapter extends HeaderViewRecyclerAdapter<SelectPub
         }
         viewHolder.publisherName.setText(myListItem.getPublisherName());
         viewHolder.publisherImage.setVisibility(View.VISIBLE);
-        Glide.with(mContext).load(myListItem.getPublisherLogoUrl()).placeholder(R.drawable.no_img_placeholder).into(viewHolder.publisherImage);
+        Picasso.with(mContext).load(myListItem.getPublisherLogoUrl()).placeholder(R.drawable.no_img_placeholder).fit().centerCrop().into(viewHolder.publisherImage);
         final Long publisherId = cursor.getLong(cursor.getColumnIndex(PublisherColumns._ID));
         final String publisherName = cursor.getString(cursor.getColumnIndex(PublisherColumns.NAME));
         final String publisherImage = cursor.getString(cursor.getColumnIndex(PublisherColumns.IMAGE_URL));
@@ -86,7 +92,6 @@ public class SelectPublishersAdapter extends HeaderViewRecyclerAdapter<SelectPub
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view1) {
-                Log.d(LOG_TAG, "checkable clicked");
                 ((CheckableLinearLayout)view1).toggle();
             }
         });
@@ -97,6 +102,11 @@ public class SelectPublishersAdapter extends HeaderViewRecyclerAdapter<SelectPub
             public void onCheckedChanged(View checkableView, boolean isChecked) {
                 Log.d(LOG_TAG, "checked changed");
                 if (isChecked) {
+                    tracker.send(new HitBuilders.EventBuilder()
+                            .setCategory("UX")
+                            .setAction("click")
+                            .setLabel("publisher checked")
+                            .build());
                     PublisherContentValues publisherContentValues = new PublisherContentValues();
                     publisherContentValues.putFollowing(true);
                     PublisherSelection publisherSelection = new PublisherSelection();
@@ -108,6 +118,11 @@ public class SelectPublishersAdapter extends HeaderViewRecyclerAdapter<SelectPub
                     }
 
                 } else{
+                    tracker.send(new HitBuilders.EventBuilder()
+                            .setCategory("UX")
+                            .setAction("click")
+                            .setLabel("publisher unchecked")
+                            .build());
                     PublisherContentValues publisherContentValues = new PublisherContentValues();
                     publisherContentValues.putFollowing(false);
                     PublisherSelection publisherSelection = new PublisherSelection();

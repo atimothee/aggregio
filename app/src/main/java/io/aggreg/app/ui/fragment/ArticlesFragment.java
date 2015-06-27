@@ -16,7 +16,10 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -43,6 +46,7 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
         Bundle args = new Bundle();
         args.putLong(References.ARG_KEY_CATEGORY_ID, categoryId);
         fragment.setArguments(args);
+        fragment.setHasOptionsMenu(true);
         return fragment;
     }
 
@@ -75,17 +79,33 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
 
-        String[] COLUMNS = {ArticleColumns._ID, ArticleColumns.TITLE, ArticleColumns.IMAGE, ArticleColumns.CATEGORY_ID,ArticleColumns.PUB_DATE, ArticleColumns.LINK, ArticleColumns.TEXT, PublisherColumns.NAME, PublisherColumns.IMAGE_URL, PublisherColumns.FOLLOWING};
+        String[] COLUMNS = {ArticleColumns._ID, ArticleColumns.IS_READ, ArticleColumns.TITLE, ArticleColumns.IMAGE, ArticleColumns.CATEGORY_ID,ArticleColumns.PUB_DATE, ArticleColumns.LINK, ArticleColumns.TEXT, PublisherColumns.NAME, PublisherColumns.IMAGE_URL, PublisherColumns.FOLLOWING};
         ArticleSelection selection = new ArticleSelection();
-        //selection.publisherFollowing(false);
+
         selection.categoryId(args.getLong(References.ARG_KEY_CATEGORY_ID));
+        selection.and();
+        selection.publisherFollowing(true);
 
         return new CursorLoader(getActivity(), ArticleColumns.CONTENT_URI, COLUMNS, selection.sel(), selection.args(), ArticleColumns.TABLE_NAME+"."+ArticleColumns.PUB_DATE+" DESC");
     }
 
     @Override
     public void onLoadFinished(Loader loader, Object data) {
+        int mScrollPosition = 0;
+        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+        //TODO: What if its grid layout
+        if(layoutManager != null && layoutManager instanceof LinearLayoutManager){
+            mScrollPosition = ((LinearLayoutManager) layoutManager).findFirstCompletelyVisibleItemPosition();
+            Log.d(LOG_TAG, "pub cursor position " + mScrollPosition);
+        }
         ArticleListCursorAdapter adapter = new ArticleListCursorAdapter(getActivity(), (Cursor)data);
+        if (layoutManager != null) {
+//                int count = layoutManager.getChildCount();
+//                if (mScrollPosition != RecyclerView.NO_POSITION && mScrollPosition < count) {
+            layoutManager.scrollToPosition(mScrollPosition);
+            Log.d(LOG_TAG, "pub cursor scrolled to position " + mScrollPosition);
+            //}
+        }
 
         recyclerView.setAdapter(adapter);
     }
@@ -95,4 +115,9 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
 
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_main, menu);
+    }
 }

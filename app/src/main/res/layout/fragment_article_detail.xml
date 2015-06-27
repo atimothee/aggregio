@@ -157,6 +157,8 @@
 
 
             <android.support.v7.widget.CardView
+                android:visibility="gone"
+                android:id="@+id/article_related1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/card_margin"
@@ -164,15 +166,14 @@
                 android:layout_marginRight="@dimen/card_margin">
 
                 <RelativeLayout
-                    android:id="@+id/article_related1"
                     android:layout_width="match_parent"
-                    android:layout_height="80dp">
+                    android:layout_height="wrap_content">
                     <ImageView
                         android:visibility="gone"
                         android:id="@+id/article_related1_image"
                         android:layout_width="80dp"
                         android:scaleType="centerCrop"
-                        android:layout_height="match_parent" />
+                        android:layout_height="80dp" />
                     <TextView
                         android:fontFamily="sans-serif"
                         android:maxLines="2"
@@ -185,6 +186,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <com.github.curioustechizen.ago.RelativeTimeTextView
+                        android:textSize="12sp"
                         android:textColor="@android:color/tertiary_text_light"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -198,6 +200,8 @@
 
             </android.support.v7.widget.CardView>
             <android.support.v7.widget.CardView
+                android:visibility="gone"
+                android:id="@+id/article_related2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/card_margin"
@@ -205,15 +209,14 @@
                 android:layout_marginRight="@dimen/card_margin">
 
                 <RelativeLayout
-                    android:id="@+id/article_related2"
                     android:layout_width="match_parent"
-                    android:layout_height="80dp">
+                    android:layout_height="wrap_content">
                     <ImageView
                         android:visibility="gone"
                         android:id="@+id/article_related2_image"
                         android:layout_width="80dp"
                         android:scaleType="centerCrop"
-                        android:layout_height="match_parent" />
+                        android:layout_height="80dp" />
                     <TextView
                         android:fontFamily="sans-serif"
                         android:maxLines="2"
@@ -226,6 +229,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <com.github.curioustechizen.ago.RelativeTimeTextView
+                        android:textSize="12sp"
                         android:textColor="@android:color/tertiary_text_light"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -239,6 +243,8 @@
 
             </android.support.v7.widget.CardView>
             <android.support.v7.widget.CardView
+                android:visibility="gone"
+                android:id="@+id/article_related3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/card_margin"
@@ -246,15 +252,14 @@
                 android:layout_marginRight="@dimen/card_margin">
 
                 <RelativeLayout
-                    android:id="@+id/article_related3"
                     android:layout_width="match_parent"
-                    android:layout_height="80dp">
+                    android:layout_height="wrap_content">
                     <ImageView
                         android:visibility="gone"
                         android:id="@+id/article_related3_image"
                         android:layout_width="80dp"
                         android:scaleType="centerCrop"
-                        android:layout_height="match_parent" />
+                        android:layout_height="80dp" />
                     <TextView
                         android:fontFamily="sans-serif"
                         android:maxLines="2"
@@ -267,6 +272,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <com.github.curioustechizen.ago.RelativeTimeTextView
+                        android:textSize="12sp"
                         android:textColor="@android:color/tertiary_text_light"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -297,7 +303,7 @@
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
             ads:adSize="BANNER"
-            ads:adUnitId="@string/test_banner_ad_unit_id">
+            ads:adUnitId="@string/ad_unit_id_banner_article_detail">
         </com.google.android.gms.ads.AdView>
     </RelativeLayout>
 

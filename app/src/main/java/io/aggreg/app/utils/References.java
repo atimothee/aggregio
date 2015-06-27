@@ -22,9 +22,10 @@ public class References {
     public static final String GCM_TYPE_NOTIFICATION = "notification";
     public static final String SYNC_TYPE_GCM_REGISTER_DEVICE = "register_device";
 
-    public static String ARG_KEY_CATEGORY_ID = "category_id";
-    public static String ARG_KEY_PUBLISHER_ID = "publisher_id";
-    public static final String ARG_KEY_ARTICLE_LINK = "article_id";
+    public static final String ARG_KEY_CATEGORY_ID = "category_id";
+    public static final String ARG_KEY_PUBLISHER_ID = "publisher_id";
+    public static final String ARG_KEY_ARTICLE_ID = "article_id";
+    public static final String ARG_KEY_ARTICLE_LINK = "article_link";
     public static final String ARG_KEY_SYNC_TYPE = "sync_type";
     public static final String SYNC_TYPE_ARTICLE_REFRESH = "sync_type_article_refresh";
     public static final String SYNC_TYPE_CATEGORY = "sync_type_category";

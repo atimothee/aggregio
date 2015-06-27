@@ -34,14 +34,14 @@ public class ArticleDetailActivity extends AppCompatActivity implements ArticleD
             if (savedInstanceState == null) {
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.article_list_container, ArticlesFragment.newInstance(getIntent().getLongExtra(References.ARG_KEY_CATEGORY_ID, 0)))
-                        .add(R.id.article_detail_container, ArticleDetailFragment.newInstance(getIntent().getStringExtra(References.ARG_KEY_ARTICLE_LINK), getIntent().getLongExtra(References.ARG_KEY_CATEGORY_ID, 0)))
+                        .add(R.id.article_detail_container, ArticleDetailFragment.newInstance(getIntent().getStringExtra(References.ARG_KEY_ARTICLE_LINK), getIntent().getLongExtra(References.ARG_KEY_CATEGORY_ID, 0), getIntent().getLongExtra(References.ARG_KEY_ARTICLE_ID, 0)))
                         .commit();
             }
         }else {
 
             if (savedInstanceState == null) {
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.container, ArticleDetailFragment.newInstance(getIntent().getStringExtra(References.ARG_KEY_ARTICLE_LINK), getIntent().getLongExtra(References.ARG_KEY_CATEGORY_ID, 0)))
+                        .add(R.id.container, ArticleDetailFragment.newInstance(getIntent().getStringExtra(References.ARG_KEY_ARTICLE_LINK), getIntent().getLongExtra(References.ARG_KEY_CATEGORY_ID, 0), getIntent().getLongExtra(References.ARG_KEY_ARTICLE_ID, 0)))
                                 .commit();
             }
         }
@@ -55,4 +55,9 @@ public class ArticleDetailActivity extends AppCompatActivity implements ArticleD
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
+    }
 }

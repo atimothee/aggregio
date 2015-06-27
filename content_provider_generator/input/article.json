@@ -28,6 +28,11 @@
             "default": false,
         },
         {
+            "name": "is_read",
+            "type": "Boolean",
+            "default": false,
+        },
+        {
             "name": "category_id",
             "type": "Long",
             "nullable": false,

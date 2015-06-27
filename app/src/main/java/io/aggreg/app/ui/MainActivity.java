@@ -29,6 +29,9 @@ import android.widget.ProgressBar;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
@@ -40,8 +43,13 @@ import java.util.HashSet;
 
 import io.aggreg.app.R;
 import io.aggreg.app.provider.AggregioProvider;
+import io.aggreg.app.provider.article.ArticleColumns;
 import io.aggreg.app.provider.category.CategoryColumns;
+import io.aggreg.app.provider.category.CategorySelection;
+import io.aggreg.app.provider.publisher.PublisherColumns;
+import io.aggreg.app.provider.publisher.PublisherSelection;
 import io.aggreg.app.provider.publishercategory.PublisherCategoryColumns;
+import io.aggreg.app.provider.publishercategory.PublisherCategorySelection;
 import io.aggreg.app.ui.fragment.ArticlesFragment;
 import io.aggreg.app.utils.AccountUtils;
 import io.aggreg.app.utils.References;
@@ -54,39 +62,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    HashSet pagerTitles;
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private ProgressBar progressBar;
-
-    class Category{
-        @Override
-        public int hashCode() {
-            return new HashCodeBuilder(17, 31). // two randomly chosen prime numbers
-                    // if deriving: appendSuper(super.hashCode()).
-                    append(name).toHashCode();
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (!(obj instanceof Category))
-                return false;
-            if (obj == this)
-                return true;
-
-            Category rhs = (Category) obj;
-            return new EqualsBuilder().
-                    // if deriving: appendSuper(super.equals(obj)).
-                            append(name, rhs.name).
-                    isEquals();
-        }
-
-        public Category(Long id, String name){
-            this.id = id;
-            this.name = name;
-        }
-        public Long id;
-        public String name;
-    }
+    private Tracker tracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             ContentResolver.requestSync(account, AggregioProvider.AUTHORITY, settingsBundle);
 
         }
-        pagerTitles = new HashSet();
 
         publisherCategoriesCursor = null;
         getSupportLoaderManager().initLoader(References.PUBLISHER_LOADER, null, this);
@@ -160,12 +137,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
         AppRater.app_launched(this);
         AdView mAdView = (AdView) findViewById(R.id.adView);
-        Log.d(LOG_TAG, "test ad unit id "+getString(R.string.test_banner_ad_unit_id));
+
         AdRequest adRequest = new AdRequest.Builder()
         .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
         .addTestDevice("40F568795D1384A9EC06ABA81110930E")
                 .build();
         mAdView.loadAd(adRequest);
+
+        GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+        tracker = analytics.newTracker(getString(R.string.analytics_tracker_id));
+        tracker.setScreenName("home screen");
 
     }
 
@@ -192,10 +173,25 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         menuItem.setChecked(true);
                         if (menuItem.getItemId() == R.id.nav_manage_sources) {
+                            tracker.send(new HitBuilders.EventBuilder()
+                                    .setCategory("UX")
+                                    .setAction("click")
+                                    .setLabel("manage sources nav action")
+                                    .build());
                             startActivity(new Intent(MainActivity.this, ManagePublishersActivity.class));
                         } else if (menuItem.getItemId() == R.id.nav_settings) {
+                            tracker.send(new HitBuilders.EventBuilder()
+                                    .setCategory("UX")
+                                    .setAction("click")
+                                    .setLabel("settings nav action")
+                                    .build());
                             startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                         } else if (menuItem.getItemId() == R.id.nav_bookmarks) {
+                            tracker.send(new HitBuilders.EventBuilder()
+                                    .setCategory("UX")
+                                    .setAction("click")
+                                    .setLabel("bookmarks nav action")
+                                    .build());
                             startActivity(new Intent(MainActivity.this, BookmarksActivity.class));
                         }
                         mDrawerLayout.closeDrawers();
@@ -214,27 +210,34 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         @Override
         public Fragment getItem(int position) {
-            return ArticlesFragment.newInstance(((Category)pagerTitles.toArray()[position]).id);
+            publisherCategoriesCursor.moveToPosition(position);
+            return ArticlesFragment.newInstance((publisherCategoriesCursor.getLong(publisherCategoriesCursor.getColumnIndex(PublisherCategoryColumns.CATEGORY_ID))));
         }
 
         @Override
         public int getCount() {
-            return pagerTitles.size();
+            if(publisherCategoriesCursor!=null) {
+                return publisherCategoriesCursor.getCount();
+            }else {
+                return 0;
+            }
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            Log.d(LOG_TAG, "Pagertitles charseq count is "+pagerTitles.size());
+            publisherCategoriesCursor.moveToPosition(position);
 
-            return ((Category) pagerTitles.toArray()[position]).name;
+            return publisherCategoriesCursor.getString(publisherCategoriesCursor.getColumnIndex(CategoryColumns.NAME));
         }
     }
 
     @Override
     public Loader onCreateLoader(int i, Bundle bundle) {
 
-        //TODO: Select where category is unique
-        return new CursorLoader(this, PublisherCategoryColumns.CONTENT_URI, null, null, null, null);
+        PublisherCategorySelection publisherCategorySelection = new PublisherCategorySelection();
+        publisherCategorySelection.publisherFollowing(true);
+        String COLUMNS[] = {"DISTINCT "+PublisherCategoryColumns.CATEGORY_ID, CategoryColumns.NAME};
+        return new CursorLoader(this, PublisherCategoryColumns.CONTENT_URI, COLUMNS, null, null, null);
     }
 
     @Override
@@ -242,16 +245,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
 
         publisherCategoriesCursor = (Cursor) data;
-        if(publisherCategoriesCursor != null) {
-            Log.d(LOG_TAG, "publisher category size is "+((Cursor)data).getCount());
-        if(publisherCategoriesCursor.getCount()!=0) {
-            publisherCategoriesCursor.moveToFirst();
-            do {
-                pagerTitles.add(new Category(publisherCategoriesCursor.getLong(publisherCategoriesCursor.getColumnIndex(PublisherCategoryColumns._ID)),publisherCategoriesCursor.getString(publisherCategoriesCursor.getColumnIndex(CategoryColumns.NAME))));
-            } while (publisherCategoriesCursor.moveToNext());
-        }
-        }
-        Log.d(LOG_TAG, "set size is " + pagerTitles.size());
         mSectionsPagerAdapter.notifyDataSetChanged();
         tabLayout.setupWithViewPager(viewPager);
     }

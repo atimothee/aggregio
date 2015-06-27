@@ -275,6 +275,11 @@ public class ArticleImageSelection extends AbstractSelection<ArticleImageSelecti
         return this;
     }
 
+    public ArticleImageSelection articleIsRead(Boolean value) {
+        addEquals(ArticleColumns.IS_READ, toObjectArray(value));
+        return this;
+    }
+
     public ArticleImageSelection articleCategoryId(Long... value) {
         addEquals(ArticleColumns.CATEGORY_ID, value);
         return this;

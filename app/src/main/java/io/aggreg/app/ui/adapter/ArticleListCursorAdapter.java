@@ -19,6 +19,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.squareup.picasso.Picasso;
 
 import io.aggreg.app.R;
@@ -35,6 +38,7 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
     private static String LOG_TAG = ArticleListCursorAdapter.class.getSimpleName();
     private int imageWidth;
     private boolean isTablet;
+    private Tracker tracker;
 
     public ArticleListCursorAdapter(Context context,Cursor cursor){
         super(context,cursor);
@@ -45,6 +49,13 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
         //float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         this.imageWidth = (int)(displayMetrics.widthPixels);
         this.isTablet = mContext.getResources().getBoolean(R.bool.isTablet);
+        GoogleAnalytics analytics = GoogleAnalytics.getInstance(mContext);
+        tracker = analytics.newTracker(mContext.getString(R.string.analytics_tracker_id));
+        if(isTablet) {
+            tracker.setScreenName("article grid");
+        }else {
+            tracker.setScreenName("article list");
+        }
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -83,16 +94,28 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("UX")
+                        .setAction("click")
+                        .setLabel("article opened")
+                        .build());
                 cursor.moveToPosition(viewHolder.getLayoutPosition());
                 Log.d(LOG_TAG, "id cursor is " + cursor.getLong(cursor.getColumnIndex(ArticleColumns._ID)));
                 Intent i = new Intent(mContext, ArticleDetailActivity.class);
-                i.putExtra(References.ARG_KEY_ARTICLE_LINK, cursor.getString(cursor.getColumnIndex(ArticleColumns.LINK)));
+                i.putExtra(References.ARG_KEY_ARTICLE_ID, cursor.getLong(cursor.getColumnIndex(ArticleColumns._ID)));
                 i.putExtra(References.ARG_KEY_CATEGORY_ID, cursor.getLong(cursor.getColumnIndex(ArticleColumns.CATEGORY_ID)));
+                i.putExtra(References.ARG_KEY_ARTICLE_LINK, cursor.getString(cursor.getColumnIndex(ArticleColumns.LINK)));
                 mContext.startActivity(i);
             }
         });
         ArticleItem articleItem = ArticleItem.fromCursor(cursor);
         viewHolder.articleTitle.setText(articleItem.getTitle());
+        if(cursor.getInt(cursor.getColumnIndex(ArticleColumns.IS_READ)) == 0){
+            viewHolder.articleTitle.setTextColor(mContext.getResources().getColor(R.color.primary_text_default_material_light));
+
+        }else if(cursor.getInt(cursor.getColumnIndex(ArticleColumns.IS_READ)) == 1){
+            viewHolder.articleTitle.setTextColor(mContext.getResources().getColor(R.color.secondary_text_default_material_light));
+        }
 //        StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) viewHolder.itemView.getLayoutParams();
 //
 //        if(viewHolder.articleTitle.getLineCount()>2){

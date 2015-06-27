@@ -93,6 +93,16 @@ public class ArticleCursor extends AbstractCursor implements ArticleModel {
     }
 
     /**
+     * Get the {@code is_read} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public Boolean getIsRead() {
+        Boolean res = getBooleanOrNull(ArticleColumns.IS_READ);
+        return res;
+    }
+
+    /**
      * Get the {@code category_id} value.
      */
     public long getCategoryId() {

@@ -13,6 +13,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -36,12 +37,15 @@ import com.bumptech.glide.Glide;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.squareup.picasso.Picasso;
 
 import java.sql.Ref;
 
 import io.aggreg.app.R;
+import io.aggreg.app.provider.AggregioProvider;
 import io.aggreg.app.provider.article.ArticleColumns;
 import io.aggreg.app.provider.article.ArticleContentValues;
 import io.aggreg.app.provider.article.ArticleCursor;
@@ -51,7 +55,7 @@ import io.aggreg.app.ui.ArticleDetailActivity;
 import io.aggreg.app.ui.SettingsActivity;
 import io.aggreg.app.utils.References;
 
-public class ArticleDetailFragment extends Fragment implements LoaderManager.LoaderCallbacks, View.OnClickListener{
+public class ArticleDetailFragment extends Fragment implements LoaderManager.LoaderCallbacks, View.OnClickListener {
     private TextView articleText;
     private TextView articleTitle;
     private TextView publisherName;
@@ -72,9 +76,9 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     private TextView related1Title;
     private TextView related2Title;
     private TextView related3Title;
-    private RelativeLayout articleRelated1;
-    private RelativeLayout articleRelated2;
-    private RelativeLayout articleRelated3;
+    private CardView articleRelated1;
+    private CardView articleRelated2;
+    private CardView articleRelated3;
     private RelativeTimeTextView timeAgoRelated1;
     private RelativeTimeTextView timeAgoRelated2;
     private RelativeTimeTextView timeAgoRelated3;
@@ -84,11 +88,13 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
 
 
     private OnFragmentInteractionListener mListener;
-    public static ArticleDetailFragment newInstance(String articleLink, Long categoryId) {
+
+    public static ArticleDetailFragment newInstance(String articleLink, Long categoryId, Long articleId) {
         ArticleDetailFragment fragment = new ArticleDetailFragment();
         Bundle args = new Bundle();
         args.putString(References.ARG_KEY_ARTICLE_LINK, articleLink);
         args.putLong(References.ARG_KEY_CATEGORY_ID, categoryId);
+        args.putLong(References.ARG_KEY_ARTICLE_ID, articleId);
         fragment.setArguments(args);
         fragment.setHasOptionsMenu(true);
         return fragment;
@@ -111,7 +117,11 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
 
         //float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
         //float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-        imageWidth = (int)(displayMetrics.widthPixels);
+        imageWidth = (int) (displayMetrics.widthPixels);
+
+        GoogleAnalytics analytics = GoogleAnalytics.getInstance(getActivity());
+        tracker = analytics.newTracker(getString(R.string.analytics_tracker_id));
+        tracker.setScreenName("detail screen");
     }
 
     @Override
@@ -119,13 +129,12 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                              Bundle savedInstanceState) {
 
 
-
         View view = inflater.inflate(R.layout.fragment_article_detail, container, false);
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         try {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -138,8 +147,8 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         articleImage = (ImageView) view.findViewById(R.id.article_detail_image);
         articleImageFrame = (FrameLayout) view.findViewById(R.id.article_detail_image_frame);
         publisherLogo = (ImageView) view.findViewById(R.id.article_item_publisher_logo);
-        bookmarkFab = (FloatingActionButton)view.findViewById(R.id.bookmark_fab);
-        viewOnWeb = (Button)view.findViewById(R.id.btn_view_on_web);
+        bookmarkFab = (FloatingActionButton) view.findViewById(R.id.bookmark_fab);
+        viewOnWeb = (Button) view.findViewById(R.id.btn_view_on_web);
         bookmarkFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -149,28 +158,33 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         viewOnWeb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("UX")
+                        .setAction("click")
+                        .setLabel("open in browser button")
+                        .build());
                 openInBrowser();
             }
         });
-        related1Title = (TextView)view.findViewById(R.id.article_related1_title);
-        related2Title = (TextView)view.findViewById(R.id.article_related2_title);
-        related3Title = (TextView)view.findViewById(R.id.article_related3_title);
-        related1Image = (ImageView)view.findViewById(R.id.article_related1_image);
-        related2Image = (ImageView)view.findViewById(R.id.article_related2_image);
-        related3Image = (ImageView)view.findViewById(R.id.article_related3_image);
-        articleRelated1 = (RelativeLayout)view.findViewById(R.id.article_related1);
-        articleRelated2 = (RelativeLayout)view.findViewById(R.id.article_related2);
-        articleRelated3 = (RelativeLayout)view.findViewById(R.id.article_related3);
-        timeAgoRelated1 = (RelativeTimeTextView)view.findViewById(R.id.article_related1_timeago);
-        timeAgoRelated2 = (RelativeTimeTextView)view.findViewById(R.id.article_related2_timeago);
-        timeAgoRelated3 = (RelativeTimeTextView)view.findViewById(R.id.article_related3_timeago);
+        related1Title = (TextView) view.findViewById(R.id.article_related1_title);
+        related2Title = (TextView) view.findViewById(R.id.article_related2_title);
+        related3Title = (TextView) view.findViewById(R.id.article_related3_title);
+        related1Image = (ImageView) view.findViewById(R.id.article_related1_image);
+        related2Image = (ImageView) view.findViewById(R.id.article_related2_image);
+        related3Image = (ImageView) view.findViewById(R.id.article_related3_image);
+        articleRelated1 = (CardView) view.findViewById(R.id.article_related1);
+        articleRelated2 = (CardView) view.findViewById(R.id.article_related2);
+        articleRelated3 = (CardView) view.findViewById(R.id.article_related3);
+        timeAgoRelated1 = (RelativeTimeTextView) view.findViewById(R.id.article_related1_timeago);
+        timeAgoRelated2 = (RelativeTimeTextView) view.findViewById(R.id.article_related2_timeago);
+        timeAgoRelated3 = (RelativeTimeTextView) view.findViewById(R.id.article_related3_timeago);
         AdView mAdView = (AdView) view.findViewById(R.id.adView);
-        Log.d(LOG_TAG, "test ad unit id " + getString(R.string.test_banner_ad_unit_id));
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .addTestDevice("40F568795D1384A9EC06ABA81110930E")
                 .build();
         mAdView.loadAd(adRequest);
+
         return view;
     }
 
@@ -193,20 +207,17 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
 
     @Override
     public Loader onCreateLoader(int i, Bundle bundle) {
-        if(i == References.ARTICLE_DETAIL_LOADER) {
-
-            ArticleSelection articleSelection = new ArticleSelection();
-            articleSelection.link(bundle.getString(References.ARG_KEY_ARTICLE_LINK));
-            articleSelection.limit(1);
-            return new CursorLoader(getActivity(), ArticleColumns.CONTENT_URI, null, articleSelection.sel(), articleSelection.args(), null);
-        }else if(i == References.ARTICLE_RELATED_LOADER){
+        if (i == References.ARTICLE_DETAIL_LOADER) {
+            Uri contentUri = Uri.parse(AggregioProvider.CONTENT_URI_BASE + "/" + ArticleColumns.TABLE_NAME + "/" + bundle.getLong(References.ARG_KEY_ARTICLE_ID, 0));
+            return new CursorLoader(getActivity(), contentUri, null, null, null, null);
+        } else if (i == References.ARTICLE_RELATED_LOADER) {
             ArticleSelection articleSelection = new ArticleSelection();
             String[] COLUMNS = {ArticleColumns._ID, ArticleColumns.TITLE, ArticleColumns.IMAGE, ArticleColumns.CATEGORY_ID, ArticleColumns.PUB_DATE, ArticleColumns.LINK, PublisherColumns.NAME, PublisherColumns.IMAGE_URL};
-
-            Log.d(LOG_TAG, "related cursor category id "+bundle.getLong(References.ARG_KEY_CATEGORY_ID));
-            Log.d(LOG_TAG, "related cursor article link " + bundle.getString(References.ARG_KEY_ARTICLE_LINK));
             articleSelection.categoryId(bundle.getLong(References.ARG_KEY_CATEGORY_ID));
-            //articleSelection.linkNot(bundle.getString(References.ARG_KEY_ARTICLE_LINK));
+            articleSelection.and();
+            articleSelection.linkNot(bundle.getString(References.ARG_KEY_ARTICLE_LINK));
+            articleSelection.and();
+            articleSelection.publisherFollowing(true);
             return new CursorLoader(getActivity(), ArticleColumns.CONTENT_URI, COLUMNS, articleSelection.sel(), articleSelection.args(), "RANDOM() LIMIT 3");
 
         }
@@ -217,27 +228,26 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     public void onLoadFinished(Loader loader, Object data) {
 
 
-        if(loader.getId() == References.ARTICLE_DETAIL_LOADER) {
+        if (loader.getId() == References.ARTICLE_DETAIL_LOADER) {
 
             articleCursor = (Cursor) data;
 
             if (articleCursor.getCount() != 0) {
                 articleCursor.moveToFirst();
                 articleText.setText(Html.fromHtml(articleCursor.getString(articleCursor.getColumnIndex(ArticleColumns.TEXT))));
-                Log.d(LOG_TAG, "link is " + articleCursor.getString(articleCursor.getColumnIndex(ArticleColumns.LINK)));
+                //Log.d(LOG_TAG, "link is " + articleCursor.getString(articleCursor.getColumnIndex(ArticleColumns.LINK)));
                 articleText.setMovementMethod(LinkMovementMethod.getInstance());
                 String title = articleCursor.getString(articleCursor.getColumnIndex(ArticleColumns.TITLE));
                 articleTitle.setText(title);
                 collapsingToolbar.setTitle(title);
                 String imageUrl = articleCursor.getString(articleCursor.getColumnIndex(ArticleColumns.IMAGE));
                 if (imageUrl != null) {
-                    Glide.with(getActivity()).load(imageUrl+"=s"+imageWidth).placeholder(R.drawable.no_img_placeholder).into(articleImage);
-                }
-                else {
+                    Picasso.with(getActivity()).load(imageUrl + "=s" + imageWidth).placeholder(R.drawable.no_img_placeholder).fit().centerCrop().into(articleImage);
+                } else {
                     //articleImageFrame.setLayoutParams(new CollapsingToolbarLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100));
 
                 }
-                Glide.with(getActivity()).load(articleCursor.getString(articleCursor.getColumnIndex(PublisherColumns.IMAGE_URL))).into(publisherLogo);
+                Picasso.with(getActivity()).load(articleCursor.getString(articleCursor.getColumnIndex(PublisherColumns.IMAGE_URL))).fit().centerCrop().into(publisherLogo);
                 publisherName.setText(articleCursor.getString(articleCursor.getColumnIndex(PublisherColumns.NAME)));
                 timeAgo.setReferenceTime(articleCursor.getLong(articleCursor.getColumnIndex(ArticleColumns.PUB_DATE)));
                 int bookmarked = articleCursor.getInt(articleCursor.getColumnIndex(ArticleColumns.BOOK_MARKED));
@@ -247,39 +257,45 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                     bookmarkFab.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_bookmark_outline_white_24dp));
                 }
                 mShareString = articleCursor.getString(articleCursor.getColumnIndex(ArticleColumns.TITLE))
-                        +" "
-                        +articleCursor.getString(articleCursor.getColumnIndex(ArticleColumns.LINK));
+                        + " "
+                        + articleCursor.getString(articleCursor.getColumnIndex(ArticleColumns.LINK));
+
+                int isRead = articleCursor.getInt(articleCursor.getColumnIndex(ArticleColumns.IS_READ));
+                if (isRead == 0) {
+                    ArticleSelection articleSelection = new ArticleSelection();
+                    articleSelection.link(articleCursor.getString(articleCursor.getColumnIndex(ArticleColumns.LINK)));
+                    ArticleContentValues articleContentValues = new ArticleContentValues();
+                    articleContentValues.putIsRead(true);
+                    articleContentValues.update(getActivity().getContentResolver(), articleSelection);
+
+                }
             }
-        }else if(loader.getId() == References.ARTICLE_RELATED_LOADER){
-            Log.d(LOG_TAG, "related cursor load finished");
+        } else if (loader.getId() == References.ARTICLE_RELATED_LOADER) {
 
             relatedCursor = (Cursor) data;
-            if(relatedCursor != null){
-                Log.d(LOG_TAG, "related cursor count is "+relatedCursor.getCount());
-                if(relatedCursor.getCount()!=0){
-                    Log.d(LOG_TAG, "related cursor count is "+relatedCursor.getCount());
+            if (relatedCursor != null) {
+                if (relatedCursor.getCount() != 0) {
                     relatedCursor.moveToFirst();
                     int i = 0;
-                    RelativeLayout[] articleRelatedViews = {articleRelated1, articleRelated2, articleRelated3};
+                    CardView[] articleRelatedViews = {articleRelated1, articleRelated2, articleRelated3};
                     TextView[] relatedTextViews = {related1Title, related2Title, related3Title};
                     ImageView[] relatedImageViews = {related1Image, related2Image, related3Image};
                     RelativeTimeTextView[] timeAgoRelatedViews = {timeAgoRelated1, timeAgoRelated2, timeAgoRelated3};
-                    do{
-
-                        Log.d(LOG_TAG, "looped related");
+                    do {
+                        articleRelatedViews[i].setVisibility(View.VISIBLE);
                         relatedTextViews[i].setText(relatedCursor.getString(relatedCursor.getColumnIndex(ArticleColumns.TITLE)));
                         String imageUrl = relatedCursor.getString(relatedCursor.getColumnIndex(ArticleColumns.IMAGE));
-                        if(imageUrl != null) {
+                        if (imageUrl != null) {
                             relatedImageViews[i].setVisibility(View.VISIBLE);
                             Picasso.with(getActivity()).load(imageUrl).placeholder(R.drawable.no_img_placeholder).fit().centerCrop().into(relatedImageViews[i]);
                         }
                         articleRelatedViews[i].setOnClickListener(this);
                         timeAgoRelatedViews[i].setReferenceTime(relatedCursor.getLong(relatedCursor.getColumnIndex(ArticleColumns.PUB_DATE)));
                         i++;
-                        if(i>2){
+                        if (i > 2) {
                             break;
                         }
-                    }while (relatedCursor.moveToNext());
+                    } while (relatedCursor.moveToNext());
                 }
             }
 
@@ -294,28 +310,32 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
 
     @Override
     public void onClick(View view) {
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("UX")
+                .setAction("click")
+                .setLabel("related")
+                .build());
         Intent i = new Intent(getActivity(), ArticleDetailActivity.class);
 
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.article_related1:
                 relatedCursor.moveToPosition(0);
-
                 i.putExtra(References.ARG_KEY_ARTICLE_LINK, relatedCursor.getString(relatedCursor.getColumnIndex(ArticleColumns.LINK)));
-                Log.d(LOG_TAG, "related cursor link " + relatedCursor.getString(relatedCursor.getColumnIndex(ArticleColumns.LINK)));
+                i.putExtra(References.ARG_KEY_ARTICLE_ID, relatedCursor.getLong(relatedCursor.getColumnIndex(ArticleColumns._ID)));
                 i.putExtra(References.ARG_KEY_CATEGORY_ID, relatedCursor.getLong(relatedCursor.getColumnIndex(ArticleColumns.CATEGORY_ID)));
                 getActivity().startActivity(i);
                 break;
             case R.id.article_related2:
                 relatedCursor.moveToPosition(1);
+                i.putExtra(References.ARG_KEY_ARTICLE_ID, relatedCursor.getLong(relatedCursor.getColumnIndex(ArticleColumns._ID)));
                 i.putExtra(References.ARG_KEY_ARTICLE_LINK, relatedCursor.getString(relatedCursor.getColumnIndex(ArticleColumns.LINK)));
-                Log.d(LOG_TAG, "related cursor link "+relatedCursor.getString(relatedCursor.getColumnIndex(ArticleColumns.LINK)));
                 i.putExtra(References.ARG_KEY_CATEGORY_ID, relatedCursor.getLong(relatedCursor.getColumnIndex(ArticleColumns.CATEGORY_ID)));
                 getActivity().startActivity(i);
                 break;
             case R.id.article_related3:
                 relatedCursor.moveToPosition(2);
+                i.putExtra(References.ARG_KEY_ARTICLE_ID, relatedCursor.getLong(relatedCursor.getColumnIndex(ArticleColumns._ID)));
                 i.putExtra(References.ARG_KEY_ARTICLE_LINK, relatedCursor.getString(relatedCursor.getColumnIndex(ArticleColumns.LINK)));
-                Log.d(LOG_TAG, "related cursor link "+relatedCursor.getString(relatedCursor.getColumnIndex(ArticleColumns.LINK)));
                 i.putExtra(References.ARG_KEY_CATEGORY_ID, relatedCursor.getLong(relatedCursor.getColumnIndex(ArticleColumns.CATEGORY_ID)));
                 getActivity().startActivity(i);
                 break;
@@ -330,33 +350,37 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         public void onFragmentInteraction(Uri uri);
     }
 
-    private void toggleBookmark(){
+    private void toggleBookmark() {
         ArticleSelection articleSelection = new ArticleSelection();
         articleSelection.link(getArguments().getString(References.ARG_KEY_ARTICLE_LINK));
         ArticleCursor articleCursor = articleSelection.query(getActivity().getContentResolver());
         articleCursor.moveToFirst();
         Boolean bookMarked = articleCursor.getBookMarked();
-        if(bookMarked == null) {
+        if (bookMarked == null) {
             bookMark();
-        }
-        else if(bookMarked) {
+        } else if (bookMarked) {
             unBookMark();
 
-        }else {
+        } else {
             bookMark();
         }
     }
 
-    private void bookMark(){
+    private void bookMark() {
         ArticleSelection articleSelection = new ArticleSelection();
         articleSelection.link(getArguments().getString(References.ARG_KEY_ARTICLE_LINK));
         ArticleContentValues articleContentValues = new ArticleContentValues();
         articleContentValues.putBookMarked(true);
         articleContentValues.update(getActivity().getContentResolver(), articleSelection);
         Toast.makeText(getActivity(), "The article was bookmarked", Toast.LENGTH_SHORT).show();
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("UX")
+                .setAction("click")
+                .setLabel("bookmark")
+                .build());
     }
 
-    private void unBookMark(){
+    private void unBookMark() {
         ArticleSelection articleSelection = new ArticleSelection();
         articleSelection.link(getArguments().getString(References.ARG_KEY_ARTICLE_LINK));
         ArticleContentValues articleContentValues = new ArticleContentValues();
@@ -364,6 +388,11 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         articleContentValues.putBookMarked(false);
         articleContentValues.update(getActivity().getContentResolver(), articleSelection);
         Toast.makeText(getActivity(), "The bookmark was removed", Toast.LENGTH_SHORT).show();
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("UX")
+                .setAction("click")
+                .setLabel("unbookmark")
+                .build());
     }
 
     @Override
@@ -381,18 +410,33 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            tracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("UX")
+                    .setAction("click")
+                    .setLabel("settings action")
+                    .build());
             startActivity(new Intent(getActivity(), SettingsActivity.class));
-        }else if(id ==R.id.action_open_in_browser){
-                openInBrowser();
-        }else if(id==R.id.action_share){
+        } else if (id == R.id.action_open_in_browser) {
+            tracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("UX")
+                    .setAction("click")
+                    .setLabel("open in browser action")
+                    .build());
+            openInBrowser();
+        } else if (id == R.id.action_share) {
+            tracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("UX")
+                    .setAction("click")
+                    .setLabel("share action")
+                    .build());
             //TODO: Share article
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void openInBrowser(){
-                String link = getArguments().getString(References.ARG_KEY_ARTICLE_LINK);
+    private void openInBrowser() {
+        String link = getArguments().getString(References.ARG_KEY_ARTICLE_LINK);
         Uri uri = Uri.parse(link);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
@@ -406,7 +450,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         }
     }
 
-    private Intent createShareIntent(){
+    private Intent createShareIntent() {
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
         shareIntent.setType("text/plain");
@@ -414,4 +458,8 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         return shareIntent;
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
 }

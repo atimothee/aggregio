@@ -55,6 +55,13 @@ public interface ArticleModel extends BaseModel {
     Boolean getBookMarked();
 
     /**
+     * Get the {@code is_read} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    Boolean getIsRead();
+
+    /**
      * Get the {@code category_id} value.
      */
     long getCategoryId();

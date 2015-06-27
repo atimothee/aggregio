@@ -35,6 +35,7 @@ public class AggregioSQLiteOpenHelper extends SQLiteOpenHelper {
             + ArticleColumns.PUB_DATE + " INTEGER, "
             + ArticleColumns.TEXT + " TEXT, "
             + ArticleColumns.BOOK_MARKED + " INTEGER, "
+            + ArticleColumns.IS_READ + " INTEGER, "
             + ArticleColumns.CATEGORY_ID + " INTEGER NOT NULL, "
             + ArticleColumns.PUBLISHER_ID + " INTEGER NOT NULL "
             + ", CONSTRAINT fk_category_id FOREIGN KEY (" + ArticleColumns.CATEGORY_ID + ") REFERENCES category (_id) ON DELETE CASCADE"
