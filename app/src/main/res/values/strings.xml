@@ -40,5 +40,6 @@
     <string name="title_activity_select_publishers">SelectPublishersActivity</string>
     <string name="pref_key_article_text_size">article_text_size</string>
     <string name="pref_key_sync_frequency">sync_frequency</string>
+    <string name="action_refresh">Refresh</string>
 
 </resources>

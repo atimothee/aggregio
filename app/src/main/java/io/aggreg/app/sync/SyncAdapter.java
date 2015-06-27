@@ -116,9 +116,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 } else {
                     Long categoryId = extras.getLong(References.ARG_KEY_CATEGORY_ID);
                     selection.categoryId(categoryId);
+                    selection.and();
                     selection.publisherFollowing(true);
-                    //TODO: where publisher is being followed
-                    //selection.pub
                 }
                 PublisherCategoryCursor publisherCategoryCursor = selection.query(mContentResolver, null, null);
                 if (publisherCategoryCursor != null) {
@@ -174,6 +173,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         String key = References.KEY_LAST_SYNC+categoryId+publisherId;
         Long lastSyncDate = prefs.getLong(key, 0);
         SharedPreferences.Editor editor = prefs.edit();
+        Log.d(LOG_TAG, "last sync date is "+lastSyncDate);
         if(lastSyncDate == 0){
             lastSyncDate = null;
         }

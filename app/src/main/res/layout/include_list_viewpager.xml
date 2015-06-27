@@ -35,6 +35,25 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:layout_scrollFlags="scroll|enterAlways" />
+        <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
+            android:visibility="gone"
+            android:id="@+id/progress"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:spb_sections_count="4"
+            app:spb_speed="2.0"
+            app:spb_stroke_width="4dp"
+            app:spb_stroke_separator_length="4dp"
+            app:spb_reversed="false"
+            app:spb_mirror_mode="false"
+            app:spb_progressiveStart_activated="true"
+            app:spb_progressiveStart_speed="1.5"
+            app:spb_progressiveStop_speed="3.4"
+            style="@style/GNowProgressBar"
+            />
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
@@ -42,21 +61,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+
+
     </android.support.design.widget.AppBarLayout>
-    <!--<View-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="192dp"-->
-        <!--android:background="@color/theme_primary"/>-->
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
     <RelativeLayout
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"

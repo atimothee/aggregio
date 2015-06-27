@@ -208,4 +208,5 @@ dependencies {
     compile 'com.google.android.gms:play-services-gcm:7.5.0'
     compile 'com.google.android.gms:play-services-ads:7.5.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.github.castorflex.smoothprogressbar:library:1.1.0'
 }

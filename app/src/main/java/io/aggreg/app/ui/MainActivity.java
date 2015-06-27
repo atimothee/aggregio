@@ -1,11 +1,15 @@
 package io.aggreg.app.ui;
 
 import android.accounts.Account;
+import android.annotation.TargetApi;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SyncInfo;
+import android.content.SyncStatusObserver;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -26,6 +30,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -41,6 +46,7 @@ import org.codechimp.apprater.AppRater;
 
 import java.util.HashSet;
 
+import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 import io.aggreg.app.R;
 import io.aggreg.app.provider.AggregioProvider;
 import io.aggreg.app.provider.article.ArticleColumns;
@@ -55,7 +61,7 @@ import io.aggreg.app.utils.AccountUtils;
 import io.aggreg.app.utils.References;
 
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks{
+public class MainActivity extends SyncActivity implements LoaderManager.LoaderCallbacks{
 
     private DrawerLayout mDrawerLayout;
     private Cursor publisherCategoriesCursor;
@@ -63,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
-    private ProgressBar progressBar;
+    private SmoothProgressBar progressBar;
     private Tracker tracker;
 
     @Override
@@ -73,8 +79,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-        progressBar = (ProgressBar)findViewById(R.id.progress_bar);
-        Account account = new AccountUtils(getApplicationContext()).getSyncAccount();
+        progressBar = (SmoothProgressBar)findViewById(R.id.progress);
+        Account account = new AccountUtils(this).getSyncAccount();
         Bundle settingsBundle = new Bundle();
         settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         settingsBundle.putBoolean(
@@ -151,6 +157,22 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     @Override
+    protected Account getAccount() {
+        Account account = new AccountUtils(getApplicationContext()).getSyncAccount();
+        return account;
+    }
+
+    @Override
+    protected void updateState(boolean isSynchronizing) {
+            if(isSynchronizing){
+                showProgress();
+            }
+        else{
+                hideProgress();
+            }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
@@ -161,6 +183,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         switch (item.getItemId()) {
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
+            case R.id.action_refresh:
+                refreshArticles();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -268,6 +293,51 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
         return true;
     }
+
+    public void refreshArticles(){
+        //Toast.makeText(this, "Refreshing...", Toast.LENGTH_LONG).show();
+        showProgress();
+        Long categoryId = null;
+
+        if(publisherCategoriesCursor!=null){
+            if(publisherCategoriesCursor.getCount() !=0){
+                int position = viewPager.getCurrentItem();
+                publisherCategoriesCursor.moveToPosition(position);
+                categoryId = publisherCategoriesCursor.getLong(publisherCategoriesCursor.getColumnIndex(ArticleColumns.CATEGORY_ID));
+
+            }
+        }
+        Account account = new AccountUtils(getApplicationContext()).getSyncAccount();
+        Bundle settingsBundle = new Bundle();
+        settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        settingsBundle.putBoolean(
+                ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        if(getIntent().getBooleanExtra(References.ARG_IS_FIRST_TIME, false)){
+
+            settingsBundle.putString(References.ARG_KEY_SYNC_TYPE, References.SYNC_TYPE_FIRST_TIME);
+            ContentResolver.requestSync(account, AggregioProvider.AUTHORITY, settingsBundle);
+        }else{
+            settingsBundle.putString(References.ARG_KEY_SYNC_TYPE, References.SYNC_TYPE_ARTICLE_REFRESH);
+            if(categoryId != null){
+                //settingsBundle.putLong(References.ARG_KEY_CATEGORY_ID, categoryId);
+            }
+
+            ContentResolver.requestSync(account, AggregioProvider.AUTHORITY, settingsBundle);
+
+        }
+    }
+
+
+    public void hideProgress(){
+        progressBar.setVisibility(View.GONE);
+    }
+
+
+    public void showProgress() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+
 
 
 

@@ -40,13 +40,11 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
     public ArticlesFragment() {
     }
 
-
     public static ArticlesFragment newInstance(Long categoryId) {
         ArticlesFragment fragment = new ArticlesFragment();
         Bundle args = new Bundle();
         args.putLong(References.ARG_KEY_CATEGORY_ID, categoryId);
         fragment.setArguments(args);
-        fragment.setHasOptionsMenu(true);
         return fragment;
     }
 
@@ -115,9 +113,5 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
 
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_main, menu);
-    }
+
 }
