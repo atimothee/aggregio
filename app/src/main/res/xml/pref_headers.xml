@@ -5,11 +5,12 @@
     <header android:fragment="io.aggreg.app.ui.SettingsActivity$GeneralPreferenceFragment"
         android:title="@string/pref_header_general" />
 
-    <header android:fragment="io.aggreg.app.ui.SettingsActivity$NotificationPreferenceFragment"
-        android:title="@string/pref_header_notifications" />
 
     <header android:fragment="io.aggreg.app.ui.SettingsActivity$DataSyncPreferenceFragment"
         android:title="@string/pref_header_data_sync" />
+
+    <header android:fragment="io.aggreg.app.ui.SettingsActivity$MemoryUsagePreferenceFragment"
+        android:title="@string/pref_header_memory_usage" />
 
     <header android:fragment="io.aggreg.app.ui.SettingsActivity$AboutPreferenceFragment"
         android:title="@string/pref_header_about" />

@@ -152,6 +152,16 @@ public class ArticleImageCursor extends AbstractCursor implements ArticleImageMo
     }
 
     /**
+     * Get the {@code order} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public Integer getArticleCategoryOrder() {
+        Integer res = getIntegerOrNull(CategoryColumns.ORDER);
+        return res;
+    }
+
+    /**
      * Get the {@code publisher_id} value.
      */
     public long getArticlePublisherId() {
@@ -218,6 +228,16 @@ public class ArticleImageCursor extends AbstractCursor implements ArticleImageMo
     @Nullable
     public Boolean getArticlePublisherFollowing() {
         Boolean res = getBooleanOrNull(PublisherColumns.FOLLOWING);
+        return res;
+    }
+
+    /**
+     * Get the {@code order} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public Integer getArticlePublisherOrder() {
+        Integer res = getIntegerOrNull(PublisherColumns.ORDER);
         return res;
     }
 }

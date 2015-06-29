@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -17,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
@@ -26,11 +24,7 @@ import com.squareup.picasso.Picasso;
 
 import io.aggreg.app.R;
 import io.aggreg.app.provider.article.ArticleColumns;
-import io.aggreg.app.provider.category.CategoryColumns;
-import io.aggreg.app.provider.publisher.PublisherColumns;
 import io.aggreg.app.ui.ArticleDetailActivity;
-import io.aggreg.app.ui.PublisherArticlesActivity;
-import io.aggreg.app.ui.fragment.ArticleDetailFragment;
 import io.aggreg.app.utils.References;
 
 public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleListCursorAdapter.ViewHolder>{
@@ -94,11 +88,6 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tracker.send(new HitBuilders.EventBuilder()
-                        .setCategory("UX")
-                        .setAction("click")
-                        .setLabel("article opened")
-                        .build());
                 cursor.moveToPosition(viewHolder.getLayoutPosition());
                 Log.d(LOG_TAG, "id cursor is " + cursor.getLong(cursor.getColumnIndex(ArticleColumns._ID)));
                 Intent i = new Intent(mContext, ArticleDetailActivity.class);
@@ -106,6 +95,11 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
                 i.putExtra(References.ARG_KEY_CATEGORY_ID, cursor.getLong(cursor.getColumnIndex(ArticleColumns.CATEGORY_ID)));
                 i.putExtra(References.ARG_KEY_ARTICLE_LINK, cursor.getString(cursor.getColumnIndex(ArticleColumns.LINK)));
                 mContext.startActivity(i);
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("UX")
+                        .setAction("click")
+                        .setLabel("article " + cursor.getString(cursor.getColumnIndex(ArticleColumns.LINK)) + " opened")
+                        .build());
             }
         });
         ArticleItem articleItem = ArticleItem.fromCursor(cursor);
@@ -116,21 +110,12 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
         }else if(cursor.getInt(cursor.getColumnIndex(ArticleColumns.IS_READ)) == 1){
             viewHolder.articleTitle.setTextColor(mContext.getResources().getColor(R.color.secondary_text_default_material_light));
         }
-//        StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) viewHolder.itemView.getLayoutParams();
-//
-//        if(viewHolder.articleTitle.getLineCount()>2){
-//            layoutParams.setFullSpan(true);
-//        }
-//        else{
-//           // layoutParams.setFullSpan(false);
-//        }
 
         viewHolder.publisherName.setText(articleItem.getPublisherName());
         viewHolder.timeAgo.setReferenceTime(articleItem.getTimeAgo());
         if(articleItem.getImage()!=null) {
             viewHolder.articleImage.setVisibility(View.VISIBLE);
             viewHolder.articleText.setVisibility(View.GONE);
-            //Glide.with(mContext).load(articleItem.getImage()+"=s"+imageWidth).placeholder(R.drawable.no_img_placeholder).fitCenter().into(viewHolder.articleImage);
             Picasso.with(mContext).load(articleItem.getImage()+"=s"+imageWidth).placeholder(R.drawable.no_img_placeholder).fit().centerCrop().into(viewHolder.articleImage);
 
         }else{

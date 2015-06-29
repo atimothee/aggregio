@@ -22,8 +22,6 @@ import com.appspot.aggregio_web.aggregio.model.ApiAggregioCategoryCollectionMess
 import com.appspot.aggregio_web.aggregio.model.ApiAggregioCategoryMessage;
 import com.appspot.aggregio_web.aggregio.model.ApiAggregioPublisherCollectionMessage;
 import com.appspot.aggregio_web.aggregio.model.ApiAggregioPublisherMessage;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.google.android.gms.iid.InstanceID;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.json.gson.GsonFactory;
 
@@ -39,7 +37,6 @@ import io.aggreg.app.provider.publisher.PublisherColumns;
 import io.aggreg.app.provider.publishercategory.PublisherCategoryColumns;
 import io.aggreg.app.provider.publishercategory.PublisherCategoryCursor;
 import io.aggreg.app.provider.publishercategory.PublisherCategorySelection;
-import io.aggreg.app.utils.AccountUtils;
 import io.aggreg.app.utils.References;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
@@ -69,36 +66,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         Aggregio service = builder.build();
 
         try {
-            String syncType = (String)extras.get(References.ARG_KEY_SYNC_TYPE);
-            Log.d(LOG_TAG, "sync extras "+extras.toString());
+            String syncType = (String) extras.get(References.ARG_KEY_SYNC_TYPE);
+            Log.d(LOG_TAG, "sync extras " + extras.toString());
 
             if (syncType.equalsIgnoreCase(References.SYNC_TYPE_PUBLISHER)) {
                 Log.d(LOG_TAG, "sync " + extras.getString(References.ARG_KEY_SYNC_TYPE));
 
-                ApiAggregioPublisherCollectionMessage publisherCollectionMessage = null;
-                try {
-                    publisherCollectionMessage = service.publishers().list(countryName).execute();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                List<ContentValues> publisherContentValuesList = new ArrayList<>();
-                ContentValues publisherContentValues = null;
-                if (publisherCollectionMessage != null) {
-                    for (ApiAggregioPublisherMessage publisher : publisherCollectionMessage.getItems()) {
-                        publisherContentValues = new ContentValues();
-                        publisherContentValues.put(PublisherColumns._ID, publisher.getId());
-                        publisherContentValues.put(PublisherColumns.NAME, publisher.getName());
-                        publisherContentValues.put(PublisherColumns.WEBSITE, publisher.getWebsite());
-                        publisherContentValues.put(PublisherColumns.IMAGE_URL, publisher.getImageUrl());
-                        publisherContentValuesList.add(publisherContentValues);
-                    }
-                }
-                try {
-                    mContentResolver.bulkInsert(PublisherColumns.CONTENT_URI, publisherContentValuesList.toArray(new ContentValues[publisherContentValuesList.size()]));
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                setUpCategories(service, countryName);
 
             } else if (syncType.equalsIgnoreCase(References.SYNC_TYPE_CATEGORY)) {
 
@@ -124,11 +98,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                     publisherCategoryCursor.moveToFirst();
                     if (publisherCategoryCursor.getCount() != 0) {
                         do {
-                            try {
-                                refreshArticles(service, publisherCategoryCursor.getPublisherId(), publisherCategoryCursor.getCategoryId());
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+                            refreshArticles(service, publisherCategoryCursor.getPublisherId(), publisherCategoryCursor.getCategoryId());
+
                         } while (publisherCategoryCursor.moveToNext());
                     }
                 }
@@ -138,113 +109,136 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
 
             } else if (syncType.equalsIgnoreCase(References.SYNC_TYPE_FIRST_TIME)) {
+                setUpPublishers(service, countryName);
                 setUpCategories(service, countryName);
                 initialSyncArticles(service);
-            } else if(syncType.equalsIgnoreCase(References.SYNC_TYPE_GCM_REGISTER_DEVICE)) {
-                String msg = "";
+            } else if (syncType.equalsIgnoreCase(References.SYNC_TYPE_GCM_REGISTER_DEVICE)) {
 
-
-                try {
-//                        GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(getContext());
-//
-//                        regId = gcm.register(References.SENDER_ID);
-                        InstanceID instanceID = InstanceID.getInstance(getContext());
-                    String regId = instanceID.getToken(getContext().getString(R.string.gcm_defaultSenderId),
-                            GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
-                        msg = "Device registered, registration ID=" + regId;
-                        sendRegistrationId(regId);
-                        AccountUtils.storeRegistrationId(getContext(), regId);
-
-
-                } catch (IOException ex) {
-                    msg = "Error :" + ex.getMessage();
-                    // If there is an error, don't just keep trying to register.
-                    // Require the user to click a button again, or perform
-                    // exponential back-off.
-                }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void refreshArticles(Aggregio service, Long publisherId, Long categoryId) throws IOException {
+    private void refreshArticles(Aggregio service, Long publisherId, Long categoryId){
         SharedPreferences prefs = getContext().getSharedPreferences(References.KEY_PREFERENCES, Context.MODE_PRIVATE);
-        String key = References.KEY_LAST_SYNC+categoryId+publisherId;
+        String key = References.KEY_LAST_SYNC + categoryId + publisherId;
         Long lastSyncDate = prefs.getLong(key, 0);
         SharedPreferences.Editor editor = prefs.edit();
-        Log.d(LOG_TAG, "last sync date is "+lastSyncDate);
-        if(lastSyncDate == 0){
+        Log.d(LOG_TAG, "last sync date is " + lastSyncDate);
+        if (lastSyncDate == 0) {
             lastSyncDate = null;
         }
-        ApiAggregioArticleCollection articleCollection = service.articles().cursorList(publisherId, categoryId)
-                .setLastSyncDate(lastSyncDate)
-                        .execute();
+
+        ApiAggregioArticleCollection articleCollection = null;
+        try {
+            articleCollection = service.articles().cursorList(publisherId, categoryId)
+                    .setLastSyncDate(lastSyncDate)
+                    .execute();
+
         editor.putLong(key, new Date().getTime()).apply();
         saveArticles(articleCollection);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
     private void initialSyncArticles(Aggregio service) {
+        SharedPreferences prefs = getContext().getSharedPreferences(References.KEY_PREFERENCES, Context.MODE_PRIVATE);
 
-        PublisherCategorySelection selection = new PublisherCategorySelection();
-        PublisherCategoryCursor publisherCategoryCursor = selection.query(mContentResolver, null, null);
-        publisherCategoryCursor.moveToFirst();
-        Long categoryId = null;
-        Long publisherId = null;
-        if (publisherCategoryCursor.getCount() != 0) {
-            SharedPreferences prefs = getContext().getSharedPreferences(References.KEY_PREFERENCES, Context.MODE_PRIVATE);
+        if(!prefs.getBoolean(References.FIRST_SYNC_COMPLETE, false)) {
+            boolean firstTimeSyncCompleted = true;
 
-            do {
-                categoryId = publisherCategoryCursor.getCategoryId();
-                publisherId = publisherCategoryCursor.getPublisherId();
-                ApiAggregioArticleCollection articleCollection = null;
-                try {
-                    articleCollection = service.articles().cursorList(publisherId, categoryId).execute();
-                    String key = References.KEY_LAST_SYNC+categoryId+publisherId;
-                    SharedPreferences.Editor editor = prefs.edit();
-                    editor.putLong(key, new Date().getTime()).apply();
-                } catch (IOException e) {
-                    e.printStackTrace();
+            PublisherCategorySelection selection = new PublisherCategorySelection();
+            PublisherCategoryCursor publisherCategoryCursor = selection.query(mContentResolver, null, null);
+            publisherCategoryCursor.moveToFirst();
+            Long categoryId = null;
+            Long publisherId = null;
+
+            if (publisherCategoryCursor.getCount() != 0) {
+
+                do {
+                    categoryId = publisherCategoryCursor.getCategoryId();
+                    publisherId = publisherCategoryCursor.getPublisherId();
+                    ApiAggregioArticleCollection articleCollection = null;
+                    try {
+                        articleCollection = service.articles().cursorList(publisherId, categoryId).execute();
+                        String key = References.KEY_LAST_SYNC + categoryId + publisherId;
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putLong(key, new Date().getTime()).apply();
+                        saveArticles(articleCollection);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        firstTimeSyncCompleted = false;
+                    }
                 }
 
-                saveArticles(articleCollection);
+                while (publisherCategoryCursor.moveToNext());
             }
-
-            while (publisherCategoryCursor.moveToNext());
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean(References.FIRST_SYNC_COMPLETE, firstTimeSyncCompleted).apply();
         }
     }
 
-    private void saveArticles(ApiAggregioArticleCollection articleCollection){
-    List<ContentValues> articlesContentValuesList = new ArrayList<>();
-    ContentValues articleContentValues;
-    if (articleCollection != null) {
-        if (articleCollection.getItems() != null) {
-            for (ApiAggregioArticleMessage s : articleCollection.getItems()) {
-                articleContentValues = new ContentValues();
-                articleContentValues.put(ArticleColumns._ID, s.getId());
-                articleContentValues.put(ArticleColumns.TITLE, s.getTitle());
-                articleContentValues.put(ArticleColumns.TEXT, s.getText());
-                articleContentValues.put(ArticleColumns.LINK, s.getLink());
-                articleContentValues.put(ArticleColumns.CATEGORY_ID, s.getCategoryId());
-                articleContentValues.put(ArticleColumns.PUBLISHER_ID, s.getPublisherId());
-                articleContentValues.put(ArticleColumns.PUB_DATE, s.getPubDate().getValue());
-                try {
-                    articleContentValues.put(ArticleColumns.IMAGE, s.getImageUrl().get(0));
-                } catch (Exception e) {
-                    e.printStackTrace();
+    private void saveArticles(ApiAggregioArticleCollection articleCollection) {
+        List<ContentValues> articlesContentValuesList = new ArrayList<>();
+        ContentValues articleContentValues;
+        if (articleCollection != null) {
+            if (articleCollection.getItems() != null) {
+                for (ApiAggregioArticleMessage s : articleCollection.getItems()) {
+                    articleContentValues = new ContentValues();
+                    articleContentValues.put(ArticleColumns._ID, s.getId());
+                    articleContentValues.put(ArticleColumns.TITLE, s.getTitle());
+                    articleContentValues.put(ArticleColumns.TEXT, s.getText());
+                    articleContentValues.put(ArticleColumns.LINK, s.getLink());
+                    articleContentValues.put(ArticleColumns.CATEGORY_ID, s.getCategoryId());
+                    articleContentValues.put(ArticleColumns.PUBLISHER_ID, s.getPublisherId());
+                    articleContentValues.put(ArticleColumns.PUB_DATE, s.getPubDate().getValue());
+                    try {
+                        articleContentValues.put(ArticleColumns.IMAGE, s.getImageUrl().get(0));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    articlesContentValuesList.add(articleContentValues);
                 }
-                articlesContentValuesList.add(articleContentValues);
             }
         }
+        try {
+            mContentResolver.bulkInsert(ArticleColumns.CONTENT_URI, articlesContentValuesList.toArray(new ContentValues[articlesContentValuesList.size()]));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-    try {
-        mContentResolver.bulkInsert(ArticleColumns.CONTENT_URI, articlesContentValuesList.toArray(new ContentValues[articlesContentValuesList.size()]));
-    } catch (Exception e) {
-        e.printStackTrace();
+
+    private void setUpPublishers(Aggregio service, String countryName) {
+        ApiAggregioPublisherCollectionMessage publisherCollectionMessage = null;
+        try {
+            publisherCollectionMessage = service.publishers().list(countryName).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        List<ContentValues> publisherContentValuesList = new ArrayList<>();
+        ContentValues publisherContentValues = null;
+        if (publisherCollectionMessage != null) {
+            for (ApiAggregioPublisherMessage publisher : publisherCollectionMessage.getItems()) {
+                publisherContentValues = new ContentValues();
+                publisherContentValues.put(PublisherColumns._ID, publisher.getId());
+                publisherContentValues.put(PublisherColumns.NAME, publisher.getName());
+                publisherContentValues.put(PublisherColumns.WEBSITE, publisher.getWebsite());
+                publisherContentValues.put(PublisherColumns.IMAGE_URL, publisher.getImageUrl());
+                publisherContentValuesList.add(publisherContentValues);
+            }
+        }
+        try {
+            mContentResolver.bulkInsert(PublisherColumns.CONTENT_URI, publisherContentValuesList.toArray(new ContentValues[publisherContentValuesList.size()]));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-}
-    private void setUpCategories(Aggregio service, String countryName){
+
+    private void setUpCategories(Aggregio service, String countryName) {
         ApiAggregioCategoryCollectionMessage categoryCollectionMessage = null;
 
         try {
@@ -282,8 +276,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         }
     }
 
-    private void sendRegistrationId(String regId){
 
-    }
 }
 

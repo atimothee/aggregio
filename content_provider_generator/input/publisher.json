@@ -26,5 +26,9 @@
             "type": "Boolean",
             "default": "True",
         },
+        {
+            "name": "order",
+            "type": "Integer",
+        },
     ],
 }

@@ -47,4 +47,14 @@ public class CategoryContentValues extends AbstractContentValues {
         mContentValues.putNull(CategoryColumns.IMAGE_URL);
         return this;
     }
+
+    public CategoryContentValues putOrder(@Nullable Integer value) {
+        mContentValues.put(CategoryColumns.ORDER, value);
+        return this;
+    }
+
+    public CategoryContentValues putOrderNull() {
+        mContentValues.putNull(CategoryColumns.ORDER);
+        return this;
+    }
 }

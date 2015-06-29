@@ -45,4 +45,14 @@ public class CategoryCursor extends AbstractCursor implements CategoryModel {
         String res = getStringOrNull(CategoryColumns.IMAGE_URL);
         return res;
     }
+
+    /**
+     * Get the {@code order} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public Integer getOrder() {
+        Integer res = getIntegerOrNull(CategoryColumns.ORDER);
+        return res;
+    }
 }

@@ -3,7 +3,7 @@
     <ListPreference
         android:key="@string/pref_key_article_text_size"
         android:title="@string/pref_title_article_text_size"
-        android:defaultValue="-1"
+        android:defaultValue="0"
         android:entries="@array/pref_article_text_size_list_titles"
         android:entryValues="@array/pref_article_text_size__list_values"
         android:negativeButtonText="@null"

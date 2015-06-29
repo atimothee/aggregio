@@ -309,6 +309,36 @@ public class ArticleSelection extends AbstractSelection<ArticleSelection> {
         return this;
     }
 
+    public ArticleSelection categoryOrder(Integer... value) {
+        addEquals(CategoryColumns.ORDER, value);
+        return this;
+    }
+
+    public ArticleSelection categoryOrderNot(Integer... value) {
+        addNotEquals(CategoryColumns.ORDER, value);
+        return this;
+    }
+
+    public ArticleSelection categoryOrderGt(int value) {
+        addGreaterThan(CategoryColumns.ORDER, value);
+        return this;
+    }
+
+    public ArticleSelection categoryOrderGtEq(int value) {
+        addGreaterThanOrEquals(CategoryColumns.ORDER, value);
+        return this;
+    }
+
+    public ArticleSelection categoryOrderLt(int value) {
+        addLessThan(CategoryColumns.ORDER, value);
+        return this;
+    }
+
+    public ArticleSelection categoryOrderLtEq(int value) {
+        addLessThanOrEquals(CategoryColumns.ORDER, value);
+        return this;
+    }
+
     public ArticleSelection publisherId(long... value) {
         addEquals(ArticleColumns.PUBLISHER_ID, toObjectArray(value));
         return this;
@@ -491,6 +521,36 @@ public class ArticleSelection extends AbstractSelection<ArticleSelection> {
 
     public ArticleSelection publisherFollowing(Boolean value) {
         addEquals(PublisherColumns.FOLLOWING, toObjectArray(value));
+        return this;
+    }
+
+    public ArticleSelection publisherOrder(Integer... value) {
+        addEquals(PublisherColumns.ORDER, value);
+        return this;
+    }
+
+    public ArticleSelection publisherOrderNot(Integer... value) {
+        addNotEquals(PublisherColumns.ORDER, value);
+        return this;
+    }
+
+    public ArticleSelection publisherOrderGt(int value) {
+        addGreaterThan(PublisherColumns.ORDER, value);
+        return this;
+    }
+
+    public ArticleSelection publisherOrderGtEq(int value) {
+        addGreaterThanOrEquals(PublisherColumns.ORDER, value);
+        return this;
+    }
+
+    public ArticleSelection publisherOrderLt(int value) {
+        addLessThan(PublisherColumns.ORDER, value);
+        return this;
+    }
+
+    public ArticleSelection publisherOrderLtEq(int value) {
+        addLessThanOrEquals(PublisherColumns.ORDER, value);
         return this;
     }
 }

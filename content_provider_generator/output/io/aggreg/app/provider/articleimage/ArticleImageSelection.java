@@ -370,6 +370,36 @@ public class ArticleImageSelection extends AbstractSelection<ArticleImageSelecti
         return this;
     }
 
+    public ArticleImageSelection articleCategoryOrder(Integer... value) {
+        addEquals(CategoryColumns.ORDER, value);
+        return this;
+    }
+
+    public ArticleImageSelection articleCategoryOrderNot(Integer... value) {
+        addNotEquals(CategoryColumns.ORDER, value);
+        return this;
+    }
+
+    public ArticleImageSelection articleCategoryOrderGt(int value) {
+        addGreaterThan(CategoryColumns.ORDER, value);
+        return this;
+    }
+
+    public ArticleImageSelection articleCategoryOrderGtEq(int value) {
+        addGreaterThanOrEquals(CategoryColumns.ORDER, value);
+        return this;
+    }
+
+    public ArticleImageSelection articleCategoryOrderLt(int value) {
+        addLessThan(CategoryColumns.ORDER, value);
+        return this;
+    }
+
+    public ArticleImageSelection articleCategoryOrderLtEq(int value) {
+        addLessThanOrEquals(CategoryColumns.ORDER, value);
+        return this;
+    }
+
     public ArticleImageSelection articlePublisherId(long... value) {
         addEquals(ArticleColumns.PUBLISHER_ID, toObjectArray(value));
         return this;
@@ -552,6 +582,36 @@ public class ArticleImageSelection extends AbstractSelection<ArticleImageSelecti
 
     public ArticleImageSelection articlePublisherFollowing(Boolean value) {
         addEquals(PublisherColumns.FOLLOWING, toObjectArray(value));
+        return this;
+    }
+
+    public ArticleImageSelection articlePublisherOrder(Integer... value) {
+        addEquals(PublisherColumns.ORDER, value);
+        return this;
+    }
+
+    public ArticleImageSelection articlePublisherOrderNot(Integer... value) {
+        addNotEquals(PublisherColumns.ORDER, value);
+        return this;
+    }
+
+    public ArticleImageSelection articlePublisherOrderGt(int value) {
+        addGreaterThan(PublisherColumns.ORDER, value);
+        return this;
+    }
+
+    public ArticleImageSelection articlePublisherOrderGtEq(int value) {
+        addGreaterThanOrEquals(PublisherColumns.ORDER, value);
+        return this;
+    }
+
+    public ArticleImageSelection articlePublisherOrderLt(int value) {
+        addLessThan(PublisherColumns.ORDER, value);
+        return this;
+    }
+
+    public ArticleImageSelection articlePublisherOrderLtEq(int value) {
+        addLessThanOrEquals(PublisherColumns.ORDER, value);
         return this;
     }
 }

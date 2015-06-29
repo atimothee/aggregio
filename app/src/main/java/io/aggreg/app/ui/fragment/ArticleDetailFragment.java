@@ -19,7 +19,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,11 +28,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -41,8 +38,6 @@ import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.squareup.picasso.Picasso;
-
-import java.sql.Ref;
 
 import io.aggreg.app.R;
 import io.aggreg.app.provider.AggregioProvider;
@@ -410,26 +405,27 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            startActivity(new Intent(getActivity(), SettingsActivity.class));
             tracker.send(new HitBuilders.EventBuilder()
                     .setCategory("UX")
                     .setAction("click")
                     .setLabel("settings action")
                     .build());
-            startActivity(new Intent(getActivity(), SettingsActivity.class));
         } else if (id == R.id.action_open_in_browser) {
+            openInBrowser();
             tracker.send(new HitBuilders.EventBuilder()
                     .setCategory("UX")
                     .setAction("click")
                     .setLabel("open in browser action")
                     .build());
-            openInBrowser();
         } else if (id == R.id.action_share) {
+            //TODO: Share article
             tracker.send(new HitBuilders.EventBuilder()
                     .setCategory("UX")
                     .setAction("click")
                     .setLabel("share action")
                     .build());
-            //TODO: Share article
+
         }
 
         return super.onOptionsItemSelected(item);

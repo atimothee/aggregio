@@ -54,7 +54,8 @@ public class AggregioSQLiteOpenHelper extends SQLiteOpenHelper {
             + CategoryColumns.TABLE_NAME + " ( "
             + CategoryColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + CategoryColumns.NAME + " TEXT, "
-            + CategoryColumns.IMAGE_URL + " TEXT "
+            + CategoryColumns.IMAGE_URL + " TEXT, "
+            + CategoryColumns.ORDER + " INTEGER "
             + " );";
 
     public static final String SQL_CREATE_TABLE_PUBLISHER = "CREATE TABLE IF NOT EXISTS "
@@ -65,7 +66,8 @@ public class AggregioSQLiteOpenHelper extends SQLiteOpenHelper {
             + PublisherColumns.NAME + " TEXT, "
             + PublisherColumns.COUNTRY + " TEXT, "
             + PublisherColumns.TAG_LINE + " TEXT, "
-            + PublisherColumns.FOLLOWING + " INTEGER "
+            + PublisherColumns.FOLLOWING + " INTEGER, "
+            + PublisherColumns.ORDER + " INTEGER "
             + " );";
 
     public static final String SQL_CREATE_TABLE_PUBLISHER_CATEGORY = "CREATE TABLE IF NOT EXISTS "

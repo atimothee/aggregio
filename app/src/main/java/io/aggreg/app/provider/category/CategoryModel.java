@@ -25,4 +25,11 @@ public interface CategoryModel extends BaseModel {
      */
     @Nullable
     String getImageUrl();
+
+    /**
+     * Get the {@code order} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    Integer getOrder();
 }

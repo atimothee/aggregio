@@ -29,7 +29,6 @@ public class BookmarksFragment extends Fragment implements LoaderManager.LoaderC
 
     private static String LOG_TAG = BookmarksFragment.class.getSimpleName();
     private RecyclerView recyclerView;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
     public BookmarksFragment() {
     }
 
@@ -43,19 +42,6 @@ public class BookmarksFragment extends Fragment implements LoaderManager.LoaderC
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_bookmarks, container, false);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
-        //TODO: Get these colours straight
-        //TODO: See if swipe, with bars can be used instead
-        mSwipeRefreshLayout.setColorSchemeResources(
-                R.color.theme_accent_1, R.color.theme_accent_2,
-                R.color.theme_accent_1, R.color.theme_accent_2);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                //TODO: Trigger sync adapter, in mode to use last sync datetime
-                //TODO: finally call on refreshcomplete when sync finishes
-            }
-        });
 
         recyclerView = (RecyclerView) view.findViewById(android.R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

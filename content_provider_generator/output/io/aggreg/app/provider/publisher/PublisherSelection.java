@@ -206,4 +206,34 @@ public class PublisherSelection extends AbstractSelection<PublisherSelection> {
         addEquals(PublisherColumns.FOLLOWING, toObjectArray(value));
         return this;
     }
+
+    public PublisherSelection order(Integer... value) {
+        addEquals(PublisherColumns.ORDER, value);
+        return this;
+    }
+
+    public PublisherSelection orderNot(Integer... value) {
+        addNotEquals(PublisherColumns.ORDER, value);
+        return this;
+    }
+
+    public PublisherSelection orderGt(int value) {
+        addGreaterThan(PublisherColumns.ORDER, value);
+        return this;
+    }
+
+    public PublisherSelection orderGtEq(int value) {
+        addGreaterThanOrEquals(PublisherColumns.ORDER, value);
+        return this;
+    }
+
+    public PublisherSelection orderLt(int value) {
+        addLessThan(PublisherColumns.ORDER, value);
+        return this;
+    }
+
+    public PublisherSelection orderLtEq(int value) {
+        addLessThanOrEquals(PublisherColumns.ORDER, value);
+        return this;
+    }
 }

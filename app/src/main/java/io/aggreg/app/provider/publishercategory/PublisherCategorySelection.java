@@ -239,6 +239,36 @@ public class PublisherCategorySelection extends AbstractSelection<PublisherCateg
         return this;
     }
 
+    public PublisherCategorySelection publisherOrder(Integer... value) {
+        addEquals(PublisherColumns.ORDER, value);
+        return this;
+    }
+
+    public PublisherCategorySelection publisherOrderNot(Integer... value) {
+        addNotEquals(PublisherColumns.ORDER, value);
+        return this;
+    }
+
+    public PublisherCategorySelection publisherOrderGt(int value) {
+        addGreaterThan(PublisherColumns.ORDER, value);
+        return this;
+    }
+
+    public PublisherCategorySelection publisherOrderGtEq(int value) {
+        addGreaterThanOrEquals(PublisherColumns.ORDER, value);
+        return this;
+    }
+
+    public PublisherCategorySelection publisherOrderLt(int value) {
+        addLessThan(PublisherColumns.ORDER, value);
+        return this;
+    }
+
+    public PublisherCategorySelection publisherOrderLtEq(int value) {
+        addLessThanOrEquals(PublisherColumns.ORDER, value);
+        return this;
+    }
+
     public PublisherCategorySelection categoryId(long... value) {
         addEquals(PublisherCategoryColumns.CATEGORY_ID, toObjectArray(value));
         return this;
@@ -326,6 +356,36 @@ public class PublisherCategorySelection extends AbstractSelection<PublisherCateg
 
     public PublisherCategorySelection categoryImageUrlEndsWith(String... value) {
         addEndsWith(CategoryColumns.IMAGE_URL, value);
+        return this;
+    }
+
+    public PublisherCategorySelection categoryOrder(Integer... value) {
+        addEquals(CategoryColumns.ORDER, value);
+        return this;
+    }
+
+    public PublisherCategorySelection categoryOrderNot(Integer... value) {
+        addNotEquals(CategoryColumns.ORDER, value);
+        return this;
+    }
+
+    public PublisherCategorySelection categoryOrderGt(int value) {
+        addGreaterThan(CategoryColumns.ORDER, value);
+        return this;
+    }
+
+    public PublisherCategorySelection categoryOrderGtEq(int value) {
+        addGreaterThanOrEquals(CategoryColumns.ORDER, value);
+        return this;
+    }
+
+    public PublisherCategorySelection categoryOrderLt(int value) {
+        addLessThan(CategoryColumns.ORDER, value);
+        return this;
+    }
+
+    public PublisherCategorySelection categoryOrderLtEq(int value) {
+        addLessThanOrEquals(CategoryColumns.ORDER, value);
         return this;
     }
 }

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<notices>
+    <notice>
+        <name>Application Crash Reporting for Android (ACRA)</name>
+        <url>http://acra.ch/</url>
+        <copyright>Copyright 2010 Emmanuel Astier &amp; Kevin Gaudin</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>Apache Commons Lang</name>
+        <url>http://commons.apache.org/lang/</url>
+        <copyright>Copyright 2002-2011 The Apache Software Foundation</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>AppIntro</name>
+        <url>https://github.com/PaoloRotolo/AppIntro</url>
+        <copyright>Copyright 2015 Paolo Rotolo</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>Android Feedback Library</name>
+        <url>http://www.android-feedback.com/library</url>
+        <copyright>Copyright 2015 SureDigit</copyright>
+        <license>MIT License</license>
+    </notice>
+    <notice>
+        <name>Smooth Progress Bar</name>
+        <url>http://github.com/castorflex/SmoothProgressBar</url>
+        <copyright>Copyright 2014 Antoine Merle</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>android-ago</name>
+        <url>http://github.com/curioustechizen/android-ago</url>
+        <copyright>Copyright 2015 Kiran Rao</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>Picasso</name>
+        <url>http://square.github.io/picasso/</url>
+        <copyright>Copyright 2013 Square, Inc.</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>Android Open Source Project(AOSP)</name>
+        <url>https://source.android.com/source/licenses.html</url>
+        <copyright>Copyright 2015 The Android Open Source Project</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>ShowcaseView</name>
+        <url>https://github.com/amlcurran/ShowcaseView</url>
+        <copyright>Copyright 2012-2014 Alex Curran (@amlcurran)</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+</notices>

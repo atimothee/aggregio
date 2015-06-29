@@ -111,4 +111,34 @@ public class CategorySelection extends AbstractSelection<CategorySelection> {
         addEndsWith(CategoryColumns.IMAGE_URL, value);
         return this;
     }
+
+    public CategorySelection order(Integer... value) {
+        addEquals(CategoryColumns.ORDER, value);
+        return this;
+    }
+
+    public CategorySelection orderNot(Integer... value) {
+        addNotEquals(CategoryColumns.ORDER, value);
+        return this;
+    }
+
+    public CategorySelection orderGt(int value) {
+        addGreaterThan(CategoryColumns.ORDER, value);
+        return this;
+    }
+
+    public CategorySelection orderGtEq(int value) {
+        addGreaterThanOrEquals(CategoryColumns.ORDER, value);
+        return this;
+    }
+
+    public CategorySelection orderLt(int value) {
+        addLessThan(CategoryColumns.ORDER, value);
+        return this;
+    }
+
+    public CategorySelection orderLtEq(int value) {
+        addLessThanOrEquals(CategoryColumns.ORDER, value);
+        return this;
+    }
 }

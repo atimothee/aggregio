@@ -34,6 +34,8 @@ public class PublisherColumns implements BaseColumns {
 
     public static final String FOLLOWING = "following";
 
+    public static final String ORDER = "publisher__order";
+
 
     public static final String DEFAULT_ORDER = TABLE_NAME + "." +_ID;
 
@@ -45,7 +47,8 @@ public class PublisherColumns implements BaseColumns {
             NAME,
             COUNTRY,
             TAG_LINE,
-            FOLLOWING
+            FOLLOWING,
+            ORDER
     };
     // @formatter:on
 
@@ -58,6 +61,7 @@ public class PublisherColumns implements BaseColumns {
             if (c.equals(COUNTRY) || c.contains("." + COUNTRY)) return true;
             if (c.equals(TAG_LINE) || c.contains("." + TAG_LINE)) return true;
             if (c.equals(FOLLOWING) || c.contains("." + FOLLOWING)) return true;
+            if (c.equals(ORDER) || c.contains("." + ORDER)) return true;
         }
         return false;
     }

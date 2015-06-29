@@ -108,7 +108,7 @@ public class SelectPublishersFragment extends Fragment implements LoaderManager.
 
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
-        return new CursorLoader(getActivity(), PublisherColumns.CONTENT_URI, null, null, null, null);
+        return new CursorLoader(getActivity(), PublisherColumns.CONTENT_URI, null, null, null, PublisherColumns.ORDER+" ASC");
     }
 
     @Override

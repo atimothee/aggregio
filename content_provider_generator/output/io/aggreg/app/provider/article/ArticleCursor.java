@@ -133,6 +133,16 @@ public class ArticleCursor extends AbstractCursor implements ArticleModel {
     }
 
     /**
+     * Get the {@code order} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public Integer getCategoryOrder() {
+        Integer res = getIntegerOrNull(CategoryColumns.ORDER);
+        return res;
+    }
+
+    /**
      * Get the {@code publisher_id} value.
      */
     public long getPublisherId() {
@@ -199,6 +209,16 @@ public class ArticleCursor extends AbstractCursor implements ArticleModel {
     @Nullable
     public Boolean getPublisherFollowing() {
         Boolean res = getBooleanOrNull(PublisherColumns.FOLLOWING);
+        return res;
+    }
+
+    /**
+     * Get the {@code order} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public Integer getPublisherOrder() {
+        Integer res = getIntegerOrNull(PublisherColumns.ORDER);
         return res;
     }
 }

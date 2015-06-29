@@ -99,6 +99,16 @@ public class PublisherCategoryCursor extends AbstractCursor implements Publisher
     }
 
     /**
+     * Get the {@code order} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public Integer getPublisherOrder() {
+        Integer res = getIntegerOrNull(PublisherColumns.ORDER);
+        return res;
+    }
+
+    /**
      * Get the {@code category_id} value.
      */
     public long getCategoryId() {
@@ -125,6 +135,16 @@ public class PublisherCategoryCursor extends AbstractCursor implements Publisher
     @Nullable
     public String getCategoryImageUrl() {
         String res = getStringOrNull(CategoryColumns.IMAGE_URL);
+        return res;
+    }
+
+    /**
+     * Get the {@code order} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public Integer getCategoryOrder() {
+        Integer res = getIntegerOrNull(CategoryColumns.ORDER);
         return res;
     }
 }

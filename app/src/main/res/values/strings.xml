@@ -22,10 +22,6 @@
     <string name="pref_description_usage_policy">Aggregio is for personal and non-commercial use only.</string>
     <string name="pref_title_article_text_size">Article text size</string>
     <string name="title_activity_bookmarks">My Bookmarks</string>
-    <string name="hello_world">Hello world!</string>
-
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="title_activity_splashscreen">SplashscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
@@ -39,7 +35,12 @@
     <string name="title_activity_publisher_articles">PublisherArticlesActivity</string>
     <string name="title_activity_select_publishers">SelectPublishersActivity</string>
     <string name="pref_key_article_text_size">article_text_size</string>
-    <string name="pref_key_sync_frequency">sync_frequency</string>
+    <string name="pref_key_refresh_interval">refresh_interval</string>
     <string name="action_refresh">Refresh</string>
+    <string name="pref_key_refresh_on_start">refresh_on_start</string>
+    <string name="pref_title_refresh_on_start">Refresh On Start</string>
+    <string name="pref_description_refresh_on_start">Refresh articles everytime the app is opened</string>
+    <string name="pref_key_delete_stale_articles">delete_stale_articles</string>
+    <string name="pref_title_delete_stale_articles">Delete stale articles</string>
 
 </resources>

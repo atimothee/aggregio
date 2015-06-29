@@ -10,13 +10,29 @@ import android.net.NetworkInfo;
 public class NetworkUtils {
     private Context mContext;
 
-    public NetworkUtils(Context context){
+    public NetworkUtils(Context context) {
         this.mContext = context;
     }
-    public boolean isNetworkAvailable() {
+
+    private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public boolean isWIFIAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mWifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        if (mWifi.isConnected()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isInternetAvailable() {
+        return isNetworkAvailable();
     }
 }

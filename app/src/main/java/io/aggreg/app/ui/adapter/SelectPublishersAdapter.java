@@ -87,7 +87,6 @@ public class SelectPublishersAdapter extends HeaderViewRecyclerAdapter<SelectPub
         Picasso.with(mContext).load(myListItem.getPublisherLogoUrl()).placeholder(R.drawable.no_img_placeholder).fit().centerCrop().into(viewHolder.publisherImage);
         final Long publisherId = cursor.getLong(cursor.getColumnIndex(PublisherColumns._ID));
         final String publisherName = cursor.getString(cursor.getColumnIndex(PublisherColumns.NAME));
-        final String publisherImage = cursor.getString(cursor.getColumnIndex(PublisherColumns.IMAGE_URL));
         CheckableLinearLayout view = (CheckableLinearLayout)viewHolder.itemView;
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,38 +99,40 @@ public class SelectPublishersAdapter extends HeaderViewRecyclerAdapter<SelectPub
 
             @Override
             public void onCheckedChanged(View checkableView, boolean isChecked) {
-                Log.d(LOG_TAG, "checked changed");
+                //Log.d(LOG_TAG, "checked changed");
                 if (isChecked) {
-                    tracker.send(new HitBuilders.EventBuilder()
-                            .setCategory("UX")
-                            .setAction("click")
-                            .setLabel("publisher checked")
-                            .build());
                     PublisherContentValues publisherContentValues = new PublisherContentValues();
                     publisherContentValues.putFollowing(true);
                     PublisherSelection publisherSelection = new PublisherSelection();
                     publisherSelection.id(publisherId);
                     try {
                         publisherContentValues.update(mContext.getContentResolver(), publisherSelection);
+                        tracker.send(new HitBuilders.EventBuilder()
+                                .setCategory("UX")
+                                .setAction("click")
+                                .setLabel("publisher "+publisherName+" followed")
+                                .build());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
 
+
                 } else{
-                    tracker.send(new HitBuilders.EventBuilder()
-                            .setCategory("UX")
-                            .setAction("click")
-                            .setLabel("publisher unchecked")
-                            .build());
                     PublisherContentValues publisherContentValues = new PublisherContentValues();
                     publisherContentValues.putFollowing(false);
                     PublisherSelection publisherSelection = new PublisherSelection();
                     publisherSelection.id(publisherId);
                     try {
                         publisherContentValues.update(mContext.getContentResolver(), publisherSelection);
+                        tracker.send(new HitBuilders.EventBuilder()
+                                .setCategory("UX")
+                                .setAction("click")
+                                .setLabel("publisher " + publisherName+" unfollowed")
+                                .build());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+
 
                 }
             }

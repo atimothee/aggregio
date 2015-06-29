@@ -85,4 +85,14 @@ public class PublisherCursor extends AbstractCursor implements PublisherModel {
         Boolean res = getBooleanOrNull(PublisherColumns.FOLLOWING);
         return res;
     }
+
+    /**
+     * Get the {@code order} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public Integer getOrder() {
+        Integer res = getIntegerOrNull(PublisherColumns.ORDER);
+        return res;
+    }
 }

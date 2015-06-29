@@ -26,6 +26,8 @@ public class CategoryColumns implements BaseColumns {
 
     public static final String IMAGE_URL = "category__image_url";
 
+    public static final String ORDER = "category__order";
+
 
     public static final String DEFAULT_ORDER = TABLE_NAME + "." +_ID;
 
@@ -33,7 +35,8 @@ public class CategoryColumns implements BaseColumns {
     public static final String[] ALL_COLUMNS = new String[] {
             _ID,
             NAME,
-            IMAGE_URL
+            IMAGE_URL,
+            ORDER
     };
     // @formatter:on
 
@@ -42,6 +45,7 @@ public class CategoryColumns implements BaseColumns {
         for (String c : projection) {
             if (c.equals(NAME) || c.contains("." + NAME)) return true;
             if (c.equals(IMAGE_URL) || c.contains("." + IMAGE_URL)) return true;
+            if (c.equals(ORDER) || c.contains("." + ORDER)) return true;
         }
         return false;
     }

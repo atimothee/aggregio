@@ -24,52 +24,44 @@ public class IntroActivity extends AppIntro{
     @Override
     public void init(Bundle bundle) {
 
-        // Add your slide's fragments here.
-        // AppIntro will automatically generate the dots indicator and buttons.
         addSlide(new FirstSlide(), getApplicationContext());
         addSlide(new SecondSlide(), getApplicationContext());
         addSlide(new ThirdSlide(), getApplicationContext());
-
-        // You can override bar/separator color if you want.
-        //setBarColor(Color.parseColor("#3F51B5"));
         setBarColor(getResources().getColor(R.color.theme_accent_3));
         setSeparatorColor(Color.parseColor("#2196F3"));
-
-        // You can also hide Skip button
         showSkipButton(true);
         GoogleAnalytics analytics = GoogleAnalytics.getInstance(IntroActivity.this);
         tracker = analytics.newTracker(getString(R.string.analytics_tracker_id));tracker.setScreenName("intro screen");
-
 
     }
 
 
     @Override
     public void onSkipPressed() {
+        launch();
         tracker.send(new HitBuilders.EventBuilder()
                 .setCategory("UX")
                 .setAction("click")
                 .setLabel("skip")
                 .build());
-        launch();
     }
 
     @Override
     public void onDonePressed() {
+        launch();
         tracker.send(new HitBuilders.EventBuilder()
                 .setCategory("UX")
                 .setAction("click")
                 .setLabel("done")
                 .build());
-        launch();
     }
 
     private void launch(){
+        Intent i = new Intent();
+        i.setClass(IntroActivity.this, MainActivity.class);
+        startActivity(i);
         SharedPreferences settings = getSharedPreferences(References.KEY_PREFERENCES, 0);
         settings.edit().putBoolean(References.KEY_INTRO_SHOWN, true).apply();
-        Intent i = new Intent();
-        i.setClass(IntroActivity.this, SelectPublishersActivity.class);
-        startActivity(i);
     }
 
     @Override

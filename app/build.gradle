@@ -11,7 +11,7 @@ android {
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
-        resValue "bool", "ga_dry_run", "false"
+        resValue "bool", "ga_dry_run", "true"
     }
     signingConfigs {
         release {
@@ -33,6 +33,7 @@ android {
             resValue "string", "ad_unit_id_banner_articles_list", "ca-app-pub-3704709498493201/8350078574"
             resValue "string", "ad_unit_id_banner_article_detail", "ca-app-pub-3704709498493201/5003208973"
             resValue "string", "analytics_tracker_id", "UA-63988121-3"
+            resValue "string", "feedback_api_key", "AF-5C521298F86B-93"
 
         }
         uganda {
@@ -45,6 +46,7 @@ android {
             resValue "string", "ad_unit_id_banner_articles_list", "ca-app-pub-3704709498493201/2049742576"
             resValue "string", "ad_unit_id_banner_article_detail", "ca-app-pub-3704709498493201/1393718178"
             resValue "string", "analytics_tracker_id", "UA-63988121-4"
+            resValue "string", "feedback_api_key", "AF-DAFBA7E454D4-01"
         }
 //        tanzania {
 //            applicationId "io.aggreg.app.tanzania"
@@ -53,7 +55,6 @@ android {
 //            resValue "string", "app_country", "Tanzania"
 //            resValue "string", "authorities", applicationId + '.provider'
 //            resValue "string", "account_type", "io.aggreg.tanzania"
-//            resValue "string", "analytics_tracker_id", "UA-63988121-1"
 //        }
         nigeria {
             applicationId "io.aggreg.app.nigeria"
@@ -73,7 +74,6 @@ android {
 //            resValue "string", "app_country", "South Africa"
 //            resValue "string", "authorities", applicationId + '.provider'
 //            resValue "string", "account_type", "io.aggreg.southafrica"
-//            resValue "string", "analytics_tracker_id", "UA-63988121-1"
 //        }
 //        ghana {
 //            applicationId "io.aggreg.app.ghana"
@@ -82,7 +82,6 @@ android {
 //            resValue "string", "app_country", "Ghana"
 //            resValue "string", "authorities", applicationId + '.provider'
 //            resValue "string", "account_type", "io.aggreg.ghana"
-//            resValue "string", "analytics_tracker_id", "UA-63988121-1"
 //        }
 //        rwanda {
 //            applicationId "io.aggreg.app.rwanda"
@@ -91,7 +90,6 @@ android {
 //            resValue "string", "app_country", "Rwanda"
 //            resValue "string", "authorities", applicationId + '.provider'
 //            resValue "string", "account_type", "io.aggreg.rwanda"
-//            resValue "string", "analytics_tracker_id", "UA-63988121-1"
 //        }
 //        malawi {
 //            applicationId "io.aggreg.app.malawi"
@@ -100,7 +98,6 @@ android {
 //            resValue "string", "app_country", "Malawi"
 //            resValue "string", "authorities", applicationId + '.provider'
 //            resValue "string", "account_type", "io.aggreg.malawi"
-//            resValue "string", "analytics_tracker_id", "UA-63988121-1"
 //        }
 //        zambia {
 //            applicationId "io.aggreg.app.zambia"
@@ -109,7 +106,6 @@ android {
 //            resValue "string", "app_country", "Zambia"
 //            resValue "string", "authorities", applicationId + '.provider'
 //            resValue "string", "account_type", "io.aggreg.zambia"
-//            resValue "string", "analytics_tracker_id", "UA-63988121-1"
 //        }
 //        zimbabwe {
 //            applicationId "io.aggreg.app.zimbabwe"
@@ -118,7 +114,6 @@ android {
 //            resValue "string", "app_country", "Zimbabwe"
 //            resValue "string", "authorities", applicationId + '.provider'
 //            resValue "string", "account_type", "io.aggreg.zimbabwe"
-//            resValue "string", "analytics_tracker_id", "UA-63988121-1"
 //        }
 //        swaziland {
 //            applicationId "io.aggreg.app.swaziland"
@@ -127,7 +122,6 @@ android {
 //            resValue "string", "app_country", "Swaziland"
 //            resValue "string", "authorities", applicationId + '.provider'
 //            resValue "string", "account_type", "io.aggreg.swaziland"
-//            resValue "string", "analytics_tracker_id", "UA-63988121-1"
 //        }
 //        lesotho {
 //            applicationId "io.aggreg.app.lesotho"
@@ -136,7 +130,6 @@ android {
 //            resValue "string", "app_country", "Lesotho"
 //            resValue "string", "authorities", applicationId + '.provider'
 //            resValue "string", "account_type", "io.aggreg.lesotho"
-//            resValue "string", "analytics_tracker_id", "UA-63988121-1"
 //        }
 //        southsudan {
 //            applicationId "io.aggreg.app.southsudan"
@@ -145,7 +138,6 @@ android {
 //            resValue "string", "app_country", "SouthSudan"
 //            resValue "string", "authorities", applicationId + '.provider'
 //            resValue "string", "account_type", "io.aggreg.southsudan"
-//            resValue "string", "analytics_tracker_id", "UA-63988121-1"
 //        }
 //        botswana {
 //            applicationId "io.aggreg.app.botswana"
@@ -154,7 +146,6 @@ android {
 //            resValue "string", "app_country", "Botswana"
 //            resValue "string", "authorities", applicationId + '.provider'
 //            resValue "string", "account_type", "io.aggreg.botswana"
-//            resValue "string", "analytics_tracker_id", "UA-63988121-1"
 //        }
 //        somalia {
 //            applicationId "io.aggreg.app.somalia"
@@ -163,7 +154,6 @@ android {
 //            resValue "string", "app_country", "Somalia"
 //            resValue "string", "authorities", applicationId + '.provider'
 //            resValue "string", "account_type", "io.aggreg.somalia"
-//            resValue "string", "analytics_tracker_id", "UA-63988121-1"
 //        }
 //        namibia {
 //            applicationId "io.aggreg.app.namibia"
@@ -172,7 +162,6 @@ android {
 //            resValue "string", "app_country", "Namibia"
 //            resValue "string", "authorities", applicationId + '.provider'
 //            resValue "string", "account_type", "io.aggreg.namibia"
-//            resValue "string", "analytics_tracker_id", "UA-63988121-1"
 //        }
 
 
@@ -188,25 +177,25 @@ android {
 }
 
 dependencies {
-    //compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile files('libs/feedback_v6.jar')
     compile([group: 'com.appspot.aggregio_web', name: 'aggregio', version: 'v1.0-1.20.0-SNAPSHOT'])
     compile 'com.google.api-client:google-api-client-android:1.20.0' exclude module: 'httpclient'
     compile 'com.google.http-client:google-http-client-gson:1.20.0' exclude module: 'httpclient'
-    // optional
     compile 'com.android.support:design:22.2.0'
     compile 'com.android.support:appcompat-v7:22.2.0'
     compile 'com.android.support:cardview-v7:22.2.0'
     compile 'com.android.support:recyclerview-v7:22.2.0'
     compile 'com.github.curioustechizen.android-ago:library:1.2.0'
-    compile 'com.github.bumptech.glide:glide:3.6.0'
     compile 'org.apache.commons:commons-lang3:3.0'
     compile 'com.github.paolorotolo:appintro:1.1.0'
     compile 'com.github.codechimp-org.apprater:library:1.0.29'
     compile 'de.psdev.licensesdialog:licensesdialog:1.7.0'
     compile 'com.android.support:support-v4:22.2.0'
     compile 'com.google.android.gms:play-services-analytics:7.5.0'
-    compile 'com.google.android.gms:play-services-gcm:7.5.0'
+    //compile 'com.google.android.gms:play-services-gcm:7.5.0'
     compile 'com.google.android.gms:play-services-ads:7.5.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.castorflex.smoothprogressbar:library:1.1.0'
+    compile 'com.github.amlcurran.showcaseview:library:5.0.0'
 }

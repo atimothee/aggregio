@@ -87,4 +87,14 @@ public class PublisherContentValues extends AbstractContentValues {
         mContentValues.putNull(PublisherColumns.FOLLOWING);
         return this;
     }
+
+    public PublisherContentValues putOrder(@Nullable Integer value) {
+        mContentValues.put(PublisherColumns.ORDER, value);
+        return this;
+    }
+
+    public PublisherContentValues putOrderNull() {
+        mContentValues.putNull(PublisherColumns.ORDER);
+        return this;
+    }
 }
