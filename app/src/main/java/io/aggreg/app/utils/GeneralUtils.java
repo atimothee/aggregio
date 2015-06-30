@@ -4,6 +4,7 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.util.Log;
 
 import io.aggreg.app.R;
 import io.aggreg.app.provider.AggregioProvider;
+import io.aggreg.app.sync.ArticleDeleteService;
 
 /**
  * Created by Timo on 4/6/15.
@@ -78,6 +80,12 @@ public class GeneralUtils {
         settingsBundle.putString(References.ARG_KEY_SYNC_TYPE, References.SYNC_TYPE_FIRST_TIME);
         Account account = getSyncAccount();
         ContentResolver.requestSync(account, AggregioProvider.AUTHORITY, settingsBundle);
+    }
+
+    public void deleteArticles(){
+        Intent mServiceIntent = new Intent(mContext, ArticleDeleteService.class);
+        //mServiceIntent.setData(Uri.parse(dataUrl));
+        mContext.startService(mServiceIntent);
     }
 
 

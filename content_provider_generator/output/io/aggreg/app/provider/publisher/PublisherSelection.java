@@ -202,7 +202,7 @@ public class PublisherSelection extends AbstractSelection<PublisherSelection> {
         return this;
     }
 
-    public PublisherSelection following(Boolean value) {
+    public PublisherSelection following(boolean value) {
         addEquals(PublisherColumns.FOLLOWING, toObjectArray(value));
         return this;
     }

@@ -78,15 +78,11 @@ public class PublisherContentValues extends AbstractContentValues {
         return this;
     }
 
-    public PublisherContentValues putFollowing(@Nullable Boolean value) {
+    public PublisherContentValues putFollowing(boolean value) {
         mContentValues.put(PublisherColumns.FOLLOWING, value);
         return this;
     }
 
-    public PublisherContentValues putFollowingNull() {
-        mContentValues.putNull(PublisherColumns.FOLLOWING);
-        return this;
-    }
 
     public PublisherContentValues putOrder(@Nullable Integer value) {
         mContentValues.put(PublisherColumns.ORDER, value);

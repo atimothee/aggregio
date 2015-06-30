@@ -519,7 +519,7 @@ public class ArticleSelection extends AbstractSelection<ArticleSelection> {
         return this;
     }
 
-    public ArticleSelection publisherFollowing(Boolean value) {
+    public ArticleSelection publisherFollowing(boolean value) {
         addEquals(PublisherColumns.FOLLOWING, toObjectArray(value));
         return this;
     }

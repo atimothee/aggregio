@@ -580,7 +580,7 @@ public class ArticleImageSelection extends AbstractSelection<ArticleImageSelecti
         return this;
     }
 
-    public ArticleImageSelection articlePublisherFollowing(Boolean value) {
+    public ArticleImageSelection articlePublisherFollowing(boolean value) {
         addEquals(PublisherColumns.FOLLOWING, toObjectArray(value));
         return this;
     }

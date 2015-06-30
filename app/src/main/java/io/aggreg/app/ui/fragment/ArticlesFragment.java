@@ -15,6 +15,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ActionItemTarget;
+
 import io.aggreg.app.R;
 import io.aggreg.app.provider.article.ArticleColumns;
 import io.aggreg.app.provider.article.ArticleSelection;
@@ -58,7 +61,6 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
         }else {
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         }
-
         return view;
     }
 
@@ -95,6 +97,11 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
         }
 
         recyclerView.setAdapter(adapter);
+        Cursor c = (Cursor)data;
+        if(c!=null){
+            Log.d(LOG_TAG, "article cursor count is "+c.getCount());
+        }
+
     }
 
     @Override

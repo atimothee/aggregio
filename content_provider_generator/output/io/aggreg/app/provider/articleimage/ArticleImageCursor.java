@@ -223,11 +223,11 @@ public class ArticleImageCursor extends AbstractCursor implements ArticleImageMo
 
     /**
      * Get the {@code following} value.
-     * Can be {@code null}.
      */
-    @Nullable
-    public Boolean getArticlePublisherFollowing() {
+    public boolean getArticlePublisherFollowing() {
         Boolean res = getBooleanOrNull(PublisherColumns.FOLLOWING);
+        if (res == null)
+            throw new NullPointerException("The value of 'following' in the database was null, which is not allowed according to the model definition");
         return res;
     }
 

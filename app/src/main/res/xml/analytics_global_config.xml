@@ -10,4 +10,6 @@
 
     <!-- Enable dry run mode. Default is false -->
     <bool name="ga_dryRun">@bool/ga_dry_run</bool>
+
+    <bool name="ga_reportUncaughtExceptions">true</bool>
 </resources>

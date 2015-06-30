@@ -55,4 +55,15 @@
         <item name="spb_progressiveStart_activated">true</item>
     </style>
 
+    <style name="CustomShowcaseTheme3" parent="ShowcaseView">
+    <item name="sv_backgroundColor">#330066FF</item>
+    <item name="sv_showcaseColor">@color/theme_primary</item>
+    <item name="sv_buttonText">Close</item>
+    <item name="sv_titleTextAppearance">@style/CustomTitle</item>
+    </style>
+
+    <style name="CustomTitle" parent="TextAppearance.ShowcaseView.Title">
+        <item name="android:textColor">@color/theme_accent_1_light</item>
+    </style>
+
 </resources>

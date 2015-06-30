@@ -66,7 +66,7 @@ public class AggregioSQLiteOpenHelper extends SQLiteOpenHelper {
             + PublisherColumns.NAME + " TEXT, "
             + PublisherColumns.COUNTRY + " TEXT, "
             + PublisherColumns.TAG_LINE + " TEXT, "
-            + PublisherColumns.FOLLOWING + " INTEGER, "
+            + PublisherColumns.FOLLOWING + " INTEGER NOT NULL, "
             + PublisherColumns.ORDER + " INTEGER "
             + " );";
 

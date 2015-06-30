@@ -54,4 +54,10 @@
         <copyright>Copyright 2012-2014 Alex Curran (@amlcurran)</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
+    <notice>
+        <name>AppRater</name>
+        <url>https://github.com/codechimp-org/AppRater</url>
+        <copyright>Copyright 2013 Andrew Jackson</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
 </notices>

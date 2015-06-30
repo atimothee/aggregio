@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import io.aggreg.app.R;
 import io.aggreg.app.provider.article.ArticleColumns;
@@ -133,7 +134,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         ApiAggregioArticleCollection articleCollection = null;
         try {
             articleCollection = service.articles().cursorList(publisherId, categoryId)
-                    .setLastSyncDate(lastSyncDate)
+                    .setLastSyncDateMilliseconds(lastSyncDate)
+                    .setLastSyncDateTimeZoneOffset(Long.valueOf(TimeZone.getDefault().getOffset(lastSyncDate)))
                     .execute();
 
         editor.putLong(key, new Date().getTime()).apply();
@@ -227,6 +229,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 publisherContentValues.put(PublisherColumns.NAME, publisher.getName());
                 publisherContentValues.put(PublisherColumns.WEBSITE, publisher.getWebsite());
                 publisherContentValues.put(PublisherColumns.IMAGE_URL, publisher.getImageUrl());
+                publisherContentValues.put(PublisherColumns.FOLLOWING, true);
                 publisherContentValuesList.add(publisherContentValues);
             }
         }

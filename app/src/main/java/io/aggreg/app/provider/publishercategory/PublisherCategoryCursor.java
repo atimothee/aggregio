@@ -90,11 +90,11 @@ public class PublisherCategoryCursor extends AbstractCursor implements Publisher
 
     /**
      * Get the {@code following} value.
-     * Can be {@code null}.
      */
-    @Nullable
-    public Boolean getPublisherFollowing() {
+    public boolean getPublisherFollowing() {
         Boolean res = getBooleanOrNull(PublisherColumns.FOLLOWING);
+        if (res == null)
+            throw new NullPointerException("The value of 'following' in the database was null, which is not allowed according to the model definition");
         return res;
     }
 

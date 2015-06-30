@@ -49,10 +49,8 @@ public interface PublisherModel extends BaseModel {
 
     /**
      * Get the {@code following} value.
-     * Can be {@code null}.
      */
-    @Nullable
-    Boolean getFollowing();
+    boolean getFollowing();
 
     /**
      * Get the {@code order} value.

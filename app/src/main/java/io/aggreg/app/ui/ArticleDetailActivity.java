@@ -58,6 +58,5 @@ public class ArticleDetailActivity extends AppCompatActivity implements ArticleD
     @Override
     protected void onPause() {
         super.onPause();
-        finish();
     }
 }

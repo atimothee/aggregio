@@ -70,6 +70,9 @@
         </receiver>
 
         <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
+        <service
+            android:name=".sync.ArticleDeleteService"
+            android:exported="false"/>
 
         <!-- ... -->
         <provider

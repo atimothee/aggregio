@@ -1,13 +1,8 @@
 package io.aggreg.app.ui;
 
 import android.accounts.Account;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -27,6 +22,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.GoogleAnalytics;
@@ -36,14 +33,8 @@ import com.suredigit.inappfeedback.FeedbackDialog;
 
 import org.codechimp.apprater.AppRater;
 
-import de.psdev.licensesdialog.LicensesDialog;
-import de.psdev.licensesdialog.licenses.ApacheSoftwareLicense20;
-import de.psdev.licensesdialog.licenses.GnuLesserGeneralPublicLicense21;
-import de.psdev.licensesdialog.model.Notice;
-import de.psdev.licensesdialog.model.Notices;
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 import io.aggreg.app.R;
-import io.aggreg.app.provider.AggregioProvider;
 import io.aggreg.app.provider.article.ArticleColumns;
 import io.aggreg.app.provider.category.CategoryColumns;
 import io.aggreg.app.provider.publishercategory.PublisherCategoryColumns;
@@ -85,7 +76,9 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.inflateMenu(R.menu.menu_main);
         setSupportActionBar(toolbar);
+
 
         final ActionBar ab = getSupportActionBar();
         if (ab != null) {
@@ -94,11 +87,20 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
             ab.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
             ab.setDisplayHomeAsUpEnabled(true);
         }
-
+        new ShowcaseView.Builder(this)
+                .setContentText("Click to manually refresh your news!")
+                .setContentTitle("Refresh")
+                .setTarget(new ViewTarget(toolbar.findViewById(R.id.action_refresh)))
+                .build();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        new ShowcaseView.Builder(this)
+                .setContentText("Manage sources")
+                .setContentTitle("Menu")
+                .setTarget(new ViewTarget(findViewById(R.id.nav_view)))
+                .build();
         if (navigationView != null) {
             setupDrawerContent(navigationView);
         }
@@ -124,21 +126,6 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
         GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
         tracker = analytics.newTracker(getString(R.string.analytics_tracker_id));
         tracker.setScreenName("home screen");
-        //if(getIntent().getBooleanExtra(References.ARG_IS_FIRST_TIME, false)){
-//            new ShowcaseView.Builder(this)
-//                    .setTarget(new ActionViewTarget(this, ActionViewTarget.Type.HOME))
-//                    .setContentTitle("Menu")
-//                    .setContentText("Manage your sources, bookmarks and settings here!")
-//                    .hideOnTouchOutside()
-//                    .build();
-//            new ShowcaseView.Builder(this)
-//                    .setTarget(new ViewTarget(R.id.action_refresh, MainActivity.this))
-//                    .setContentTitle("Refresh")
-//                    .setContentText("Click here to manually refresh your news feeds!")
-//                    .hideOnTouchOutside()
-//                    .build();
-        //}
-
     }
 
     @Override
@@ -250,7 +237,7 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
         PublisherCategorySelection publisherCategorySelection = new PublisherCategorySelection();
         publisherCategorySelection.publisherFollowing(true);
         String COLUMNS[] = {"DISTINCT "+PublisherCategoryColumns.CATEGORY_ID, CategoryColumns.NAME, CategoryColumns.ORDER};
-        return new CursorLoader(this, PublisherCategoryColumns.CONTENT_URI, COLUMNS, null, null, CategoryColumns.ORDER+" ASC");
+        return new CursorLoader(this, PublisherCategoryColumns.CONTENT_URI, COLUMNS, null, null, CategoryColumns.ORDER);
     }
 
     @Override
@@ -279,24 +266,7 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
 
             }
         }
-        Account account = new GeneralUtils(getApplicationContext()).getSyncAccount();
-        Bundle settingsBundle = new Bundle();
-        settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-        settingsBundle.putBoolean(
-                ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-        if(getIntent().getBooleanExtra(References.ARG_IS_FIRST_TIME, false)){
-
-            settingsBundle.putString(References.ARG_KEY_SYNC_TYPE, References.SYNC_TYPE_FIRST_TIME);
-            ContentResolver.requestSync(account, AggregioProvider.AUTHORITY, settingsBundle);
-        }else{
-            settingsBundle.putString(References.ARG_KEY_SYNC_TYPE, References.SYNC_TYPE_ARTICLE_REFRESH);
-            if(categoryId != null){
-                //settingsBundle.putLong(References.ARG_KEY_CATEGORY_ID, categoryId);
-            }
-
-            ContentResolver.requestSync(account, AggregioProvider.AUTHORITY, settingsBundle);
-
-        }
+        new GeneralUtils(this).SyncRefreshFirstTime();
     }
 
 

@@ -24,11 +24,13 @@
         {
             "name": "following",
             "type": "Boolean",
+            "nullable": false,
             "default": "True",
         },
         {
             "name": "order",
             "type": "Integer",
+            "default": 1000,
         },
     ],
 }

@@ -12,6 +12,7 @@ android {
         versionCode 1
         versionName "1.0"
         resValue "bool", "ga_dry_run", "true"
+        resValue "string", "build_number", "BUILD 1056"
     }
     signingConfigs {
         release {

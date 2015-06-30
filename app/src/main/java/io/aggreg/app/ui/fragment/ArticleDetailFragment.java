@@ -31,6 +31,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -179,6 +181,12 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                 .addTestDevice("40F568795D1384A9EC06ABA81110930E")
                 .build();
         mAdView.loadAd(adRequest);
+
+        new ShowcaseView.Builder(getActivity())
+                .setContentText("Bookmark your favourite articles for reading later")
+                .setContentTitle("Bookmark")
+                .setTarget(new ViewTarget(view.findViewById(R.id.bookmark_fab)))
+                .build();
 
         return view;
     }
