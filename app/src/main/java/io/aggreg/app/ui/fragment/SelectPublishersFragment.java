@@ -113,15 +113,6 @@ public class SelectPublishersFragment extends Fragment implements LoaderManager.
 
     @Override
     public void onLoadFinished(Loader loader, Object data) {
-        Log.d(LOG_TAG, "pub cursor load finished");
-        int mScrollPosition = 0;
-        RecyclerView.LayoutManager layoutManager = gridView.getLayoutManager();
-        if(layoutManager != null && layoutManager instanceof LinearLayoutManager){
-            mScrollPosition = ((LinearLayoutManager) layoutManager).findFirstCompletelyVisibleItemPosition();
-            Log.d(LOG_TAG, "pub cursor position "+mScrollPosition);
-        }
-
-
         if(data!=null) {
             Log.d(LOG_TAG, "publishers size is " + ((Cursor) data).getCount());
             mCursor = (Cursor) data;
@@ -129,14 +120,6 @@ public class SelectPublishersFragment extends Fragment implements LoaderManager.
             adapter.addHeader(headerView);
             //adapter.addFooter(footerView);
             gridView.setAdapter(adapter);
-
-            if (layoutManager != null) {
-//                int count = layoutManager.getChildCount();
-//                if (mScrollPosition != RecyclerView.NO_POSITION && mScrollPosition < count) {
-                    layoutManager.scrollToPosition(mScrollPosition);
-                    Log.d(LOG_TAG, "pub cursor scrolled to position " + mScrollPosition);
-                //}
-            }
         }
 
     }

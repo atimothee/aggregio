@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <notices>
     <notice>
-        <name>Application Crash Reporting for Android (ACRA)</name>
-        <url>http://acra.ch/</url>
-        <copyright>Copyright 2010 Emmanuel Astier &amp; Kevin Gaudin</copyright>
-        <license>Apache Software License 2.0</license>
+        <name>Iweconic</name>
+        <url>https://github.com/iwelabs/iweconic</url>
+        <copyright>Copyright 2014 Iwe Labs Limited Rwanda</copyright>
+        <license>MIT License</license>
     </notice>
     <notice>
         <name>Apache Commons Lang</name>
@@ -46,12 +46,6 @@
         <name>Android Open Source Project(AOSP)</name>
         <url>https://source.android.com/source/licenses.html</url>
         <copyright>Copyright 2015 The Android Open Source Project</copyright>
-        <license>Apache Software License 2.0</license>
-    </notice>
-    <notice>
-        <name>ShowcaseView</name>
-        <url>https://github.com/amlcurran/ShowcaseView</url>
-        <copyright>Copyright 2012-2014 Alex Curran (@amlcurran)</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
     <notice>

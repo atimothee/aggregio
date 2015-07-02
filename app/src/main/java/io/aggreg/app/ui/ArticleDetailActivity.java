@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,18 +31,29 @@ public class ArticleDetailActivity extends AppCompatActivity implements ArticleD
         setContentView(R.layout.activity_article_detail);
         isTablet = getResources().getBoolean(R.bool.isTablet);
         if(isTablet){
+            Toolbar mainToolbar = (Toolbar)findViewById(R.id.main_toolbar);
+            mainToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+            mainToolbar.setTitle("Gossip");
+            mainToolbar.setTitleTextColor(getResources().getColor(R.color.primary_text_default_material_dark));
+            mainToolbar.setSubtitle("Uganda");
+            mainToolbar.setSubtitleTextColor(getResources().getColor(R.color.secondary_text_default_material_dark));
+            Toolbar toolbar2 = (Toolbar)findViewById(R.id.toolbar2);
+            toolbar2.setTitleTextColor(getResources().getColor(R.color.primary_text_default_material_dark));
+            setSupportActionBar(toolbar2);
 
             if (savedInstanceState == null) {
+                Bundle articlesBundle = getIntent().getExtras();
+                articlesBundle.putBoolean(References.ARG_KEY_IS_TAB_TWO_PANE, true);
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.article_list_container, ArticlesFragment.newInstance(getIntent().getLongExtra(References.ARG_KEY_CATEGORY_ID, 0)))
-                        .add(R.id.article_detail_container, ArticleDetailFragment.newInstance(getIntent().getStringExtra(References.ARG_KEY_ARTICLE_LINK), getIntent().getLongExtra(References.ARG_KEY_CATEGORY_ID, 0), getIntent().getLongExtra(References.ARG_KEY_ARTICLE_ID, 0)))
+                        .add(R.id.article_list_container, ArticlesFragment.newInstance(articlesBundle))
+                        .add(R.id.article_detail_container, ArticleDetailFragment.newInstance(getIntent().getExtras()))
                         .commit();
             }
         }else {
 
             if (savedInstanceState == null) {
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.container, ArticleDetailFragment.newInstance(getIntent().getStringExtra(References.ARG_KEY_ARTICLE_LINK), getIntent().getLongExtra(References.ARG_KEY_CATEGORY_ID, 0), getIntent().getLongExtra(References.ARG_KEY_ARTICLE_ID, 0)))
+                        .add(R.id.container, ArticleDetailFragment.newInstance(getIntent().getExtras()))
                                 .commit();
             }
         }

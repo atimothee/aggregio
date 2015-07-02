@@ -59,7 +59,7 @@
             android:id="@+id/tabs"
             app:tabIndicatorHeight="5dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
 
 
 

@@ -40,4 +40,10 @@ public class References {
 //    public static final String PROPERTY_APP_VERSION = "appVersion";
 
     public static final String AUTHORITY = BuildConfig.APPLICATION_ID + ".provider";
+    public static final String ARG_KEY_SCROLL_POSTION = "scroll_position";
+    public static final String ARG_KEY_PARCEL = "parcel";
+    public static final int REQUEST_CODE = 0;
+    public static final String ARG_KEY_ARTICLE_HAS_IMAGE = "article_has_image";
+    public static final String ARG_KEY_SCROLL_POSTIONS = "scroll_positions";
+    public static final String ARG_KEY_IS_TAB_TWO_PANE = "is_tab_two_pane";
 }

@@ -17,6 +17,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.sql.Ref;
+
 import io.aggreg.app.R;
 import io.aggreg.app.provider.article.ArticleColumns;
 import io.aggreg.app.provider.article.ArticleSelection;
@@ -63,7 +65,7 @@ public class BookmarksFragment extends Fragment implements LoaderManager.LoaderC
 
     @Override
     public void onLoadFinished(Loader loader, Object data) {
-        ArticleListCursorAdapter adapter = new ArticleListCursorAdapter(getActivity(), (Cursor)data);
+        ArticleListCursorAdapter adapter = new ArticleListCursorAdapter(getActivity(), (Cursor)data, getArguments().getBoolean(References.ARG_KEY_IS_TAB_TWO_PANE, false));
 
         recyclerView.setAdapter(adapter);
     }

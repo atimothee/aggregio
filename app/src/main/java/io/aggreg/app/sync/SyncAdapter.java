@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 import io.aggreg.app.R;
 import io.aggreg.app.provider.article.ArticleColumns;
@@ -94,7 +95,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                     selection.and();
                     selection.publisherFollowing(true);
                 }
-                PublisherCategoryCursor publisherCategoryCursor = selection.query(mContentResolver, null, null);
+                PublisherCategoryCursor publisherCategoryCursor = selection.query(mContentResolver, null, CategoryColumns.ORDER);
                 if (publisherCategoryCursor != null) {
                     publisherCategoryCursor.moveToFirst();
                     if (publisherCategoryCursor.getCount() != 0) {
@@ -127,15 +128,23 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         Long lastSyncDate = prefs.getLong(key, 0);
         SharedPreferences.Editor editor = prefs.edit();
         Log.d(LOG_TAG, "last sync date is " + lastSyncDate);
+        Log.d(LOG_TAG, "last sync date is " + new Date(lastSyncDate).toString());
+
         if (lastSyncDate == 0) {
             lastSyncDate = null;
         }
 
         ApiAggregioArticleCollection articleCollection = null;
         try {
+            int timeZoneOffset1 = TimeZone.getDefault().getRawOffset();
+            Log.d(LOG_TAG, "raw offset "+timeZoneOffset1);
+            int timeZoneOffset = TimeZone.getDefault().getOffset(lastSyncDate);
+            Log.d(LOG_TAG, "time offset "+timeZoneOffset);
+            long minutes = TimeUnit.MILLISECONDS.toMinutes(timeZoneOffset);
+            Log.d(LOG_TAG, "offset in minutes "+minutes);
             articleCollection = service.articles().cursorList(publisherId, categoryId)
-                    .setLastSyncDateMilliseconds(lastSyncDate)
-                    .setLastSyncDateTimeZoneOffset(Long.valueOf(TimeZone.getDefault().getOffset(lastSyncDate)))
+                    .setMilliseconds(lastSyncDate)
+                    .setTimeZoneOffset(minutes)
                     .execute();
 
         editor.putLong(key, new Date().getTime()).apply();
@@ -153,7 +162,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             boolean firstTimeSyncCompleted = true;
 
             PublisherCategorySelection selection = new PublisherCategorySelection();
-            PublisherCategoryCursor publisherCategoryCursor = selection.query(mContentResolver, null, null);
+            PublisherCategoryCursor publisherCategoryCursor = selection.query(mContentResolver, null, CategoryColumns.ORDER);
             publisherCategoryCursor.moveToFirst();
             Long categoryId = null;
             Long publisherId = null;
@@ -230,6 +239,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 publisherContentValues.put(PublisherColumns.WEBSITE, publisher.getWebsite());
                 publisherContentValues.put(PublisherColumns.IMAGE_URL, publisher.getImageUrl());
                 publisherContentValues.put(PublisherColumns.FOLLOWING, true);
+                publisherContentValues.put(PublisherColumns.ORDER, publisher.getOrder());
                 publisherContentValuesList.add(publisherContentValues);
             }
         }
@@ -256,6 +266,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 categoryContentValues = new ContentValues();
                 categoryContentValues.put(CategoryColumns._ID, category.getId());
                 categoryContentValues.put(CategoryColumns.NAME, category.getName());
+                categoryContentValues.put(CategoryColumns.ORDER, category.getOrder());
                 try {
                     mContentResolver.insert(CategoryColumns.CONTENT_URI, categoryContentValues);
                 } catch (Exception e) {

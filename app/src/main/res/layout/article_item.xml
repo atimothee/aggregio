@@ -80,7 +80,7 @@
                         android:paddingLeft="2dp"
                         android:layout_height="wrap_content">
                         <TextView
-                            android:id="@+id/article_item_source_name"
+                            android:id="@+id/article_item_publisher_name"
                             android:text="New Vision"
                             android:textColor="@android:color/secondary_text_dark"
                             android:layout_width="fill_parent"

@@ -80,7 +80,7 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/article_item_source_name"
+                                android:id="@+id/article_item_publisher_name"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:text="New Vision"

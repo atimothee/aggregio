@@ -4,11 +4,13 @@ import android.accounts.Account;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -21,9 +23,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
-import com.github.amlcurran.showcaseview.ShowcaseView;
-import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.GoogleAnalytics;
@@ -32,6 +33,8 @@ import com.google.android.gms.analytics.Tracker;
 import com.suredigit.inappfeedback.FeedbackDialog;
 
 import org.codechimp.apprater.AppRater;
+
+import java.util.Calendar;
 
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 import io.aggreg.app.R;
@@ -87,21 +90,14 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
             ab.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
             ab.setDisplayHomeAsUpEnabled(true);
         }
-        new ShowcaseView.Builder(this)
-                .setContentText("Click to manually refresh your news!")
-                .setContentTitle("Refresh")
-                .setTarget(new ViewTarget(toolbar.findViewById(R.id.action_refresh)))
-                .build();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        TextView textView = (TextView)findViewById(R.id.nav_header_text);
+        textView.setText(getGreeting());
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        new ShowcaseView.Builder(this)
-                .setContentText("Manage sources")
-                .setContentTitle("Menu")
-                .setTarget(new ViewTarget(findViewById(R.id.nav_view)))
-                .build();
         if (navigationView != null) {
+            //navigationView.set
             setupDrawerContent(navigationView);
         }
 
@@ -120,6 +116,7 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
         AdRequest adRequest = new AdRequest.Builder()
         .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
         .addTestDevice("40F568795D1384A9EC06ABA81110930E")
+        .addTestDevice("C6E3DD024CA26DB91D1FC31D77FAA18D")
                 .build();
         mAdView.loadAd(adRequest);
 
@@ -211,7 +208,9 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
         @Override
         public Fragment getItem(int position) {
             publisherCategoriesCursor.moveToPosition(position);
-            return ArticlesFragment.newInstance((publisherCategoriesCursor.getLong(publisherCategoriesCursor.getColumnIndex(PublisherCategoryColumns.CATEGORY_ID))));
+            Bundle bundle = new Bundle();
+            bundle.putLong(References.ARG_KEY_CATEGORY_ID, (publisherCategoriesCursor.getLong(publisherCategoriesCursor.getColumnIndex(PublisherCategoryColumns.CATEGORY_ID))));
+            return ArticlesFragment.newInstance(bundle);
         }
 
         @Override
@@ -243,10 +242,14 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
     @Override
     public void onLoadFinished(Loader loader, Object data) {
 
-
+        Bundle savedState = new Bundle();
+        if(viewPager!=null) {
+            savedState.putParcelable(References.ARG_KEY_PARCEL, viewPager.onSaveInstanceState());
+        }
         publisherCategoriesCursor = (Cursor) data;
         mSectionsPagerAdapter.notifyDataSetChanged();
         tabLayout.setupWithViewPager(viewPager);
+        onRestoreInstanceState(savedState);
     }
 
     @Override
@@ -266,7 +269,7 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
 
             }
         }
-        new GeneralUtils(this).SyncRefreshFirstTime();
+        new GeneralUtils(this).SyncRefreshArticles();
     }
 
 
@@ -286,9 +289,37 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
     }
 
 
+    private String getGreeting() {
+        Calendar c = Calendar.getInstance();
+        int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
 
+        if (timeOfDay >= 0 && timeOfDay < 12) {
+            return "Good Morning!";
+        } else if (timeOfDay >= 12 && timeOfDay < 16) {
+            return "Good Afternoon!";
+        } else if (timeOfDay >= 16 && timeOfDay < 21) {
+            return "Good Evening!";
+        } else if (timeOfDay >= 21 && timeOfDay < 24) {
+            return "Good Night!";
+        }
+        return "";
+    }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        Parcelable state = viewPager.onSaveInstanceState();
+        outState.putParcelable(References.ARG_KEY_PARCEL, state);
+        super.onSaveInstanceState(outState);
 
+    }
 
-
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        try {
+            viewPager.onRestoreInstanceState(savedInstanceState.getParcelable(References.ARG_KEY_PARCEL));
+            super.onRestoreInstanceState(savedInstanceState);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }

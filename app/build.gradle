@@ -198,5 +198,6 @@ dependencies {
     compile 'com.google.android.gms:play-services-ads:7.5.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.castorflex.smoothprogressbar:library:1.1.0'
-    compile 'com.github.amlcurran.showcaseview:library:5.0.0'
+    compile 'com.github.castorflex.smoothprogressbar:library-circular:1.1.0'
+    compile 'com.joooonho:selectableroundedimageview:1.0.1'
 }

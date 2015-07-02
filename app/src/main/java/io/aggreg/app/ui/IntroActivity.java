@@ -21,6 +21,7 @@ import io.aggreg.app.utils.References;
  */
 public class IntroActivity extends AppIntro{
     Tracker tracker;
+    SharedPreferences settings;
     @Override
     public void init(Bundle bundle) {
 
@@ -32,6 +33,7 @@ public class IntroActivity extends AppIntro{
         showSkipButton(true);
         GoogleAnalytics analytics = GoogleAnalytics.getInstance(IntroActivity.this);
         tracker = analytics.newTracker(getString(R.string.analytics_tracker_id));tracker.setScreenName("intro screen");
+        settings = getSharedPreferences(References.KEY_PREFERENCES, MODE_PRIVATE);
 
     }
 
@@ -60,7 +62,7 @@ public class IntroActivity extends AppIntro{
         Intent i = new Intent();
         i.setClass(IntroActivity.this, MainActivity.class);
         startActivity(i);
-        SharedPreferences settings = getSharedPreferences(References.KEY_PREFERENCES, 0);
+
         settings.edit().putBoolean(References.KEY_INTRO_SHOWN, true).apply();
     }
 

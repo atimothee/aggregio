@@ -6,6 +6,8 @@ package io.aggreg.app.ui.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.DisplayMetrics;
@@ -25,6 +27,7 @@ import com.squareup.picasso.Picasso;
 import io.aggreg.app.R;
 import io.aggreg.app.provider.article.ArticleColumns;
 import io.aggreg.app.ui.ArticleDetailActivity;
+import io.aggreg.app.ui.fragment.ArticleDetailFragment;
 import io.aggreg.app.utils.References;
 
 public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleListCursorAdapter.ViewHolder>{
@@ -32,9 +35,10 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
     private static String LOG_TAG = ArticleListCursorAdapter.class.getSimpleName();
     private int imageWidth;
     private boolean isTablet;
-    private Tracker tracker;
+    private boolean isTwoPane;
+    //private Tracker tracker;
 
-    public ArticleListCursorAdapter(Context context,Cursor cursor){
+    public ArticleListCursorAdapter(Context context,Cursor cursor, @Nullable Boolean isTwoPane){
         super(context,cursor);
         this.mContext = context;
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
@@ -43,13 +47,18 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
         //float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         this.imageWidth = (int)(displayMetrics.widthPixels);
         this.isTablet = mContext.getResources().getBoolean(R.bool.isTablet);
-        GoogleAnalytics analytics = GoogleAnalytics.getInstance(mContext);
-        tracker = analytics.newTracker(mContext.getString(R.string.analytics_tracker_id));
-        if(isTablet) {
-            tracker.setScreenName("article grid");
+        if(isTwoPane != null) {
+            this.isTwoPane = isTwoPane;
         }else {
-            tracker.setScreenName("article list");
+            this.isTwoPane =false;
         }
+//        GoogleAnalytics analytics = GoogleAnalytics.getInstance(mContext);
+//        tracker = analytics.newTracker(mContext.getString(R.string.analytics_tracker_id));
+//        if(isTablet) {
+//            tracker.setScreenName("article grid");
+//        }else {
+//            tracker.setScreenName("article list");
+//        }
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -62,7 +71,7 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
             super(view);
             articleTitle = (TextView)view.findViewById(R.id.article_item_title);
             articleText = (TextView)view.findViewById(R.id.article_item_text);
-            publisherName = (TextView)view.findViewById(R.id.article_item_source_name);
+            publisherName = (TextView)view.findViewById(R.id.article_item_publisher_name);
             timeAgo = (RelativeTimeTextView)view.findViewById(R.id.article_item_time_ago);
             articleImage = (ImageView)view.findViewById(R.id.article_item_image);
         }
@@ -72,7 +81,11 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View itemView;
-        if (isTablet) {
+        if(isTwoPane){
+            itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.article_item__mini, parent, false);
+        }
+        else if (isTablet) {
             itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.article_item__grid, parent, false);
         }else{
@@ -88,18 +101,31 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 cursor.moveToPosition(viewHolder.getLayoutPosition());
                 Log.d(LOG_TAG, "id cursor is " + cursor.getLong(cursor.getColumnIndex(ArticleColumns._ID)));
                 Intent i = new Intent(mContext, ArticleDetailActivity.class);
+                String imageUrl = cursor.getString(cursor.getColumnIndex(ArticleColumns.IMAGE));
+                boolean hasImage = false;
+                if(imageUrl != null){
+                    hasImage = true;
+                }
                 i.putExtra(References.ARG_KEY_ARTICLE_ID, cursor.getLong(cursor.getColumnIndex(ArticleColumns._ID)));
                 i.putExtra(References.ARG_KEY_CATEGORY_ID, cursor.getLong(cursor.getColumnIndex(ArticleColumns.CATEGORY_ID)));
                 i.putExtra(References.ARG_KEY_ARTICLE_LINK, cursor.getString(cursor.getColumnIndex(ArticleColumns.LINK)));
-                mContext.startActivity(i);
-                tracker.send(new HitBuilders.EventBuilder()
-                        .setCategory("UX")
-                        .setAction("click")
-                        .setLabel("article " + cursor.getString(cursor.getColumnIndex(ArticleColumns.LINK)) + " opened")
-                        .build());
+                i.putExtra(References.ARG_KEY_ARTICLE_HAS_IMAGE, hasImage);
+
+                if(isTwoPane){
+                    ((AppCompatActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.article_detail_container, ArticleDetailFragment.newInstance(i.getExtras())).commit();
+                }
+                else{
+                    mContext.startActivity(i);
+                }
+//                tracker.send(new HitBuilders.EventBuilder()
+//                        .setCategory("UX")
+//                        .setAction("click")
+//                        .setLabel("article " + cursor.getString(cursor.getColumnIndex(ArticleColumns.LINK)) + " opened")
+//                        .build());
             }
         });
         ArticleItem articleItem = ArticleItem.fromCursor(cursor);
@@ -110,18 +136,22 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
         }else if(cursor.getInt(cursor.getColumnIndex(ArticleColumns.IS_READ)) == 1){
             viewHolder.articleTitle.setTextColor(mContext.getResources().getColor(R.color.secondary_text_default_material_light));
         }
-
         viewHolder.publisherName.setText(articleItem.getPublisherName());
+
         viewHolder.timeAgo.setReferenceTime(articleItem.getTimeAgo());
         if(articleItem.getImage()!=null) {
             viewHolder.articleImage.setVisibility(View.VISIBLE);
-            viewHolder.articleText.setVisibility(View.GONE);
+            if(!isTwoPane) {
+                viewHolder.articleText.setVisibility(View.GONE);
+            }
             Picasso.with(mContext).load(articleItem.getImage()+"=s"+imageWidth).placeholder(R.drawable.no_img_placeholder).fit().centerCrop().into(viewHolder.articleImage);
 
         }else{
             if(!isTablet){
                 viewHolder.articleText.setVisibility(View.VISIBLE);
-                viewHolder.articleText.setText(Html.fromHtml(articleItem.getText()).toString());
+                if(!isTwoPane) {
+                    viewHolder.articleText.setText(Html.fromHtml(articleItem.getText()).toString());
+                }
             }
 
             viewHolder.articleImage.setVisibility(View.GONE);

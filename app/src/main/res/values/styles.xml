@@ -2,7 +2,10 @@
 <resources>
 
 
-    <style name="Theme.Aggregio.NoActionBar" parent="AppTheme.Base.NoActionBar"></style>
+    <style name="Theme.Aggregio.NoActionBar" parent="AppTheme.Base.NoActionBar">
+        <item name="colorAccent">@color/theme_accent_1</item>
+        <item name="colorPrimaryDark">@color/theme_primary_dark</item>
+    </style>
     <style name="Theme.Aggregio" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/theme_primary</item>
         <item name="colorPrimaryDark">@color/theme_primary_dark</item>
@@ -54,16 +57,13 @@
         <item name="spb_colors">@array/gplus_colors</item>
         <item name="spb_progressiveStart_activated">true</item>
     </style>
-
-    <style name="CustomShowcaseTheme3" parent="ShowcaseView">
-    <item name="sv_backgroundColor">#330066FF</item>
-    <item name="sv_showcaseColor">@color/theme_primary</item>
-    <item name="sv_buttonText">Close</item>
-    <item name="sv_titleTextAppearance">@style/CustomTitle</item>
-    </style>
-
-    <style name="CustomTitle" parent="TextAppearance.ShowcaseView.Title">
-        <item name="android:textColor">@color/theme_accent_1_light</item>
+    <style name="CircularThemeProgressBar" parent="android:Widget.Holo.ProgressBar">
+        <item name="cpb_colors">@array/gplus_colors</item>
+        <item name="cpb_stroke_width">@dimen/cpb_default_stroke_width</item>
+        <item name="cpb_min_sweep_angle">@integer/cpb_default_min_sweep_angle</item>
+        <item name="cpb_max_sweep_angle">@integer/cpb_default_max_sweep_angle</item>
+        <item name="cpb_sweep_speed">@string/cpb_default_sweep_speed</item>
+        <item name="cpb_rotation_speed">@string/cpb_default_rotation_speed</item>
     </style>
 
 </resources>
