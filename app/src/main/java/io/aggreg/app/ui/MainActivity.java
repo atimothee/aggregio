@@ -1,10 +1,15 @@
 package io.aggreg.app.ui;
 
 import android.accounts.Account;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -20,7 +25,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -35,6 +42,7 @@ import com.suredigit.inappfeedback.FeedbackDialog;
 import org.codechimp.apprater.AppRater;
 
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 import io.aggreg.app.R;
@@ -42,6 +50,8 @@ import io.aggreg.app.provider.article.ArticleColumns;
 import io.aggreg.app.provider.category.CategoryColumns;
 import io.aggreg.app.provider.publishercategory.PublisherCategoryColumns;
 import io.aggreg.app.provider.publishercategory.PublisherCategorySelection;
+import io.aggreg.app.sync.ArticleDeleteService;
+import io.aggreg.app.sync.PeriodicalSyncService;
 import io.aggreg.app.ui.fragment.ArticlesFragment;
 import io.aggreg.app.utils.GeneralUtils;
 import io.aggreg.app.utils.NetworkUtils;
@@ -117,12 +127,19 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
         .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
         .addTestDevice("40F568795D1384A9EC06ABA81110930E")
         .addTestDevice("C6E3DD024CA26DB91D1FC31D77FAA18D")
+        .addTestDevice("E1BC1E5B568AE4474EF6DF86D4ACFE5E")
+        .addTestDevice("0E8090C12FD479941BA271CA454C4333")
                 .build();
         mAdView.loadAd(adRequest);
 
         GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
         tracker = analytics.newTracker(getString(R.string.analytics_tracker_id));
         tracker.setScreenName("home screen");
+
+        //setUpPeriodicSyncService();
+        //setUpArticleDeleteService();
+
+
     }
 
     @Override
@@ -259,16 +276,6 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
 
     public void refreshArticles(){
         showProgress();
-        Long categoryId = null;
-
-        if(publisherCategoriesCursor!=null){
-            if(publisherCategoriesCursor.getCount() !=0){
-                int position = viewPager.getCurrentItem();
-                publisherCategoriesCursor.moveToPosition(position);
-                categoryId = publisherCategoriesCursor.getLong(publisherCategoriesCursor.getColumnIndex(ArticleColumns.CATEGORY_ID));
-
-            }
-        }
         new GeneralUtils(this).SyncRefreshArticles();
     }
 
@@ -283,7 +290,7 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
         if(new NetworkUtils(this).isInternetAvailable()){
 
         }else{
-            progressBar.setVisibility(View.INVISIBLE);
+            progressBar.setVisibility(View.GONE);
             Snackbar.make(viewPager, "No internet connection", Snackbar.LENGTH_LONG).show();
         }
     }
@@ -322,4 +329,37 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
             e.printStackTrace();
         }
     }
+
+    private void setUpPeriodicSyncService(){
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        int periodicSyncHours = settings.getInt(getString(R.string.pref_key_refresh_interval), -1);
+        if(periodicSyncHours != -1) {
+            Intent periodicSyncIntent = new Intent(this, PeriodicalSyncService.class);
+
+            PendingIntent periodicSyncPendingIntent = PendingIntent.getService(this, References.REQUEST_CODE,
+                    periodicSyncIntent, 0);
+            int periodicSyncAlarmType = AlarmManager.ELAPSED_REALTIME;
+
+            final long PERIODIC_SYNC_MILLIS = TimeUnit.HOURS.toMillis(periodicSyncHours);
+            AlarmManager periodicSyncAlarmManager = (AlarmManager)
+                    this.getSystemService(ALARM_SERVICE);
+            periodicSyncAlarmManager.setRepeating(periodicSyncAlarmType, SystemClock.elapsedRealtime() + PERIODIC_SYNC_MILLIS,
+                    PERIODIC_SYNC_MILLIS, periodicSyncPendingIntent);
+        }
+    }
+
+    private void  setUpArticleDeleteService(){
+        Intent deleteArticlesIntent = new Intent(this, ArticleDeleteService.class);
+
+        PendingIntent deleteArticlesPendingIntent = PendingIntent.getService(this, References.REQUEST_CODE,
+                deleteArticlesIntent, 0);
+        int deleteArticlesAlarmType = AlarmManager.ELAPSED_REALTIME;
+        final long MILLIS = TimeUnit.HOURS.toMillis(12);
+        AlarmManager alarmManager = (AlarmManager)
+                this.getSystemService(ALARM_SERVICE);
+        alarmManager.setRepeating(deleteArticlesAlarmType, SystemClock.elapsedRealtime() + MILLIS,
+                MILLIS, deleteArticlesPendingIntent);
+    }
+
+
 }

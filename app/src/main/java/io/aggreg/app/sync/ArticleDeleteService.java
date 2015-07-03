@@ -3,6 +3,7 @@ package io.aggreg.app.sync;
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import java.util.Date;
@@ -27,13 +28,15 @@ public class ArticleDeleteService extends IntentService{
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        ArticleSelection articleSelection = new ArticleSelection();
-        long DAY_IN_MS = 1000 * 60 * 60 * 24;
-        SharedPreferences prefs = getSharedPreferences(References.KEY_PREFERENCES, MODE_PRIVATE);
-        int deleteDays = prefs.getInt(getString(R.string.pref_key_delete_stale_articles), 7);
-        articleSelection.pubDateBeforeEq(new Date(System.currentTimeMillis() - (1 * DAY_IN_MS)));
-        articleSelection.delete(getContentResolver());
-        Log.d(LOG_TAG, "articles deleting");
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        int deleteDays = prefs.getInt(getApplicationContext().getString(R.string.pref_key_delete_stale_articles),14);
+        if(deleteDays != -1) {
+            ArticleSelection articleSelection = new ArticleSelection();
+            long DAY_IN_MS = 1000 * 60 * 60 * 24;
+            articleSelection.pubDateBeforeEq(new Date(System.currentTimeMillis() - (deleteDays * DAY_IN_MS)));
+            articleSelection.delete(getContentResolver());
+            //Log.d(LOG_TAG, "articles deleting");
+        }
 
     }
 }

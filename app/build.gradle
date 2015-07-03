@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "io.aggreg.app"
-        minSdkVersion 14
+        minSdkVersion 9
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
@@ -189,7 +189,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:22.2.0'
     compile 'com.github.curioustechizen.android-ago:library:1.2.0'
     compile 'org.apache.commons:commons-lang3:3.0'
-    compile 'com.github.paolorotolo:appintro:1.1.0'
+    compile 'com.github.paolorotolo:appintro:2.0.0'
     compile 'com.github.codechimp-org.apprater:library:1.0.29'
     compile 'de.psdev.licensesdialog:licensesdialog:1.7.0'
     compile 'com.android.support:support-v4:22.2.0'

@@ -10,6 +10,8 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 
+import java.io.IOException;
+
 import io.aggreg.app.R;
 import io.aggreg.app.provider.AggregioProvider;
 import io.aggreg.app.sync.ArticleDeleteService;
@@ -67,17 +69,6 @@ public class GeneralUtils {
         settingsBundle.putBoolean(
                 ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         settingsBundle.putString(References.ARG_KEY_SYNC_TYPE, References.SYNC_TYPE_ARTICLE_REFRESH);
-        Account account = getSyncAccount();
-        ContentResolver.requestSync(account, AggregioProvider.AUTHORITY, settingsBundle);
-    }
-
-    public void SyncRefreshFirstTime() {
-
-        Bundle settingsBundle = new Bundle();
-        settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-        settingsBundle.putBoolean(
-                ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-        settingsBundle.putString(References.ARG_KEY_SYNC_TYPE, References.SYNC_TYPE_FIRST_TIME);
         Account account = getSyncAccount();
         ContentResolver.requestSync(account, AggregioProvider.AUTHORITY, settingsBundle);
     }

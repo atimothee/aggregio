@@ -92,6 +92,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     private boolean isTablet;
     private CircularProgressBar progressBar;
     private FrameLayout articleImageFrame;
+    private Boolean hasNextBeenShown;
 
 
     private OnFragmentInteractionListener mListener;
@@ -105,7 +106,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     }
 
     public ArticleDetailFragment() {
-
+        this.hasNextBeenShown = false;
     }
 
     @Override
@@ -152,7 +153,8 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         if(toolbar != null){
             ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
             try {
-                ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                //((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                //((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -223,6 +225,8 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .addTestDevice("40F568795D1384A9EC06ABA81110930E")
                 .addTestDevice("C6E3DD024CA26DB91D1FC31D77FAA18D")
+                .addTestDevice("E1BC1E5B568AE4474EF6DF86D4ACFE5E")
+                .addTestDevice("0E8090C12FD479941BA271CA454C4333")
                 .build();
         mAdView.loadAd(adRequest);
         viewSwitcher = (ViewSwitcher)view.findViewById(R.id.detail_view_switcher);
@@ -291,13 +295,13 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                 }
                 if(isTablet) {
                     ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title);
-                    String mainToolbartitle;
+                    String mainToolbarTitle;
                     if(getArguments().getBoolean(References.ARG_KEY_IS_BOOKMARKS)){
-                        mainToolbartitle = "Bookmarks";
+                        mainToolbarTitle = "Bookmarks";
                     }else {
-                        mainToolbartitle = articleCursor.getString(articleCursor.getColumnIndex(CategoryColumns.NAME));
+                        mainToolbarTitle = articleCursor.getString(articleCursor.getColumnIndex(CategoryColumns.NAME));
                     }
-                    mListener.updateTitle(mainToolbartitle);
+                    mListener.updateTitle(mainToolbarTitle);
 
 
                 }
@@ -336,6 +340,12 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
 
                 }
             }
+            if(!hasNextBeenShown) {
+                if (viewSwitcher.getNextView() != progressBar) {
+                    hasNextBeenShown = true;
+                    viewSwitcher.showNext();
+                }
+            }
         } else if (loader.getId() == References.ARTICLE_RELATED_LOADER) {
 
             relatedCursor = (Cursor) data;
@@ -369,9 +379,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
             }
 
         }
-        if(viewSwitcher.getNextView() != progressBar || viewSwitcher.getCurrentView()== progressBar){
-            viewSwitcher.showNext();
-        }
+
 
 
 

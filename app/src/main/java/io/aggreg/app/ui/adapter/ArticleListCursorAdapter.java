@@ -3,15 +3,20 @@ package io.aggreg.app.ui.adapter;
 /**
  * Created by Timo on 6/3/15.
  */
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.curioustechizen.ago.RelativeTimeTextView;
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
+import com.joooonho.SelectableRoundedImageView;
 import com.squareup.picasso.Picasso;
 
 import io.aggreg.app.R;
@@ -67,20 +70,30 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
 //        }
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder{
         public TextView articleTitle;
         public TextView articleText;
         public TextView publisherName;
         public RelativeTimeTextView timeAgo;
-        public ImageView articleImage;
+        public SelectableRoundedImageView articleImage;
+        private CardView cardView;
+        //public ImageView moreImage;
         public ViewHolder(View view) {
             super(view);
             articleTitle = (TextView)view.findViewById(R.id.article_item_title);
             articleText = (TextView)view.findViewById(R.id.article_item_text);
             publisherName = (TextView)view.findViewById(R.id.article_item_publisher_name);
             timeAgo = (RelativeTimeTextView)view.findViewById(R.id.article_item_time_ago);
-            articleImage = (ImageView)view.findViewById(R.id.article_item_image);
+            articleImage = (SelectableRoundedImageView)view.findViewById(R.id.article_item_image);
+            cardView = (CardView)view.findViewById(R.id.cardview);
+            //moreImage = (ImageView)view.findViewById(R.id.more_image_btn);
         }
+
+//        @Override
+//        public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+//            contextMenu.add(0, view.getId(), 0, "Call");//groupId, itemId, order, title
+//            contextMenu.add(0, view.getId(), 0, "SMS");
+//        }
     }
 
     @Override
@@ -113,7 +126,7 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
                 Intent i = new Intent(mContext, ArticleDetailActivity.class);
                 String imageUrl = cursor.getString(cursor.getColumnIndex(ArticleColumns.IMAGE));
                 boolean hasImage = false;
-                if(imageUrl != null){
+                if (imageUrl != null) {
                     hasImage = true;
                 }
                 i.putExtra(References.ARG_KEY_ARTICLE_ID, cursor.getLong(cursor.getColumnIndex(ArticleColumns._ID)));
@@ -123,10 +136,9 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
                 i.putExtra(References.ARG_KEY_CURSOR_POSITION, viewHolder.getLayoutPosition());
                 i.putExtra(References.ARG_KEY_IS_BOOKMARKS, isBookmarks);
 
-                if(isTwoPane){
-                    ((AppCompatActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.article_detail_container, ArticleDetailFragment.newInstance(i.getExtras())).commit();
-                }
-                else{
+                if (isTwoPane) {
+                    ((AppCompatActivity) mContext).getSupportFragmentManager().beginTransaction().replace(R.id.article_detail_container, ArticleDetailFragment.newInstance(i.getExtras())).commit();
+                } else {
                     mContext.startActivity(i);
                 }
 //                tracker.send(new HitBuilders.EventBuilder()
@@ -153,7 +165,7 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
                 viewHolder.articleText.setVisibility(View.GONE);
             }
             Picasso.with(mContext).load(articleItem.getImage()+"=s"+imageWidth).placeholder(R.drawable.no_img_placeholder).fit().centerCrop().into(viewHolder.articleImage);
-
+            viewHolder.articleImage.setCornerRadiiDP(4, 4, 0, 0);
         }else{
             if(!isTablet){
                 viewHolder.articleText.setVisibility(View.VISIBLE);
@@ -165,7 +177,27 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
             viewHolder.articleImage.setVisibility(View.GONE);
 
         }
-
+        viewHolder.cardView.setPreventCornerOverlap(false);
+//        if(viewHolder.moreImage!=null) {
+//            Drawable normalDrawable = mContext.getResources().getDrawable(R.drawable.ic_more_vert_black_24dp);
+//            Drawable wrapDrawable = DrawableCompat.wrap(normalDrawable);
+//            DrawableCompat.setTint(wrapDrawable, mContext.getResources().getColor(R.color.theme_primary_dark));
+//            viewHolder.moreImage.setImageDrawable(wrapDrawable);
+//            viewHolder.moreImage.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    ((AppCompatActivity) mContext).openContextMenu(view);
+//                }
+//            });
+//            viewHolder.moreImage.setOnLongClickListener(new View.OnLongClickListener() {
+//                @Override
+//                public boolean onLongClick(View view) {
+//                    ((AppCompatActivity) mContext).closeContextMenu();
+//                    return true;
+//                }
+//            });
+//
+//        }
     }
 }
 

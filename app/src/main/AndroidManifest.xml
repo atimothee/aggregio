@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="io.aggreg.app" >
 
-    <uses-sdk tools:overrideLibrary="com.github.curioustechizen.ago" />
+    <uses-sdk tools:overrideLibrary="com.github.curioustechizen.ago, com.github.paolorotolo.appintro, fr.castorflex.android.circularprogressbar" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />

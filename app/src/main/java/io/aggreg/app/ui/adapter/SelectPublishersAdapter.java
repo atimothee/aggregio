@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +63,7 @@ public class SelectPublishersAdapter extends HeaderViewRecyclerAdapter<SelectPub
     @Override
     protected ViewHolder onCreateBasicViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.select_publisher_list_item, parent, false);
+                .inflate(R.layout.publisher_list_item, parent, false);
         ViewHolder vh = new ViewHolder(itemView);
         return vh;
     }

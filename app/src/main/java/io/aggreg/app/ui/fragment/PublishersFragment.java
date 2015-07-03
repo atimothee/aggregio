@@ -3,6 +3,7 @@ package io.aggreg.app.ui.fragment;
 import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -10,38 +11,36 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import java.util.zip.Inflater;
 
 import io.aggreg.app.R;
 import io.aggreg.app.provider.publisher.PublisherColumns;
 import io.aggreg.app.ui.adapter.SelectPublishersAdapter;
 import io.aggreg.app.utils.References;
 
-public class SelectPublishersFragment extends Fragment implements LoaderManager.LoaderCallbacks{
+public class PublishersFragment extends Fragment implements LoaderManager.LoaderCallbacks{
 
     private OnFragmentInteractionListener mListener;
-    private static String LOG_TAG = SelectPublishersFragment.class.getSimpleName();
-    RecyclerView gridView;
+    private static String LOG_TAG = PublishersFragment.class.getSimpleName();
+    RecyclerView recyclerView;
     private FloatingActionButton doneFab;
     private Cursor mCursor;
     View headerView;
+    private GridLayoutManager layoutManager;
+    private Parcelable mListState;
 
-    public static SelectPublishersFragment newInstance(String activityType) {
-        SelectPublishersFragment selectPublishersFragment = new SelectPublishersFragment();
+    public static PublishersFragment newInstance(String activityType) {
+        PublishersFragment publishersFragment = new PublishersFragment();
         Bundle args = new Bundle();
         args.putString(References.ARG_KEY_PUBLISHER_ACTIVITY_TYPE, activityType);
-        selectPublishersFragment.setArguments(args);
-        return selectPublishersFragment;
+        publishersFragment.setArguments(args);
+        return publishersFragment;
     }
 
-    public SelectPublishersFragment() {
+    public PublishersFragment() {
     }
 
     @Override
@@ -72,18 +71,16 @@ public class SelectPublishersFragment extends Fragment implements LoaderManager.
                 mListener.onFabClicked();
             }
         });
-        gridView = (RecyclerView)rootView.findViewById(android.R.id.list);
-        final int spanCount = getActivity().getResources().getInteger(R.integer.publisher_span_count);
-        GridLayoutManager manager = new GridLayoutManager(getActivity(), spanCount, GridLayoutManager.VERTICAL, false);
-        manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+        recyclerView = (RecyclerView)rootView.findViewById(android.R.id.list);
+        final int publisherSpanCount = getActivity().getResources().getInteger(R.integer.publisher_span_count);
+        layoutManager = new GridLayoutManager(getActivity(), publisherSpanCount, GridLayoutManager.VERTICAL, false);
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                return position == 0 ? spanCount : 1;
+                return position == 0 ? publisherSpanCount : 1;
             }
         });
-        gridView.setLayoutManager(manager);
-        //gridView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        //gridView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setLayoutManager(layoutManager);
 
         headerView = inflater.inflate(R.layout.publisher_grid_header, null);
 
@@ -115,12 +112,12 @@ public class SelectPublishersFragment extends Fragment implements LoaderManager.
     @Override
     public void onLoadFinished(Loader loader, Object data) {
         if(data!=null) {
-            Log.d(LOG_TAG, "publishers size is " + ((Cursor) data).getCount());
             mCursor = (Cursor) data;
             SelectPublishersAdapter adapter = new SelectPublishersAdapter(getActivity(), mCursor);
             adapter.addHeader(headerView);
-            //adapter.addFooter(footerView);
-            gridView.setAdapter(adapter);
+            mListState = layoutManager.onSaveInstanceState();
+            recyclerView.setAdapter(adapter);
+            layoutManager.onRestoreInstanceState(mListState);
         }
 
     }
@@ -128,7 +125,6 @@ public class SelectPublishersFragment extends Fragment implements LoaderManager.
     @Override
     public void onLoaderReset(Loader loader) {
 
-        Log.d(LOG_TAG, "pub cursor load reset");
     }
 
 
@@ -136,6 +132,36 @@ public class SelectPublishersFragment extends Fragment implements LoaderManager.
         void onFabClicked();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (recyclerView != null) {
+            if(mListState!=null) {
+                layoutManager.onRestoreInstanceState(mListState);
+            }
+        }
+    }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
 
+        super.onSaveInstanceState(outState);
+
+        if(recyclerView != null) {
+            mListState = layoutManager.onSaveInstanceState();
+
+            outState.putParcelable(References.ARG_KEY_PARCEL, mListState);
+        }
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+
+        super.onViewStateRestored(savedInstanceState);
+        if(savedInstanceState != null) {
+
+            mListState = savedInstanceState.getParcelable(References.ARG_KEY_PARCEL);
+
+        }
+    }
 }

@@ -5,14 +5,18 @@ package io.aggreg.app.sync;
  */
 
 import android.accounts.Account;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SyncResult;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 
 import com.appspot.aggregio_web.aggregio.Aggregio;
@@ -44,10 +48,12 @@ import io.aggreg.app.utils.References;
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
     private static final String LOG_TAG = SyncAdapter.class.getSimpleName();
     ContentResolver mContentResolver;
+    String countryName;
 
     public SyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
         mContentResolver = context.getContentResolver();
+        this.countryName = context.getString(R.string.app_country);
     }
 
     public SyncAdapter(
@@ -56,13 +62,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             boolean allowParallelSyncs) {
         super(context, autoInitialize, allowParallelSyncs);
         mContentResolver = context.getContentResolver();
+        this.countryName = context.getString(R.string.app_country);
 
     }
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
 
-        String countryName = getContext().getString(R.string.app_country);
         Aggregio.Builder builder = new Aggregio.Builder(
                 AndroidHttp.newCompatibleTransport(), new GsonFactory(), null);
         Aggregio service = builder.build();
@@ -74,15 +80,25 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             if (syncType.equalsIgnoreCase(References.SYNC_TYPE_PUBLISHER)) {
                 Log.d(LOG_TAG, "sync " + extras.getString(References.ARG_KEY_SYNC_TYPE));
 
-                setUpCategories(service, countryName);
+                setUpCategories(service);
 
             } else if (syncType.equalsIgnoreCase(References.SYNC_TYPE_CATEGORY)) {
 
 
-                setUpCategories(service, countryName);
+                setUpCategories(service);
 
 
             } else if (syncType.equalsIgnoreCase(References.SYNC_TYPE_ARTICLE_REFRESH)) {
+                SharedPreferences prefs = getContext().getSharedPreferences(References.KEY_PREFERENCES, Context.MODE_PRIVATE);
+                Boolean isPublisherSetupComplete = prefs.getBoolean(References.PUBLISHERS_SETUP_COMPLETE, false);
+                Boolean isCategorySetupComplete = prefs.getBoolean(References.CATEGORY_SETUP_COMPLETE, false);
+                if(!isPublisherSetupComplete){
+                    setUpPublishers(service);
+                }
+                if(!isCategorySetupComplete){
+                    setUpCategories(service);
+                }
+
 
 
                 PublisherCategorySelection selection = new PublisherCategorySelection();
@@ -95,7 +111,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                     selection.and();
                     selection.publisherFollowing(true);
                 }
-                PublisherCategoryCursor publisherCategoryCursor = selection.query(mContentResolver, null, CategoryColumns.ORDER);
+                PublisherCategoryCursor publisherCategoryCursor = selection.query(mContentResolver, null, CategoryColumns.ORDER+" ASC");
                 if (publisherCategoryCursor != null) {
                     publisherCategoryCursor.moveToFirst();
                     if (publisherCategoryCursor.getCount() != 0) {
@@ -110,12 +126,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 Log.d(LOG_TAG, "sync type " + References.SYNC_TYPE_ARTICLE_REFRESH);
 
 
-            } else if (syncType.equalsIgnoreCase(References.SYNC_TYPE_FIRST_TIME)) {
-                setUpPublishers(service, countryName);
-                setUpCategories(service, countryName);
-                initialSyncArticles(service);
-            } else if (syncType.equalsIgnoreCase(References.SYNC_TYPE_GCM_REGISTER_DEVICE)) {
-
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -123,25 +133,25 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     private void refreshArticles(Aggregio service, Long publisherId, Long categoryId){
+
         SharedPreferences prefs = getContext().getSharedPreferences(References.KEY_PREFERENCES, Context.MODE_PRIVATE);
+
         String key = References.KEY_LAST_SYNC + categoryId + publisherId;
         Long lastSyncDate = prefs.getLong(key, 0);
         SharedPreferences.Editor editor = prefs.edit();
-        Log.d(LOG_TAG, "last sync date is " + lastSyncDate);
-        Log.d(LOG_TAG, "last sync date is " + new Date(lastSyncDate).toString());
+        Long minutes = null;
 
         if (lastSyncDate == 0) {
             lastSyncDate = null;
+            minutes = null;
+        }else {
+            int timeZoneOffset = TimeZone.getDefault().getOffset(lastSyncDate);
+           minutes = TimeUnit.MILLISECONDS.toMinutes(timeZoneOffset);
         }
 
         ApiAggregioArticleCollection articleCollection = null;
         try {
-            int timeZoneOffset1 = TimeZone.getDefault().getRawOffset();
-            Log.d(LOG_TAG, "raw offset "+timeZoneOffset1);
-            int timeZoneOffset = TimeZone.getDefault().getOffset(lastSyncDate);
-            Log.d(LOG_TAG, "time offset "+timeZoneOffset);
-            long minutes = TimeUnit.MILLISECONDS.toMinutes(timeZoneOffset);
-            Log.d(LOG_TAG, "offset in minutes "+minutes);
+
             articleCollection = service.articles().cursorList(publisherId, categoryId)
                     .setMilliseconds(lastSyncDate)
                     .setTimeZoneOffset(minutes)
@@ -155,42 +165,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     }
 
-    private void initialSyncArticles(Aggregio service) {
-        SharedPreferences prefs = getContext().getSharedPreferences(References.KEY_PREFERENCES, Context.MODE_PRIVATE);
-
-        if(!prefs.getBoolean(References.FIRST_SYNC_COMPLETE, false)) {
-            boolean firstTimeSyncCompleted = true;
-
-            PublisherCategorySelection selection = new PublisherCategorySelection();
-            PublisherCategoryCursor publisherCategoryCursor = selection.query(mContentResolver, null, CategoryColumns.ORDER);
-            publisherCategoryCursor.moveToFirst();
-            Long categoryId = null;
-            Long publisherId = null;
-
-            if (publisherCategoryCursor.getCount() != 0) {
-
-                do {
-                    categoryId = publisherCategoryCursor.getCategoryId();
-                    publisherId = publisherCategoryCursor.getPublisherId();
-                    ApiAggregioArticleCollection articleCollection = null;
-                    try {
-                        articleCollection = service.articles().cursorList(publisherId, categoryId).execute();
-                        String key = References.KEY_LAST_SYNC + categoryId + publisherId;
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.putLong(key, new Date().getTime()).apply();
-                        saveArticles(articleCollection);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        firstTimeSyncCompleted = false;
-                    }
-                }
-
-                while (publisherCategoryCursor.moveToNext());
-            }
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean(References.FIRST_SYNC_COMPLETE, firstTimeSyncCompleted).apply();
-        }
-    }
 
     private void saveArticles(ApiAggregioArticleCollection articleCollection) {
         List<ContentValues> articlesContentValuesList = new ArrayList<>();
@@ -222,12 +196,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         }
     }
 
-    private void setUpPublishers(Aggregio service, String countryName) {
+    private void setUpPublishers(Aggregio service) {
+        Boolean publishersSetUp = true;
         ApiAggregioPublisherCollectionMessage publisherCollectionMessage = null;
         try {
             publisherCollectionMessage = service.publishers().list(countryName).execute();
         } catch (IOException e) {
             e.printStackTrace();
+            publishersSetUp = false;
         }
         List<ContentValues> publisherContentValuesList = new ArrayList<>();
         ContentValues publisherContentValues = null;
@@ -249,15 +225,19 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        SharedPreferences prefs = getContext().getSharedPreferences(References.KEY_PREFERENCES, Context.MODE_PRIVATE);
+        prefs.edit().putBoolean(References.PUBLISHERS_SETUP_COMPLETE, publishersSetUp).apply();
     }
 
-    private void setUpCategories(Aggregio service, String countryName) {
+    private void setUpCategories(Aggregio service) {
+        Boolean completedCategorySetup = true;
         ApiAggregioCategoryCollectionMessage categoryCollectionMessage = null;
 
         try {
             categoryCollectionMessage = service.categories().list(countryName).execute();
         } catch (IOException e) {
             e.printStackTrace();
+            completedCategorySetup = false;
         }
         List<ContentValues> publisherCategoryContentValuesList = new ArrayList<>();
         ContentValues categoryContentValues = null;
@@ -288,6 +268,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 }
             }
         }
+        SharedPreferences prefs = getContext().getSharedPreferences(References.KEY_PREFERENCES, Context.MODE_PRIVATE);
+        prefs.edit().putBoolean(References.CATEGORY_SETUP_COMPLETE, completedCategorySetup).apply();
     }
 
 

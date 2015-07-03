@@ -43,11 +43,24 @@ public class SettingsActivity extends PreferenceActivity {
      */
     private static final boolean ALWAYS_SIMPLE_PREFS = false;
     private static Context mContext;
+    static final Class<?>[] INNER_CLASSES =
+            SettingsActivity.class.getDeclaredClasses();
 
     @Override
     protected boolean isValidFragment(String fragmentName) {
-        //return super.isValidFragment(fragmentName);
-        return true;
+        Boolean knownFrag = false;
+
+        for (Class<?> cls : INNER_CLASSES) {
+
+            if ( cls.getName().equals(fragmentName) ){
+
+                knownFrag = true;
+
+                break;
+            }
+        }
+
+        return knownFrag;
     }
 
     @Override
@@ -317,6 +330,19 @@ public class SettingsActivity extends PreferenceActivity {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_about);
+            Preference license = findPreference("licenses");
+            license.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+
+                    new LicensesDialog.Builder(mContext)
+                            .setNotices(R.raw.notices)
+                            .setIncludeOwnLicense(true)
+                            .build()
+                            .show();
+                    return true;
+                }
+            });
         }
     }
 }

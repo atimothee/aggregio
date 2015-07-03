@@ -1,13 +1,11 @@
 package io.aggreg.app.ui;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import io.aggreg.app.R;
-import io.aggreg.app.ui.fragment.SelectPublishersFragment;
 
 public class PublisherArticlesActivity extends AppCompatActivity{
 

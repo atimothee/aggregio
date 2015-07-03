@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 <LinearLayout android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="io.aggreg.app.ui.fragment.SelectPublishersFragment">
+    android:layout_height="match_parent" tools:context="io.aggreg.app.ui.fragment.PublishersFragment">
 
     <android.support.v7.widget.RecyclerView android:id="@android:id/list" android:layout_width="match_parent"
         android:layout_height="match_parent"/>

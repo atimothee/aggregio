@@ -6,9 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import com.github.paolorotolo.appintro.AppIntro;
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 
 import io.aggreg.app.R;
 import io.aggreg.app.ui.fragment.FirstSlide;
@@ -20,8 +17,6 @@ import io.aggreg.app.utils.References;
  * Created by Timo on 6/10/15.
  */
 public class IntroActivity extends AppIntro{
-    Tracker tracker;
-    SharedPreferences settings;
     @Override
     public void init(Bundle bundle) {
 
@@ -31,9 +26,7 @@ public class IntroActivity extends AppIntro{
         setBarColor(getResources().getColor(R.color.theme_accent_3));
         setSeparatorColor(Color.parseColor("#2196F3"));
         showSkipButton(true);
-        GoogleAnalytics analytics = GoogleAnalytics.getInstance(IntroActivity.this);
-        tracker = analytics.newTracker(getString(R.string.analytics_tracker_id));tracker.setScreenName("intro screen");
-        settings = getSharedPreferences(References.KEY_PREFERENCES, MODE_PRIVATE);
+
 
     }
 
@@ -41,29 +34,21 @@ public class IntroActivity extends AppIntro{
     @Override
     public void onSkipPressed() {
         launch();
-        tracker.send(new HitBuilders.EventBuilder()
-                .setCategory("UX")
-                .setAction("click")
-                .setLabel("skip")
-                .build());
     }
 
     @Override
     public void onDonePressed() {
         launch();
-        tracker.send(new HitBuilders.EventBuilder()
-                .setCategory("UX")
-                .setAction("click")
-                .setLabel("done")
-                .build());
     }
 
     private void launch(){
         Intent i = new Intent();
         i.setClass(IntroActivity.this, MainActivity.class);
+        SharedPreferences prefs = getSharedPreferences(References.KEY_PREFERENCES, MODE_PRIVATE);
+        prefs.edit().putBoolean(References.KEY_HAS_INTRO_BEEN_SHOWN, true).apply();
         startActivity(i);
 
-        settings.edit().putBoolean(References.KEY_INTRO_SHOWN, true).apply();
+
     }
 
     @Override

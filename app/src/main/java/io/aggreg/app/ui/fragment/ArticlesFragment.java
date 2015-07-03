@@ -11,7 +11,10 @@ import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ViewSwitcher;
@@ -31,6 +34,8 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
     private RecyclerView recyclerView;
     private ViewSwitcher viewSwitcher;
     private Boolean isTablet;
+    private Parcelable mListState;
+    private RecyclerView.LayoutManager layoutManager;
     public ArticlesFragment() {
     }
 
@@ -60,17 +65,19 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
         recyclerView = (RecyclerView) view.findViewById(android.R.id.list);
         boolean isTablet = getResources().getBoolean(R.bool.isTablet);
         if(getArguments().getBoolean(References.ARG_KEY_IS_TAB_TWO_PANE)){
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            layoutManager = new LinearLayoutManager(getActivity());
         }
         else if (isTablet) {
             StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(getActivity().getResources().getInteger(R.integer.span_count), StaggeredGridLayoutManager.VERTICAL);
             staggeredGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
-            recyclerView.setLayoutManager(staggeredGridLayoutManager);
+            layoutManager = staggeredGridLayoutManager;
 
         }else {
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            layoutManager = new LinearLayoutManager(getActivity());
         }
+        recyclerView.setLayoutManager(layoutManager);
         viewSwitcher = (ViewSwitcher)view.findViewById(R.id.article_list_view_switcher);
+        registerForContextMenu(recyclerView);
 
         return view;
     }
@@ -96,14 +103,23 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
         if(viewSwitcher.getCurrentView() != recyclerView){
             viewSwitcher.showNext();
         }
-        Parcelable state = recyclerView.getLayoutManager().onSaveInstanceState();
+        if(getArguments().getBoolean(References.ARG_KEY_IS_TAB_TWO_PANE)){
+            mListState = ((LinearLayoutManager)layoutManager).onSaveInstanceState();
+        }
+        else if (isTablet) {
+            mListState = ((StaggeredGridLayoutManager)layoutManager).onSaveInstanceState();
+
+        }else {
+            mListState = ((LinearLayoutManager)layoutManager).onSaveInstanceState();
+        }
+
         ArticleListCursorAdapter adapter = new ArticleListCursorAdapter(getActivity(),
                 (Cursor)data, getArguments().getBoolean(References.ARG_KEY_IS_TAB_TWO_PANE, false),
                 getArguments().getBoolean(References.ARG_KEY_IS_BOOKMARKS, false));
 
         recyclerView.setAdapter(adapter);
-        recyclerView.getLayoutManager().onRestoreInstanceState(state);
-        if(isTablet){
+        layoutManager.onRestoreInstanceState(mListState);
+        if(getArguments().getBoolean(References.ARG_KEY_IS_TAB_TWO_PANE)){
             try {
                 recyclerView.scrollToPosition(getArguments().getInt(References.ARG_KEY_CURSOR_POSITION));
             }catch (Exception e){
@@ -120,9 +136,20 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+
         super.onSaveInstanceState(outState);
+
         if(recyclerView != null) {
-            outState.putParcelable(References.ARG_KEY_PARCEL, recyclerView.getLayoutManager().onSaveInstanceState());
+            if(getArguments().getBoolean(References.ARG_KEY_IS_TAB_TWO_PANE)){
+                mListState = ((LinearLayoutManager)layoutManager).onSaveInstanceState();
+            }
+            else if (isTablet) {
+                mListState = ((StaggeredGridLayoutManager)layoutManager).onSaveInstanceState();
+
+            }else {
+                mListState = ((LinearLayoutManager)layoutManager).onSaveInstanceState();
+            }
+            outState.putParcelable(References.ARG_KEY_PARCEL, mListState);
         }
     }
 
@@ -131,8 +158,19 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
 
         super.onViewStateRestored(savedInstanceState);
         if(savedInstanceState != null) {
-            if (recyclerView != null) {
-                recyclerView.getLayoutManager().onRestoreInstanceState(savedInstanceState.getParcelable(References.ARG_KEY_PARCEL));
+
+                mListState = savedInstanceState.getParcelable(References.ARG_KEY_PARCEL);
+
+        }
+    }
+
+    @Override
+    public void onResume() {
+
+        super.onResume();
+        if (recyclerView != null) {
+            if(mListState!=null) {
+                layoutManager.onRestoreInstanceState(mListState);
             }
         }
     }
