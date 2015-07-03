@@ -2,6 +2,7 @@ package io.aggreg.app.ui;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -25,21 +26,28 @@ import io.aggreg.app.utils.References;
 public class ArticleDetailActivity extends AppCompatActivity implements ArticleDetailFragment.OnFragmentInteractionListener{
 
     Boolean isTablet;
+    Toolbar mainToolbar;
+    FloatingActionButton bookmarkFab;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_detail);
         isTablet = getResources().getBoolean(R.bool.isTablet);
         if(isTablet){
-            Toolbar mainToolbar = (Toolbar)findViewById(R.id.main_toolbar);
+            mainToolbar = (Toolbar)findViewById(R.id.main_toolbar);
             mainToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
-            mainToolbar.setTitle("Gossip");
+            mainToolbar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+                }
+            });
+
             mainToolbar.setTitleTextColor(getResources().getColor(R.color.primary_text_default_material_dark));
-            mainToolbar.setSubtitle("Uganda");
+            mainToolbar.setSubtitle(getResources().getString(R.string.app_country));
             mainToolbar.setSubtitleTextColor(getResources().getColor(R.color.secondary_text_default_material_dark));
-            Toolbar toolbar2 = (Toolbar)findViewById(R.id.toolbar2);
-            toolbar2.setTitleTextColor(getResources().getColor(R.color.primary_text_default_material_dark));
-            setSupportActionBar(toolbar2);
+            bookmarkFab = (FloatingActionButton)findViewById(R.id.bookmark_fab);
+
 
             if (savedInstanceState == null) {
                 Bundle articlesBundle = getIntent().getExtras();
@@ -61,14 +69,22 @@ public class ArticleDetailActivity extends AppCompatActivity implements ArticleD
 
 
 
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
-
     @Override
     protected void onPause() {
         super.onPause();
+    }
+
+    @Override
+    public void updateTitle(String title){
+        if(isTablet) {
+            if(mainToolbar != null) {
+                mainToolbar.setTitle(title);
+            }
+        }
+    }
+
+    @Override
+    public FloatingActionButton getBookmarkFab() {
+        return bookmarkFab;
     }
 }

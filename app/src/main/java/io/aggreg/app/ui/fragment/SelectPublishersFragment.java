@@ -73,11 +73,12 @@ public class SelectPublishersFragment extends Fragment implements LoaderManager.
             }
         });
         gridView = (RecyclerView)rootView.findViewById(android.R.id.list);
-        GridLayoutManager manager = new GridLayoutManager(getActivity(), 3, GridLayoutManager.VERTICAL, false);
+        final int spanCount = getActivity().getResources().getInteger(R.integer.publisher_span_count);
+        GridLayoutManager manager = new GridLayoutManager(getActivity(), spanCount, GridLayoutManager.VERTICAL, false);
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                return position == 0 ? 3 : 1;
+                return position == 0 ? spanCount : 1;
             }
         });
         gridView.setLayoutManager(manager);

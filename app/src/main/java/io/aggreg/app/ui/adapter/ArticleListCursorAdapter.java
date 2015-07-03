@@ -36,9 +36,10 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
     private int imageWidth;
     private boolean isTablet;
     private boolean isTwoPane;
+    private boolean isBookmarks;
     //private Tracker tracker;
 
-    public ArticleListCursorAdapter(Context context,Cursor cursor, @Nullable Boolean isTwoPane){
+    public ArticleListCursorAdapter(Context context,Cursor cursor, @Nullable Boolean isTwoPane, @Nullable Boolean isBookmarks){
         super(context,cursor);
         this.mContext = context;
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
@@ -51,6 +52,11 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
             this.isTwoPane = isTwoPane;
         }else {
             this.isTwoPane =false;
+        }
+        if(isBookmarks != null) {
+            this.isBookmarks = isBookmarks;
+        }else {
+            this.isBookmarks =false;
         }
 //        GoogleAnalytics analytics = GoogleAnalytics.getInstance(mContext);
 //        tracker = analytics.newTracker(mContext.getString(R.string.analytics_tracker_id));
@@ -114,6 +120,8 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
                 i.putExtra(References.ARG_KEY_CATEGORY_ID, cursor.getLong(cursor.getColumnIndex(ArticleColumns.CATEGORY_ID)));
                 i.putExtra(References.ARG_KEY_ARTICLE_LINK, cursor.getString(cursor.getColumnIndex(ArticleColumns.LINK)));
                 i.putExtra(References.ARG_KEY_ARTICLE_HAS_IMAGE, hasImage);
+                i.putExtra(References.ARG_KEY_CURSOR_POSITION, viewHolder.getLayoutPosition());
+                i.putExtra(References.ARG_KEY_IS_BOOKMARKS, isBookmarks);
 
                 if(isTwoPane){
                     ((AppCompatActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.article_detail_container, ArticleDetailFragment.newInstance(i.getExtras())).commit();
@@ -160,3 +168,6 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
 
     }
 }
+
+/*
+* java.lang.NullPointerException: Attempt to read from field 'java.util.ArrayList android.support.v7.widget.StaggeredGridLayoutManager$Span.mViews' on a null object reference*/

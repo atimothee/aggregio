@@ -21,6 +21,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -50,6 +51,7 @@ import io.aggreg.app.provider.article.ArticleColumns;
 import io.aggreg.app.provider.article.ArticleContentValues;
 import io.aggreg.app.provider.article.ArticleCursor;
 import io.aggreg.app.provider.article.ArticleSelection;
+import io.aggreg.app.provider.category.CategoryColumns;
 import io.aggreg.app.provider.publisher.PublisherColumns;
 import io.aggreg.app.ui.ArticleDetailActivity;
 import io.aggreg.app.ui.SettingsActivity;
@@ -68,6 +70,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     private Cursor articleCursor;
     private Cursor relatedCursor;
     private Button viewOnWeb;
+    private Button bookmarkButton;
     Tracker tracker;
     private ImageView related1Image;
     private ImageView related2Image;
@@ -88,9 +91,11 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     private CoordinatorLayout coordinatorLayout;
     private boolean isTablet;
     private CircularProgressBar progressBar;
+    private FrameLayout articleImageFrame;
 
 
     private OnFragmentInteractionListener mListener;
+
 
     public static ArticleDetailFragment newInstance(Bundle bundle) {
         ArticleDetailFragment fragment = new ArticleDetailFragment();
@@ -131,12 +136,17 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view;
-
-        if(getArguments().getBoolean(References.ARG_KEY_ARTICLE_HAS_IMAGE, false)){
+        if(isTablet){
             view = inflater.inflate(R.layout.fragment_article_detail, container, false);
-        }else{
-            view = inflater.inflate(R.layout.no_image_fragment_article_detail, container, false);
+        }else {
+            if(getArguments().getBoolean(References.ARG_KEY_ARTICLE_HAS_IMAGE, false)){
+                view = inflater.inflate(R.layout.fragment_article_detail, container, false);
+            }else{
+                view = inflater.inflate(R.layout.no_image_fragment_article_detail, container, false);
+            }
         }
+
+
 
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         if(toolbar != null){
@@ -158,14 +168,31 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         articleImage = (ImageView) view.findViewById(R.id.article_detail_image);
         //articleImageFrame = (FrameLayout) view.findViewById(R.id.article_detail_image_frame);
         publisherLogo = (ImageView) view.findViewById(R.id.article_item_publisher_logo);
-        bookmarkFab = (FloatingActionButton) view.findViewById(R.id.bookmark_fab);
+
+
         viewOnWeb = (Button) view.findViewById(R.id.btn_view_on_web);
-        bookmarkFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                toggleBookmark();
+        if(isTablet) {
+            bookmarkFab = mListener.getBookmarkFab();
+            bookmarkButton = (Button) view.findViewById(R.id.btn_bookmark);
+            if (bookmarkButton != null) {
+                bookmarkButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        toggleBookmark();
+                    }
+                });
             }
-        });
+        }else {
+            bookmarkFab = (FloatingActionButton) view.findViewById(R.id.bookmark_fab);
+        }
+        if(bookmarkFab != null) {
+            bookmarkFab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    toggleBookmark();
+                }
+            });
+        }
         viewOnWeb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -201,6 +228,11 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         viewSwitcher = (ViewSwitcher)view.findViewById(R.id.detail_view_switcher);
         coordinatorLayout = (CoordinatorLayout)view.findViewById(R.id.main_content);
         progressBar = (CircularProgressBar)view.findViewById(R.id.progress);
+        if(isTablet){
+            Toolbar toolbar2 = (Toolbar)view.findViewById(R.id.toolbar2);
+            ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar2);
+            articleImageFrame = (FrameLayout)view.findViewById(R.id.article_detail_image_frame);
+        }
         return view;
     }
 
@@ -251,20 +283,33 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
             if (articleCursor.getCount() != 0) {
                 articleCursor.moveToFirst();
                 articleText.setText(Html.fromHtml(articleCursor.getString(articleCursor.getColumnIndex(ArticleColumns.TEXT))));
-                //Log.d(LOG_TAG, "link is " + articleCursor.getString(articleCursor.getColumnIndex(ArticleColumns.LINK)));
                 articleText.setMovementMethod(LinkMovementMethod.getInstance());
                 String title = articleCursor.getString(articleCursor.getColumnIndex(ArticleColumns.TITLE));
                 articleTitle.setText(title);
                 if(collapsingToolbar != null) {
                     collapsingToolbar.setTitle(title);
-                }else {
-                    ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(title);
+                }
+                if(isTablet) {
+                    ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title);
+                    String mainToolbartitle;
+                    if(getArguments().getBoolean(References.ARG_KEY_IS_BOOKMARKS)){
+                        mainToolbartitle = "Bookmarks";
+                    }else {
+                        mainToolbartitle = articleCursor.getString(articleCursor.getColumnIndex(CategoryColumns.NAME));
+                    }
+                    mListener.updateTitle(mainToolbartitle);
+
+
                 }
                 String imageUrl = articleCursor.getString(articleCursor.getColumnIndex(ArticleColumns.IMAGE));
                 if (imageUrl != null) {
                     Picasso.with(getActivity()).load(imageUrl + "=s" + imageWidth).placeholder(R.drawable.no_img_placeholder).fit().centerCrop().into(articleImage);
                 } else {
-                    //articleImageFrame.setLayoutParams(new CollapsingToolbarLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100));
+                    if(isTablet){
+                        if(articleImageFrame != null){
+                            articleImageFrame.setVisibility(View.GONE);
+                        }
+                    }
 
                 }
                 Picasso.with(getActivity()).load(articleCursor.getString(articleCursor.getColumnIndex(PublisherColumns.IMAGE_URL))).fit().centerCrop().into(publisherLogo);
@@ -324,13 +369,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
             }
 
         }
-//        if(!isTablet){
-//        if(viewSwitcher.getCurrentView()!=coordinatorLayout){
-//
-//        }}else {
-//            viewSwitcher.showNext();
-//        }
-        if(viewSwitcher.getNextView() != progressBar){
+        if(viewSwitcher.getNextView() != progressBar || viewSwitcher.getCurrentView()== progressBar){
             viewSwitcher.showNext();
         }
 
@@ -402,8 +441,9 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
+        void updateTitle(String title);
+
+        FloatingActionButton getBookmarkFab();
     }
 
     private void toggleBookmark() {

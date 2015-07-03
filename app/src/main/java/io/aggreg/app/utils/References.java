@@ -46,4 +46,6 @@ public class References {
     public static final String ARG_KEY_ARTICLE_HAS_IMAGE = "article_has_image";
     public static final String ARG_KEY_SCROLL_POSTIONS = "scroll_positions";
     public static final String ARG_KEY_IS_TAB_TWO_PANE = "is_tab_two_pane";
+    public static final String ARG_KEY_CURSOR_POSITION = "cursor_position";
+    public static final String ARG_KEY_IS_BOOKMARKS = "is_bookmarks";
 }

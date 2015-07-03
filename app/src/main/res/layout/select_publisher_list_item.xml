@@ -19,9 +19,9 @@
         android:src="@drawable/no_img_placeholder"
         android:layout_alignParentTop="true"
         android:adjustViewBounds="true"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
         android:id="@+id/publisher_item_logo"
         />
         <TextView

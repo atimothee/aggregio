@@ -1,14 +1,12 @@
 package io.aggreg.app.ui;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import io.aggreg.app.R;
-import io.aggreg.app.ui.fragment.ArticleDetailFragment;
-import io.aggreg.app.ui.fragment.BookmarksFragment;
+import io.aggreg.app.ui.fragment.ArticlesFragment;
 import io.aggreg.app.utils.References;
 
 public class BookmarksActivity extends AppCompatActivity {
@@ -17,6 +15,13 @@ public class BookmarksActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookmarks);
+        if (savedInstanceState == null) {
+            Bundle articlesBundle = new Bundle();
+            articlesBundle.putBoolean(References.ARG_KEY_IS_BOOKMARKS, true);
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment, ArticlesFragment.newInstance(articlesBundle))
+                    .commit();
+        }
     }
 
 

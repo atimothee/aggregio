@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <bool name="isTablet">true</bool>
+    <integer name="publisher_span_count">6</integer>
 </resources>
