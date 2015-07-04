@@ -29,8 +29,7 @@ public class IntroActivity extends AppIntro{
         setBarColor(getResources().getColor(R.color.theme_accent_3));
         setSeparatorColor(Color.parseColor("#2196F3"));
         showSkipButton(true);
-        SharedPreferences prefs = getSharedPreferences(References.KEY_PREFERENCES, MODE_PRIVATE);
-        prefs.edit().putBoolean(References.KEY_HAS_INTRO_BEEN_SHOWN, true).apply();
+
     }
 
 
@@ -45,6 +44,8 @@ public class IntroActivity extends AppIntro{
     }
 
     private void launch(){
+        SharedPreferences prefs = getSharedPreferences(References.KEY_PREFERENCES, MODE_PRIVATE);
+        prefs.edit().putBoolean(References.KEY_HAS_INTRO_BEEN_SHOWN, true).commit();
         Intent i = new Intent();
         i.setClass(IntroActivity.this, MainActivity.class);
         startActivity(i);

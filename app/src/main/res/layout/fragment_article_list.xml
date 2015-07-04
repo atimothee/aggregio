@@ -21,10 +21,23 @@
             style="@style/CircularThemeProgressBar"
             android:layout_gravity="center"
             />
+        <FrameLayout
+            android:id="@+id/article_list_frame_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
     <android.support.v7.widget.RecyclerView android:id="@android:id/list" android:layout_width="match_parent"
         android:background="@color/background_material_light"
         android:layout_height="match_parent"/>
+            <TextView
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:id="@+id/text_view_no_article_message"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </FrameLayout>
     </ViewSwitcher>
 
 </FrameLayout>

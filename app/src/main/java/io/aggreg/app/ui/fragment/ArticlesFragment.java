@@ -19,6 +19,8 @@ import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import java.sql.Ref;
@@ -38,6 +40,8 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
     private Boolean isTablet;
     private Parcelable mListState;
     private RecyclerView.LayoutManager layoutManager;
+    private TextView noArticlesMessage;
+    private FrameLayout articleListFrameLayout;
 
     private OnFragmentInteractionListener mListener;
 
@@ -82,7 +86,13 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
         }
         recyclerView.setLayoutManager(layoutManager);
         viewSwitcher = (ViewSwitcher)view.findViewById(R.id.article_list_view_switcher);
-        registerForContextMenu(recyclerView);
+        noArticlesMessage = (TextView)view.findViewById(R.id.text_view_no_article_message);
+        if(getArguments().getBoolean(References.ARG_KEY_IS_BOOKMARKS)){
+            noArticlesMessage.setText("You haven't yet bookmarked any articles!");
+        }else {
+            noArticlesMessage.setText("No articles to show! Hit the refresh button at the top to get the latest news");
+        }
+        articleListFrameLayout = (FrameLayout)view.findViewById(R.id.article_list_frame_layout);
 
         return view;
     }
@@ -105,23 +115,45 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Override
     public void onLoadFinished(Loader loader, Object data) {
-        if(viewSwitcher.getCurrentView() != recyclerView){
-            Cursor c = (Cursor)data;
-            if(getArguments().getBoolean(References.ARG_KEY_IS_BOOKMARKS, false)){
-                viewSwitcher.showNext();
-            }
-            else if(mListener.checkSyncStatus()){
 
-                if(c != null){
-                    if(c.getCount()!=0){
-                        viewSwitcher.showNext();
+        //switching logic
+
+        if(articleListFrameLayout != null) {
+            if (viewSwitcher.getCurrentView() != articleListFrameLayout) {
+                Cursor c = (Cursor) data;
+                if (getArguments().getBoolean(References.ARG_KEY_IS_BOOKMARKS, false)) {
+                    viewSwitcher.showNext();
+                    if (c != null) {
+                        if (c.getCount() == 0) {
+                            recyclerView.setVisibility(View.GONE);
+                            noArticlesMessage.setVisibility(View.VISIBLE);
+                        }
+                    }
+                } else if (mListener.checkSyncStatus()) {
+
+                    if (c != null) {
+                        if (c.getCount() != 0) {
+                            viewSwitcher.showNext();
+                        }
+                    }else {
+                        //do not remove progress unless list isnt empty
+                    }
+
+                } else {
+                    //sync not currently active
+                    viewSwitcher.showNext();
+                    if (c != null) {
+                        if (c.getCount() == 0) {
+                            recyclerView.setVisibility(View.GONE);
+                            noArticlesMessage.setVisibility(View.VISIBLE);
+                        }
                     }
                 }
-
-            }else {
-                viewSwitcher.showNext();
             }
         }
+        //end of switching logic
+
+
         if(getArguments().getBoolean(References.ARG_KEY_IS_TAB_TWO_PANE)){
             mListState = ((LinearLayoutManager)layoutManager).onSaveInstanceState();
         }
