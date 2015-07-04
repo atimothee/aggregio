@@ -2,8 +2,8 @@
 
     <!-- These settings headers are only used on tablets. -->
 
-    <header android:fragment="io.aggreg.app.ui.SettingsActivity$GeneralPreferenceFragment"
-        android:title="@string/pref_header_general" />
+    <!--<header android:fragment="io.aggreg.app.ui.SettingsActivity$GeneralPreferenceFragment"-->
+        <!--android:title="@string/pref_header_general" />-->
 
 
     <header android:fragment="io.aggreg.app.ui.SettingsActivity$DataSyncPreferenceFragment"

@@ -116,7 +116,6 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
             public void onClick(View view) {
 
                 cursor.moveToPosition(viewHolder.getLayoutPosition());
-                Log.d(LOG_TAG, "id cursor is " + cursor.getLong(cursor.getColumnIndex(ArticleColumns._ID)));
                 Intent i = new Intent(mContext, ArticleDetailActivity.class);
                 String imageUrl = cursor.getString(cursor.getColumnIndex(ArticleColumns.IMAGE));
                 boolean hasImage = false;

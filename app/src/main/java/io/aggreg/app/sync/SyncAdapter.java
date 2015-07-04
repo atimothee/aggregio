@@ -26,8 +26,14 @@ import com.appspot.aggregio_web.aggregio.model.ApiAggregioCategoryCollectionMess
 import com.appspot.aggregio_web.aggregio.model.ApiAggregioCategoryMessage;
 import com.appspot.aggregio_web.aggregio.model.ApiAggregioPublisherCollectionMessage;
 import com.appspot.aggregio_web.aggregio.model.ApiAggregioPublisherMessage;
+import com.google.android.gms.auth.GoogleAuthException;
+import com.google.android.gms.auth.GoogleAuthUtil;
+import com.google.api.client.auth.oauth2.BearerToken;
+import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.json.gson.GsonFactory;
+import com.google.common.net.HttpHeaders;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,6 +53,7 @@ import io.aggreg.app.utils.References;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
     private static final String LOG_TAG = SyncAdapter.class.getSimpleName();
+    private static final String WEB_CLIENT_ID = "651183289184-druu7pqpe1ghlf6smeehefk0oo7nfvht.apps.googleusercontent.com";
     ContentResolver mContentResolver;
     String countryName;
 
