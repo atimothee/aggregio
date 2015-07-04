@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.github.paolorotolo.appintro.AppIntro;
 import com.google.android.gms.analytics.GoogleAnalytics;
@@ -20,12 +21,13 @@ import io.aggreg.app.utils.References;
  * Created by Timo on 6/10/15.
  */
 public class IntroActivity extends AppIntro{
+    private static final String LOG_TAG  = IntroActivity.class.getSimpleName();
     @Override
     public void init(Bundle bundle) {
 
-        addSlide(new FirstSlide(), getApplicationContext());
-        addSlide(new SecondSlide(), getApplicationContext());
-        addSlide(new ThirdSlide(), getApplicationContext());
+        addSlide(new FirstSlide(), this);
+        addSlide(new SecondSlide(), this);
+        addSlide(new ThirdSlide(), this);
         setBarColor(getResources().getColor(R.color.theme_accent_3));
         setSeparatorColor(Color.parseColor("#2196F3"));
         showSkipButton(true);
@@ -44,8 +46,6 @@ public class IntroActivity extends AppIntro{
     }
 
     private void launch(){
-        SharedPreferences prefs = getSharedPreferences(References.KEY_PREFERENCES, MODE_PRIVATE);
-        prefs.edit().putBoolean(References.KEY_HAS_INTRO_BEEN_SHOWN, true).commit();
         Intent i = new Intent();
         i.setClass(IntroActivity.this, MainActivity.class);
         startActivity(i);

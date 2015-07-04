@@ -53,7 +53,7 @@ import io.aggreg.app.utils.References;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
     private static final String LOG_TAG = SyncAdapter.class.getSimpleName();
-    private static final String WEB_CLIENT_ID = "651183289184-druu7pqpe1ghlf6smeehefk0oo7nfvht.apps.googleusercontent.com";
+    //private static final String WEB_CLIENT_ID = "651183289184-druu7pqpe1ghlf6smeehefk0oo7nfvht.apps.googleusercontent.com";
     ContentResolver mContentResolver;
     String countryName;
 
@@ -91,7 +91,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 setUpCategories(service);
 
             } else if (syncType.equalsIgnoreCase(References.SYNC_TYPE_ARTICLE_REFRESH)) {
-                SharedPreferences prefs = getContext().getSharedPreferences(References.KEY_PREFERENCES, Context.MODE_PRIVATE);
+                SharedPreferences prefs = getContext().getApplicationContext().getSharedPreferences(References.KEY_PREFERENCES, Context.MODE_PRIVATE);
                 Boolean isPublisherSetupComplete = prefs.getBoolean(References.PUBLISHERS_SETUP_COMPLETE, false);
                 Boolean isCategorySetupComplete = prefs.getBoolean(References.CATEGORY_SETUP_COMPLETE, false);
                 if(!isPublisherSetupComplete){
@@ -139,12 +139,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     private void refreshArticles(Aggregio service, Long publisherId, Long categoryId){
 
-        SharedPreferences prefs = getContext().getSharedPreferences(References.KEY_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences prefs = getContext().getApplicationContext().getSharedPreferences(References.KEY_PREFERENCES, Context.MODE_PRIVATE);
 
         String key = References.KEY_LAST_SYNC + categoryId + publisherId;
         Long lastSyncDate = prefs.getLong(key, 0);
         SharedPreferences.Editor editor = prefs.edit();
         Long minutes = null;
+        Log.d(LOG_TAG, "last sync date "+lastSyncDate);
+        Log.d(LOG_TAG, "last sync date "+new Date(lastSyncDate));
 
         if (lastSyncDate == 0) {
             lastSyncDate = null;
@@ -161,7 +163,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                     .setMilliseconds(lastSyncDate)
                     .setTimeZoneOffset(minutes)
                     .execute();
-
         editor.putLong(key, new Date().getTime()).apply();
         saveArticles(articleCollection);
         } catch (IOException e) {
@@ -230,8 +231,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        SharedPreferences prefs = getContext().getSharedPreferences(References.KEY_PREFERENCES, Context.MODE_PRIVATE);
-        prefs.edit().putBoolean(References.PUBLISHERS_SETUP_COMPLETE, publishersSetUp).apply();
+        SharedPreferences prefs = getContext().getApplicationContext().getSharedPreferences(References.KEY_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(References.PUBLISHERS_SETUP_COMPLETE, publishersSetUp);
+        editor.apply();
     }
 
     private void setUpCategories(Aggregio service) {
@@ -273,8 +276,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 }
             }
         }
-        SharedPreferences prefs = getContext().getSharedPreferences(References.KEY_PREFERENCES, Context.MODE_PRIVATE);
-        prefs.edit().putBoolean(References.CATEGORY_SETUP_COMPLETE, completedCategorySetup).apply();
+        SharedPreferences prefs = getContext().getApplicationContext().getSharedPreferences(References.KEY_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(References.CATEGORY_SETUP_COMPLETE, completedCategorySetup);
+        editor.apply();
     }
 
 

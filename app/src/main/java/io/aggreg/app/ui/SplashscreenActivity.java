@@ -19,18 +19,20 @@ public class SplashscreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splashscreen);
-        SharedPreferences prefs = getSharedPreferences(References.KEY_PREFERENCES, MODE_PRIVATE);
-        Boolean hasIntroBeenShown = prefs.getBoolean(References.KEY_HAS_INTRO_BEEN_SHOWN, false);
+        SharedPreferences prefs = this.getSharedPreferences(References.KEY_PREFERENCES, MODE_PRIVATE);
+        Boolean isFirstTime = prefs.getBoolean(References.KEY_HAS_INTRO_BEEN_SHOWN, false);
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         Boolean shouldSyncFirstTime = settings.getBoolean(getString(R.string.pref_key_refresh_on_start), true);
         if(shouldSyncFirstTime) {
             new GeneralUtils(this).SyncRefreshArticles();
         }
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(References.KEY_HAS_INTRO_BEEN_SHOWN, true);
+        editor.commit();
 
-        Log.i(LOG_TAG, "Alarm set.");
+        Log.d(LOG_TAG, "has intro been shown "+isFirstTime);
 
-
-        if (hasIntroBeenShown == false) {
+        if (!isFirstTime) {
 
             Thread splashTread = new Thread() {
                 @Override
@@ -52,7 +54,7 @@ public class SplashscreenActivity extends AppCompatActivity {
             };
             splashTread.start();
         }
-        else if(hasIntroBeenShown == true){
+        else{
             Intent i = new Intent();
             i.setClass(SplashscreenActivity.this, MainActivity.class);
             startActivity(i);

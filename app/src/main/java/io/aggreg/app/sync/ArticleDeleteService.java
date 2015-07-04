@@ -30,14 +30,14 @@ public class ArticleDeleteService extends IntentService{
     protected void onHandleIntent(Intent intent) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String deleteDaysString = prefs.getString(getApplicationContext().getString(R.string.pref_key_delete_stale_articles), "14");
-        //Log.d(LOG_TAG, "delete days")
+        Log.d(LOG_TAG, "article delete service started!");
         Integer deleteDays = Integer.valueOf(deleteDaysString);
         if(deleteDays != -1) {
             ArticleSelection articleSelection = new ArticleSelection();
             long DAY_IN_MS = 1000 * 60 * 60 * 24;
             articleSelection.pubDateBeforeEq(new Date(System.currentTimeMillis() - (deleteDays * DAY_IN_MS)));
             articleSelection.delete(getContentResolver());
-            //Log.d(LOG_TAG, "articles deleting");
+            Log.d(LOG_TAG, "articles deleting");
         }
 
     }

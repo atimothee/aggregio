@@ -358,6 +358,7 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
         PendingIntent deleteArticlesPendingIntent = PendingIntent.getService(this, References.REQUEST_CODE,
                 deleteArticlesIntent, 0);
         int deleteArticlesAlarmType = AlarmManager.ELAPSED_REALTIME;
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         final long MILLIS = TimeUnit.HOURS.toMillis(12);
         AlarmManager alarmManager = (AlarmManager)
                 this.getSystemService(ALARM_SERVICE);

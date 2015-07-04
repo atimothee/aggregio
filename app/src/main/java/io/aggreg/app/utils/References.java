@@ -9,7 +9,6 @@ public class References {
     public static final int ARTICLE_RELATED_LOADER = 3;
     public static final String KEY_PREFERENCES = "preferences";
     public static final String KEY_LAST_SYNC = "last_sync";
-    public static final String KEY_HAS_INTRO_BEEN_SHOWN = "into_shown";
 
     public static final String ARG_KEY_CATEGORY_ID = "category_id";
     public static final String ARG_KEY_ARTICLE_ID = "article_id";
@@ -32,4 +31,5 @@ public class References {
 
     public static final String AUTHORITY = BuildConfig.APPLICATION_ID + ".provider";
 
+    public static final String KEY_HAS_INTRO_BEEN_SHOWN = "intro";
 }
