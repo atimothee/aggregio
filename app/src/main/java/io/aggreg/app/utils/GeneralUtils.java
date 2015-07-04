@@ -75,7 +75,6 @@ public class GeneralUtils {
 
     public void deleteArticles(){
         Intent mServiceIntent = new Intent(mContext, ArticleDeleteService.class);
-        //mServiceIntent.setData(Uri.parse(dataUrl));
         mContext.startService(mServiceIntent);
     }
 

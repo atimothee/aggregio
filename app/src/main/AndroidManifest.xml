@@ -134,11 +134,12 @@
             android:name=".ui.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName=".ui.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
         </activity>
 
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".ui.MainActivity" />
+
 
         <activity
             android:name=".ui.ArticleDetailActivity"
@@ -184,14 +185,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.PublisherArticlesActivity"
-            android:label="@string/title_activity_publisher_articles" >
-        </activity>
         <!--<activity-->
             <!--android:name=".ui.SelectPublishersActivity"-->
             <!--android:label="@string/title_activity_select_publishers" >-->
         <!--</activity>-->
+
         <!--Include the AdActivity configChanges and theme. -->
         <activity android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"

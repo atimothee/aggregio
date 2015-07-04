@@ -24,6 +24,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.curioustechizen.ago.RelativeTimeTextView;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.joooonho.SelectableRoundedImageView;
 import com.squareup.picasso.Picasso;
 
@@ -40,7 +43,7 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
     private boolean isTablet;
     private boolean isTwoPane;
     private boolean isBookmarks;
-    //private Tracker tracker;
+    private Tracker tracker;
 
     public ArticleListCursorAdapter(Context context,Cursor cursor, @Nullable Boolean isTwoPane, @Nullable Boolean isBookmarks){
         super(context,cursor);
@@ -51,6 +54,10 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
         //float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         this.imageWidth = (int)(displayMetrics.widthPixels);
         this.isTablet = mContext.getResources().getBoolean(R.bool.isTablet);
+        if(isTablet){
+            int spanCount = mContext.getResources().getInteger(R.integer.span_count);
+            this.imageWidth = (int)((displayMetrics.widthPixels)/spanCount);
+        }
         if(isTwoPane != null) {
             this.isTwoPane = isTwoPane;
         }else {
@@ -61,13 +68,13 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
         }else {
             this.isBookmarks =false;
         }
-//        GoogleAnalytics analytics = GoogleAnalytics.getInstance(mContext);
-//        tracker = analytics.newTracker(mContext.getString(R.string.analytics_tracker_id));
-//        if(isTablet) {
-//            tracker.setScreenName("article grid");
-//        }else {
-//            tracker.setScreenName("article list");
-//        }
+        GoogleAnalytics analytics = GoogleAnalytics.getInstance(mContext);
+        tracker = analytics.newTracker(mContext.getString(R.string.analytics_tracker_id));
+        if(isTablet) {
+            tracker.setScreenName("article grid");
+        }else {
+            tracker.setScreenName("article list");
+        }
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
@@ -77,7 +84,6 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
         public RelativeTimeTextView timeAgo;
         public SelectableRoundedImageView articleImage;
         private CardView cardView;
-        //public ImageView moreImage;
         public ViewHolder(View view) {
             super(view);
             articleTitle = (TextView)view.findViewById(R.id.article_item_title);
@@ -86,14 +92,7 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
             timeAgo = (RelativeTimeTextView)view.findViewById(R.id.article_item_time_ago);
             articleImage = (SelectableRoundedImageView)view.findViewById(R.id.article_item_image);
             cardView = (CardView)view.findViewById(R.id.cardview);
-            //moreImage = (ImageView)view.findViewById(R.id.more_image_btn);
         }
-
-//        @Override
-//        public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
-//            contextMenu.add(0, view.getId(), 0, "Call");//groupId, itemId, order, title
-//            contextMenu.add(0, view.getId(), 0, "SMS");
-//        }
     }
 
     @Override
@@ -141,11 +140,11 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
                 } else {
                     mContext.startActivity(i);
                 }
-//                tracker.send(new HitBuilders.EventBuilder()
-//                        .setCategory("UX")
-//                        .setAction("click")
-//                        .setLabel("article " + cursor.getString(cursor.getColumnIndex(ArticleColumns.LINK)) + " opened")
-//                        .build());
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("UX")
+                        .setAction("click")
+                        .setLabel("article " + cursor.getString(cursor.getColumnIndex(ArticleColumns.LINK)) + " opened")
+                        .build());
             }
         });
         ArticleItem articleItem = ArticleItem.fromCursor(cursor);
@@ -178,26 +177,6 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
 
         }
         viewHolder.cardView.setPreventCornerOverlap(false);
-//        if(viewHolder.moreImage!=null) {
-//            Drawable normalDrawable = mContext.getResources().getDrawable(R.drawable.ic_more_vert_black_24dp);
-//            Drawable wrapDrawable = DrawableCompat.wrap(normalDrawable);
-//            DrawableCompat.setTint(wrapDrawable, mContext.getResources().getColor(R.color.theme_primary_dark));
-//            viewHolder.moreImage.setImageDrawable(wrapDrawable);
-//            viewHolder.moreImage.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    ((AppCompatActivity) mContext).openContextMenu(view);
-//                }
-//            });
-//            viewHolder.moreImage.setOnLongClickListener(new View.OnLongClickListener() {
-//                @Override
-//                public boolean onLongClick(View view) {
-//                    ((AppCompatActivity) mContext).closeContextMenu();
-//                    return true;
-//                }
-//            });
-//
-//        }
     }
 }
 

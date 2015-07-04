@@ -12,7 +12,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="2dp"
+        android:layout_marginBottom="1dp"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
         android:layout_marginTop="1dp"
@@ -38,6 +38,7 @@
                         app:sriv_right_top_corner_radius="4dp"
                         app:sriv_left_bottom_corner_radius="0dp"
                         app:sriv_right_bottom_corner_radius="0dp"
+                        android:src="@drawable/no_img_placeholder"
                         />
 
 

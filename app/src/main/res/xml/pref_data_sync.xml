@@ -14,7 +14,7 @@
         android:title="@string/pref_title_refresh_interval"
         android:entries="@array/pref_sync_refresh_intervals"
         android:entryValues="@array/refresh_interval_values"
-        android:defaultValue="180"
+        android:defaultValue="720"
         android:negativeButtonText="@null"
         android:positiveButtonText="@null" />
 

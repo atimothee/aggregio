@@ -39,16 +39,15 @@ public class NetworkUtils {
 
     public boolean isInternetAvailable() {
         Boolean isNetworkAvailable = isNetworkAvailable();
-        if(isNetworkAvailable == false) {
-            Log.d(LOG_TAG, "network is not available");
-            return isNetworkAvailable;
-        }else {
+        if(isNetworkAvailable) {
             return isOnline();
+        }else {
+            return false;
 
         }
     }
 
-    public boolean isOnline() {
+    private boolean isOnline() {
 
         Runtime runtime = Runtime.getRuntime();
         try {

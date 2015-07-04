@@ -21,12 +21,18 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <ImageView
+            <com.joooonho.SelectableRoundedImageView
                 android:visibility="gone"
                 android:id="@+id/article_item_image"
                 android:layout_width="120dp"
                 android:scaleType="centerCrop"
-                android:layout_height="120dp" />
+                android:layout_height="120dp"
+                app:sriv_left_top_corner_radius="4dp"
+                app:sriv_right_top_corner_radius="4dp"
+                app:sriv_left_bottom_corner_radius="0dp"
+                app:sriv_right_bottom_corner_radius="0dp"
+                android:src="@drawable/no_img_placeholder"
+                />
             <TextView
                 android:fontFamily="sans-serif"
                 android:maxLines="2"

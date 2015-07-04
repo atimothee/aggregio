@@ -25,6 +25,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -136,8 +137,8 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
         tracker = analytics.newTracker(getString(R.string.analytics_tracker_id));
         tracker.setScreenName("home screen");
 
-        //setUpPeriodicSyncService();
-        //setUpArticleDeleteService();
+        setUpPeriodicSyncService();
+        setUpArticleDeleteService();
 
 
     }
@@ -173,6 +174,10 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
             case R.id.action_refresh:
                 refreshArticles();
                 return true;
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -207,6 +212,11 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
                         } else if (menuItem.getItemId() == R.id.nav_help) {
                             FeedbackDialog feedBackDialog = new FeedbackDialog(MainActivity.this, getResources().getString(R.string.feedback_api_key));
                             feedBackDialog.show();
+                            tracker.send(new HitBuilders.EventBuilder()
+                                    .setCategory("UX")
+                                    .setAction("click")
+                                    .setLabel("feedback action")
+                                    .build());
                         }
                         mDrawerLayout.closeDrawers();
 
@@ -332,7 +342,10 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
 
     private void setUpPeriodicSyncService(){
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-        int periodicSyncHours = settings.getInt(getString(R.string.pref_key_refresh_interval), -1);
+        String periodicSyncHoursString = settings.getString(getString(R.string.pref_key_refresh_interval), "720");
+        Integer periodicSyncHours = Integer.valueOf(periodicSyncHoursString);
+
+        Log.d(LOG_TAG, "refresh interval is "+periodicSyncHoursString);
         if(periodicSyncHours != -1) {
             Intent periodicSyncIntent = new Intent(this, PeriodicalSyncService.class);
 

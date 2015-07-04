@@ -3,6 +3,7 @@ package io.aggreg.app.ui;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -20,8 +21,11 @@ public class SplashscreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splashscreen);
         SharedPreferences prefs = getSharedPreferences(References.KEY_PREFERENCES, MODE_PRIVATE);
         Boolean hasIntroBeenShown = prefs.getBoolean(References.KEY_HAS_INTRO_BEEN_SHOWN, false);
-
-        new GeneralUtils(this).SyncRefreshArticles();
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        Boolean shouldSyncFirstTime = settings.getBoolean(getString(R.string.pref_key_refresh_on_start), true);
+        if(shouldSyncFirstTime) {
+            new GeneralUtils(this).SyncRefreshArticles();
+        }
 
         Log.i(LOG_TAG, "Alarm set.");
 

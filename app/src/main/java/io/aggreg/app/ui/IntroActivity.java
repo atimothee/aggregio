@@ -6,6 +6,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import com.github.paolorotolo.appintro.AppIntro;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import io.aggreg.app.R;
 import io.aggreg.app.ui.fragment.FirstSlide;
@@ -17,6 +20,7 @@ import io.aggreg.app.utils.References;
  * Created by Timo on 6/10/15.
  */
 public class IntroActivity extends AppIntro{
+    private Tracker tracker;
     @Override
     public void init(Bundle bundle) {
 
@@ -26,6 +30,9 @@ public class IntroActivity extends AppIntro{
         setBarColor(getResources().getColor(R.color.theme_accent_3));
         setSeparatorColor(Color.parseColor("#2196F3"));
         showSkipButton(true);
+        GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+        tracker = analytics.newTracker(getString(R.string.analytics_tracker_id));
+        tracker.setScreenName("intro screen");
 
 
     }
@@ -33,11 +40,21 @@ public class IntroActivity extends AppIntro{
 
     @Override
     public void onSkipPressed() {
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("UX")
+                .setAction("click")
+                .setLabel("skip")
+                .build());
         launch();
     }
 
     @Override
     public void onDonePressed() {
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("UX")
+                .setAction("click")
+                .setLabel("done")
+                .build());
         launch();
     }
 

@@ -29,7 +29,9 @@ public class ArticleDeleteService extends IntentService{
     @Override
     protected void onHandleIntent(Intent intent) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        int deleteDays = prefs.getInt(getApplicationContext().getString(R.string.pref_key_delete_stale_articles),14);
+        String deleteDaysString = prefs.getString(getApplicationContext().getString(R.string.pref_key_delete_stale_articles), "14");
+        //Log.d(LOG_TAG, "delete days")
+        Integer deleteDays = Integer.valueOf(deleteDaysString);
         if(deleteDays != -1) {
             ArticleSelection articleSelection = new ArticleSelection();
             long DAY_IN_MS = 1000 * 60 * 60 * 24;

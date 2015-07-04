@@ -88,7 +88,6 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     private String mShareString;
     private int imageWidth;
     private ViewSwitcher viewSwitcher;
-    private CoordinatorLayout coordinatorLayout;
     private boolean isTablet;
     private CircularProgressBar progressBar;
     private FrameLayout articleImageFrame;
@@ -127,6 +126,9 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         //float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
         //float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         imageWidth = (int) (displayMetrics.widthPixels);
+        if(isTablet){
+            imageWidth = (int) ((displayMetrics.widthPixels)/(3/5));
+        }
 
         GoogleAnalytics analytics = GoogleAnalytics.getInstance(getActivity());
         tracker = analytics.newTracker(getString(R.string.analytics_tracker_id));
@@ -230,7 +232,6 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                 .build();
         mAdView.loadAd(adRequest);
         viewSwitcher = (ViewSwitcher)view.findViewById(R.id.detail_view_switcher);
-        coordinatorLayout = (CoordinatorLayout)view.findViewById(R.id.main_content);
         progressBar = (CircularProgressBar)view.findViewById(R.id.progress);
         if(isTablet){
             Toolbar toolbar2 = (Toolbar)view.findViewById(R.id.toolbar2);
@@ -520,6 +521,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                     .setAction("click")
                     .setLabel("settings action")
                     .build());
+            return true;
         } else if (id == R.id.action_open_in_browser) {
             openInBrowser();
             tracker.send(new HitBuilders.EventBuilder()
@@ -527,13 +529,23 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                     .setAction("click")
                     .setLabel("open in browser action")
                     .build());
+            return true;
         } else if (id == R.id.action_share) {
             tracker.send(new HitBuilders.EventBuilder()
                     .setCategory("UX")
                     .setAction("click")
                     .setLabel("share action")
                     .build());
+            return true;
 
+        } else if (id == R.id.action_settings) {
+            startActivity(new Intent(getActivity(), SettingsActivity.class));
+            tracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("UX")
+                    .setAction("click")
+                    .setLabel("settings action")
+                    .build());
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
