@@ -15,9 +15,8 @@ public class References {
     public static final String ARG_KEY_ARTICLE_ID = "article_id";
     public static final String ARG_KEY_ARTICLE_LINK = "article_link";
     public static final String ARG_KEY_SYNC_TYPE = "sync_type";
+    public static final String SYNC_TYPE_PUBLISHER_CATEGORY = "sync_publisher_category";
     public static final String SYNC_TYPE_ARTICLE_REFRESH = "sync_type_article_refresh";
-    public static final String SYNC_TYPE_CATEGORY = "sync_type_category";
-    public static final String SYNC_TYPE_PUBLISHER = "sync_type_publisher";
     public static final String ARG_KEY_PUBLISHER_ACTIVITY_TYPE = "activity_type";
     public static final String ACTIVITY_TYPE_SETUP_PUBLISHERS = "activity_type_setup_publishers";
     public static final String ACTIVITY_TYPE_MANAGE_PUBLISHERS = "activity_type_manage_publishers";
@@ -29,7 +28,8 @@ public class References {
     public static final String ARG_KEY_IS_BOOKMARKS = "is_bookmarks";
     public static final String CATEGORY_SETUP_COMPLETE = "category_setup_complete";
     public static final String PUBLISHERS_SETUP_COMPLETE = "publishers_set_up";
+    public static final int REQUEST_CODE = 0;
 
     public static final String AUTHORITY = BuildConfig.APPLICATION_ID + ".provider";
-    public static final int REQUEST_CODE = 0;
+
 }

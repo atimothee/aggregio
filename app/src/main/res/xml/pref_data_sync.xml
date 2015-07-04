@@ -19,7 +19,7 @@
         android:positiveButtonText="@null" />
 
     <CheckBoxPreference
-        android:key="download_images_checkbox"
+        android:key="@string/key_images_on_wifi_only"
         android:title="@string/pref_title_fetch_images"
         android:summary="@string/pref_description_fetch_images"
         android:defaultValue="false" />

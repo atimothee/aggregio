@@ -22,6 +22,7 @@ import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -127,7 +128,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         //float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         imageWidth = (int) (displayMetrics.widthPixels);
         if(isTablet){
-            imageWidth = (int) ((displayMetrics.widthPixels)/(3/5));
+            imageWidth = (int) (displayMetrics.widthPixels);
         }
 
         GoogleAnalytics analytics = GoogleAnalytics.getInstance(getActivity());
@@ -155,7 +156,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         if(toolbar != null){
             ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
             try {
-                //((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 //((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -229,6 +230,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                 .addTestDevice("C6E3DD024CA26DB91D1FC31D77FAA18D")
                 .addTestDevice("E1BC1E5B568AE4474EF6DF86D4ACFE5E")
                 .addTestDevice("0E8090C12FD479941BA271CA454C4333")
+                .addTestDevice("316459FDB9003AD5FD143740560DE4E2")
                 .build();
         mAdView.loadAd(adRequest);
         viewSwitcher = (ViewSwitcher)view.findViewById(R.id.detail_view_switcher);
@@ -540,13 +542,12 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
 
         } else if (id == R.id.action_settings) {
             startActivity(new Intent(getActivity(), SettingsActivity.class));
-            tracker.send(new HitBuilders.EventBuilder()
-                    .setCategory("UX")
-                    .setAction("click")
-                    .setLabel("settings action")
-                    .build());
             return true;
+        }else if (id==android.R.id.home) {
+//            getActivity().dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK));
+//            getActivity().dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_BACK));
         }
+
 
         return super.onOptionsItemSelected(item);
     }

@@ -1,5 +1,6 @@
 package io.aggreg.app.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -11,11 +12,11 @@ import com.google.android.gms.analytics.Tracker;
 
 import io.aggreg.app.R;
 import io.aggreg.app.ui.fragment.PublishersFragment;
+import io.aggreg.app.utils.GeneralUtils;
 import io.aggreg.app.utils.References;
 
 public class ManagePublishersActivity extends AppCompatActivity implements PublishersFragment.OnFragmentInteractionListener{
 
-    private Tracker tracker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,9 +26,6 @@ public class ManagePublishersActivity extends AppCompatActivity implements Publi
                     .add(R.id.container, PublishersFragment.newInstance(References.ACTIVITY_TYPE_MANAGE_PUBLISHERS))
                     .commit();
         }
-        GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
-        tracker = analytics.newTracker(getString(R.string.analytics_tracker_id));
-        tracker.setScreenName("manage publishers screen");
     }
 
 
@@ -42,11 +40,10 @@ public class ManagePublishersActivity extends AppCompatActivity implements Publi
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
-            tracker.send(new HitBuilders.EventBuilder()
-                    .setCategory("UX")
-                    .setAction("click")
-                    .setLabel("feedback action")
-                    .build());
+            startActivity(new Intent(this, SettingsActivity.class));
+            return true;
+        }else if(id == R.id.action_refresh){
+            new GeneralUtils(this).SyncRefreshPublisherCategories();
             return true;
         }
 

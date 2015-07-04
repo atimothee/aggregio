@@ -130,6 +130,7 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
         .addTestDevice("C6E3DD024CA26DB91D1FC31D77FAA18D")
         .addTestDevice("E1BC1E5B568AE4474EF6DF86D4ACFE5E")
         .addTestDevice("0E8090C12FD479941BA271CA454C4333")
+        .addTestDevice("316459FDB9003AD5FD143740560DE4E2")
                 .build();
         mAdView.loadAd(adRequest);
 
@@ -196,11 +197,7 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
                                     .build());
                             startActivity(new Intent(MainActivity.this, ManagePublishersActivity.class));
                         } else if (menuItem.getItemId() == R.id.nav_settings) {
-                            tracker.send(new HitBuilders.EventBuilder()
-                                    .setCategory("UX")
-                                    .setAction("click")
-                                    .setLabel("settings nav action")
-                                    .build());
+
                             startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                         } else if (menuItem.getItemId() == R.id.nav_bookmarks) {
                             tracker.send(new HitBuilders.EventBuilder()

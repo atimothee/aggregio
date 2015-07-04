@@ -42,5 +42,7 @@
     <string name="pref_description_refresh_on_start">Refresh articles everytime the app is opened</string>
     <string name="pref_key_delete_stale_articles">delete_stale_articles</string>
     <string name="pref_title_delete_stale_articles">Delete stale articles</string>
+    <string name="publisher_grid_header_title">Tap to follow or unfollow your favourite news sites and blogs.</string>
+    <string name="key_images_on_wifi_only">download_images_on_wifi_only</string>
 
 </resources>

@@ -9,7 +9,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:text="Let's get started.\nTap to follow all your favourite news sites and blogs."
+        android:text="@string/publisher_grid_header_title"
         android:textColor="@color/secondary_text_default_material_light"/>
 
 </LinearLayout>

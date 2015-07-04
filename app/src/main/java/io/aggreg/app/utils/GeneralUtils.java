@@ -73,6 +73,16 @@ public class GeneralUtils {
         ContentResolver.requestSync(account, AggregioProvider.AUTHORITY, settingsBundle);
     }
 
+    public void SyncRefreshPublisherCategories(){
+        Bundle settingsBundle = new Bundle();
+        settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        settingsBundle.putBoolean(
+                ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        settingsBundle.putString(References.ARG_KEY_SYNC_TYPE, References.SYNC_TYPE_PUBLISHER_CATEGORY);
+        Account account = getSyncAccount();
+        ContentResolver.requestSync(account, AggregioProvider.AUTHORITY, settingsBundle);
+    }
+
     public void deleteArticles(){
         Intent mServiceIntent = new Intent(mContext, ArticleDeleteService.class);
         mContext.startService(mServiceIntent);

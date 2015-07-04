@@ -77,16 +77,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             String syncType = (String) extras.get(References.ARG_KEY_SYNC_TYPE);
             Log.d(LOG_TAG, "sync extras " + extras.toString());
 
-            if (syncType.equalsIgnoreCase(References.SYNC_TYPE_PUBLISHER)) {
+            if (syncType.equalsIgnoreCase(References.SYNC_TYPE_PUBLISHER_CATEGORY)) {
                 Log.d(LOG_TAG, "sync " + extras.getString(References.ARG_KEY_SYNC_TYPE));
 
+                setUpPublishers(service);
                 setUpCategories(service);
-
-            } else if (syncType.equalsIgnoreCase(References.SYNC_TYPE_CATEGORY)) {
-
-
-                setUpCategories(service);
-
 
             } else if (syncType.equalsIgnoreCase(References.SYNC_TYPE_ARTICLE_REFRESH)) {
                 SharedPreferences prefs = getContext().getSharedPreferences(References.KEY_PREFERENCES, Context.MODE_PRIVATE);
@@ -119,6 +114,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                             refreshArticles(service, publisherCategoryCursor.getPublisherId(), publisherCategoryCursor.getCategoryId());
 
                         } while (publisherCategoryCursor.moveToNext());
+                    }else {
+                        setUpPublishers(service);
+                        setUpCategories(service);
                     }
                 }
 

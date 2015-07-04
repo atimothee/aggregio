@@ -6,8 +6,10 @@ package io.aggreg.app.ui.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -34,6 +36,7 @@ import io.aggreg.app.R;
 import io.aggreg.app.provider.article.ArticleColumns;
 import io.aggreg.app.ui.ArticleDetailActivity;
 import io.aggreg.app.ui.fragment.ArticleDetailFragment;
+import io.aggreg.app.utils.NetworkUtils;
 import io.aggreg.app.utils.References;
 
 public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleListCursorAdapter.ViewHolder>{
@@ -43,7 +46,6 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
     private boolean isTablet;
     private boolean isTwoPane;
     private boolean isBookmarks;
-    private Tracker tracker;
 
     public ArticleListCursorAdapter(Context context,Cursor cursor, @Nullable Boolean isTwoPane, @Nullable Boolean isBookmarks){
         super(context,cursor);
@@ -67,13 +69,6 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
             this.isBookmarks = isBookmarks;
         }else {
             this.isBookmarks =false;
-        }
-        GoogleAnalytics analytics = GoogleAnalytics.getInstance(mContext);
-        tracker = analytics.newTracker(mContext.getString(R.string.analytics_tracker_id));
-        if(isTablet) {
-            tracker.setScreenName("article grid");
-        }else {
-            tracker.setScreenName("article list");
         }
     }
 
@@ -140,11 +135,6 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
                 } else {
                     mContext.startActivity(i);
                 }
-                tracker.send(new HitBuilders.EventBuilder()
-                        .setCategory("UX")
-                        .setAction("click")
-                        .setLabel("article " + cursor.getString(cursor.getColumnIndex(ArticleColumns.LINK)) + " opened")
-                        .build());
             }
         });
         ArticleItem articleItem = ArticleItem.fromCursor(cursor);
@@ -159,12 +149,30 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
 
         viewHolder.timeAgo.setReferenceTime(articleItem.getTimeAgo());
         if(articleItem.getImage()!=null) {
-            viewHolder.articleImage.setVisibility(View.VISIBLE);
-            if(!isTwoPane) {
-                viewHolder.articleText.setVisibility(View.GONE);
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(mContext);
+            Boolean shouldShowImageOnlyOnWifi = settings.getBoolean(mContext.getString(R.string.key_images_on_wifi_only), false);
+            Boolean isOnWifi = new NetworkUtils(mContext).isWIFIAvailable();
+            if(shouldShowImageOnlyOnWifi){
+                if(isOnWifi){
+
+                    viewHolder.articleImage.setVisibility(View.VISIBLE);
+                    if(!isTwoPane) {
+                        viewHolder.articleText.setVisibility(View.GONE);
+                    }
+                    Picasso.with(mContext).load(articleItem.getImage()+"=s"+imageWidth).placeholder(R.drawable.no_img_placeholder).fit().centerCrop().into(viewHolder.articleImage);
+                    viewHolder.articleImage.setCornerRadiiDP(4, 4, 0, 0);
+                }
+            }else {
+                viewHolder.articleImage.setVisibility(View.VISIBLE);
+                if(!isTwoPane) {
+                    viewHolder.articleText.setVisibility(View.GONE);
+                }
+                Picasso.with(mContext).load(articleItem.getImage()+"=s"+imageWidth).placeholder(R.drawable.no_img_placeholder).fit().centerCrop().into(viewHolder.articleImage);
+                viewHolder.articleImage.setCornerRadiiDP(4, 4, 0, 0);
+
             }
-            Picasso.with(mContext).load(articleItem.getImage()+"=s"+imageWidth).placeholder(R.drawable.no_img_placeholder).fit().centerCrop().into(viewHolder.articleImage);
-            viewHolder.articleImage.setCornerRadiiDP(4, 4, 0, 0);
+
+
         }else{
             if(!isTablet){
                 viewHolder.articleText.setVisibility(View.VISIBLE);

@@ -20,10 +20,13 @@ public class NetworkUtils {
     }
 
     private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        ConnectivityManager cm =
+                (ConnectivityManager)mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+        return isConnected;
     }
 
     public boolean isWIFIAvailable() {
@@ -42,6 +45,7 @@ public class NetworkUtils {
         if(isNetworkAvailable) {
             return isOnline();
         }else {
+            Log.d(LOG_TAG, "network off");
             return false;
 
         }
@@ -60,5 +64,20 @@ public class NetworkUtils {
         catch (InterruptedException e) { e.printStackTrace(); }
 
         return false;
+//        try {
+//            InetAddress ipAddr = InetAddress.getByName("google.com"); //You can replace it with your name
+//            Log.d(LOG_TAG, "ip address "+ipAddr);
+//
+//            if (ipAddr.equals("")) {
+//                return false;
+//            } else {
+//                return true;
+//            }
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+
     }
 }
