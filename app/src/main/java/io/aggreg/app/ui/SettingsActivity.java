@@ -118,7 +118,7 @@ public class SettingsActivity extends PreferenceActivity {
         // to reflect the new value, per the Android Design guidelines.
 //        bindPreferenceSummaryToValue(findPreference("example_text"));
 //        bindPreferenceSummaryToValue(findPreference("example_list"));
-        bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_key_article_text_size)));
+        //bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_key_article_text_size)));
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_key_refresh_interval)));
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_key_delete_stale_articles)));
         Preference license = findPreference("licenses");

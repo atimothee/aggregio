@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.os.SystemClock;
@@ -79,12 +80,6 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         progressBar = (SmoothProgressBar)findViewById(R.id.progress);
 
-        if(new NetworkUtils(this).isInternetAvailable()){
-
-        }else{
-           Snackbar.make(viewPager, "No internet connection", Snackbar.LENGTH_LONG).setAction("OK", null).show();
-        }
-
         publisherCategoriesCursor = null;
         getSupportLoaderManager().initLoader(References.PUBLISHER_LOADER, null, this);
 
@@ -140,7 +135,7 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
 
         setUpPeriodicSyncService();
         setUpArticleDeleteService();
-
+        new CheckInternetTask().execute();
 
     }
 
@@ -294,12 +289,8 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
 
     public void showProgress() {
         progressBar.setVisibility(View.VISIBLE);
-        if(new NetworkUtils(this).isInternetAvailable()){
+        new CheckInternetTask().execute();
 
-        }else{
-            progressBar.setVisibility(View.GONE);
-            Snackbar.make(viewPager, "No internet connection", Snackbar.LENGTH_LONG).show();
-        }
     }
 
 
@@ -370,6 +361,27 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
         alarmManager.setRepeating(deleteArticlesAlarmType, SystemClock.elapsedRealtime() + MILLIS,
                 MILLIS, deleteArticlesPendingIntent);
     }
+
+    class CheckInternetTask extends AsyncTask<String, String, Boolean>{
+
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            return new NetworkUtils(MainActivity.this).isInternetAvailable();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            if(aBoolean){
+
+            }
+            else {
+                progressBar.setVisibility(View.GONE);
+                Snackbar.make(viewPager, "No internet connection", Snackbar.LENGTH_LONG).setAction("OK", null).show();
+            }
+        }
+    }
+
 
 
 }

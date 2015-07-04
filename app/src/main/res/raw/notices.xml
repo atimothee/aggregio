@@ -13,6 +13,12 @@
         <license>Apache Software License 2.0</license>
     </notice>
     <notice>
+        <name>Android Open Source Project(AOSP)</name>
+        <url>https://source.android.com/source/licenses.html</url>
+        <copyright>Copyright 2015 The Android Open Source Project</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
         <name>AppIntro</name>
         <url>https://github.com/PaoloRotolo/AppIntro</url>
         <copyright>Copyright 2015 Paolo Rotolo</copyright>
@@ -23,6 +29,12 @@
         <url>http://www.android-feedback.com/library</url>
         <copyright>Copyright 2015 SureDigit</copyright>
         <license>MIT License</license>
+    </notice>
+    <notice>
+        <name>SelectableRoundImageView</name>
+        <url>https://github.com/pungrue26/SelectableRoundedImageView</url>
+        <copyright>Copyright 2014 Joonho Kim</copyright>
+        <license>Apache Software License 2.0</license>
     </notice>
     <notice>
         <name>Smooth Progress Bar</name>
@@ -42,12 +54,7 @@
         <copyright>Copyright 2013 Square, Inc.</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
-    <notice>
-        <name>Android Open Source Project(AOSP)</name>
-        <url>https://source.android.com/source/licenses.html</url>
-        <copyright>Copyright 2015 The Android Open Source Project</copyright>
-        <license>Apache Software License 2.0</license>
-    </notice>
+
     <notice>
         <name>AppRater</name>
         <url>https://github.com/codechimp-org/AppRater</url>

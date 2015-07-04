@@ -166,8 +166,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="io.aggreg.app.ui.MainActivity" />
         </activity>
+        <!--android:launchMode="singleTop"-->
         <activity
-            android:launchMode="singleTop"
+
             android:name=".ui.MainActivity"
             android:label="@string/app_name" >
         </activity>

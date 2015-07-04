@@ -156,7 +156,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         if(toolbar != null){
             ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
             try {
-                //((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 //((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
             } catch (Exception e) {
                 e.printStackTrace();

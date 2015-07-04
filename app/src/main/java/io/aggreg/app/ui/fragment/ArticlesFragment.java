@@ -101,7 +101,12 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onLoadFinished(Loader loader, Object data) {
         if(viewSwitcher.getCurrentView() != recyclerView){
-            viewSwitcher.showNext();
+            Cursor c = (Cursor)data;
+            if(c != null) {
+                if(c.getCount()!=0) {
+                    viewSwitcher.showNext();
+                }
+            }
         }
         if(getArguments().getBoolean(References.ARG_KEY_IS_TAB_TWO_PANE)){
             mListState = ((LinearLayoutManager)layoutManager).onSaveInstanceState();
