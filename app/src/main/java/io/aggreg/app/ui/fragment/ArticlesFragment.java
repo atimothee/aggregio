@@ -1,9 +1,11 @@
 package io.aggreg.app.ui.fragment;
 
+import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -36,6 +38,9 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
     private Boolean isTablet;
     private Parcelable mListState;
     private RecyclerView.LayoutManager layoutManager;
+
+    private OnFragmentInteractionListener mListener;
+
     public ArticlesFragment() {
     }
 
@@ -102,10 +107,19 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
     public void onLoadFinished(Loader loader, Object data) {
         if(viewSwitcher.getCurrentView() != recyclerView){
             Cursor c = (Cursor)data;
-            if(c != null) {
-                if(c.getCount()!=0) {
-                    viewSwitcher.showNext();
+            if(getArguments().getBoolean(References.ARG_KEY_IS_BOOKMARKS, false)){
+                viewSwitcher.showNext();
+            }
+            else if(mListener.checkSyncStatus()){
+
+                if(c != null){
+                    if(c.getCount()!=0){
+                        viewSwitcher.showNext();
+                    }
                 }
+
+            }else {
+                viewSwitcher.showNext();
             }
         }
         if(getArguments().getBoolean(References.ARG_KEY_IS_TAB_TWO_PANE)){
@@ -178,6 +192,27 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
                 layoutManager.onRestoreInstanceState(mListState);
             }
         }
+    }
+
+    public interface OnFragmentInteractionListener {
+        Boolean checkSyncStatus();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mListener = (OnFragmentInteractionListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 
 

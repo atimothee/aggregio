@@ -23,7 +23,7 @@ import io.aggreg.app.ui.fragment.ArticlesFragment;
 import io.aggreg.app.utils.References;
 
 
-public class ArticleDetailActivity extends AppCompatActivity implements ArticleDetailFragment.OnFragmentInteractionListener{
+public class ArticleDetailActivity extends AppCompatActivity implements ArticleDetailFragment.OnFragmentInteractionListener, ArticlesFragment.OnFragmentInteractionListener{
 
     Boolean isTablet;
     Toolbar mainToolbar;
@@ -86,5 +86,10 @@ public class ArticleDetailActivity extends AppCompatActivity implements ArticleD
     @Override
     public FloatingActionButton getBookmarkFab() {
         return bookmarkFab;
+    }
+
+    @Override
+    public Boolean checkSyncStatus() {
+        return false;
     }
 }

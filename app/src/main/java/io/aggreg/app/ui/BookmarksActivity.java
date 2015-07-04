@@ -10,7 +10,7 @@ import io.aggreg.app.R;
 import io.aggreg.app.ui.fragment.ArticlesFragment;
 import io.aggreg.app.utils.References;
 
-public class BookmarksActivity extends AppCompatActivity {
+public class BookmarksActivity extends AppCompatActivity implements ArticlesFragment.OnFragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,5 +47,10 @@ public class BookmarksActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public Boolean checkSyncStatus() {
+        return false;
     }
 }

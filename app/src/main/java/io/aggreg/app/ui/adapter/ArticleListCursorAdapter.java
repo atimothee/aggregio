@@ -168,6 +168,9 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter<ArticleL
                 }
                 Picasso.with(mContext).load(articleItem.getImage()+"=s"+imageWidth).placeholder(R.drawable.no_img_placeholder).fit().centerCrop().into(viewHolder.articleImage);
                 viewHolder.articleImage.setCornerRadiiDP(4, 4, 0, 0);
+                if(isTwoPane){
+                    viewHolder.articleImage.setCornerRadiiDP(4, 0, 4, 0);
+                }
 
             }
 

@@ -60,7 +60,7 @@ import io.aggreg.app.utils.NetworkUtils;
 import io.aggreg.app.utils.References;
 
 
-public class MainActivity extends SyncActivity implements LoaderManager.LoaderCallbacks{
+public class MainActivity extends SyncActivity implements LoaderManager.LoaderCallbacks, ArticlesFragment.OnFragmentInteractionListener{
 
     private DrawerLayout mDrawerLayout;
     private Cursor publisherCategoriesCursor;
@@ -70,6 +70,7 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private SmoothProgressBar progressBar;
     private Tracker tracker;
+    private Boolean isSyncing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,6 +148,7 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
 
     @Override
     protected void updateState(boolean isSynchronizing) {
+        isSyncing = isSynchronizing;
             if(isSynchronizing){
                 showProgress();
             }
@@ -216,6 +218,7 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
                     }
                 });
     }
+
 
     public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -333,7 +336,7 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
         String periodicSyncHoursString = settings.getString(getString(R.string.pref_key_refresh_interval), "720");
         Integer periodicSyncHours = Integer.valueOf(periodicSyncHoursString);
 
-        Log.d(LOG_TAG, "refresh interval is "+periodicSyncHoursString);
+        Log.d(LOG_TAG, "refresh interval is " + periodicSyncHoursString);
         if(periodicSyncHours != -1) {
             Intent periodicSyncIntent = new Intent(this, PeriodicalSyncService.class);
 
@@ -367,13 +370,11 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
 
         @Override
         protected Boolean doInBackground(String... strings) {
-            Log.d(LOG_TAG, "async started");
             return new NetworkUtils(MainActivity.this).isInternetAvailable();
         }
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
-            Log.d(LOG_TAG, "async finished");
             if(aBoolean){
 
             }
@@ -384,6 +385,14 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
         }
     }
 
+    @Override
+    public Boolean checkSyncStatus() {
+        if(isSyncing != null) {
+            return isSyncing;
+        }else {
+            return false;
+        }
+    }
 
 
 }
