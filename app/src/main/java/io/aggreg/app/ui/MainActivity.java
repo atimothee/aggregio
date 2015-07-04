@@ -367,11 +367,13 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
 
         @Override
         protected Boolean doInBackground(String... strings) {
+            Log.d(LOG_TAG, "async started");
             return new NetworkUtils(MainActivity.this).isInternetAvailable();
         }
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
+            Log.d(LOG_TAG, "async finished");
             if(aBoolean){
 
             }
