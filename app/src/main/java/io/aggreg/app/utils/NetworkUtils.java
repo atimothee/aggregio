@@ -53,31 +53,31 @@ public class NetworkUtils {
 
     private boolean isOnline() {
 
-        Runtime runtime = Runtime.getRuntime();
-        try {
-
-            Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
-            int     exitValue = ipProcess.waitFor();
-            return (exitValue == 0);
-
-        } catch (IOException e)          { e.printStackTrace(); }
-        catch (InterruptedException e) { e.printStackTrace(); }
-
-        return false;
+//        Runtime runtime = Runtime.getRuntime();
 //        try {
-//            InetAddress ipAddr = InetAddress.getByName("google.com"); //You can replace it with your name
-//            Log.d(LOG_TAG, "ip address "+ipAddr);
 //
-//            if (ipAddr.equals("")) {
-//                return false;
-//            } else {
-//                return true;
-//            }
+//            Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
+//            int     exitValue = ipProcess.waitFor();
+//            return (exitValue == 0);
 //
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return false;
-//        }
+//        } catch (IOException e)          { e.printStackTrace(); }
+//        catch (InterruptedException e) { e.printStackTrace(); }
+//
+//        return false;
+        try {
+            InetAddress ipAddr = InetAddress.getByName("google.com"); //You can replace it with your name
+            Log.d(LOG_TAG, "ip address "+ipAddr);
+
+            if (ipAddr.equals("")) {
+                return false;
+            } else {
+                return true;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
 
     }
 }

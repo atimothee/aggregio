@@ -19,13 +19,14 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
 
-import com.appspot.aggregio_web.aggregio.Aggregio;
-import com.appspot.aggregio_web.aggregio.model.ApiAggregioArticleCollection;
-import com.appspot.aggregio_web.aggregio.model.ApiAggregioArticleMessage;
-import com.appspot.aggregio_web.aggregio.model.ApiAggregioCategoryCollectionMessage;
-import com.appspot.aggregio_web.aggregio.model.ApiAggregioCategoryMessage;
-import com.appspot.aggregio_web.aggregio.model.ApiAggregioPublisherCollectionMessage;
-import com.appspot.aggregio_web.aggregio.model.ApiAggregioPublisherMessage;
+
+import com.appspot.aggregio_web_service.aggregio.Aggregio;
+import com.appspot.aggregio_web_service.aggregio.model.ApiAggregioArticleCollection;
+import com.appspot.aggregio_web_service.aggregio.model.ApiAggregioArticleMessage;
+import com.appspot.aggregio_web_service.aggregio.model.ApiAggregioCategoryCollectionMessage;
+import com.appspot.aggregio_web_service.aggregio.model.ApiAggregioCategoryMessage;
+import com.appspot.aggregio_web_service.aggregio.model.ApiAggregioPublisherCollectionMessage;
+import com.appspot.aggregio_web_service.aggregio.model.ApiAggregioPublisherMessage;
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.api.client.auth.oauth2.BearerToken;

@@ -123,8 +123,8 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
         AdRequest adRequest = new AdRequest.Builder()
         .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
         .addTestDevice("40F568795D1384A9EC06ABA81110930E")
-        .addTestDevice("C6E3DD024CA26DB91D1FC31D77FAA18D")
-        .addTestDevice("E1BC1E5B568AE4474EF6DF86D4ACFE5E")
+//        .addTestDevice("C6E3DD024CA26DB91D1FC31D77FAA18D")
+//        .addTestDevice("E1BC1E5B568AE4474EF6DF86D4ACFE5E")
         .addTestDevice("0E8090C12FD479941BA271CA454C4333")
         .addTestDevice("316459FDB9003AD5FD143740560DE4E2")
                 .build();
