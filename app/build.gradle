@@ -12,7 +12,6 @@ android {
         versionCode 1
         versionName "1.0"
         resValue "bool", "ga_dry_run", "true"
-        resValue "string", "build_number", "BUILD 1056"
     }
     signingConfigs {
         release {
@@ -23,20 +22,20 @@ android {
         }
     }
     productFlavors {
-        kenya {
-            applicationId "io.aggreg.app.kenya"
-            resValue "string", "app_name", "Aggregio KE"
-            resValue "string", "app_version", "Version 1.0"
-            resValue "string", "app_country", "Kenya"
-            resValue "string", "authorities", applicationId + '.provider'
-            resValue "string", "account_type", "io.aggreg.kenya"
-            resValue "string", "analytics_tracker_id", "UA-63988121-1"
-            resValue "string", "ad_unit_id_banner_articles_list", "ca-app-pub-3704709498493201/8350078574"
-            resValue "string", "ad_unit_id_banner_article_detail", "ca-app-pub-3704709498493201/5003208973"
-            resValue "string", "analytics_tracker_id", "UA-63988121-3"
-            resValue "string", "feedback_api_key", "AF-5C521298F86B-93"
-
-        }
+//        kenya {
+//            applicationId "io.aggreg.app.kenya"
+//            resValue "string", "app_name", "Aggregio KE"
+//            resValue "string", "app_version", "Version 1.0"
+//            resValue "string", "app_country", "Kenya"
+//            resValue "string", "authorities", applicationId + '.provider'
+//            resValue "string", "account_type", "io.aggreg.kenya"
+//            resValue "string", "analytics_tracker_id", "UA-63988121-1"
+//            resValue "string", "ad_unit_id_banner_articles_list", "ca-app-pub-3704709498493201/8350078574"
+//            resValue "string", "ad_unit_id_banner_article_detail", "ca-app-pub-3704709498493201/5003208973"
+//            resValue "string", "analytics_tracker_id", "UA-63988121-3"
+//            resValue "string", "feedback_api_key", "AF-5C521298F86B-93"
+//
+//        }
         uganda {
             applicationId "io.aggreg.app.uganda"
             resValue "string", "app_name", "Aggregio UG"
