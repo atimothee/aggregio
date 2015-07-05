@@ -44,6 +44,7 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
     private FrameLayout articleListFrameLayout;
 
     private OnFragmentInteractionListener mListener;
+    private Boolean switched;
 
     public ArticlesFragment() {
     }
@@ -58,6 +59,7 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.isTablet = getResources().getBoolean(R.bool.isTablet);
+        this.switched = false;
     }
 
     @Override
@@ -117,41 +119,42 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
     public void onLoadFinished(Loader loader, Object data) {
 
         //switching logic
-
-        if(articleListFrameLayout != null) {
-            if (viewSwitcher.getCurrentView() != articleListFrameLayout) {
-                Cursor c = (Cursor) data;
+        Cursor c = (Cursor) data;
+        if(c!= null){
+            if(c.getCount() != 0){
+                recyclerView.setVisibility(View.VISIBLE);
+                noArticlesMessage.setVisibility(View.GONE);
+                if (switched==false) {
+                    viewSwitcher.showNext();
+                    switched = true;
+                }
+            }else {
                 if (getArguments().getBoolean(References.ARG_KEY_IS_BOOKMARKS, false)) {
-                    viewSwitcher.showNext();
-                    if (c != null) {
-                        if (c.getCount() == 0) {
-                            recyclerView.setVisibility(View.GONE);
-                            noArticlesMessage.setVisibility(View.VISIBLE);
-                        }
+                    if (switched==false) {
+                        viewSwitcher.showNext();
+                        switched = true;
                     }
-                } else if (mListener.checkSyncStatus()) {
+                        recyclerView.setVisibility(View.GONE);
+                        noArticlesMessage.setVisibility(View.VISIBLE);
 
-                    if (c != null) {
-                        if (c.getCount() != 0) {
-                            viewSwitcher.showNext();
-                        }
+
+
+                }else {
+                    if(mListener.checkSyncStatus()){
+                        //leave progress
+                        Log.d(LOG_TAG, "is syncing");
                     }else {
-                        //do not remove progress unless list isnt empty
-                    }
-
-                } else {
-                    //sync not currently active
-                    viewSwitcher.showNext();
-                    if (c != null) {
-                        if (c.getCount() == 0) {
-                            recyclerView.setVisibility(View.GONE);
-                            noArticlesMessage.setVisibility(View.VISIBLE);
+                        Log.d(LOG_TAG, "is not syncing");
+                        if (switched==false) {
+                            viewSwitcher.showNext();
+                            switched = true;
                         }
+                        recyclerView.setVisibility(View.GONE);
+                        noArticlesMessage.setVisibility(View.VISIBLE);
                     }
                 }
             }
         }
-        //end of switching logic
 
 
         if(getArguments().getBoolean(References.ARG_KEY_IS_TAB_TWO_PANE)){
@@ -177,6 +180,7 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
                 e.printStackTrace();
             }
         }
+        Log.d(LOG_TAG, "load finished");
 
     }
 

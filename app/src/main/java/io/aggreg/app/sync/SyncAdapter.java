@@ -128,7 +128,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 }
 
 
-                Log.d(LOG_TAG, "sync type " + References.SYNC_TYPE_ARTICLE_REFRESH);
+                //Log.d(LOG_TAG, "sync type " + References.SYNC_TYPE_ARTICLE_REFRESH);
 
 
             }

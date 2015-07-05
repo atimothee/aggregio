@@ -2,9 +2,11 @@ package io.aggreg.app.ui.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -29,6 +31,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -43,6 +46,7 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import fr.castorflex.android.circularprogressbar.CircularProgressBar;
@@ -56,6 +60,7 @@ import io.aggreg.app.provider.category.CategoryColumns;
 import io.aggreg.app.provider.publisher.PublisherColumns;
 import io.aggreg.app.ui.ArticleDetailActivity;
 import io.aggreg.app.ui.SettingsActivity;
+import io.aggreg.app.utils.NetworkUtils;
 import io.aggreg.app.utils.References;
 
 public class ArticleDetailFragment extends Fragment implements LoaderManager.LoaderCallbacks, View.OnClickListener {
@@ -155,6 +160,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         if(toolbar != null){
             ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+            ((AppCompatActivity) getActivity()).setTitle(null);
             try {
                 ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 //((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
@@ -166,6 +172,9 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
 
         collapsingToolbar =
                 (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
+        if(collapsingToolbar !=null){
+            collapsingToolbar.setTitle(null);
+        }
         articleText = (TextView) view.findViewById(R.id.article_detail_text);
         publisherName = (TextView) view.findViewById(R.id.article_detail_publisher_name);
         timeAgo = (RelativeTimeTextView) view.findViewById(R.id.article_detail_time_ago);
@@ -281,6 +290,9 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader loader, Object data) {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        Boolean shouldShowImageOnlyOnWifi = settings.getBoolean(getActivity().getString(R.string.key_images_on_wifi_only), false);
+        Boolean isOnWifi = new NetworkUtils(getActivity()).isWIFIAvailable();
 
 
         if (loader.getId() == References.ARTICLE_DETAIL_LOADER) {
@@ -289,12 +301,14 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
 
             if (articleCursor.getCount() != 0) {
                 articleCursor.moveToFirst();
+
                 articleText.setText(Html.fromHtml(articleCursor.getString(articleCursor.getColumnIndex(ArticleColumns.TEXT))));
                 articleText.setMovementMethod(LinkMovementMethod.getInstance());
-                String title = articleCursor.getString(articleCursor.getColumnIndex(ArticleColumns.TITLE));
+                final String title = articleCursor.getString(articleCursor.getColumnIndex(ArticleColumns.TITLE));
                 articleTitle.setText(title);
                 if(collapsingToolbar != null) {
-                    collapsingToolbar.setTitle(title);
+                    //collapsingToolbar.setTitle(title);
+                    collapsingToolbar.setTitle(null);
                 }
                 if(isTablet) {
                     ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title);
@@ -310,16 +324,54 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                 }
                 String imageUrl = articleCursor.getString(articleCursor.getColumnIndex(ArticleColumns.IMAGE));
                 if (imageUrl != null) {
-                    Picasso.with(getActivity()).load(imageUrl + "=s" + imageWidth).placeholder(R.drawable.no_img_placeholder).fit().centerCrop().into(articleImage);
-                } else {
-                    if(isTablet){
+                    if(shouldShowImageOnlyOnWifi){
+                        if(isOnWifi){
+                           Picasso.with(getActivity()).load(imageUrl + "=s" + imageWidth).placeholder(R.drawable.no_img_placeholder).fit().centerCrop().into(articleImage, new Callback() {
+                               @Override
+                               public void onSuccess() {
+                                   if(collapsingToolbar!=null){
+                                       collapsingToolbar.setTitle(title);
+                                   }
+                               }
+
+                               @Override
+                               public void onError() {
+
+                               }
+                           });
+
+                        }
+                        else {
+                            if(articleImageFrame != null){
+                                articleImageFrame.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+                    else {
+                        Picasso.with(getActivity()).load(imageUrl + "=s" + imageWidth).placeholder(R.drawable.no_img_placeholder).fit().centerCrop().into(articleImage, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                if(collapsingToolbar!=null){
+                                    collapsingToolbar.setTitle(title);
+                                }
+                            }
+
+                            @Override
+                            public void onError() {
+
+                            }
+                        });
+
+                    }
+
+                   } else {
                         if(articleImageFrame != null){
                             articleImageFrame.setVisibility(View.GONE);
-                        }
+
                     }
 
                 }
-                Picasso.with(getActivity()).load(articleCursor.getString(articleCursor.getColumnIndex(PublisherColumns.IMAGE_URL))).fit().centerCrop().into(publisherLogo);
+                //Picasso.with(getActivity()).load(articleCursor.getString(articleCursor.getColumnIndex(PublisherColumns.IMAGE_URL))).fit().centerCrop().into(publisherLogo);
                 publisherName.setText(articleCursor.getString(articleCursor.getColumnIndex(PublisherColumns.NAME)));
                 timeAgo.setReferenceTime(articleCursor.getLong(articleCursor.getColumnIndex(ArticleColumns.PUB_DATE)));
                 int bookmarked = articleCursor.getInt(articleCursor.getColumnIndex(ArticleColumns.BOOK_MARKED));
@@ -328,10 +380,12 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                 } else if (bookmarked == 0) {
                     bookmarkFab.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_bookmark_outline_white_24dp));
                 }
-
                 mShareString = articleCursor.getString(articleCursor.getColumnIndex(ArticleColumns.TITLE))
                         + " "
                         + articleCursor.getString(articleCursor.getColumnIndex(ArticleColumns.LINK));
+                setShareIntent(createShareIntent());
+
+
 
                 int isRead = articleCursor.getInt(articleCursor.getColumnIndex(ArticleColumns.IS_READ));
                 if (isRead == 0) {
@@ -364,9 +418,22 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                         articleRelatedViews[i].setVisibility(View.VISIBLE);
                         relatedTextViews[i].setText(relatedCursor.getString(relatedCursor.getColumnIndex(ArticleColumns.TITLE)));
                         String imageUrl = relatedCursor.getString(relatedCursor.getColumnIndex(ArticleColumns.IMAGE));
+
                         if (imageUrl != null) {
-                            relatedImageViews[i].setVisibility(View.VISIBLE);
-                            Picasso.with(getActivity()).load(imageUrl).placeholder(R.drawable.no_img_placeholder).fit().centerCrop().into(relatedImageViews[i]);
+                            if(shouldShowImageOnlyOnWifi){
+                                if(isOnWifi){
+                                    relatedImageViews[i].setVisibility(View.VISIBLE);
+                                    Picasso.with(getActivity()).load(imageUrl).placeholder(R.drawable.no_img_placeholder).fit().centerCrop().into(relatedImageViews[i]);
+
+                                }else {
+                                    relatedImageViews[i].setVisibility(View.GONE);
+                                }
+
+                            }else {
+                                relatedImageViews[i].setVisibility(View.VISIBLE);
+                                Picasso.with(getActivity()).load(imageUrl).placeholder(R.drawable.no_img_placeholder).fit().centerCrop().into(relatedImageViews[i]);
+
+                            }
                         }
                         else {
                             relatedImageViews[i].setVisibility(View.GONE);
@@ -543,9 +610,6 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         } else if (id == R.id.action_settings) {
             startActivity(new Intent(getActivity(), SettingsActivity.class));
             return true;
-        }else if (id==android.R.id.home) {
-//            getActivity().dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK));
-//            getActivity().dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_BACK));
         }
 
 
@@ -564,12 +628,13 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     private void setShareIntent(Intent shareIntent) {
         if (mShareActionProvider != null) {
             mShareActionProvider.setShareIntent(shareIntent);
+        }else {
         }
     }
 
     private Intent createShareIntent() {
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        //shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
         shareIntent.setType("text/plain");
         shareIntent.putExtra(Intent.EXTRA_TEXT, mShareString);
         return shareIntent;

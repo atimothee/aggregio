@@ -44,5 +44,6 @@
     <string name="pref_title_delete_stale_articles">Delete stale articles</string>
     <string name="publisher_grid_header_title">Tap to follow or unfollow your favourite news sites and blogs.</string>
     <string name="key_images_on_wifi_only">download_images_on_wifi_only</string>
+    <string name="title_activity_article_detail">Article Detail</string>
 
 </resources>
