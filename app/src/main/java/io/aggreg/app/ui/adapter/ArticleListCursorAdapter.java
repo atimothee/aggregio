@@ -14,14 +14,24 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.facebook.ads.MediaView;
+import com.facebook.ads.NativeAd;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
 import com.joooonho.SelectableRoundedImageView;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import io.aggreg.app.R;
 import io.aggreg.app.provider.article.ArticleColumns;
@@ -39,8 +49,9 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter{
     private boolean isTablet;
     private boolean isTwoPane;
     private boolean isBookmarks;
+    private List<NativeAd> nativeAds;
 
-    public ArticleListCursorAdapter(Context context,Cursor cursor, @Nullable Boolean isTwoPane, @Nullable Boolean isBookmarks){
+    public ArticleListCursorAdapter(Context context,Cursor cursor, @Nullable Boolean isTwoPane, @Nullable Boolean isBookmarks, List<NativeAd> nativeAds){
         super(context,cursor);
         this.mContext = context;
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
@@ -63,19 +74,21 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter{
         }else {
             this.isBookmarks =false;
         }
+        this.nativeAds = nativeAds;
     }
 
     @Override
     public int getItemCount() {
         int originalCount = super.getItemCount();
-        int newCount = originalCount + (originalCount/5);
-        return newCount;
+        //int newCount = originalCount + (originalCount/5);
+        int adViewCount = nativeAds.size();
+        return originalCount+adViewCount;
 
     }
 
     @Override
     public int getItemViewType(int position) {
-        if(position > 0) {
+        if(position > 0 && position <= (nativeAds.size()*5)) {
             if (position % 5 == 0) {
                 return AD_VIEW_TYPE;
             }
@@ -85,13 +98,24 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter{
     }
 
     public static class AdViewHolder extends RecyclerView.ViewHolder{
-        public TextView title;
-        public TextView subTitle;
+        public TextView adTitle;
+        public TextView adSubTitle;
+        public TextView adBody;
+        public ImageView adIcon;
+        public MediaView adMedia;
+        public RatingBar adRatingBar;
+        public TextView adSocialContext;
+        public Button adCallToAction;
 
         public AdViewHolder(View itemView) {
             super(itemView);
-            title = (TextView)itemView.findViewById(R.id.title);
-            subTitle = (TextView)itemView.findViewById(R.id.sub_title);
+            adTitle = (TextView)itemView.findViewById(R.id.nativeAdTitle);
+            adBody = (TextView)itemView.findViewById(R.id.nativeAdBody);
+            adSocialContext = (TextView)itemView.findViewById(R.id.nativeAdSocialContext);
+            adIcon = (ImageView)itemView.findViewById(R.id.nativeAdIcon);
+            adMedia = (MediaView)itemView.findViewById(R.id.nativeAdMedia);
+            adCallToAction = (Button)itemView.findViewById(R.id.nativeAdCallToAction);
+            adRatingBar = (RatingBar)itemView.findViewById(R.id.nativeAdStarRating);
         }
     }
 
@@ -114,7 +138,7 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter{
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
         View itemView;
         if(viewType == ARTICLE_VIEW_TYPE) {
 
@@ -133,9 +157,12 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter{
             return vh;
         }else if(viewType == AD_VIEW_TYPE){
             itemView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.ad_view_item, parent, false);
+                    .inflate(R.layout.ad_unit, parent, false);
             AdViewHolder vh = new AdViewHolder(itemView);
             return vh;
+
+
+
         }
         return null;
     }
@@ -233,10 +260,45 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter{
             }
             viewHolder.cardView.setPreventCornerOverlap(false);
         }else if(viewType == AD_VIEW_TYPE){
-            AdViewHolder adViewHolder = (AdViewHolder) viewHolder1;
-            adViewHolder.title.setText("Advert");
-            adViewHolder.subTitle.setText("Sponsored");
+            final AdViewHolder viewHolder = (AdViewHolder) viewHolder1;
+            NativeAd nativeAd = nativeAds.get(0);
+            viewHolder.adTitle.setText(nativeAd.getAdTitle());
+            viewHolder.adSocialContext.setText(nativeAd.getAdSocialContext());
+            viewHolder.adBody.setText(nativeAd.getAdBody());
+            viewHolder.adCallToAction.setText(nativeAd.getAdCallToAction());
+            viewHolder.adCallToAction.setVisibility(View.VISIBLE);
+            NativeAd.downloadAndDisplayImage(nativeAd.getAdIcon(), viewHolder.adIcon);
+            NativeAd.Image adCoverImage = nativeAd.getAdCoverImage();
+            int bannerWidth = adCoverImage.getWidth();
+            int bannerHeight = adCoverImage.getHeight();
+            WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+            Display display = wm.getDefaultDisplay();
+            DisplayMetrics metrics = new DisplayMetrics();
+            display.getMetrics(metrics);
+            int screenWidth = metrics.widthPixels;
+            int screenHeight = metrics.heightPixels;
+            viewHolder.adMedia.setLayoutParams(new LinearLayout.LayoutParams(
+                    screenWidth,
+                    Math.min((int) (((double) screenWidth / (double) bannerWidth) * bannerHeight), screenHeight / 3)
+            ));
+            NativeAd.Rating rating = nativeAd.getAdStarRating();
+            if (rating != null) {
+                viewHolder.adRatingBar.setVisibility(View.VISIBLE);
+                viewHolder.adRatingBar.setNumStars((int) rating.getScale());
+                viewHolder.adRatingBar.setRating((float) rating.getValue());
+            } else {
+                viewHolder.adRatingBar.setVisibility(View.GONE);
+            }
+            viewHolder.adMedia.setNativeAd(nativeAd);
+            nativeAd.registerViewForInteraction(viewHolder.itemView);
         }
+    }
+
+    public void addItem(NativeAd nativeAd){
+
+        nativeAds.add(nativeAd);
+        notifyDataSetChanged();
+
     }
 
 }

@@ -22,6 +22,8 @@ import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.support.v7.widget.RecyclerView;
 
+import com.facebook.ads.AdView;
+
 /**
  * Created by skyfishjy on 10/31/14.
  */
@@ -145,4 +147,6 @@ public abstract class CursorRecyclerViewAdapter extends RecyclerView.Adapter {
             //There is no notifyDataSetInvalidated() method in RecyclerView.Adapter
         }
     }
+
+
 }

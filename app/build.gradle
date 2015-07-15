@@ -47,6 +47,7 @@ android {
             resValue "string", "ad_unit_id_banner_article_detail", "ca-app-pub-3704709498493201/1393718178"
             resValue "string", "analytics_tracker_id", "UA-63988121-4"
             resValue "string", "feedback_api_key", "AF-DAFBA7E454D4-01"
+            resValue "string", "facebook_app_id", "1621484961451837"
         }
 //        tanzania {
 //            applicationId "io.aggreg.app.tanzania"
@@ -193,10 +194,12 @@ dependencies {
     compile 'de.psdev.licensesdialog:licensesdialog:1.7.0'
     compile 'com.android.support:support-v4:22.2.0'
     compile 'com.google.android.gms:play-services-analytics:7.5.0'
-    //compile 'com.google.android.gms:play-services-gcm:7.5.0'
+    compile 'com.google.android.gms:play-services-gcm:7.5.0'
     compile 'com.google.android.gms:play-services-ads:7.5.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.castorflex.smoothprogressbar:library:1.1.0'
     compile 'com.github.castorflex.smoothprogressbar:library-circular:1.1.0'
     compile 'com.joooonho:selectableroundedimageview:1.0.1'
+    compile 'com.android.support:support-v4:22.2.0'
+    compile files('libs/AudienceNetwork.jar')
 }

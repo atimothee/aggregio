@@ -395,5 +395,17 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Logs 'install' and 'app activate' App Events.
+        //AppEventsLogger.activateApp(this);
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Logs 'app deactivate' App Event.
+        //AppEventsLogger.deactivateApp(this);
+    }
 }
