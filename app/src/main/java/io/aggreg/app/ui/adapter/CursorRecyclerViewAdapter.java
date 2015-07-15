@@ -26,7 +26,7 @@ import android.support.v7.widget.RecyclerView;
  * Created by skyfishjy on 10/31/14.
  */
 
-public abstract class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
+public abstract class CursorRecyclerViewAdapter extends RecyclerView.Adapter {
 
     private Context mContext;
 
@@ -74,15 +74,16 @@ public abstract class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHold
         super.setHasStableIds(true);
     }
 
-    public abstract void onBindViewHolder(VH viewHolder, Cursor cursor);
+    public abstract void onBindViewHolder(RecyclerView.ViewHolder viewHolder, Cursor cursor);
 
     @Override
-    public void onBindViewHolder(VH viewHolder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+        int newPosition = position-(position/5);
         if (!mDataValid) {
             throw new IllegalStateException("this should only be called when the cursor is valid");
         }
-        if (!mCursor.moveToPosition(position)) {
-            throw new IllegalStateException("couldn't move cursor to position " + position);
+        if (!mCursor.moveToPosition(newPosition)) {
+            throw new IllegalStateException("couldn't move cursor to position " + newPosition);
         }
         onBindViewHolder(viewHolder, mCursor);
     }
