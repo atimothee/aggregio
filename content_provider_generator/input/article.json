@@ -51,4 +51,10 @@
             },
         }
     ],
+    "constraints": [
+        {
+            "name": "unique_link",
+            "definition": "UNIQUE (link) ON CONFLICT REPLACE"
+        }
+    ]
 }

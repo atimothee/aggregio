@@ -40,6 +40,7 @@ public class AggregioSQLiteOpenHelper extends SQLiteOpenHelper {
             + ArticleColumns.PUBLISHER_ID + " INTEGER NOT NULL "
             + ", CONSTRAINT fk_category_id FOREIGN KEY (" + ArticleColumns.CATEGORY_ID + ") REFERENCES category (_id) ON DELETE CASCADE"
             + ", CONSTRAINT fk_publisher_id FOREIGN KEY (" + ArticleColumns.PUBLISHER_ID + ") REFERENCES publisher (_id) ON DELETE CASCADE"
+            + ", CONSTRAINT unique_link UNIQUE (link) ON CONFLICT REPLACE"
             + " );";
 
     public static final String SQL_CREATE_TABLE_ARTICLE_IMAGE = "CREATE TABLE IF NOT EXISTS "

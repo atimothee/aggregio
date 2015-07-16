@@ -99,20 +99,15 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter{
 
     public static class AdViewHolder extends RecyclerView.ViewHolder{
         public TextView adTitle;
-        public TextView adSubTitle;
         public TextView adBody;
-        public ImageView adIcon;
         public MediaView adMedia;
         public RatingBar adRatingBar;
-        public TextView adSocialContext;
         public Button adCallToAction;
 
         public AdViewHolder(View itemView) {
             super(itemView);
             adTitle = (TextView)itemView.findViewById(R.id.nativeAdTitle);
             adBody = (TextView)itemView.findViewById(R.id.nativeAdBody);
-            adSocialContext = (TextView)itemView.findViewById(R.id.nativeAdSocialContext);
-            adIcon = (ImageView)itemView.findViewById(R.id.nativeAdIcon);
             adMedia = (MediaView)itemView.findViewById(R.id.nativeAdMedia);
             adCallToAction = (Button)itemView.findViewById(R.id.nativeAdCallToAction);
             adRatingBar = (RatingBar)itemView.findViewById(R.id.nativeAdStarRating);
@@ -261,13 +256,17 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter{
             viewHolder.cardView.setPreventCornerOverlap(false);
         }else if(viewType == AD_VIEW_TYPE){
             final AdViewHolder viewHolder = (AdViewHolder) viewHolder1;
-            NativeAd nativeAd = nativeAds.get(0);
+            int position = cursor.getPosition();
+//            int subtract = 0;
+//            if(position>5){
+//                subtract = position/5;
+//            }
+            position = position/5;
+            NativeAd nativeAd = nativeAds.get(position);
             viewHolder.adTitle.setText(nativeAd.getAdTitle());
-            viewHolder.adSocialContext.setText(nativeAd.getAdSocialContext());
             viewHolder.adBody.setText(nativeAd.getAdBody());
             viewHolder.adCallToAction.setText(nativeAd.getAdCallToAction());
             viewHolder.adCallToAction.setVisibility(View.VISIBLE);
-            NativeAd.downloadAndDisplayImage(nativeAd.getAdIcon(), viewHolder.adIcon);
             NativeAd.Image adCoverImage = nativeAd.getAdCoverImage();
             int bannerWidth = adCoverImage.getWidth();
             int bannerHeight = adCoverImage.getHeight();
