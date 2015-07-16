@@ -41,8 +41,6 @@ import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.github.curioustechizen.ago.RelativeTimeTextView;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -232,16 +230,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
             timeAgoRelated2 = (RelativeTimeTextView) view.findViewById(R.id.article_related2_timeago);
             timeAgoRelated3 = (RelativeTimeTextView) view.findViewById(R.id.article_related3_timeago);
         }
-        AdView mAdView = (AdView) view.findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .addTestDevice("40F568795D1384A9EC06ABA81110930E")
-//                .addTestDevice("C6E3DD024CA26DB91D1FC31D77FAA18D")
-//                .addTestDevice("E1BC1E5B568AE4474EF6DF86D4ACFE5E")
-                .addTestDevice("0E8090C12FD479941BA271CA454C4333")
-                .addTestDevice("316459FDB9003AD5FD143740560DE4E2")
-                .build();
-        mAdView.loadAd(adRequest);
+
         viewSwitcher = (ViewSwitcher)view.findViewById(R.id.detail_view_switcher);
         progressBar = (CircularProgressBar)view.findViewById(R.id.progress);
         if(isTablet){

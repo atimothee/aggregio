@@ -20,7 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -31,11 +30,10 @@ import com.github.curioustechizen.ago.RelativeTimeTextView;
 import com.joooonho.SelectableRoundedImageView;
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
-
 import io.aggreg.app.R;
 import io.aggreg.app.provider.article.ArticleColumns;
 import io.aggreg.app.ui.ArticleDetailActivity;
+import io.aggreg.app.ui.MainActivity;
 import io.aggreg.app.ui.fragment.ArticleDetailFragment;
 import io.aggreg.app.utils.NetworkUtils;
 import io.aggreg.app.utils.References;
@@ -49,9 +47,8 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter{
     private boolean isTablet;
     private boolean isTwoPane;
     private boolean isBookmarks;
-    private List<NativeAd> nativeAds;
 
-    public ArticleListCursorAdapter(Context context,Cursor cursor, @Nullable Boolean isTwoPane, @Nullable Boolean isBookmarks, List<NativeAd> nativeAds){
+    public ArticleListCursorAdapter(Context context,Cursor cursor, @Nullable Boolean isTwoPane, @Nullable Boolean isBookmarks){
         super(context,cursor);
         this.mContext = context;
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
@@ -74,30 +71,35 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter{
         }else {
             this.isBookmarks =false;
         }
-        this.nativeAds = nativeAds;
     }
 
     @Override
     public int getItemCount() {
         int originalCount = super.getItemCount();
-        //int newCount = originalCount + (originalCount/5);
-        int adViewCount = nativeAds.size();
+        int adInterval = mContext.getResources().getInteger(R.integer.ad_interval_count);
+        int adViewCount = originalCount/adInterval;
         return originalCount+adViewCount;
 
     }
 
+
+
     @Override
     public int getItemViewType(int position) {
-        if(position > 0 && position <= (nativeAds.size()*5)) {
-            if (position % 5 == 0) {
+        position = position+1;
+        int adInterval = mContext.getResources().getInteger(R.integer.ad_interval_count);
+        if(position > 1 && position % adInterval == 0) {
+
                 return AD_VIEW_TYPE;
             }
-        }
+        else {
             return ARTICLE_VIEW_TYPE;
+        }
 
     }
 
     public static class AdViewHolder extends RecyclerView.ViewHolder{
+        public CardView cardView;
         public TextView adTitle;
         public TextView adBody;
         public MediaView adMedia;
@@ -106,6 +108,7 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter{
 
         public AdViewHolder(View itemView) {
             super(itemView);
+            cardView = (CardView)itemView.findViewById(R.id.cardview);
             adTitle = (TextView)itemView.findViewById(R.id.nativeAdTitle);
             adBody = (TextView)itemView.findViewById(R.id.nativeAdBody);
             adMedia = (MediaView)itemView.findViewById(R.id.nativeAdMedia);
@@ -170,10 +173,6 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter{
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int oldPosition = viewHolder.getLayoutPosition();
-
-                    int newPosition = oldPosition-(oldPosition/5);
-                    cursor.moveToPosition(newPosition);
                     Intent i = new Intent(mContext, ArticleDetailActivity.class);
                     String imageUrl = cursor.getString(cursor.getColumnIndex(ArticleColumns.IMAGE));
                     boolean hasImage = false;
@@ -256,48 +255,42 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter{
             viewHolder.cardView.setPreventCornerOverlap(false);
         }else if(viewType == AD_VIEW_TYPE){
             final AdViewHolder viewHolder = (AdViewHolder) viewHolder1;
-            int position = cursor.getPosition();
-//            int subtract = 0;
-//            if(position>5){
-//                subtract = position/5;
-//            }
-            position = position/5;
-            NativeAd nativeAd = nativeAds.get(position);
-            viewHolder.adTitle.setText(nativeAd.getAdTitle());
-            viewHolder.adBody.setText(nativeAd.getAdBody());
-            viewHolder.adCallToAction.setText(nativeAd.getAdCallToAction());
-            viewHolder.adCallToAction.setVisibility(View.VISIBLE);
-            NativeAd.Image adCoverImage = nativeAd.getAdCoverImage();
-            int bannerWidth = adCoverImage.getWidth();
-            int bannerHeight = adCoverImage.getHeight();
-            WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-            Display display = wm.getDefaultDisplay();
-            DisplayMetrics metrics = new DisplayMetrics();
-            display.getMetrics(metrics);
-            int screenWidth = metrics.widthPixels;
-            int screenHeight = metrics.heightPixels;
-            viewHolder.adMedia.setLayoutParams(new LinearLayout.LayoutParams(
-                    screenWidth,
-                    Math.min((int) (((double) screenWidth / (double) bannerWidth) * bannerHeight), screenHeight / 3)
-            ));
-            NativeAd.Rating rating = nativeAd.getAdStarRating();
-            if (rating != null) {
-                viewHolder.adRatingBar.setVisibility(View.VISIBLE);
-                viewHolder.adRatingBar.setNumStars((int) rating.getScale());
-                viewHolder.adRatingBar.setRating((float) rating.getValue());
-            } else {
-                viewHolder.adRatingBar.setVisibility(View.GONE);
+            try {
+                NativeAd nativeAd = ((MainActivity) mContext).getNativeAd();
+
+                viewHolder.adTitle.setText(nativeAd.getAdTitle());
+                viewHolder.adBody.setText(nativeAd.getAdBody());
+                viewHolder.adCallToAction.setText(nativeAd.getAdCallToAction());
+                viewHolder.adCallToAction.setVisibility(View.VISIBLE);
+                NativeAd.Image adCoverImage = nativeAd.getAdCoverImage();
+                int bannerWidth = adCoverImage.getWidth();
+                int bannerHeight = adCoverImage.getHeight();
+                WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+                Display display = wm.getDefaultDisplay();
+                DisplayMetrics metrics = new DisplayMetrics();
+                display.getMetrics(metrics);
+                int screenWidth = metrics.widthPixels;
+                int screenHeight = metrics.heightPixels;
+                viewHolder.adMedia.setLayoutParams(new LinearLayout.LayoutParams(
+                        screenWidth,
+                        Math.min((int) (((double) screenWidth / (double) bannerWidth) * bannerHeight), screenHeight / 3)
+                ));
+                NativeAd.Rating rating = nativeAd.getAdStarRating();
+                if (rating != null) {
+                    viewHolder.adRatingBar.setVisibility(View.VISIBLE);
+                    viewHolder.adRatingBar.setNumStars((int) rating.getScale());
+                    viewHolder.adRatingBar.setRating((float) rating.getValue());
+                } else {
+                    viewHolder.adRatingBar.setVisibility(View.GONE);
+                }
+                viewHolder.adMedia.setNativeAd(nativeAd);
+                viewHolder.cardView.setVisibility(View.VISIBLE);
+                nativeAd.registerViewForInteraction(viewHolder.itemView);
+            }catch (Exception e){
+                e.printStackTrace();
+                viewHolder.cardView.setVisibility(View.GONE);
             }
-            viewHolder.adMedia.setNativeAd(nativeAd);
-            nativeAd.registerViewForInteraction(viewHolder.itemView);
         }
-    }
-
-    public void addItem(NativeAd nativeAd){
-
-        nativeAds.add(nativeAd);
-        notifyDataSetChanged();
-
     }
 
 }

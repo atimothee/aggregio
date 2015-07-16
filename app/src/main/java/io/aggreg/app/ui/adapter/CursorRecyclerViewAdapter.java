@@ -24,6 +24,8 @@ import android.support.v7.widget.RecyclerView;
 
 import com.facebook.ads.AdView;
 
+import io.aggreg.app.R;
+
 /**
  * Created by skyfishjy on 10/31/14.
  */
@@ -80,7 +82,8 @@ public abstract class CursorRecyclerViewAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        int newPosition = position-(position/5);
+        int adInterval = mContext.getResources().getInteger(R.integer.ad_interval_count);
+        int newPosition = position-((position+1)/adInterval);
         if (!mDataValid) {
             throw new IllegalStateException("this should only be called when the cursor is valid");
         }

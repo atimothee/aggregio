@@ -33,9 +33,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
+import com.facebook.ads.Ad;
+import com.facebook.ads.AdError;
+import com.facebook.ads.AdListener;
+import com.facebook.ads.NativeAd;
+import com.facebook.ads.NativeAdsManager;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -60,7 +64,8 @@ import io.aggreg.app.utils.NetworkUtils;
 import io.aggreg.app.utils.References;
 
 
-public class MainActivity extends SyncActivity implements LoaderManager.LoaderCallbacks, ArticlesFragment.OnFragmentInteractionListener{
+public class MainActivity extends SyncActivity implements LoaderManager.LoaderCallbacks, ArticlesFragment.OnFragmentInteractionListener,
+        NativeAdsManager.Listener, AdListener {
 
     private DrawerLayout mDrawerLayout;
     private Cursor publisherCategoriesCursor;
@@ -71,6 +76,7 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
     private SmoothProgressBar progressBar;
     private Tracker tracker;
     private Boolean isSyncing;
+    private NativeAdsManager listNativeAdsManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,17 +124,6 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         AppRater.app_launched(this);
-        AdView mAdView = (AdView) findViewById(R.id.adView);
-
-        AdRequest adRequest = new AdRequest.Builder()
-        .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-        .addTestDevice("40F568795D1384A9EC06ABA81110930E")
-//        .addTestDevice("C6E3DD024CA26DB91D1FC31D77FAA18D")
-//        .addTestDevice("E1BC1E5B568AE4474EF6DF86D4ACFE5E")
-        .addTestDevice("0E8090C12FD479941BA271CA454C4333")
-        .addTestDevice("316459FDB9003AD5FD143740560DE4E2")
-                .build();
-        mAdView.loadAd(adRequest);
 
         GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
         tracker = analytics.newTracker(getString(R.string.analytics_tracker_id));
@@ -137,6 +132,9 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
         setUpPeriodicSyncService();
         setUpArticleDeleteService();
         new CheckInternetTask().execute();
+        listNativeAdsManager = new NativeAdsManager(this, "1621484961451837_1621525618114438", 10);
+        listNativeAdsManager.setListener(this);
+        listNativeAdsManager.loadAds();
 
     }
 
@@ -217,6 +215,36 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
                         return true;
                     }
                 });
+    }
+
+    @Override
+    public void onAdClicked(Ad ad) {
+        Toast.makeText(MainActivity.this, "Ad Clicked", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onAdLoaded(Ad ad) { }
+
+    @Override
+    public void onAdsLoaded() {
+
+    }
+
+    public NativeAd getNativeAd(){
+        NativeAd ad = this.listNativeAdsManager.nextNativeAd();
+        ad.setAdListener(this);
+        return ad;
+    }
+
+    @Override
+    public void onAdError(AdError error) {
+        Toast.makeText(this, "Native ads manager failed to load: " +  error.getErrorMessage(),
+                Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onError(Ad ad, AdError error) {
+        Toast.makeText(this, "Ad failed to load: " +  error.getErrorMessage(), Toast.LENGTH_SHORT).show();
     }
 
 

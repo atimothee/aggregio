@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -14,24 +13,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewSwitcher;
-
-import com.facebook.ads.Ad;
-import com.facebook.ads.AdError;
-import com.facebook.ads.AdListener;
-import com.facebook.ads.NativeAd;
-import com.facebook.ads.NativeAdsManager;
-
-import java.sql.Ref;
-import java.util.ArrayList;
 
 import io.aggreg.app.R;
 import io.aggreg.app.provider.article.ArticleColumns;
@@ -40,8 +27,7 @@ import io.aggreg.app.provider.publisher.PublisherColumns;
 import io.aggreg.app.ui.adapter.ArticleListCursorAdapter;
 import io.aggreg.app.utils.References;
 
-public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCallbacks,
-        NativeAdsManager.Listener, AdListener {
+public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCallbacks{
 
     private static String LOG_TAG = ArticlesFragment.class.getSimpleName();
     private RecyclerView recyclerView;
@@ -54,7 +40,7 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
 
     private OnFragmentInteractionListener mListener;
     private Boolean switched;
-    private NativeAdsManager listNativeAdsManager;
+
     ArticleListCursorAdapter adapter;
 
     public ArticlesFragment() {
@@ -106,13 +92,11 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
             noArticlesMessage.setText("No articles to show! Hit the refresh button at the top to get the latest news");
         }
         articleListFrameLayout = (FrameLayout)view.findViewById(R.id.article_list_frame_layout);
-        listNativeAdsManager = new NativeAdsManager(getActivity(), "1621484961451837_1621525618114438", 2);
-        listNativeAdsManager.setListener(this);
-        listNativeAdsManager.loadAds();
+
 
         adapter = new ArticleListCursorAdapter(getActivity(),
                 null, getArguments().getBoolean(References.ARG_KEY_IS_TAB_TWO_PANE, false),
-                getArguments().getBoolean(References.ARG_KEY_IS_BOOKMARKS, false), new ArrayList<NativeAd>());
+                getArguments().getBoolean(References.ARG_KEY_IS_BOOKMARKS, false));
 
         recyclerView.setAdapter(adapter);
 
@@ -245,36 +229,6 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
                 layoutManager.onRestoreInstanceState(mListState);
             }
         }
-    }
-
-    @Override
-    public void onAdClicked(Ad ad) {
-        Toast.makeText(getActivity(), "Ad Clicked", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onAdLoaded(Ad ad) { }
-
-    @Override
-    public void onAdsLoaded() {
-        int cursorCount = adapter.getItemCount();
-        int numberOfAds = cursorCount/5;
-        for(int i = 0 ; i<numberOfAds;i++) {
-            NativeAd ad = this.listNativeAdsManager.nextNativeAd();
-            ad.setAdListener(this);
-            adapter.addItem(ad);
-        }
-    }
-
-    @Override
-    public void onAdError(AdError error) {
-        Toast.makeText(getActivity(), "Native ads manager failed to load: " +  error.getErrorMessage(),
-                Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onError(Ad ad, AdError error) {
-        Toast.makeText(getActivity(), "Ad failed to load: " +  error.getErrorMessage(), Toast.LENGTH_SHORT).show();
     }
 
     public interface OnFragmentInteractionListener {
