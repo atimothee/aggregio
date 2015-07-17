@@ -16,7 +16,6 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -27,9 +26,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -53,7 +50,6 @@ import java.util.concurrent.TimeUnit;
 
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 import io.aggreg.app.R;
-import io.aggreg.app.provider.article.ArticleColumns;
 import io.aggreg.app.provider.category.CategoryColumns;
 import io.aggreg.app.provider.publishercategory.PublisherCategoryColumns;
 import io.aggreg.app.provider.publishercategory.PublisherCategorySelection;
@@ -133,12 +129,10 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
         setUpPeriodicSyncService();
         setUpArticleDeleteService();
         new CheckInternetTask().execute();
-        AdSettings.addTestDevice("e762ea8db79e29d900e768041847606f");
-        listNativeAdsManager = new NativeAdsManager(this, "1621484961451837_1621525618114438", 10);
+        AdSettings.addTestDevice("70d08ecb94cb10c080b19871feef90ef");
+        listNativeAdsManager = new NativeAdsManager(this, "1621484961451837_1621525618114438", 5);
         listNativeAdsManager.setListener(this);
         listNativeAdsManager.loadAds();
-        NativeAd nativeAd = new NativeAd(this, "1621484961451837_1621525618114438");
-        nativeAd.loadAd();
 
     }
 
@@ -242,13 +236,13 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
 
     @Override
     public void onAdError(AdError error) {
-        Toast.makeText(this, "Native ads manager failed to load: " +  error.getErrorMessage(),
-                Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "Native ads manager failed to load: " +  error.getErrorMessage(),
+//                Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onError(Ad ad, AdError error) {
-        Toast.makeText(this, "Ad failed to load: " +  error.getErrorMessage(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "Ad failed to load: " +  error.getErrorMessage(), Toast.LENGTH_SHORT).show();
     }
 
 
@@ -430,14 +424,10 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
     @Override
     protected void onResume() {
         super.onResume();
-        // Logs 'install' and 'app activate' App Events.
-        //AppEventsLogger.activateApp(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        // Logs 'app deactivate' App Event.
-        //AppEventsLogger.deactivateApp(this);
     }
 }
