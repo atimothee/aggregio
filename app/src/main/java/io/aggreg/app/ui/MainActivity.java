@@ -129,10 +129,12 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
         setUpPeriodicSyncService();
         setUpArticleDeleteService();
         new CheckInternetTask().execute();
-        AdSettings.addTestDevice("70d08ecb94cb10c080b19871feef90ef");
+        AdSettings.addTestDevice("73f8ce4641689c3367382c249e2e2979");
         listNativeAdsManager = new NativeAdsManager(this, "1621484961451837_1621525618114438", 5);
         listNativeAdsManager.setListener(this);
         listNativeAdsManager.loadAds();
+        NativeAd nativeAd = new NativeAd(this, "1621484961451837_1621525618114438");
+        nativeAd.loadAd();
 
     }
 

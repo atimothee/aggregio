@@ -59,7 +59,6 @@ import io.aggreg.app.provider.category.CategoryColumns;
 import io.aggreg.app.provider.publisher.PublisherColumns;
 import io.aggreg.app.ui.ArticleDetailActivity;
 import io.aggreg.app.ui.SettingsActivity;
-import io.aggreg.app.ui.widget.ControllableAppBarLayout;
 import io.aggreg.app.utils.NetworkUtils;
 import io.aggreg.app.utils.References;
 
@@ -98,7 +97,6 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     private CircularProgressBar progressBar;
     private FrameLayout articleImageFrame;
     private Boolean hasNextBeenShown;
-    private ControllableAppBarLayout appbar;
 
 
     private OnFragmentInteractionListener mListener;
@@ -169,7 +167,6 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                 e.printStackTrace();
             }
         }
-        appbar = (ControllableAppBarLayout) view.findViewById(R.id.appbar);
 
 
         collapsingToolbar =
@@ -325,7 +322,6 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                             if (collapsingToolbar != null) {
                                 collapsingToolbar.setTitle(title);
                                 ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(title);
-                                collapseThenExpand();
                             }
 //                            Glide.with(getActivity()).load(imageUrl + "=s" + imageWidth).placeholder(R.drawable.no_img_placeholder).centerCrop().
 //                                    into(new GlideDrawableImageViewTarget(articleImage) {
@@ -653,15 +649,5 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         super.onPause();
     }
 
-    private void collapseThenExpand() {
-        appbar.collapseToolbar();
 
-        Handler h = new Handler();
-        h.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                appbar.expandToolbar(true);
-            }
-        }, 800);
-    }
 }
