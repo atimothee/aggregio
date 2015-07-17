@@ -232,7 +232,7 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter{
                         //viewHolder.articleImage.setCornerRadiiDP(4,4,0,0);
                         }else {
                         if (!isTablet) {
-                            viewHolder.articleText.setVisibility(View.VISIBLE);
+                            viewHolder.articleText.setVisibility(View.GONE);
                             if (!isTwoPane) {
                                 viewHolder.articleText.setText(Html.fromHtml(articleItem.getText()).toString());
                             }
@@ -260,7 +260,7 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter{
 
             } else {
                 if (!isTablet) {
-                    viewHolder.articleText.setVisibility(View.VISIBLE);
+                    viewHolder.articleText.setVisibility(View.GONE);
                     if (!isTwoPane) {
                         viewHolder.articleText.setText(Html.fromHtml(articleItem.getText()).toString());
                     }

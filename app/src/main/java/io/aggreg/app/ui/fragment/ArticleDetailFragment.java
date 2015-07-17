@@ -37,6 +37,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,8 +48,6 @@ import com.github.curioustechizen.ago.RelativeTimeTextView;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
-
-import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import io.aggreg.app.R;
 import io.aggreg.app.provider.AggregioProvider;
 import io.aggreg.app.provider.article.ArticleColumns;
@@ -94,7 +93,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     private int imageWidth;
     private ViewSwitcher viewSwitcher;
     private boolean isTablet;
-    private CircularProgressBar progressBar;
+    private ProgressBar progressBar;
     private FrameLayout articleImageFrame;
     private Boolean hasNextBeenShown;
 
@@ -233,7 +232,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         }
 
         viewSwitcher = (ViewSwitcher)view.findViewById(R.id.detail_view_switcher);
-        progressBar = (CircularProgressBar)view.findViewById(R.id.progress);
+        progressBar = (ProgressBar)view.findViewById(R.id.progress);
         if(isTablet){
             Toolbar toolbar2 = (Toolbar)view.findViewById(R.id.toolbar2);
             ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar2);
@@ -413,7 +412,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                     int i = 0;
                     CardView[] articleRelatedViews = {articleRelated1, articleRelated2, articleRelated3};
                     TextView[] relatedTextViews = {related1Title, related2Title, related3Title};
-                    ImageView[] relatedImageViews = {related1Image, related2Image, related3Image};
+                    SimpleDraweeView[] relatedImageViews = {related1Image, related2Image, related3Image};
                     RelativeTimeTextView[] timeAgoRelatedViews = {timeAgoRelated1, timeAgoRelated2, timeAgoRelated3};
                     do {
                         articleRelatedViews[i].setVisibility(View.VISIBLE);

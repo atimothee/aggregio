@@ -31,12 +31,6 @@
         <license>MIT License</license>
     </notice>
     <notice>
-        <name>SelectableRoundImageView</name>
-        <url>https://github.com/pungrue26/SelectableRoundedImageView</url>
-        <copyright>Copyright 2014 Joonho Kim</copyright>
-        <license>Apache Software License 2.0</license>
-    </notice>
-    <notice>
         <name>Smooth Progress Bar</name>
         <url>http://github.com/castorflex/SmoothProgressBar</url>
         <copyright>Copyright 2014 Antoine Merle</copyright>
@@ -49,10 +43,10 @@
         <license>Apache Software License 2.0</license>
     </notice>
     <notice>
-        <name>Picasso</name>
-        <url>http://square.github.io/picasso/</url>
-        <copyright>Copyright 2013 Square, Inc.</copyright>
-        <license>Apache Software License 2.0</license>
+        <name>Fresco</name>
+        <url>https://github.com/facebook/fresco</url>
+        <copyright>Copyright (c) 2015-present, Facebook, Inc.</copyright>
+        <license>BSD License</license>
     </notice>
 
     <notice>

@@ -7,7 +7,7 @@
     "sqliteOpenHelperClassName": "AggregioSQLiteOpenHelper",
     "sqliteOpenHelperCallbacksClassName": "AggregioSQLiteOpenHelperCallbacks",
     "databaseFileName": "aggregio.db",
-    "databaseVersion": 1,
+    "databaseVersion": 2,
     "enableForeignKeys": true,
     "useAnnotations": true,
 }

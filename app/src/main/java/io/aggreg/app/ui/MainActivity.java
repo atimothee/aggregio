@@ -315,7 +315,6 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
 
     public void hideProgress(){
         progressBar.setVisibility(View.GONE);
-        new CheckInternetTask().execute();
     }
 
 

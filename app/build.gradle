@@ -7,9 +7,9 @@ android {
 
     defaultConfig {
         applicationId "io.aggreg.app"
-        minSdkVersion 11
+        minSdkVersion 9
         targetSdkVersion 22
-        versionCode 1
+        versionCode 2
         versionName "1.0"
         resValue "bool", "ga_dry_run", "true"
     }
@@ -22,29 +22,25 @@ android {
         }
     }
     productFlavors {
-//        kenya {
-//            applicationId "io.aggreg.app.kenya"
-//            resValue "string", "app_name", "Aggregio KE"
-//            resValue "string", "app_version", "Version 1.0"
-//            resValue "string", "app_country", "Kenya"
-//            resValue "string", "authorities", applicationId + '.provider'
-//            resValue "string", "account_type", "io.aggreg.kenya"
-//            resValue "string", "analytics_tracker_id", "UA-63988121-1"
-//            resValue "string", "ad_unit_id_banner_articles_list", "ca-app-pub-3704709498493201/8350078574"
-//            resValue "string", "ad_unit_id_banner_article_detail", "ca-app-pub-3704709498493201/5003208973"
-//            resValue "string", "analytics_tracker_id", "UA-63988121-3"
-//            resValue "string", "feedback_api_key", "AF-5C521298F86B-93"
-//
-//        }
+        kenya {
+            applicationId "io.aggreg.app.kenya"
+            resValue "string", "app_name", "Aggregio KE"
+            resValue "string", "app_version", "Version 1.0"
+            resValue "string", "app_country", "Kenya"
+            resValue "string", "authorities", applicationId + '.provider'
+            resValue "string", "account_type", "io.aggreg.kenya"
+            resValue "string", "analytics_tracker_id", "UA-63988121-1"
+            resValue "string", "analytics_tracker_id", "UA-63988121-3"
+            resValue "string", "feedback_api_key", "AF-5C521298F86B-93"
+
+        }
         uganda {
             applicationId "io.aggreg.app.uganda"
             resValue "string", "app_name", "Aggregio UG"
-            resValue "string", "app_version", "Version 1.0"
+            resValue "string", "app_version", "Version 1.1"
             resValue "string", "app_country", "Uganda"
             resValue "string", "authorities", applicationId + '.provider'
             resValue "string", "account_type", "io.aggreg.uganda"
-            resValue "string", "ad_unit_id_banner_articles_list", "ca-app-pub-3704709498493201/2049742576"
-            resValue "string", "ad_unit_id_banner_article_detail", "ca-app-pub-3704709498493201/1393718178"
             resValue "string", "analytics_tracker_id", "UA-63988121-4"
             resValue "string", "feedback_api_key", "AF-DAFBA7E454D4-01"
             resValue "string", "facebook_app_id", "1621484961451837"
@@ -189,15 +185,15 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:22.2.0'
     compile 'com.github.curioustechizen.android-ago:library:1.2.0'
     compile 'org.apache.commons:commons-lang3:3.0'
-    compile 'com.github.paolorotolo:appintro:3.0.0'
+    compile 'com.github.paolorotolo:appintro:3.1.0'
     compile 'com.github.codechimp-org.apprater:library:1.0.29'
     compile 'de.psdev.licensesdialog:licensesdialog:1.7.0'
     compile 'com.android.support:support-v4:22.2.0'
     compile 'com.google.android.gms:play-services-analytics:7.5.0'
     compile 'com.google.android.gms:play-services-gcm:7.5.0'
     compile 'com.github.castorflex.smoothprogressbar:library:1.1.0'
-    compile 'com.github.castorflex.smoothprogressbar:library-circular:1.1.0'
     compile 'com.android.support:support-v4:22.2.0'
     compile files('libs/AudienceNetwork.jar')
-    compile 'com.facebook.fresco:fresco:0.5.3+'
+    compile 'com.facebook.fresco:fresco:0.5.3'
+    compile 'com.pnikosis:materialish-progress:1.5'
 }

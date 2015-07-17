@@ -20,7 +20,7 @@ public class AggregioSQLiteOpenHelper extends SQLiteOpenHelper {
     private static final String TAG = AggregioSQLiteOpenHelper.class.getSimpleName();
 
     public static final String DATABASE_FILE_NAME = "aggregio.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static AggregioSQLiteOpenHelper sInstance;
     private final Context mContext;
     private final AggregioSQLiteOpenHelperCallbacks mOpenHelperCallbacks;
