@@ -313,6 +313,7 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
 
     public void hideProgress(){
         progressBar.setVisibility(View.GONE);
+        new CheckInternetTask().execute();
     }
 
 
@@ -403,11 +404,11 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             if(aBoolean){
-
+                progressBar.setVisibility(View.VISIBLE);
             }
             else {
                 progressBar.setVisibility(View.GONE);
-                Snackbar.make(viewPager, "No internet connection", Snackbar.LENGTH_LONG).setAction("OK", null).show();
+                Snackbar.make(viewPager, "No internet connection", Snackbar.LENGTH_LONG).show();
             }
         }
     }

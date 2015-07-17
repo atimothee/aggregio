@@ -25,10 +25,9 @@
 <android.support.design.widget.CoordinatorLayout android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:background="#fff">
+    android:fitsSystemWindows="true">
 
-    <android.support.design.widget.AppBarLayout
+    <io.aggreg.app.ui.widget.ControllableAppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/detail_backdrop_height"
@@ -39,11 +38,13 @@
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginStart="48dp"
-            app:expandedTitleMarginEnd="64dp">
+            app:expandedTitleMarginEnd="64dp"
+            app:expandedTitleMarginBottom="32dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <FrameLayout
                 android:id="@+id/article_detail_image_frame"
@@ -56,14 +57,14 @@
                     android:id="@+id/article_detail_image"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
-                    android:fitsSystemWindows="true"
                     fresco:actualImageScaleType="focusCrop"
                     fresco:placeholderImage="@color/wait_color"
                     fresco:placeholderImageScaleType="fitCenter"
                     />
                 <View
+                    android:fitsSystemWindows="true"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_height="300dp"
                     android:background="@drawable/gradient_shape_90"/>
             </FrameLayout>
 
@@ -76,13 +77,10 @@
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
-    </android.support.design.widget.AppBarLayout>
-    <RelativeLayout
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    </io.aggreg.app.ui.widget.ControllableAppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -335,7 +333,6 @@
 
 
     </android.support.v4.widget.NestedScrollView>
-    </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/bookmark_fab"
