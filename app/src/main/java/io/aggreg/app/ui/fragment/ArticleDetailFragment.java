@@ -614,6 +614,10 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
             startActivity(new Intent(getActivity(), SettingsActivity.class));
             return true;
         }
+        else if(id == android.R.id.home){
+            getActivity().finish();
+            return true;
+        }
 
 
         return super.onOptionsItemSelected(item);

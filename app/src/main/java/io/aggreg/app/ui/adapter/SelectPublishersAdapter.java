@@ -84,7 +84,9 @@ public class SelectPublishersAdapter extends HeaderViewRecyclerAdapter<SelectPub
         }
         viewHolder.publisherName.setText(myListItem.getPublisherName());
         viewHolder.publisherImage.setVisibility(View.VISIBLE);
-        viewHolder.publisherImage.setImageURI(Uri.parse(myListItem.getPublisherLogoUrl()));
+        if(myListItem.getPublisherLogoUrl()!=null) {
+            viewHolder.publisherImage.setImageURI(Uri.parse(myListItem.getPublisherLogoUrl()));
+        }
         //Glide.with(mContext).load(myListItem.getPublisherLogoUrl()).placeholder(R.drawable.no_img_placeholder).centerCrop().into(viewHolder.publisherImage);
         final Long publisherId = cursor.getLong(cursor.getColumnIndex(PublisherColumns._ID));
         final String publisherName = cursor.getString(cursor.getColumnIndex(PublisherColumns.NAME));
@@ -92,7 +94,7 @@ public class SelectPublishersAdapter extends HeaderViewRecyclerAdapter<SelectPub
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view1) {
-                ((CheckableLinearLayout)view1).toggle();
+                ((CheckableLinearLayout) view1).toggle();
             }
         });
 
@@ -111,14 +113,14 @@ public class SelectPublishersAdapter extends HeaderViewRecyclerAdapter<SelectPub
                         tracker.send(new HitBuilders.EventBuilder()
                                 .setCategory("UX")
                                 .setAction("click")
-                                .setLabel("publisher "+publisherName+" followed")
+                                .setLabel("publisher " + publisherName + " followed")
                                 .build());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
 
 
-                } else{
+                } else {
                     PublisherContentValues publisherContentValues = new PublisherContentValues();
                     publisherContentValues.putFollowing(false);
                     PublisherSelection publisherSelection = new PublisherSelection();
@@ -128,7 +130,7 @@ public class SelectPublishersAdapter extends HeaderViewRecyclerAdapter<SelectPub
                         tracker.send(new HitBuilders.EventBuilder()
                                 .setCategory("UX")
                                 .setAction("click")
-                                .setLabel("publisher " + publisherName+" unfollowed")
+                                .setLabel("publisher " + publisherName + " unfollowed")
                                 .build());
                     } catch (Exception e) {
                         e.printStackTrace();

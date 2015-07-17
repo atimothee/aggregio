@@ -219,7 +219,7 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
 
     @Override
     public void onAdClicked(Ad ad) {
-        Toast.makeText(MainActivity.this, "Ad Clicked", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(MainActivity.this, "Ad Clicked", Toast.LENGTH_SHORT).show();
     }
 
     @Override
