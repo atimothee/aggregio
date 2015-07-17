@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -20,15 +21,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
-
 import com.facebook.ads.MediaView;
 import com.facebook.ads.NativeAd;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
-import com.joooonho.SelectableRoundedImageView;
-import com.squareup.picasso.Picasso;
 
 import io.aggreg.app.R;
 import io.aggreg.app.provider.article.ArticleColumns;
@@ -84,6 +84,7 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter{
 
 
 
+
     @Override
     public int getItemViewType(int position) {
         position = position+1;
@@ -122,7 +123,7 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter{
         public TextView articleText;
         public TextView publisherName;
         public RelativeTimeTextView timeAgo;
-        public SelectableRoundedImageView articleImage;
+        public SimpleDraweeView articleImage;
         private CardView cardView;
         public ArticleViewHolder(View view) {
             super(view);
@@ -130,7 +131,7 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter{
             articleText = (TextView)view.findViewById(R.id.article_item_text);
             publisherName = (TextView)view.findViewById(R.id.article_item_publisher_name);
             timeAgo = (RelativeTimeTextView)view.findViewById(R.id.article_item_time_ago);
-            articleImage = (SelectableRoundedImageView)view.findViewById(R.id.article_item_image);
+            articleImage = (SimpleDraweeView)view.findViewById(R.id.article_item_image);
             cardView = (CardView)view.findViewById(R.id.cardview);
         }
     }
@@ -170,9 +171,15 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter{
         int viewType = viewHolder1.getItemViewType();
         if (viewType == ARTICLE_VIEW_TYPE) {
             final ArticleViewHolder viewHolder = (ArticleViewHolder) viewHolder1;
+            int adInterval = mContext.getResources().getInteger(R.integer.ad_interval_count);
+            int oldPosition = viewHolder.getLayoutPosition();
+            final int position = oldPosition - ((oldPosition+1)/adInterval);
+
+
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    cursor.moveToPosition(position);
                     Intent i = new Intent(mContext, ArticleDetailActivity.class);
                     String imageUrl = cursor.getString(cursor.getColumnIndex(ArticleColumns.IMAGE));
                     boolean hasImage = false;
@@ -215,9 +222,15 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter{
                         if (!isTwoPane) {
                             viewHolder.articleText.setVisibility(View.GONE);
                         }
-                        Picasso.with(mContext).load(articleItem.getImage() + "=s" + imageWidth).placeholder(R.drawable.no_img_placeholder).fit().centerCrop().into(viewHolder.articleImage);
-                        viewHolder.articleImage.setCornerRadiiDP(4, 4, 0, 0);
-                    } else {
+                        //Picasso.with(mContext).load(articleItem.getImage() + "=s" + imageWidth).placeholder(R.drawable.no_img_placeholder).fit().centerCrop().into(viewHolder.articleImage);
+                        //Glide.with(mContext).load(articleItem.getImage() + "=s" + imageWidth).placeholder(R.drawable.no_img_placeholder).bitmapTransform(new RoundedCornersTransformation(Glide.get(mContext).getBitmapPool(), 3, 0)).centerCrop().into(viewHolder.articleImage);
+
+                        Uri uri = Uri.parse(articleItem.getImage() + "=s" + imageWidth);
+
+                        viewHolder.articleImage.setImageURI(uri);
+
+                        //viewHolder.articleImage.setCornerRadiiDP(4,4,0,0);
+                        }else {
                         if (!isTablet) {
                             viewHolder.articleText.setVisibility(View.VISIBLE);
                             if (!isTwoPane) {
@@ -232,10 +245,14 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter{
                     if (!isTwoPane) {
                         viewHolder.articleText.setVisibility(View.GONE);
                     }
-                    Picasso.with(mContext).load(articleItem.getImage() + "=s" + imageWidth).placeholder(R.drawable.no_img_placeholder).fit().centerCrop().into(viewHolder.articleImage);
-                    viewHolder.articleImage.setCornerRadiiDP(4, 4, 0, 0);
+                    //Picasso.with(mContext).load(articleItem.getImage() + "=s" + imageWidth).placeholder(R.drawable.no_img_placeholder).fit().centerCrop().into(viewHolder.articleImage);
+                    //Glide.with(mContext).load(articleItem.getImage() + "=s" + imageWidth).placeholder(R.drawable.no_img_placeholder).fitCenter().centerCrop().into(viewHolder.articleImage);
+                    Uri uri = Uri.parse(articleItem.getImage() + "=s" + imageWidth);
+
+                    viewHolder.articleImage.setImageURI(uri);
+                    //viewHolder.articleImage.setCornerRadiiDP(4, 4, 0, 0);
                     if (isTwoPane) {
-                        viewHolder.articleImage.setCornerRadiiDP(4, 0, 4, 0);
+                        //viewHolder.articleImage.setCornerRadiiDP(4, 0, 4, 0);
                     }
 
                 }

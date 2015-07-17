@@ -25,9 +25,9 @@ public class IntroActivity extends AppIntro{
     @Override
     public void init(Bundle bundle) {
 
-        addSlide(new FirstSlide(), this);
-        addSlide(new SecondSlide(), this);
-        addSlide(new ThirdSlide(), this);
+        addSlide(new FirstSlide());
+        addSlide(new SecondSlide());
+        addSlide(new ThirdSlide());
         setBarColor(getResources().getColor(R.color.theme_accent_3));
         setSeparatorColor(Color.parseColor("#2196F3"));
         showSkipButton(true);

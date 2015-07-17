@@ -38,6 +38,7 @@ import android.widget.Toast;
 import com.facebook.ads.Ad;
 import com.facebook.ads.AdError;
 import com.facebook.ads.AdListener;
+import com.facebook.ads.AdSettings;
 import com.facebook.ads.NativeAd;
 import com.facebook.ads.NativeAdsManager;
 import com.google.android.gms.analytics.GoogleAnalytics;
@@ -132,9 +133,12 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
         setUpPeriodicSyncService();
         setUpArticleDeleteService();
         new CheckInternetTask().execute();
+        AdSettings.addTestDevice("e762ea8db79e29d900e768041847606f");
         listNativeAdsManager = new NativeAdsManager(this, "1621484961451837_1621525618114438", 10);
         listNativeAdsManager.setListener(this);
         listNativeAdsManager.loadAds();
+        NativeAd nativeAd = new NativeAd(this, "1621484961451837_1621525618114438");
+        nativeAd.loadAd();
 
     }
 

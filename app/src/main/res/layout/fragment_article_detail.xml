@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ViewSwitcher xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/detail_view_switcher"
@@ -50,12 +51,16 @@
                 android:layout_width="fill_parent"
                 android:layout_height="300dp"
                 android:fitsSystemWindows="true">
-                <ImageView
+                <com.facebook.drawee.view.SimpleDraweeView
+                    fresco:fadeDuration="300"
                     android:id="@+id/article_detail_image"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
                     android:fitsSystemWindows="true"
-                    android:scaleType="centerCrop"/>
+                    fresco:actualImageScaleType="focusCrop"
+                    fresco:placeholderImage="@color/wait_color"
+                    fresco:placeholderImageScaleType="fitCenter"
+                    />
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
@@ -95,10 +100,12 @@
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
-                <ImageView
+                <com.facebook.drawee.view.SimpleDraweeView
                     android:id="@+id/article_item_publisher_logo"
                     android:padding="2dp"
-                    android:scaleType="centerCrop"
+                    fresco:actualImageScaleType="focusCrop"
+                    fresco:placeholderImage="@color/wait_color"
+                    fresco:placeholderImageScaleType="fitCenter"
                     android:layout_width="45dp"
                     android:layout_height="45dp" />
 
@@ -182,11 +189,17 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <ImageView
+                    <com.facebook.drawee.view.SimpleDraweeView
                         android:visibility="gone"
                         android:id="@+id/article_related1_image"
                         android:layout_width="80dp"
-                        android:scaleType="centerCrop"
+                        fresco:actualImageScaleType="focusCrop"
+                        fresco:placeholderImage="@color/wait_color"
+                        fresco:roundedCornerRadius="2dp"
+                        fresco:roundTopLeft="true"
+                        fresco:roundTopRight="false"
+                        fresco:roundBottomLeft="true"
+                        fresco:roundBottomRight="false"
                         android:layout_height="80dp" />
                     <TextView
                         android:fontFamily="sans-serif"
@@ -225,11 +238,17 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <ImageView
+                    <com.facebook.drawee.view.SimpleDraweeView
                         android:visibility="gone"
                         android:id="@+id/article_related2_image"
                         android:layout_width="80dp"
-                        android:scaleType="centerCrop"
+                        fresco:actualImageScaleType="focusCrop"
+                        fresco:placeholderImage="@color/wait_color"
+                        fresco:roundedCornerRadius="2dp"
+                        fresco:roundTopLeft="true"
+                        fresco:roundTopRight="false"
+                        fresco:roundBottomLeft="true"
+                        fresco:roundBottomRight="false"
                         android:layout_height="80dp" />
                     <TextView
                         android:fontFamily="sans-serif"
@@ -268,11 +287,17 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <ImageView
+                    <com.facebook.drawee.view.SimpleDraweeView
                         android:visibility="gone"
                         android:id="@+id/article_related3_image"
                         android:layout_width="80dp"
-                        android:scaleType="centerCrop"
+                        fresco:actualImageScaleType="focusCrop"
+                        fresco:placeholderImage="@color/wait_color"
+                        fresco:roundedCornerRadius="2dp"
+                        fresco:roundTopLeft="true"
+                        fresco:roundTopRight="false"
+                        fresco:roundBottomLeft="true"
+                        fresco:roundBottomRight="false"
                         android:layout_height="80dp" />
                     <TextView
                         android:fontFamily="sans-serif"

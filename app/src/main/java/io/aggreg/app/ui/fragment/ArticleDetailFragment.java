@@ -40,12 +40,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import io.aggreg.app.R;
@@ -66,8 +65,8 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     private TextView articleTitle;
     private TextView publisherName;
     private RelativeTimeTextView timeAgo;
-    private ImageView articleImage;
-    private ImageView publisherLogo;
+    private SimpleDraweeView articleImage;
+    private SimpleDraweeView publisherLogo;
     private CollapsingToolbarLayout collapsingToolbar;
     private FloatingActionButton bookmarkFab;
     private static String LOG_TAG = ArticleDetailFragment.class.getSimpleName();
@@ -76,9 +75,9 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     private Button viewOnWeb;
     private Button bookmarkButton;
     Tracker tracker;
-    private ImageView related1Image;
-    private ImageView related2Image;
-    private ImageView related3Image;
+    private SimpleDraweeView related1Image;
+    private SimpleDraweeView related2Image;
+    private SimpleDraweeView related3Image;
     private TextView related1Title;
     private TextView related2Title;
     private TextView related3Title;
@@ -177,9 +176,9 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         publisherName = (TextView) view.findViewById(R.id.article_detail_publisher_name);
         timeAgo = (RelativeTimeTextView) view.findViewById(R.id.article_detail_time_ago);
         articleTitle = (TextView) view.findViewById(R.id.article_detail_title);
-        articleImage = (ImageView) view.findViewById(R.id.article_detail_image);
+        articleImage = (SimpleDraweeView) view.findViewById(R.id.article_detail_image);
         //articleImageFrame = (FrameLayout) view.findViewById(R.id.article_detail_image_frame);
-        publisherLogo = (ImageView) view.findViewById(R.id.article_item_publisher_logo);
+        publisherLogo = (SimpleDraweeView) view.findViewById(R.id.article_item_publisher_logo);
 
 
         viewOnWeb = (Button) view.findViewById(R.id.btn_view_on_web);
@@ -220,9 +219,9 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
             related1Title = (TextView) view.findViewById(R.id.article_related1_title);
             related2Title = (TextView) view.findViewById(R.id.article_related2_title);
             related3Title = (TextView) view.findViewById(R.id.article_related3_title);
-            related1Image = (ImageView) view.findViewById(R.id.article_related1_image);
-            related2Image = (ImageView) view.findViewById(R.id.article_related2_image);
-            related3Image = (ImageView) view.findViewById(R.id.article_related3_image);
+            related1Image = (SimpleDraweeView) view.findViewById(R.id.article_related1_image);
+            related2Image = (SimpleDraweeView) view.findViewById(R.id.article_related2_image);
+            related3Image = (SimpleDraweeView) view.findViewById(R.id.article_related3_image);
             articleRelated1 = (CardView) view.findViewById(R.id.article_related1);
             articleRelated2 = (CardView) view.findViewById(R.id.article_related2);
             articleRelated3 = (CardView) view.findViewById(R.id.article_related3);
@@ -315,19 +314,21 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                 if (imageUrl != null) {
                     if(shouldShowImageOnlyOnWifi){
                         if(isOnWifi){
-                           Picasso.with(getActivity()).load(imageUrl + "=s" + imageWidth).placeholder(R.drawable.no_img_placeholder).fit().centerCrop().into(articleImage, new Callback() {
-                               @Override
-                               public void onSuccess() {
-                                   if(collapsingToolbar!=null){
-                                       collapsingToolbar.setTitle(title);
-                                   }
-                               }
+                            Uri uri = Uri.parse(imageUrl + "=s" + imageWidth);
 
-                               @Override
-                               public void onError() {
+                            articleImage.setImageURI(uri);
+                            if (collapsingToolbar != null) {
+                                collapsingToolbar.setTitle(title);
+                            }
+//                            Glide.with(getActivity()).load(imageUrl + "=s" + imageWidth).placeholder(R.drawable.no_img_placeholder).centerCrop().
+//                                    into(new GlideDrawableImageViewTarget(articleImage) {
+//                                        @Override
+//                                        public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> animation) {
+//                                            super.onResourceReady(resource, animation);
+//
+//                                        }
+//                                    });
 
-                               }
-                           });
 
                         }
                         else {
@@ -337,19 +338,22 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                         }
                     }
                     else {
-                        Picasso.with(getActivity()).load(imageUrl + "=s" + imageWidth).placeholder(R.drawable.no_img_placeholder).fit().centerCrop().into(articleImage, new Callback() {
-                            @Override
-                            public void onSuccess() {
-                                if(collapsingToolbar!=null){
-                                    collapsingToolbar.setTitle(title);
-                                }
-                            }
+                        Uri uri = Uri.parse(imageUrl + "=s" + imageWidth);
 
-                            @Override
-                            public void onError() {
-
-                            }
-                        });
+                        articleImage.setImageURI(uri);
+                        if (collapsingToolbar != null) {
+                            collapsingToolbar.setTitle(title);
+                        }
+//                        Glide.with(getActivity()).load(imageUrl + "=s" + imageWidth).placeholder(R.drawable.no_img_placeholder).centerCrop().
+//                                into(new GlideDrawableImageViewTarget(articleImage) {
+//                                    @Override
+//                                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> animation) {
+//                                        super.onResourceReady(resource, animation);
+//                                        if (collapsingToolbar != null) {
+//                                            collapsingToolbar.setTitle(title);
+//                                        }
+//                                    }
+//                                });
 
                     }
 
@@ -360,7 +364,12 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                     }
 
                 }
-                Picasso.with(getActivity()).load(articleCursor.getString(articleCursor.getColumnIndex(PublisherColumns.IMAGE_URL))).fit().centerCrop().into(publisherLogo);
+                String publisherImageUrl = articleCursor.getString(articleCursor.getColumnIndex(PublisherColumns.IMAGE_URL));
+                if(publisherImageUrl!=null) {
+                    Uri uri = Uri.parse(articleCursor.getString(articleCursor.getColumnIndex(PublisherColumns.IMAGE_URL)));
+                    publisherLogo.setImageURI(uri);
+                }
+                //Glide.with(getActivity()).load(articleCursor.getString(articleCursor.getColumnIndex(PublisherColumns.IMAGE_URL))).centerCrop().into(publisherLogo);
                 publisherName.setText(articleCursor.getString(articleCursor.getColumnIndex(PublisherColumns.NAME)));
                 timeAgo.setReferenceTime(articleCursor.getLong(articleCursor.getColumnIndex(ArticleColumns.PUB_DATE)));
                 int bookmarked = articleCursor.getInt(articleCursor.getColumnIndex(ArticleColumns.BOOK_MARKED));
@@ -409,10 +418,12 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                         String imageUrl = relatedCursor.getString(relatedCursor.getColumnIndex(ArticleColumns.IMAGE));
 
                         if (imageUrl != null) {
+                            Uri uri = Uri.parse(imageUrl);
                             if(shouldShowImageOnlyOnWifi){
                                 if(isOnWifi){
                                     relatedImageViews[i].setVisibility(View.VISIBLE);
-                                    Picasso.with(getActivity()).load(imageUrl).placeholder(R.drawable.no_img_placeholder).fit().centerCrop().into(relatedImageViews[i]);
+                                    relatedImageViews[i].setImageURI(uri);
+                                    //Glide.with(getActivity()).load(imageUrl).placeholder(R.drawable.no_img_placeholder).centerCrop().into(relatedImageViews[i]);
 
                                 }else {
                                     relatedImageViews[i].setVisibility(View.GONE);
@@ -420,7 +431,8 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
 
                             }else {
                                 relatedImageViews[i].setVisibility(View.VISIBLE);
-                                Picasso.with(getActivity()).load(imageUrl).placeholder(R.drawable.no_img_placeholder).fit().centerCrop().into(relatedImageViews[i]);
+                                relatedImageViews[i].setImageURI(uri);
+                                //Glide.with(getActivity()).load(imageUrl).placeholder(R.drawable.no_img_placeholder).centerCrop().into(relatedImageViews[i]);
 
                             }
                         }

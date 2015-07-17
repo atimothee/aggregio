@@ -7,6 +7,8 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+
 import io.aggreg.app.R;
 import io.aggreg.app.utils.GeneralUtils;
 import io.aggreg.app.utils.References;
@@ -18,6 +20,7 @@ public class SplashscreenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fresco.initialize(getApplicationContext());
         setContentView(R.layout.activity_splashscreen);
         SharedPreferences prefs = this.getSharedPreferences(References.KEY_PREFERENCES, MODE_PRIVATE);
         Boolean isFirstTime = prefs.getBoolean(References.KEY_HAS_INTRO_BEEN_SHOWN, false);

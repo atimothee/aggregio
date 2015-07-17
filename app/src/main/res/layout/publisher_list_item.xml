@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<io.aggreg.app.ui.widget.CheckableLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<io.aggreg.app.ui.widget.CheckableLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/checked_background">
@@ -15,13 +17,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <ImageView
+    <com.facebook.drawee.view.SimpleDraweeView
         android:src="@drawable/no_img_placeholder"
         android:layout_alignParentTop="true"
         android:adjustViewBounds="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scaleType="fitCenter"
+        fresco:actualImageScaleType="focusCrop"
+        fresco:placeholderImage="@color/wait_color"
+        fresco:placeholderImageScaleType="fitCenter"
         android:id="@+id/publisher_item_logo"
         />
         <TextView

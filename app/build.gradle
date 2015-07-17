@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "io.aggreg.app"
-        minSdkVersion 9
+        minSdkVersion 11
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
@@ -189,16 +189,15 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:22.2.0'
     compile 'com.github.curioustechizen.android-ago:library:1.2.0'
     compile 'org.apache.commons:commons-lang3:3.0'
-    compile 'com.github.paolorotolo:appintro:2.0.0'
+    compile 'com.github.paolorotolo:appintro:3.0.0'
     compile 'com.github.codechimp-org.apprater:library:1.0.29'
     compile 'de.psdev.licensesdialog:licensesdialog:1.7.0'
     compile 'com.android.support:support-v4:22.2.0'
     compile 'com.google.android.gms:play-services-analytics:7.5.0'
     compile 'com.google.android.gms:play-services-gcm:7.5.0'
-    compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.castorflex.smoothprogressbar:library:1.1.0'
     compile 'com.github.castorflex.smoothprogressbar:library-circular:1.1.0'
-    compile 'com.joooonho:selectableroundedimageview:1.0.1'
     compile 'com.android.support:support-v4:22.2.0'
     compile files('libs/AudienceNetwork.jar')
+    compile 'com.facebook.fresco:fresco:0.5.3+'
 }

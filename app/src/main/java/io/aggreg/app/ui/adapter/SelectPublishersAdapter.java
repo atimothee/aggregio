@@ -2,6 +2,7 @@ package io.aggreg.app.ui.adapter;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -10,10 +11,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
-import com.squareup.picasso.Picasso;
 
 import io.aggreg.app.R;
 import io.aggreg.app.provider.publisher.PublisherColumns;
@@ -50,12 +51,12 @@ public class SelectPublishersAdapter extends HeaderViewRecyclerAdapter<SelectPub
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView publisherName;
-        public ImageView publisherImage;
+        public SimpleDraweeView publisherImage;
         public ImageView checkboxImage;
         public ViewHolder(View view) {
             super(view);
             publisherName = (TextView)view.findViewById(R.id.publisher_item_name);
-            publisherImage = (ImageView)view.findViewById(R.id.publisher_item_logo);
+            publisherImage = (SimpleDraweeView)view.findViewById(R.id.publisher_item_logo);
             checkboxImage = (ImageView)view.findViewById(R.id.publisher_item_checkbox);
         }
     }
@@ -83,7 +84,8 @@ public class SelectPublishersAdapter extends HeaderViewRecyclerAdapter<SelectPub
         }
         viewHolder.publisherName.setText(myListItem.getPublisherName());
         viewHolder.publisherImage.setVisibility(View.VISIBLE);
-        Picasso.with(mContext).load(myListItem.getPublisherLogoUrl()).placeholder(R.drawable.no_img_placeholder).fit().centerCrop().into(viewHolder.publisherImage);
+        viewHolder.publisherImage.setImageURI(Uri.parse(myListItem.getPublisherLogoUrl()));
+        //Glide.with(mContext).load(myListItem.getPublisherLogoUrl()).placeholder(R.drawable.no_img_placeholder).centerCrop().into(viewHolder.publisherImage);
         final Long publisherId = cursor.getLong(cursor.getColumnIndex(PublisherColumns._ID));
         final String publisherName = cursor.getString(cursor.getColumnIndex(PublisherColumns.NAME));
         CheckableLinearLayout view = (CheckableLinearLayout)viewHolder.itemView;
