@@ -5,20 +5,15 @@ package io.aggreg.app.sync;
  */
 
 import android.accounts.Account;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SyncResult;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.util.Log;
-
 
 import com.appspot.aggregio_web_service.aggregio.Aggregio;
 import com.appspot.aggregio_web_service.aggregio.model.ApiAggregioArticleCollection;
@@ -27,14 +22,8 @@ import com.appspot.aggregio_web_service.aggregio.model.ApiAggregioCategoryCollec
 import com.appspot.aggregio_web_service.aggregio.model.ApiAggregioCategoryMessage;
 import com.appspot.aggregio_web_service.aggregio.model.ApiAggregioPublisherCollectionMessage;
 import com.appspot.aggregio_web_service.aggregio.model.ApiAggregioPublisherMessage;
-import com.google.android.gms.auth.GoogleAuthException;
-import com.google.android.gms.auth.GoogleAuthUtil;
-import com.google.api.client.auth.oauth2.BearerToken;
-import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.json.gson.GsonFactory;
-import com.google.common.net.HttpHeaders;
 
 import java.io.IOException;
 import java.util.ArrayList;

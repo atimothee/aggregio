@@ -21,9 +21,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
-import com.jpardogo.android.googleprogressbar.library.GoogleMusicDicesDrawable;
-import com.jpardogo.android.googleprogressbar.library.NexusRotationCrossDrawable;
-
 import io.aggreg.app.R;
 import io.aggreg.app.provider.article.ArticleColumns;
 import io.aggreg.app.provider.article.ArticleSelection;

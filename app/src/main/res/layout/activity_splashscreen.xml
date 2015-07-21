@@ -1,9 +1,8 @@
 <RelativeLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/theme_primary_dark"
+            android:background="@color/theme_accent_1"
             android:orientation="vertical">
 
             <ImageView
@@ -15,24 +14,5 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:src="@drawable/aggregio_text_logo"/>
-    <!--<ImageView-->
-        <!--android:layout_alignLeft="@+id/text_logo"-->
-        <!--android:layout_alignRight="@+id/text_logo"-->
-        <!--android:layout_alignBottom="@+id/text_logo"-->
-        <!--android:paddingBottom="16dp"-->
-        <!--android:paddingLeft="16dp"-->
-        <!--android:paddingRight="16dp"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:src="@drawable/flag_200"/>-->
-    <!--<TextView-->
-        <!--android:textAppearance="?android:textAppearanceMedium"-->
-        <!--android:fontFamily="light"-->
-        <!--android:textColor="@color/primary_text_default_material_dark"-->
-        <!--android:layout_alignBottom="@+id/text_logo"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:gravity="center_horizontal"-->
-        <!--android:text="All your news in one app!"/>-->
 
         </RelativeLayout>
