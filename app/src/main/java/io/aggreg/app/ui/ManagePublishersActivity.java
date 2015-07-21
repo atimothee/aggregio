@@ -23,7 +23,7 @@ public class ManagePublishersActivity extends AppCompatActivity implements Publi
         setContentView(R.layout.activity_publisher);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, PublishersFragment.newInstance(References.ACTIVITY_TYPE_MANAGE_PUBLISHERS))
+                    .add(R.id.container, PublishersFragment.newInstance())
                     .commit();
         }
     }

@@ -103,14 +103,9 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
 
         final ActionBar ab = getSupportActionBar();
         if (ab != null) {
-            //ab.setLogo(R.drawable.flag_200);
             ab.setIcon(R.mipmap.flag);
-            SpannableString s = new SpannableString(getResources().getString(R.string.app_name_general));
-            s.setSpan(new TypefaceSpan(this, "cour.ttf"), 0, s.length(),
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            ab.setTitle(s);
-            //ab.setSubtitle(getResources().getString(R.string.app_country));
-            ab.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
+            ab.setTitle(getResources().getString(R.string.app_name_general));
+            ab.setHomeAsUpIndicator(R.drawable.ic_menu_grey600_24dp);
             ab.setDisplayHomeAsUpEnabled(true);
         }
 
@@ -120,7 +115,6 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
-            //navigationView.set
             setupDrawerContent(navigationView);
         }
 

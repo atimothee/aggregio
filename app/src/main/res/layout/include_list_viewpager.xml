@@ -61,8 +61,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabTextColor="@color/secondary_text_default_material_light"
-            app:tabIndicatorColor="@color/theme_accent_2"
-            app:tabSelectedTextColor="@color/theme_accent_2"
+            app:tabIndicatorColor="@color/theme_accent_1"
+            app:tabSelectedTextColor="@color/theme_accent_1"
             app:tabTextAppearance="@style/BoldTextStyle"
             />
 

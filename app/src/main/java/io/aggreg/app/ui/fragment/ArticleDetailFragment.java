@@ -161,7 +161,6 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
             ((AppCompatActivity) getActivity()).setTitle(null);
             try {
                 ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                //((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -178,7 +177,6 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         timeAgo = (RelativeTimeTextView) view.findViewById(R.id.article_detail_time_ago);
         articleTitle = (TextView) view.findViewById(R.id.article_detail_title);
         articleImage = (SimpleDraweeView) view.findViewById(R.id.article_detail_image);
-        //articleImageFrame = (FrameLayout) view.findViewById(R.id.article_detail_image_frame);
         publisherLogo = (SimpleDraweeView) view.findViewById(R.id.article_item_publisher_logo);
 
 
@@ -295,10 +293,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                 articleText.setMovementMethod(LinkMovementMethod.getInstance());
                 final String title = articleCursor.getString(articleCursor.getColumnIndex(ArticleColumns.TITLE));
                 articleTitle.setText(title);
-                if(collapsingToolbar != null) {
-                    //collapsingToolbar.setTitle(title);
-                    collapsingToolbar.setTitle(null);
-                }
+
                 if(isTablet) {
                     ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title);
                     String mainToolbarTitle;
@@ -320,16 +315,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                             articleImage.setImageURI(uri);
                             if (collapsingToolbar != null) {
                                 collapsingToolbar.setTitle(null);
-                                ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(null);
                             }
-//                            Glide.with(getActivity()).load(imageUrl + "=s" + imageWidth).placeholder(R.drawable.no_img_placeholder).centerCrop().
-//                                    into(new GlideDrawableImageViewTarget(articleImage) {
-//                                        @Override
-//                                        public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> animation) {
-//                                            super.onResourceReady(resource, animation);
-//
-//                                        }
-//                                    });
 
 
                         }
@@ -346,16 +332,6 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                         if (collapsingToolbar != null) {
                             collapsingToolbar.setTitle(null);
                         }
-//                        Glide.with(getActivity()).load(imageUrl + "=s" + imageWidth).placeholder(R.drawable.no_img_placeholder).centerCrop().
-//                                into(new GlideDrawableImageViewTarget(articleImage) {
-//                                    @Override
-//                                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> animation) {
-//                                        super.onResourceReady(resource, animation);
-//                                        if (collapsingToolbar != null) {
-//                                            collapsingToolbar.setTitle(title);
-//                                        }
-//                                    }
-//                                });
 
                     }
 
@@ -371,7 +347,6 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                     Uri uri = Uri.parse(articleCursor.getString(articleCursor.getColumnIndex(PublisherColumns.IMAGE_URL)));
                     publisherLogo.setImageURI(uri);
                 }
-                //Glide.with(getActivity()).load(articleCursor.getString(articleCursor.getColumnIndex(PublisherColumns.IMAGE_URL))).centerCrop().into(publisherLogo);
                 publisherName.setText(articleCursor.getString(articleCursor.getColumnIndex(PublisherColumns.NAME)));
                 timeAgo.setReferenceTime(articleCursor.getLong(articleCursor.getColumnIndex(ArticleColumns.PUB_DATE)));
                 int bookmarked = articleCursor.getInt(articleCursor.getColumnIndex(ArticleColumns.BOOK_MARKED));
@@ -425,8 +400,6 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                                 if(isOnWifi){
                                     relatedImageViews[i].setVisibility(View.VISIBLE);
                                     relatedImageViews[i].setImageURI(uri);
-                                    //Glide.with(getActivity()).load(imageUrl).placeholder(R.drawable.no_img_placeholder).centerCrop().into(relatedImageViews[i]);
-
                                 }else {
                                     relatedImageViews[i].setVisibility(View.GONE);
                                 }
@@ -434,7 +407,6 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                             }else {
                                 relatedImageViews[i].setVisibility(View.VISIBLE);
                                 relatedImageViews[i].setImageURI(uri);
-                                //Glide.with(getActivity()).load(imageUrl).placeholder(R.drawable.no_img_placeholder).centerCrop().into(relatedImageViews[i]);
 
                             }
                         }

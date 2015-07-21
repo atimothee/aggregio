@@ -32,10 +32,9 @@ public class PublishersFragment extends Fragment implements LoaderManager.Loader
     private GridLayoutManager layoutManager;
     private Parcelable mListState;
 
-    public static PublishersFragment newInstance(String activityType) {
+    public static PublishersFragment newInstance() {
         PublishersFragment publishersFragment = new PublishersFragment();
         Bundle args = new Bundle();
-        args.putString(References.ARG_KEY_PUBLISHER_ACTIVITY_TYPE, activityType);
         publishersFragment.setArguments(args);
         return publishersFragment;
     }
@@ -59,11 +58,7 @@ public class PublishersFragment extends Fragment implements LoaderManager.Loader
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_publishers, container, false);
         doneFab = (FloatingActionButton)rootView.findViewById(R.id.done_fab);
-        if(getArguments().getString(References.ARG_KEY_PUBLISHER_ACTIVITY_TYPE).equalsIgnoreCase(References.ACTIVITY_TYPE_SETUP_PUBLISHERS)){
-            doneFab.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_arrow_forward_white_24dp));
-        }else if(getArguments().getString(References.ARG_KEY_PUBLISHER_ACTIVITY_TYPE).equalsIgnoreCase(References.ACTIVITY_TYPE_MANAGE_PUBLISHERS)){
-            doneFab.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_done_white_24dp));
-        }
+        doneFab.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_done_white_24dp));
 
         doneFab.setOnClickListener(new View.OnClickListener() {
             @Override

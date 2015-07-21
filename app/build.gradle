@@ -195,6 +195,5 @@ dependencies {
     compile 'com.android.support:support-v4:22.2.0'
     compile files('libs/AudienceNetwork.jar')
     compile 'com.facebook.fresco:fresco:0.5.3'
-    compile 'com.pnikosis:materialish-progress:1.5'
     compile 'com.jpardogo.googleprogressbar:library:1.2.0'
 }

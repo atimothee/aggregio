@@ -16,9 +16,6 @@ public class References {
     public static final String ARG_KEY_SYNC_TYPE = "sync_type";
     public static final String SYNC_TYPE_PUBLISHER_CATEGORY = "sync_publisher_category";
     public static final String SYNC_TYPE_ARTICLE_REFRESH = "sync_type_article_refresh";
-    public static final String ARG_KEY_PUBLISHER_ACTIVITY_TYPE = "activity_type";
-    public static final String ACTIVITY_TYPE_SETUP_PUBLISHERS = "activity_type_setup_publishers";
-    public static final String ACTIVITY_TYPE_MANAGE_PUBLISHERS = "activity_type_manage_publishers";
 
     public static final String ARG_KEY_PARCEL = "parcel";
     public static final String ARG_KEY_ARTICLE_HAS_IMAGE = "article_has_image";
