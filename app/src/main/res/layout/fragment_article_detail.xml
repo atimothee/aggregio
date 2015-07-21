@@ -6,21 +6,6 @@
     android:layout_height="match_parent"
     android:id="@+id/detail_view_switcher"
     >
-    <!--<fr.castorflex.android.circularprogressbar.CircularProgressBar-->
-        <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
-        <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:indeterminate="true"-->
-        <!--app:cpb_rotation_speed="1.0"-->
-        <!--app:cpb_sweep_speed="1.0"-->
-        <!--app:cpb_stroke_width="4dp"-->
-        <!--app:cpb_min_sweep_angle="10"-->
-        <!--app:cpb_max_sweep_angle="300"-->
-        <!--style="@style/CircularThemeProgressBar"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:id="@+id/progress"-->
-        <!--/>-->
     <ProgressBar
         android:indeterminate="true"
         android:layout_gravity="center"
@@ -44,12 +29,8 @@
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginStart="48dp"
-            app:expandedTitleMarginEnd="64dp"
-            app:expandedTitleMarginBottom="32dp"
+            app:contentScrim="@color/theme_primary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <FrameLayout
@@ -92,11 +73,19 @@
         android:layout_height="match_parent"
         >
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:paddingTop="24dp">
+            <TextView
+                android:padding="10dp"
+                android:id="@+id/article_detail_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
             <LinearLayout
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
@@ -104,6 +93,7 @@
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
+
                 <com.facebook.drawee.view.SimpleDraweeView
                     android:id="@+id/article_item_publisher_logo"
                     android:padding="2dp"
@@ -112,7 +102,6 @@
                     fresco:placeholderImageScaleType="fitCenter"
                     android:layout_width="45dp"
                     android:layout_height="45dp" />
-
 
                 <LinearLayout
                     android:layout_weight="3"
@@ -126,8 +115,8 @@
                         android:textColor="@android:color/secondary_text_light"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content" />
+
                     <com.github.curioustechizen.ago.RelativeTimeTextView
-                        android:text="2hrs ago"
                         android:textColor="@android:color/tertiary_text_light"
                         android:id="@+id/article_detail_time_ago"
                         android:layout_width="fill_parent"
@@ -137,17 +126,12 @@
             </LinearLayout>
 
                 <LinearLayout
-                    style="@style/Widget.CardContent"
+                    android:padding="10dp"
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <TextView
-                        android:id="@+id/article_detail_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-
-                    <TextView
-                        android:paddingTop="5dp"
+                        android:fontFamily="serif"
                         android:textColor="@android:color/secondary_text_light"
                         android:lineSpacingMultiplier="1.2"
                         android:layout_width="match_parent"
@@ -163,11 +147,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/view_on_web"/>
-                    <!--<Button-->
-                        <!--android:id="@+id/btn_share"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="@string/action_share"/>-->
                     </LinearLayout>
 
                 </LinearLayout>

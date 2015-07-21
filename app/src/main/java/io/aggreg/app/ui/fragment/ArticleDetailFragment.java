@@ -319,8 +319,8 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
 
                             articleImage.setImageURI(uri);
                             if (collapsingToolbar != null) {
-                                collapsingToolbar.setTitle(title);
-                                ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(title);
+                                collapsingToolbar.setTitle(null);
+                                ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(null);
                             }
 //                            Glide.with(getActivity()).load(imageUrl + "=s" + imageWidth).placeholder(R.drawable.no_img_placeholder).centerCrop().
 //                                    into(new GlideDrawableImageViewTarget(articleImage) {
@@ -344,7 +344,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
 
                         articleImage.setImageURI(uri);
                         if (collapsingToolbar != null) {
-                            collapsingToolbar.setTitle(title);
+                            collapsingToolbar.setTitle(null);
                         }
 //                        Glide.with(getActivity()).load(imageUrl + "=s" + imageWidth).placeholder(R.drawable.no_img_placeholder).centerCrop().
 //                                into(new GlideDrawableImageViewTarget(articleImage) {

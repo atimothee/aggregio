@@ -3,9 +3,12 @@ package io.aggreg.app.ui;
 import android.accounts.Account;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -20,17 +23,21 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.util.LruCache;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.TextPaint;
+import android.text.style.MetricAffectingSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.ads.Ad;
 import com.facebook.ads.AdError;
@@ -59,6 +66,7 @@ import io.aggreg.app.ui.fragment.ArticlesFragment;
 import io.aggreg.app.utils.GeneralUtils;
 import io.aggreg.app.utils.NetworkUtils;
 import io.aggreg.app.utils.References;
+import io.aggreg.app.utils.TypefaceSpan;
 
 
 public class MainActivity extends SyncActivity implements LoaderManager.LoaderCallbacks, ArticlesFragment.OnFragmentInteractionListener,
@@ -95,9 +103,14 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
 
         final ActionBar ab = getSupportActionBar();
         if (ab != null) {
-            ab.setTitle(getResources().getString(R.string.app_name_general));
-            ab.setSubtitle(getResources().getString(R.string.app_country));
-            ab.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
+            //ab.setLogo(R.drawable.flag_200);
+            ab.setIcon(R.mipmap.flag);
+            SpannableString s = new SpannableString(getResources().getString(R.string.app_name_general));
+            s.setSpan(new TypefaceSpan(this, "cour.ttf"), 0, s.length(),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            ab.setTitle(s);
+            //ab.setSubtitle(getResources().getString(R.string.app_country));
+            ab.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
             ab.setDisplayHomeAsUpEnabled(true);
         }
 
@@ -432,4 +445,6 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
     protected void onPause() {
         super.onPause();
     }
+
+
 }
