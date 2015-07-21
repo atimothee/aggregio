@@ -29,4 +29,7 @@ public class References {
     public static final String AUTHORITY = BuildConfig.APPLICATION_ID + ".provider";
 
     public static final String KEY_HAS_INTRO_BEEN_SHOWN = "intro";
+    public static final String ARG_KEY_SHORT_DESC = "short_description";
+    public static final String ARG_KEY_LONG_DESC = "long_description";
+    public static final String ARG_KEY_PIC_URL = "picture_id";
 }

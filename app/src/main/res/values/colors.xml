@@ -15,7 +15,7 @@
     <color name="theme_primary">#fff</color>
     <color name="theme_primary_1">#E91E63</color>
     <!--<color name="theme_primary_dark">#C2185B</color>-->
-    <color name="theme_primary_dark">@color/wait_color</color>
+    <color name="theme_primary_dark">#f6f6f6</color>
     <color name="theme_primary_light">#F8BBD0</color>
     <color name="theme_primary_text">#212121</color>
     <color name="theme_secondary_text">#727272</color>
@@ -42,5 +42,6 @@
     <color name="gplus_color_3">#427fed</color>
     <color name="gplus_color_4">#b23424</color>
     <color name="wait_color">#d3d3d3</color>
+    <color name="scrim_color">#b3ffffff</color>
 
 </resources>

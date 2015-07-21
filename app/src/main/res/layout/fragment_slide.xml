@@ -2,11 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 android:orientation="vertical" android:layout_width="match_parent"
 android:layout_height="match_parent"
-android:background="@color/theme_primary_dark"
+android:background="@color/theme_accent_1"
 android:layout_weight="10"
 android:id="@+id/main">
 
 <TextView
+    android:id="@+id/short_description"
     android:layout_width="wrap_content"
     android:layout_height="0dp"
     android:layout_gravity="center"
@@ -27,14 +28,16 @@ android:id="@+id/main">
     android:layout_weight="5">
 
     <ImageView
+        android:src="@drawable/folded_newspaper_512"
+        android:id="@+id/picture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:src="@drawable/folded_newspaper_512"/>
+        android:paddingRight="16dp"/>
 </LinearLayout>
 <TextView
+    android:id="@+id/long_description"
     android:layout_width="wrap_content"
     android:layout_height="0dp"
     android:layout_weight="3"

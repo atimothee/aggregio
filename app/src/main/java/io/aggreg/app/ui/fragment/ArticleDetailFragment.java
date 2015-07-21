@@ -158,7 +158,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         if(toolbar != null){
             ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-            ((AppCompatActivity) getActivity()).setTitle(null);
+            ((AppCompatActivity) getActivity()).setTitle("Hello");
             try {
                 ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             } catch (Exception e) {
@@ -295,7 +295,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                 articleTitle.setText(title);
 
                 if(isTablet) {
-                    ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title);
+                    ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(null);
                     String mainToolbarTitle;
                     if(getArguments().getBoolean(References.ARG_KEY_IS_BOOKMARKS)){
                         mainToolbarTitle = "Bookmarks";

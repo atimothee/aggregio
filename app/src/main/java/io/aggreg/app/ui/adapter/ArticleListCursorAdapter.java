@@ -52,9 +52,6 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter{
         super(context,cursor);
         this.mContext = context;
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-
-        //float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
-        //float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         this.imageWidth = (int)(displayMetrics.widthPixels);
         this.isTablet = mContext.getResources().getBoolean(R.bool.isTablet);
         if(isTablet){
@@ -120,7 +117,6 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter{
 
     public static class ArticleViewHolder extends RecyclerView.ViewHolder{
         public TextView articleTitle;
-        public TextView articleText;
         public TextView publisherName;
         public RelativeTimeTextView timeAgo;
         public SimpleDraweeView articleImage;
@@ -128,7 +124,6 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter{
         public ArticleViewHolder(View view) {
             super(view);
             articleTitle = (TextView)view.findViewById(R.id.article_item_title);
-            articleText = (TextView)view.findViewById(R.id.article_item_text);
             publisherName = (TextView)view.findViewById(R.id.article_item_publisher_name);
             timeAgo = (RelativeTimeTextView)view.findViewById(R.id.article_item_time_ago);
             articleImage = (SimpleDraweeView)view.findViewById(R.id.article_item_image);
@@ -219,52 +214,24 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter{
                     if (isOnWifi) {
 
                         viewHolder.articleImage.setVisibility(View.VISIBLE);
-                        if (!isTwoPane) {
-                            viewHolder.articleText.setVisibility(View.GONE);
-                        }
-                        //Picasso.with(mContext).load(articleItem.getImage() + "=s" + imageWidth).placeholder(R.drawable.no_img_placeholder).fit().centerCrop().into(viewHolder.articleImage);
-                        //Glide.with(mContext).load(articleItem.getImage() + "=s" + imageWidth).placeholder(R.drawable.no_img_placeholder).bitmapTransform(new RoundedCornersTransformation(Glide.get(mContext).getBitmapPool(), 3, 0)).centerCrop().into(viewHolder.articleImage);
-
                         Uri uri = Uri.parse(articleItem.getImage() + "=s" + imageWidth);
 
                         viewHolder.articleImage.setImageURI(uri);
 
-                        //viewHolder.articleImage.setCornerRadiiDP(4,4,0,0);
                         }else {
-                        if (!isTablet) {
-                            viewHolder.articleText.setVisibility(View.GONE);
-                            if (!isTwoPane) {
-                                viewHolder.articleText.setText(Html.fromHtml(articleItem.getText()).toString());
-                            }
-                        }
 
                         viewHolder.articleImage.setVisibility(View.GONE);
                     }
                 } else {
                     viewHolder.articleImage.setVisibility(View.VISIBLE);
-                    if (!isTwoPane) {
-                        viewHolder.articleText.setVisibility(View.GONE);
-                    }
-                    //Picasso.with(mContext).load(articleItem.getImage() + "=s" + imageWidth).placeholder(R.drawable.no_img_placeholder).fit().centerCrop().into(viewHolder.articleImage);
-                    //Glide.with(mContext).load(articleItem.getImage() + "=s" + imageWidth).placeholder(R.drawable.no_img_placeholder).fitCenter().centerCrop().into(viewHolder.articleImage);
                     Uri uri = Uri.parse(articleItem.getImage() + "=s" + imageWidth);
 
                     viewHolder.articleImage.setImageURI(uri);
-                    //viewHolder.articleImage.setCornerRadiiDP(4, 4, 0, 0);
-                    if (isTwoPane) {
-                        //viewHolder.articleImage.setCornerRadiiDP(4, 0, 4, 0);
-                    }
 
                 }
 
 
             } else {
-                if (!isTablet) {
-                    viewHolder.articleText.setVisibility(View.GONE);
-                    if (!isTwoPane) {
-                        viewHolder.articleText.setText(Html.fromHtml(articleItem.getText()).toString());
-                    }
-                }
 
                 viewHolder.articleImage.setVisibility(View.GONE);
 

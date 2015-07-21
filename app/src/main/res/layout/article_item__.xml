@@ -62,14 +62,6 @@
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:textColor="@android:color/primary_text_light" />
-                    <TextView
-                        android:visibility="gone"
-                        android:maxLines="2"
-                        android:ellipsize="end"
-                        android:id="@+id/article_item_text"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@android:color/secondary_text_light" />
 
 
                     <LinearLayout

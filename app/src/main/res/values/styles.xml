@@ -42,27 +42,14 @@
 
         <item name="titleTextStyle">@style/ActionBarTextStyle</item>
     </style>
-    <style name="BoldTextStyle" parent="TextAppearance.AppCompat">
+    <style name="TabsTextAppearance" parent="TextAppearance.AppCompat">
         <item name="android:textStyle">bold</item>
+        <item name="android:textSize">17sp</item>
     </style>
     <style name="ActionBarTextStyle" parent="TextAppearance.AppCompat.Title">
         <item name="android:textSize">20sp</item>
-        <item name="android:textStyle">bold</item>
     </style>
 
-
-
-    <!-- Backward-compatible version of ?android:attr/buttonBarStyle -->
-    <style name="ButtonBar">
-        <item name="android:paddingLeft">2dp</item>
-        <item name="android:paddingTop">5dp</item>
-        <item name="android:paddingRight">2dp</item>
-        <item name="android:paddingBottom">0dp</item>
-        <item name="android:background">@android:drawable/bottom_bar</item>
-    </style>
-
-    <!-- Backward-compatible version of ?android:attr/buttonBarButtonStyle -->
-    <style name="ButtonBarButton" />
 
     <style name="GNowProgressBar" parent="SmoothProgressBar">
         <item name="spb_stroke_separator_length">0dp</item>

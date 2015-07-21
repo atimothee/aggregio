@@ -1,6 +1,7 @@
 package io.aggreg.app.ui;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
@@ -10,6 +11,10 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,7 +41,7 @@ public class ArticleDetailActivity extends AppCompatActivity implements ArticleD
         isTablet = getResources().getBoolean(R.bool.isTablet);
         if(isTablet){
             mainToolbar = (Toolbar)findViewById(R.id.main_toolbar);
-            mainToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+            mainToolbar.setNavigationIcon(R.drawable.ic_arrow_back_grey600_24dp);
             mainToolbar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -44,9 +49,7 @@ public class ArticleDetailActivity extends AppCompatActivity implements ArticleD
                 }
             });
 
-            mainToolbar.setTitleTextColor(getResources().getColor(R.color.primary_text_default_material_dark));
             mainToolbar.setSubtitle(getResources().getString(R.string.app_country));
-            mainToolbar.setSubtitleTextColor(getResources().getColor(R.color.secondary_text_default_material_dark));
             bookmarkFab = (FloatingActionButton)findViewById(R.id.bookmark_fab);
 
 
@@ -79,7 +82,9 @@ public class ArticleDetailActivity extends AppCompatActivity implements ArticleD
     public void updateTitle(String title){
         if(isTablet) {
             if(mainToolbar != null) {
-                mainToolbar.setTitle(title);
+                Spannable spannable = new SpannableString(title);
+                spannable.setSpan(new ForegroundColorSpan(Color.BLACK), 0, title.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                mainToolbar.setTitle(spannable);
             }
         }
     }
