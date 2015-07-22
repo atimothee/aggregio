@@ -13,6 +13,7 @@
         android:background="@color/theme_primary"/>
 
     <android.support.design.widget.FloatingActionButton
+        app:borderWidth="0dp"
         android:id="@+id/bookmark_fab"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"

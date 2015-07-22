@@ -59,7 +59,6 @@
 
 -keep class com.google.**
 -dontwarn com.google.**
--keep class com.jpardogo.android.googleprogressbar.** { *; }
 -dontwarn android.support.v7.**
 -keep class android.support.v7.** { *; }
 -keep interface android.support.v7.** { *; }
