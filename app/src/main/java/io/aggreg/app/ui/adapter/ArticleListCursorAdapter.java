@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.preference.PreferenceManager;
@@ -15,7 +16,6 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -27,18 +27,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.ads.MediaView;
 import com.facebook.ads.NativeAd;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
-import com.google.android.gms.analytics.HitBuilders;
 
 import io.aggreg.app.R;
 import io.aggreg.app.provider.article.ArticleColumns;
 import io.aggreg.app.provider.article.ArticleContentValues;
-import io.aggreg.app.provider.article.ArticleCursor;
 import io.aggreg.app.provider.article.ArticleSelection;
 import io.aggreg.app.ui.ArticleDetailActivity;
 import io.aggreg.app.ui.MainActivity;
@@ -147,13 +144,13 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter {
 
             if (isTwoPane) {
                 itemView = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.article_item__mini, parent, false);
+                        .inflate(R.layout.article_item_mini, parent, false);
             } else if (isTablet) {
                 itemView = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.article_item__grid, parent, false);
+                        .inflate(R.layout.article_item_grid, parent, false);
             } else {
                 itemView = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.article_item__, parent, false);
+                        .inflate(R.layout.article_item, parent, false);
             }
             ArticleViewHolder vh = new ArticleViewHolder(itemView);
             return vh;
@@ -253,7 +250,7 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter {
                     normalDrawable = mContext.getResources().getDrawable(R.drawable.ic_bookmark_black_24dp);
                 }
                 Drawable wrapDrawable = DrawableCompat.wrap(normalDrawable);
-                DrawableCompat.setTint(wrapDrawable, mContext.getResources().getColor(R.color.theme_accent_1));
+                DrawableCompat.setTint(wrapDrawable, Color.parseColor("#ccC2185B"));
                 viewHolder.bookmarkIconView.setImageDrawable(wrapDrawable);
                 final String link = cursor.getString(cursor.getColumnIndex(ArticleColumns.LINK));
                 viewHolder.bookmarkIconView.setOnClickListener(new View.OnClickListener() {

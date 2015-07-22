@@ -3,12 +3,9 @@ package io.aggreg.app.ui;
 import android.accounts.Account;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Paint;
-import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -23,16 +20,11 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.util.LruCache;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.TextPaint;
-import android.text.style.MetricAffectingSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -66,7 +58,6 @@ import io.aggreg.app.ui.fragment.ArticlesFragment;
 import io.aggreg.app.utils.GeneralUtils;
 import io.aggreg.app.utils.NetworkUtils;
 import io.aggreg.app.utils.References;
-import io.aggreg.app.utils.TypefaceSpan;
 
 
 public class MainActivity extends SyncActivity implements LoaderManager.LoaderCallbacks, ArticlesFragment.OnFragmentInteractionListener,
@@ -137,11 +128,9 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
         setUpArticleDeleteService();
         new CheckInternetTask().execute();
         AdSettings.addTestDevice("73f8ce4641689c3367382c249e2e2979");
-        listNativeAdsManager = new NativeAdsManager(this, "1621484961451837_1621525618114438", 5);
+        listNativeAdsManager = new NativeAdsManager(this, getResources().getString(R.string.facebook_placement_id), 5);
         listNativeAdsManager.setListener(this);
         listNativeAdsManager.loadAds();
-        NativeAd nativeAd = new NativeAd(this, "1621484961451837_1621525618114438");
-        nativeAd.loadAd();
 
     }
 
