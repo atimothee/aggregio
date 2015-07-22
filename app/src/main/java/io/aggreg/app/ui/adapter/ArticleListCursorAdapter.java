@@ -243,25 +243,28 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter {
                 viewHolder.articleImage.setVisibility(View.GONE);
 
             }
-            final int isBookmarked = cursor.getInt(cursor.getColumnIndex(ArticleColumns.BOOK_MARKED));
+            if(viewHolder.bookmarkIconView!=null) {
+                final int isBookmarked = cursor.getInt(cursor.getColumnIndex(ArticleColumns.BOOK_MARKED));
 
-            Drawable normalDrawable;
-            if (isBookmarked == 0) {
-                normalDrawable = mContext.getResources().getDrawable(R.drawable.ic_bookmark_outline_white_24dp);
-            } else {
-                normalDrawable = mContext.getResources().getDrawable(R.drawable.ic_bookmark_black_24dp);
-            }
-            Drawable wrapDrawable = DrawableCompat.wrap(normalDrawable);
-            DrawableCompat.setTint(wrapDrawable, mContext.getResources().getColor(R.color.theme_accent_1));
-            viewHolder.bookmarkIconView.setImageDrawable(wrapDrawable);
-            final String link = cursor.getString(cursor.getColumnIndex(ArticleColumns.LINK));
-            viewHolder.bookmarkIconView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    toggleBookmark(isBookmarked, link);
-
+                Drawable normalDrawable;
+                if (isBookmarked == 0) {
+                    normalDrawable = mContext.getResources().getDrawable(R.drawable.ic_bookmark_outline_white_24dp);
+                } else {
+                    normalDrawable = mContext.getResources().getDrawable(R.drawable.ic_bookmark_black_24dp);
                 }
-            });
+                Drawable wrapDrawable = DrawableCompat.wrap(normalDrawable);
+                DrawableCompat.setTint(wrapDrawable, mContext.getResources().getColor(R.color.theme_accent_1));
+                viewHolder.bookmarkIconView.setImageDrawable(wrapDrawable);
+                final String link = cursor.getString(cursor.getColumnIndex(ArticleColumns.LINK));
+                viewHolder.bookmarkIconView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        toggleBookmark(isBookmarked, link);
+
+                    }
+                });
+            }
+
             viewHolder.cardView.setPreventCornerOverlap(false);
         } else if (viewType == AD_VIEW_TYPE) {
             final AdViewHolder viewHolder = (AdViewHolder) viewHolder1;

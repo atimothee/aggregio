@@ -8,7 +8,7 @@
             "android.support.v7.widget.ShareActionProvider"
         app:showAsAction="ifRoom" />
     <item android:id="@+id/action_open_in_browser" android:title="@string/action_open_in_browser"
-        android:icon="@drawable/ic_open_in_browser_grey600_24dp"
+        android:icon="@drawable/ic_open_in_browser_black_24dp"
         app:showAsAction="ifRoom" />
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />

@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.CardView
-        card_view:cardBackgroundColor="@color/cardview_light_background"
+        card_view:cardBackgroundColor="@color/theme_primary"
         android:id="@+id/cardview"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -48,9 +48,7 @@
 
 
                 <LinearLayout
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
+                    android:padding="10dp"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/article_item_image"
@@ -61,7 +59,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
-                        android:textSize="16sp"
+                        android:textSize="18sp"
                         android:textColor="@android:color/primary_text_light"/>
 
 
@@ -76,11 +74,13 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:paddingTop="3dp"
                                 android:id="@+id/article_item_publisher_name"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:textColor="@android:color/tertiary_text_light" />
                             <com.github.curioustechizen.ago.RelativeTimeTextView
+                                android:paddingTop="3dp"
                                 android:id="@+id/article_item_time_ago"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"

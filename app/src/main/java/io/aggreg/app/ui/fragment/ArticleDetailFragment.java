@@ -153,7 +153,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         if(toolbar != null){
             ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-            ((AppCompatActivity) getActivity()).setTitle("Hello");
+            ((AppCompatActivity) getActivity()).setTitle(null);
             try {
                 ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             } catch (Exception e) {
@@ -348,7 +348,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                 Drawable normalDrawable;
                 Drawable wrapDrawable;
                 if (bookmarked == 1) {
-                    normalDrawable = getResources().getDrawable(R.drawable.ic_bookmark_white_24dp);
+                    normalDrawable = getResources().getDrawable(R.drawable.ic_bookmark_black_24dp);
                     wrapDrawable = DrawableCompat.wrap(normalDrawable);
 
                 } else {

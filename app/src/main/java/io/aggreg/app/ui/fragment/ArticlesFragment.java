@@ -36,7 +36,6 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
     private Parcelable mListState;
     private RecyclerView.LayoutManager layoutManager;
     private TextView noArticlesMessage;
-    private FrameLayout articleListFrameLayout;
 
     private OnFragmentInteractionListener mListener;
     private Boolean switched;
@@ -91,7 +90,6 @@ public class ArticlesFragment extends Fragment implements LoaderManager.LoaderCa
         }else {
             noArticlesMessage.setText("No articles to show! Hit the refresh button at the top to get the latest news");
         }
-        articleListFrameLayout = (FrameLayout)view.findViewById(R.id.article_list_frame_layout);
 
 
         adapter = new ArticleListCursorAdapter(getActivity(),

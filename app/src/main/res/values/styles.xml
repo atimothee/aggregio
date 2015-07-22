@@ -52,7 +52,7 @@
         <!--<item name="android:textSize">17sp</item>-->
     </style>
     <style name="ActionBarTextStyle" parent="TextAppearance.AppCompat.Title">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/primary_material_dark</item>
     </style>
 
 
