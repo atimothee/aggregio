@@ -103,8 +103,9 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
 
         final ActionBar ab = getSupportActionBar();
         if (ab != null) {
-            ab.setIcon(R.mipmap.flag);
+            //ab.setIcon(R.mipmap.flag);
             ab.setTitle(getResources().getString(R.string.app_name_general));
+            ab.setSubtitle("KE");
             ab.setHomeAsUpIndicator(R.drawable.ic_menu_grey600_24dp);
             ab.setDisplayHomeAsUpEnabled(true);
         }

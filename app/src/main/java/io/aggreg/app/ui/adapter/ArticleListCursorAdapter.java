@@ -7,9 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -25,20 +27,26 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.facebook.ads.MediaView;
 import com.facebook.ads.NativeAd;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
+import com.google.android.gms.analytics.HitBuilders;
 
 import io.aggreg.app.R;
 import io.aggreg.app.provider.article.ArticleColumns;
+import io.aggreg.app.provider.article.ArticleContentValues;
+import io.aggreg.app.provider.article.ArticleCursor;
+import io.aggreg.app.provider.article.ArticleSelection;
 import io.aggreg.app.ui.ArticleDetailActivity;
 import io.aggreg.app.ui.MainActivity;
 import io.aggreg.app.ui.fragment.ArticleDetailFragment;
 import io.aggreg.app.utils.NetworkUtils;
 import io.aggreg.app.utils.References;
 
-public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter{
+public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter {
     private static final int ARTICLE_VIEW_TYPE = 0;
     private static final int AD_VIEW_TYPE = 1;
     private Context mContext;
@@ -48,25 +56,25 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter{
     private boolean isTwoPane;
     private boolean isBookmarks;
 
-    public ArticleListCursorAdapter(Context context,Cursor cursor, @Nullable Boolean isTwoPane, @Nullable Boolean isBookmarks){
-        super(context,cursor);
+    public ArticleListCursorAdapter(Context context, Cursor cursor, @Nullable Boolean isTwoPane, @Nullable Boolean isBookmarks) {
+        super(context, cursor);
         this.mContext = context;
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        this.imageWidth = (int)(displayMetrics.widthPixels);
+        this.imageWidth = (int) (displayMetrics.widthPixels);
         this.isTablet = mContext.getResources().getBoolean(R.bool.isTablet);
-        if(isTablet){
+        if (isTablet) {
             int spanCount = mContext.getResources().getInteger(R.integer.span_count);
-            this.imageWidth = (int)((displayMetrics.widthPixels)/spanCount);
+            this.imageWidth = (int) ((displayMetrics.widthPixels) / spanCount);
         }
-        if(isTwoPane != null) {
+        if (isTwoPane != null) {
             this.isTwoPane = isTwoPane;
-        }else {
-            this.isTwoPane =false;
+        } else {
+            this.isTwoPane = false;
         }
-        if(isBookmarks != null) {
+        if (isBookmarks != null) {
             this.isBookmarks = isBookmarks;
-        }else {
-            this.isBookmarks =false;
+        } else {
+            this.isBookmarks = false;
         }
     }
 
@@ -74,29 +82,26 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter{
     public int getItemCount() {
         int originalCount = super.getItemCount();
         int adInterval = mContext.getResources().getInteger(R.integer.ad_interval_count);
-        int adViewCount = originalCount/adInterval;
-        return originalCount+adViewCount;
+        int adViewCount = originalCount / adInterval;
+        return originalCount + adViewCount;
 
     }
 
 
-
-
     @Override
     public int getItemViewType(int position) {
-        position = position+1;
+        position = position + 1;
         int adInterval = mContext.getResources().getInteger(R.integer.ad_interval_count);
-        if(position > 1 && position % adInterval == 0) {
+        if (position > 1 && position % adInterval == 0) {
 
-                return AD_VIEW_TYPE;
-            }
-        else {
+            return AD_VIEW_TYPE;
+        } else {
             return ARTICLE_VIEW_TYPE;
         }
 
     }
 
-    public static class AdViewHolder extends RecyclerView.ViewHolder{
+    public static class AdViewHolder extends RecyclerView.ViewHolder {
         public CardView cardView;
         public TextView adTitle;
         public TextView adBody;
@@ -106,35 +111,38 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter{
 
         public AdViewHolder(View itemView) {
             super(itemView);
-            cardView = (CardView)itemView.findViewById(R.id.cardview);
-            adTitle = (TextView)itemView.findViewById(R.id.nativeAdTitle);
-            adBody = (TextView)itemView.findViewById(R.id.nativeAdBody);
-            adMedia = (MediaView)itemView.findViewById(R.id.nativeAdMedia);
-            adCallToAction = (Button)itemView.findViewById(R.id.nativeAdCallToAction);
-            adRatingBar = (RatingBar)itemView.findViewById(R.id.nativeAdStarRating);
+            cardView = (CardView) itemView.findViewById(R.id.cardview);
+            adTitle = (TextView) itemView.findViewById(R.id.nativeAdTitle);
+            adBody = (TextView) itemView.findViewById(R.id.nativeAdBody);
+            adMedia = (MediaView) itemView.findViewById(R.id.nativeAdMedia);
+            adCallToAction = (Button) itemView.findViewById(R.id.nativeAdCallToAction);
+            adRatingBar = (RatingBar) itemView.findViewById(R.id.nativeAdStarRating);
         }
     }
 
-    public static class ArticleViewHolder extends RecyclerView.ViewHolder{
+    public static class ArticleViewHolder extends RecyclerView.ViewHolder {
         public TextView articleTitle;
         public TextView publisherName;
         public RelativeTimeTextView timeAgo;
         public SimpleDraweeView articleImage;
         private CardView cardView;
+        private ImageView bookmarkIconView;
+
         public ArticleViewHolder(View view) {
             super(view);
-            articleTitle = (TextView)view.findViewById(R.id.article_item_title);
-            publisherName = (TextView)view.findViewById(R.id.article_item_publisher_name);
-            timeAgo = (RelativeTimeTextView)view.findViewById(R.id.article_item_time_ago);
-            articleImage = (SimpleDraweeView)view.findViewById(R.id.article_item_image);
-            cardView = (CardView)view.findViewById(R.id.cardview);
+            articleTitle = (TextView) view.findViewById(R.id.article_item_title);
+            publisherName = (TextView) view.findViewById(R.id.article_item_publisher_name);
+            timeAgo = (RelativeTimeTextView) view.findViewById(R.id.article_item_time_ago);
+            articleImage = (SimpleDraweeView) view.findViewById(R.id.article_item_image);
+            cardView = (CardView) view.findViewById(R.id.cardview);
+            bookmarkIconView = (ImageView) view.findViewById(R.id.bookmark_icon);
         }
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
         View itemView;
-        if(viewType == ARTICLE_VIEW_TYPE) {
+        if (viewType == ARTICLE_VIEW_TYPE) {
 
 
             if (isTwoPane) {
@@ -149,12 +157,11 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter{
             }
             ArticleViewHolder vh = new ArticleViewHolder(itemView);
             return vh;
-        }else if(viewType == AD_VIEW_TYPE){
+        } else if (viewType == AD_VIEW_TYPE) {
             itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.ad_unit, parent, false);
             AdViewHolder vh = new AdViewHolder(itemView);
             return vh;
-
 
 
         }
@@ -168,7 +175,7 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter{
             final ArticleViewHolder viewHolder = (ArticleViewHolder) viewHolder1;
             int adInterval = mContext.getResources().getInteger(R.integer.ad_interval_count);
             int oldPosition = viewHolder.getLayoutPosition();
-            final int position = oldPosition - ((oldPosition+1)/adInterval);
+            final int position = oldPosition - ((oldPosition + 1) / adInterval);
 
 
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -218,7 +225,7 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter{
 
                         viewHolder.articleImage.setImageURI(uri);
 
-                        }else {
+                    } else {
 
                         viewHolder.articleImage.setVisibility(View.GONE);
                     }
@@ -236,8 +243,27 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter{
                 viewHolder.articleImage.setVisibility(View.GONE);
 
             }
+            final int isBookmarked = cursor.getInt(cursor.getColumnIndex(ArticleColumns.BOOK_MARKED));
+
+            Drawable normalDrawable;
+            if (isBookmarked == 0) {
+                normalDrawable = mContext.getResources().getDrawable(R.drawable.ic_bookmark_outline_white_24dp);
+            } else {
+                normalDrawable = mContext.getResources().getDrawable(R.drawable.ic_bookmark_black_24dp);
+            }
+            Drawable wrapDrawable = DrawableCompat.wrap(normalDrawable);
+            DrawableCompat.setTint(wrapDrawable, mContext.getResources().getColor(R.color.theme_accent_1));
+            viewHolder.bookmarkIconView.setImageDrawable(wrapDrawable);
+            final String link = cursor.getString(cursor.getColumnIndex(ArticleColumns.LINK));
+            viewHolder.bookmarkIconView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    toggleBookmark(isBookmarked, link);
+
+                }
+            });
             viewHolder.cardView.setPreventCornerOverlap(false);
-        }else if(viewType == AD_VIEW_TYPE){
+        } else if (viewType == AD_VIEW_TYPE) {
             final AdViewHolder viewHolder = (AdViewHolder) viewHolder1;
             try {
                 NativeAd nativeAd = ((MainActivity) mContext).getNativeAd();
@@ -270,13 +296,39 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter{
                 viewHolder.adMedia.setNativeAd(nativeAd);
                 viewHolder.cardView.setVisibility(View.VISIBLE);
                 nativeAd.registerViewForInteraction(viewHolder.itemView);
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
                 viewHolder.cardView.setVisibility(View.GONE);
             }
         }
+
     }
 
+    private void toggleBookmark(int isBookmarked, String link){
+        if(isBookmarked == 1){
+            unBookMark(link);
+        }else {
+            bookMark(link);
+        }
+    }
+
+
+    private void bookMark(String link) {
+        ArticleSelection articleSelection = new ArticleSelection();
+        articleSelection.link(link);
+        ArticleContentValues articleContentValues = new ArticleContentValues();
+        articleContentValues.putBookMarked(true);
+        articleContentValues.update(mContext.getContentResolver(), articleSelection);
+    }
+
+    private void unBookMark(String link) {
+        ArticleSelection articleSelection = new ArticleSelection();
+        articleSelection.link(link);
+        ArticleContentValues articleContentValues = new ArticleContentValues();
+        articleContentValues = new ArticleContentValues();
+        articleContentValues.putBookMarked(false);
+        articleContentValues.update(mContext.getContentResolver(), articleSelection);
+    }
 }
 
 /*

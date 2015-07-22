@@ -43,8 +43,8 @@
         <item name="titleTextStyle">@style/ActionBarTextStyle</item>
     </style>
     <style name="TabsTextAppearance" parent="TextAppearance.AppCompat">
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">17sp</item>
+        <!--<item name="android:textStyle">bold</item>-->
+        <!--<item name="android:textSize">17sp</item>-->
     </style>
     <style name="ActionBarTextStyle" parent="TextAppearance.AppCompat.Title">
         <item name="android:textSize">20sp</item>

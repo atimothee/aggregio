@@ -3,4 +3,5 @@
     <bool name="isTablet">true</bool>
     <integer name="span_count">3</integer>
     <integer name="publisher_span_count">4</integer>
+    <integer name="ad_interval_count">13</integer>
 </resources>
