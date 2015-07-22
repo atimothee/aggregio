@@ -37,7 +37,7 @@
                 fresco:roundBottomRight="false"
                 android:layout_height="80dp" />
             <TextView
-                android:fontFamily="sans-serif"
+                android:textStyle="bold"
                 android:maxLines="2"
                 android:ellipsize="end"
                 android:padding="5dp"
@@ -86,7 +86,7 @@
                 fresco:roundBottomRight="false"
                 android:layout_height="80dp" />
             <TextView
-                android:fontFamily="sans-serif"
+                android:textStyle="bold"
                 android:maxLines="2"
                 android:ellipsize="end"
                 android:padding="5dp"
@@ -135,7 +135,7 @@
                 fresco:roundBottomRight="false"
                 android:layout_height="80dp" />
             <TextView
-                android:fontFamily="sans-serif"
+                android:textStyle="bold"
                 android:maxLines="2"
                 android:ellipsize="end"
                 android:padding="5dp"

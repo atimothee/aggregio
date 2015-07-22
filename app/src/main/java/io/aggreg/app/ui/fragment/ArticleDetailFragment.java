@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +18,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
@@ -350,11 +353,19 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                 publisherName.setText(articleCursor.getString(articleCursor.getColumnIndex(PublisherColumns.NAME)));
                 timeAgo.setReferenceTime(articleCursor.getLong(articleCursor.getColumnIndex(ArticleColumns.PUB_DATE)));
                 int bookmarked = articleCursor.getInt(articleCursor.getColumnIndex(ArticleColumns.BOOK_MARKED));
+                Drawable normalDrawable;
+                Drawable wrapDrawable;
                 if (bookmarked == 1) {
-                    bookmarkFab.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_bookmark_white_24dp));
-                } else if (bookmarked == 0) {
-                    bookmarkFab.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_bookmark_outline_white_24dp));
+                    normalDrawable = getResources().getDrawable(R.drawable.ic_bookmark_white_24dp);
+                    wrapDrawable = DrawableCompat.wrap(normalDrawable);
+
+                } else {
+                    normalDrawable = getResources().getDrawable(R.drawable.ic_bookmark_outline_white_24dp);
+                    wrapDrawable = DrawableCompat.wrap(normalDrawable);
                 }
+                DrawableCompat.setTint(wrapDrawable, Color.parseColor("#ffffff"));
+                bookmarkFab.setImageDrawable(wrapDrawable);
+
                 mShareString = articleCursor.getString(articleCursor.getColumnIndex(ArticleColumns.TITLE))
                         + " "
                         + articleCursor.getString(articleCursor.getColumnIndex(ArticleColumns.LINK));
@@ -414,6 +425,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                             relatedImageViews[i].setVisibility(View.GONE);
                         }
                         articleRelatedViews[i].setOnClickListener(this);
+                        articleRelatedViews[i].setPreventCornerOverlap(false);
                         timeAgoRelatedViews[i].setReferenceTime(relatedCursor.getLong(relatedCursor.getColumnIndex(ArticleColumns.PUB_DATE)));
                         i++;
                         if (i > 2) {

@@ -1,8 +1,10 @@
 package io.aggreg.app.ui.fragment;
 
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +47,10 @@ public class SlideFragment extends Fragment {
         ImageView picture = (ImageView)view.findViewById(R.id.picture);
 
         picture.setImageURI(Uri.parse(getArguments().getString(References.ARG_KEY_PIC_URL)));
+        Drawable normalDrawable = picture.getDrawable();
+        Drawable wrapDrawable = DrawableCompat.wrap(normalDrawable);
+        DrawableCompat.setTint(wrapDrawable, getActivity().getResources().getColor(R.color.theme_accent_1));
+        picture.setImageDrawable(wrapDrawable);
         return view;
     }
 

@@ -21,6 +21,8 @@
     <color name="theme_primary_text">#212121</color>
     <color name="theme_secondary_text">#727272</color>
     <color name="theme_divider">#B6B6B6</color>
+    <color name="drawer_status_bar">#3f3f3f</color>
+    <color name="drawer_background">#bdbdbd</color>
 
     <!--<color name="theme_accent_1">#7C4DFF</color>-->
     <color name="theme_accent_1">#C2185B</color>
@@ -34,14 +36,14 @@
     <integer-array name="gplus_colors">
         <item>@color/gplus_color_1</item>
         <item>@color/gplus_color_2</item>
-        <!--<item>@color/gplus_color_3</item>-->
-        <!--<item>@color/gplus_color_4</item>-->
+        <item>@color/gplus_color_3</item>
+        <item>@color/gplus_color_4</item>
     </integer-array>
 
-    <color name="gplus_color_1">@color/background_material_dark</color>
-    <color name="gplus_color_2">#f6f6f6</color>
-    <!--<color name="gplus_color_3">#000</color>-->
-    <!--<color name="gplus_color_4">#fff</color>-->
+    <color name="gplus_color_1">#7e7e7e</color>
+    <color name="gplus_color_2">#939393</color>
+    <color name="gplus_color_3">#a8a8a8</color>
+    <color name="gplus_color_4">#bdbdbd</color>
     <color name="wait_color">#d3d3d3</color>
     <color name="scrim_color">#b3ffffff</color>
 

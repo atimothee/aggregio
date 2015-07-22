@@ -2,10 +2,14 @@ package io.aggreg.app.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.ImageView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 
@@ -22,6 +26,11 @@ public class SplashscreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Fresco.initialize(getApplicationContext());
         setContentView(R.layout.activity_splashscreen);
+        ImageView logo = (ImageView)findViewById(R.id.text_logo);
+        Drawable normalDrawable = logo.getDrawable();
+        Drawable wrapDrawable = DrawableCompat.wrap(normalDrawable);
+        DrawableCompat.setTint(wrapDrawable, getResources().getColor(R.color.theme_accent_1));
+        logo.setImageDrawable(wrapDrawable);
         SharedPreferences prefs = this.getSharedPreferences(References.KEY_PREFERENCES, MODE_PRIVATE);
         Boolean isFirstTime = prefs.getBoolean(References.KEY_HAS_INTRO_BEEN_SHOWN, false);
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
