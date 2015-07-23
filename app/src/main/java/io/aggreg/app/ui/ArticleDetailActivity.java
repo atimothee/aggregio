@@ -41,7 +41,7 @@ public class ArticleDetailActivity extends AppCompatActivity implements ArticleD
         isTablet = getResources().getBoolean(R.bool.isTablet);
         if(isTablet){
             mainToolbar = (Toolbar)findViewById(R.id.main_toolbar);
-            mainToolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+            mainToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
             mainToolbar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

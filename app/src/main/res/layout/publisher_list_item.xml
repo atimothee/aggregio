@@ -21,6 +21,7 @@
         android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        fresco:viewAspectRatio="1.00"
         fresco:actualImageScaleType="focusCrop"
         fresco:placeholderImage="@color/wait_color"
         fresco:placeholderImageScaleType="fitCenter"
