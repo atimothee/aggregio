@@ -82,9 +82,7 @@ public class ArticleDetailActivity extends AppCompatActivity implements ArticleD
     public void updateTitle(String title){
         if(isTablet) {
             if(mainToolbar != null) {
-                Spannable spannable = new SpannableString(title);
-                spannable.setSpan(new ForegroundColorSpan(Color.BLACK), 0, title.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                mainToolbar.setTitle(spannable);
+                mainToolbar.setTitle(title);
             }
         }
     }

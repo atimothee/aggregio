@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.os.PersistableBundle;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
@@ -96,7 +97,7 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
         if (ab != null) {
             ab.setTitle(getResources().getString(R.string.app_name_general));
             ab.setSubtitle(getResources().getString(R.string.app_country));
-            ab.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
+            ab.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
             ab.setDisplayHomeAsUpEnabled(true);
         }
 
@@ -360,7 +361,7 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
         String periodicSyncHoursString = settings.getString(getString(R.string.pref_key_refresh_interval), "720");
         Integer periodicSyncHours = Integer.valueOf(periodicSyncHoursString);
 
-        Log.d(LOG_TAG, "refresh interval is " + periodicSyncHoursString);
+        //Log.d(LOG_TAG, "refresh interval is " + periodicSyncHoursString);
         if(periodicSyncHours != -1) {
             Intent periodicSyncIntent = new Intent(this, PeriodicalSyncService.class);
 
@@ -421,13 +422,13 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
 
     @Override
     protected void onResume() {
+
         super.onResume();
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();
     }
-
-
 }

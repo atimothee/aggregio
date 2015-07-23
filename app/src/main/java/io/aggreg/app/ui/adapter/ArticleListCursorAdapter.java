@@ -132,7 +132,6 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter {
             timeAgo = (RelativeTimeTextView) view.findViewById(R.id.article_item_time_ago);
             articleImage = (SimpleDraweeView) view.findViewById(R.id.article_item_image);
             cardView = (CardView) view.findViewById(R.id.cardview);
-            bookmarkIconView = (ImageView) view.findViewById(R.id.bookmark_icon);
         }
     }
 
@@ -240,27 +239,6 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter {
                 viewHolder.articleImage.setVisibility(View.GONE);
 
             }
-            if(viewHolder.bookmarkIconView!=null) {
-                final int isBookmarked = cursor.getInt(cursor.getColumnIndex(ArticleColumns.BOOK_MARKED));
-
-                Drawable normalDrawable;
-                if (isBookmarked == 0) {
-                    normalDrawable = mContext.getResources().getDrawable(R.drawable.ic_bookmark_outline_white_24dp);
-                } else {
-                    normalDrawable = mContext.getResources().getDrawable(R.drawable.ic_bookmark_black_24dp);
-                }
-                Drawable wrapDrawable = DrawableCompat.wrap(normalDrawable);
-                DrawableCompat.setTint(wrapDrawable, Color.parseColor("#ccC2185B"));
-                viewHolder.bookmarkIconView.setImageDrawable(wrapDrawable);
-                final String link = cursor.getString(cursor.getColumnIndex(ArticleColumns.LINK));
-                viewHolder.bookmarkIconView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        toggleBookmark(isBookmarked, link);
-
-                    }
-                });
-            }
 
             viewHolder.cardView.setPreventCornerOverlap(false);
         } else if (viewType == AD_VIEW_TYPE) {
@@ -303,33 +281,4 @@ public class ArticleListCursorAdapter extends CursorRecyclerViewAdapter {
         }
 
     }
-
-    private void toggleBookmark(int isBookmarked, String link){
-        if(isBookmarked == 1){
-            unBookMark(link);
-        }else {
-            bookMark(link);
-        }
-    }
-
-
-    private void bookMark(String link) {
-        ArticleSelection articleSelection = new ArticleSelection();
-        articleSelection.link(link);
-        ArticleContentValues articleContentValues = new ArticleContentValues();
-        articleContentValues.putBookMarked(true);
-        articleContentValues.update(mContext.getContentResolver(), articleSelection);
-    }
-
-    private void unBookMark(String link) {
-        ArticleSelection articleSelection = new ArticleSelection();
-        articleSelection.link(link);
-        ArticleContentValues articleContentValues = new ArticleContentValues();
-        articleContentValues = new ArticleContentValues();
-        articleContentValues.putBookMarked(false);
-        articleContentValues.update(mContext.getContentResolver(), articleSelection);
-    }
 }
-
-/*
-* java.lang.NullPointerException: Attempt to read from field 'java.util.ArrayList android.support.v7.widget.StaggeredGridLayoutManager$Span.mViews' on a null object reference*/

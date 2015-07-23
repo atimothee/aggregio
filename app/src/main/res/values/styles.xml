@@ -6,32 +6,24 @@
         <item name="colorAccent">@color/theme_accent_1</item>
         <item name="colorPrimary">@color/theme_primary</item>
         <item name="colorPrimaryDark">@color/theme_primary_dark</item>
+        <item name="android:windowBackground">@color/window_background</item>
     </style>
-    <style name="Theme.NavDrawer" parent="ThemeOverlay.AppCompat.Light">
-        <item name="colorPrimary">@color/theme_accent_1</item>
-        <item name="colorPrimaryDark">@color/drawer_status_bar</item>
-    </style>
-    <style name="ThemeOverlay.Aggregio" parent="ThemeOverlay.AppCompat.Light">
+    <style name="ThemeOverlay.Aggregio" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="colorPrimary">@color/theme_primary</item>
         <item name="colorPrimaryDark">@color/theme_primary_dark</item>
         <item name="colorAccent">@color/theme_accent_1</item>
         <item name="android:windowBackground">@color/window_background</item>
-        <item name="android:actionBarStyle">@style/AggregioActionBar</item>
-        <item name="actionBarStyle">@style/AggregioActionBar</item>
     </style>
-    <style name="Theme.Aggregio" parent="Theme.AppCompat.Light">
+    <style name="Theme.Aggregio" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/theme_primary</item>
         <item name="colorPrimaryDark">@color/theme_primary_dark</item>
         <item name="colorAccent">@color/theme_accent_1</item>
         <item name="android:windowBackground">@color/window_background</item>
-        <item name="android:actionBarStyle">@style/AggregioActionBar</item>
-        <item name="actionBarStyle">@style/AggregioActionBar</item>
     </style>
     <style name="AppTheme.Base.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/theme_primary</item>
         <item name="colorPrimaryDark">@color/theme_primary_dark</item>
         <item name="colorAccent">@color/theme_accent_1</item>
-        <item name="actionBarStyle">@style/AggregioActionBar</item>
         <item name="android:windowBackground">@color/window_background</item>
     </style>
     <style name="Widget.CardContent" parent="android:Widget">
@@ -41,18 +33,7 @@
         <item name="android:paddingBottom">24dp</item>
         <item name="android:orientation">vertical</item>
     </style>
-    <style name="AggregioActionBar" parent="Widget.AppCompat.ActionBar.Solid">
-
-        <item name="android:titleTextStyle">@style/ActionBarTextStyle</item>
-
-        <item name="titleTextStyle">@style/ActionBarTextStyle</item>
-    </style>
-    <style name="TabsTextAppearance" parent="TextAppearance.AppCompat">
-        <!--<item name="android:textStyle">bold</item>-->
-        <!--<item name="android:textSize">17sp</item>-->
-    </style>
-    <style name="ActionBarTextStyle" parent="TextAppearance.AppCompat.Title">
-        <item name="android:textColor">@color/primary_material_dark</item>
+    <style name="TabsTextAppearance" parent="TextAppearance.Design.Tab">
     </style>
 
 

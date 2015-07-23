@@ -24,6 +24,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -63,7 +64,6 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     private RelativeTimeTextView timeAgo;
     private SimpleDraweeView articleImage;
     private SimpleDraweeView publisherLogo;
-    private CollapsingToolbarLayout collapsingToolbar;
     private FloatingActionButton bookmarkFab;
     private static String LOG_TAG = ArticleDetailFragment.class.getSimpleName();
     private Cursor articleCursor;
@@ -121,9 +121,6 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         this.isTablet = getActivity().getResources().getBoolean(R.bool.isTablet);
         DisplayMetrics displayMetrics = getActivity().getResources().getDisplayMetrics();
-
-        //float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
-        //float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         imageWidth = (int) (displayMetrics.widthPixels);
         if(isTablet){
             imageWidth = (int) (displayMetrics.widthPixels);
@@ -152,21 +149,20 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
 
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         if(toolbar != null){
+            Log.e(LOG_TAG, "toolbar is not null");
             ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-            ((AppCompatActivity) getActivity()).setTitle(null);
+            ((AppCompatActivity) getActivity()).setTitle("hey");
+            //((AppCompatActivity) getActivity()).setTitle(null);
             try {
                 ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }else {
+            Log.e(LOG_TAG, "toolbar is null");
         }
 
 
-        collapsingToolbar =
-                (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
-        if(collapsingToolbar !=null){
-            collapsingToolbar.setTitle(null);
-        }
         articleText = (TextView) view.findViewById(R.id.article_detail_text);
         publisherName = (TextView) view.findViewById(R.id.article_detail_publisher_name);
         timeAgo = (RelativeTimeTextView) view.findViewById(R.id.article_detail_time_ago);
@@ -290,7 +286,8 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                 articleTitle.setText(title);
 
                 if(isTablet) {
-                    ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(null);
+                    //((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(null);
+                    ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("hey");
                     String mainToolbarTitle;
                     if(getArguments().getBoolean(References.ARG_KEY_IS_BOOKMARKS)){
                         mainToolbarTitle = "Bookmarks";
@@ -308,9 +305,6 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                             Uri uri = Uri.parse(imageUrl + "=s" + imageWidth);
 
                             articleImage.setImageURI(uri);
-                            if (collapsingToolbar != null) {
-                                collapsingToolbar.setTitle(null);
-                            }
 
 
                         }
@@ -324,9 +318,6 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                         Uri uri = Uri.parse(imageUrl + "=s" + imageWidth);
 
                         articleImage.setImageURI(uri);
-                        if (collapsingToolbar != null) {
-                            collapsingToolbar.setTitle(null);
-                        }
 
                     }
 
@@ -344,19 +335,6 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                 }
                 publisherName.setText(articleCursor.getString(articleCursor.getColumnIndex(PublisherColumns.NAME)));
                 timeAgo.setReferenceTime(articleCursor.getLong(articleCursor.getColumnIndex(ArticleColumns.PUB_DATE)));
-                int bookmarked = articleCursor.getInt(articleCursor.getColumnIndex(ArticleColumns.BOOK_MARKED));
-                Drawable normalDrawable;
-                Drawable wrapDrawable;
-                if (bookmarked == 1) {
-                    normalDrawable = getResources().getDrawable(R.drawable.ic_bookmark_black_24dp);
-                    wrapDrawable = DrawableCompat.wrap(normalDrawable);
-
-                } else {
-                    normalDrawable = getResources().getDrawable(R.drawable.ic_bookmark_outline_white_24dp);
-                    wrapDrawable = DrawableCompat.wrap(normalDrawable);
-                }
-                DrawableCompat.setTint(wrapDrawable, Color.parseColor("#ffffff"));
-                bookmarkFab.setImageDrawable(wrapDrawable);
 
                 mShareString = articleCursor.getString(articleCursor.getColumnIndex(ArticleColumns.TITLE))
                         + " "

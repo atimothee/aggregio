@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/detail_view_switcher"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/white">
 
     <include layout="@layout/include_progress_bar"/>
 
@@ -12,7 +13,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="@color/theme_primary">
+    >
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -27,7 +28,7 @@
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             android:fitsSystemWindows="true"
-            app:contentScrim="@color/scrim_color">
+            app:contentScrim="@color/theme_primary">
             <FrameLayout
                 android:id="@+id/article_detail_image_frame"
                 app:layout_collapseMode="parallax"

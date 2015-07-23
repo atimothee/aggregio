@@ -12,7 +12,6 @@
         android:theme="@style/ThemeOverlay.Aggregio">
 
         <android.support.v7.widget.Toolbar
-            app:titleTextAppearance="@style/ActionBarTextStyle"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -40,14 +39,14 @@
             style="@style/GNowProgressBar"
             />
 
+
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabTextColor="@color/abc_secondary_text_material_light"
-            app:tabIndicatorColor="@color/theme_primary_dark"
-            app:tabSelectedTextColor="@color/theme_primary_dark"
+            app:tabIndicatorHeight="4dp"
             app:tabTextAppearance="@style/TabsTextAppearance"
+
             />
 
 
