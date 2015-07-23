@@ -26,6 +26,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -81,6 +82,13 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+
+        float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+
+        Log.d(LOG_TAG, "device width is "+dpWidth+"dp");
+        Log.d(LOG_TAG, "device height is "+dpHeight+"dp");
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         progressBar = (SmoothProgressBar)findViewById(R.id.progress);
 
