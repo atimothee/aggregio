@@ -144,6 +144,7 @@
 
 
         <activity
+            android:theme="@style/Theme.Aggregio.NoActionBar"
             android:name=".ui.ArticleDetailActivity"
             android:parentActivityName=".ui.MainActivity" >
             <meta-data

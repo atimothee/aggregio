@@ -149,17 +149,14 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
 
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         if(toolbar != null){
-            Log.e(LOG_TAG, "toolbar is not null");
             ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-            ((AppCompatActivity) getActivity()).setTitle("hey");
-            //((AppCompatActivity) getActivity()).setTitle(null);
+            ((AppCompatActivity) getActivity()).setTitle(null);
             try {
                 ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }else {
-            Log.e(LOG_TAG, "toolbar is null");
         }
 
 
@@ -286,8 +283,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                 articleTitle.setText(title);
 
                 if(isTablet) {
-                    //((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(null);
-                    ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("hey");
+                    ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(null);
                     String mainToolbarTitle;
                     if(getArguments().getBoolean(References.ARG_KEY_IS_BOOKMARKS)){
                         mainToolbarTitle = "Bookmarks";
@@ -335,6 +331,21 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
                 }
                 publisherName.setText(articleCursor.getString(articleCursor.getColumnIndex(PublisherColumns.NAME)));
                 timeAgo.setReferenceTime(articleCursor.getLong(articleCursor.getColumnIndex(ArticleColumns.PUB_DATE)));
+                int bookmarked = articleCursor.getInt(articleCursor.getColumnIndex(ArticleColumns.BOOK_MARKED));
+                Drawable drawable;
+                Drawable wrapDrawable;
+                if(bookmarked == 0){
+                    drawable = getResources().getDrawable(R.drawable.ic_bookmark_outline_white_24dp);
+                    wrapDrawable = DrawableCompat.wrap(drawable);
+                    DrawableCompat.setTint(wrapDrawable, Color.parseColor("#ffffff"));
+
+                }else {
+                    drawable = getResources().getDrawable(R.drawable.ic_bookmark_black_24dp);
+                    wrapDrawable = DrawableCompat.wrap(drawable);
+                    DrawableCompat.setTint(wrapDrawable, Color.parseColor("#ffffff"));
+
+                }
+                bookmarkFab.setImageDrawable(wrapDrawable);
 
                 mShareString = articleCursor.getString(articleCursor.getColumnIndex(ArticleColumns.TITLE))
                         + " "
