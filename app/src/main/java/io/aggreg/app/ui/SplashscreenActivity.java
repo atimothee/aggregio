@@ -2,6 +2,7 @@ package io.aggreg.app.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -29,7 +30,7 @@ public class SplashscreenActivity extends AppCompatActivity {
         ImageView logo = (ImageView)findViewById(R.id.text_logo);
         Drawable normalDrawable = logo.getDrawable();
         Drawable wrapDrawable = DrawableCompat.wrap(normalDrawable);
-        DrawableCompat.setTint(wrapDrawable, getResources().getColor(R.color.theme_accent_1));
+        DrawableCompat.setTint(wrapDrawable, Color.parseColor("#ffffff"));
         logo.setImageDrawable(wrapDrawable);
         SharedPreferences prefs = this.getSharedPreferences(References.KEY_PREFERENCES, MODE_PRIVATE);
         Boolean isFirstTime = prefs.getBoolean(References.KEY_HAS_INTRO_BEEN_SHOWN, false);
