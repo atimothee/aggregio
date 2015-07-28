@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.github.paolorotolo.appintro.AppIntro;
 import com.github.paolorotolo.appintro.AppIntro2;
 import com.github.paolorotolo.appintro.AppIntroFragment;
@@ -21,6 +22,7 @@ public class IntroActivity extends AppIntro2 {
     private static final String LOG_TAG  = IntroActivity.class.getSimpleName();
     @Override
     public void init(Bundle bundle) {
+        Fresco.initialize(getApplicationContext());
 
         addSlide(AppIntroFragment.newInstance(getResources().getString(R.string.all_in_one_short), getResources().getString(R.string.all_in_one_long),
                 R.drawable.folded_newspaper_512, Color.parseColor("#C2185B")));

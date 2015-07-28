@@ -24,6 +24,7 @@
         <!--android:protectionLevel="signature" />-->
 
     <!--<uses-permission android:name="${applicationId}.gcm.permission.C2D_MESSAGE" />-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
 
 

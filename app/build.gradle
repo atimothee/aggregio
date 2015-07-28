@@ -8,8 +8,8 @@ android {
         applicationId "io.aggreg.app"
         minSdkVersion 9
         targetSdkVersion 22
-        versionCode 2
-        versionName "1.0"
+        versionCode 3
+        versionName "1.3"
         resValue "bool", "ga_dry_run", "true"
     }
     signingConfigs {
@@ -24,26 +24,26 @@ android {
         kenya {
             applicationId "io.aggreg.app.kenya"
             resValue "string", "app_name", "Aggregio KE News"
-            resValue "string", "app_version", "Version 1.0"
+            resValue "string", "app_version", "Version 1.1"
             resValue "string", "app_country", "Kenya"
             resValue "string", "authorities", applicationId + '.provider'
             resValue "string", "account_type", "io.aggreg.kenya"
             resValue "string", "analytics_tracker_id", "UA-63988121-3"
             resValue "string", "feedback_api_key", "AF-5C521298F86B-93"
-            resValue "string", "facebook_placement_id", "1621484961451837_1621525618114438"
+            resValue "string", "facebook_placement_id", "1615604058689016_1619135521669203"
 
         }
-        uganda {
-            applicationId "io.aggreg.app.uganda"
-            resValue "string", "app_name", "Aggregio UG News"
-            resValue "string", "app_version", "Version 1.1"
-            resValue "string", "app_country", "Uganda"
-            resValue "string", "authorities", applicationId + '.provider'
-            resValue "string", "account_type", "io.aggreg.uganda"
-            resValue "string", "analytics_tracker_id", "UA-63988121-4"
-            resValue "string", "feedback_api_key", "AF-DAFBA7E454D4-01"
-            resValue "string", "facebook_placement_id", "1621484961451837_1621525618114438"
-        }
+//        uganda {
+//            applicationId "io.aggreg.app.uganda"
+//            resValue "string", "app_name", "Aggregio UG News"
+//            resValue "string", "app_version", "Version 1.1"
+//            resValue "string", "app_country", "Uganda"
+//            resValue "string", "authorities", applicationId + '.provider'
+//            resValue "string", "account_type", "io.aggreg.uganda"
+//            resValue "string", "analytics_tracker_id", "UA-63988121-4"
+//            resValue "string", "feedback_api_key", "AF-DAFBA7E454D4-01"
+//            resValue "string", "facebook_placement_id", "1621484961451837_1621525618114438"
+//        }
 //        tanzania {
 //            applicationId "io.aggreg.app.tanzania"
 //            resValue "string", "app_name", "Aggregio TZ"
@@ -54,14 +54,14 @@ android {
 //        }
 //        nigeria {
 //            applicationId "io.aggreg.app.nigeria"
-//            resValue "string", "app_name", "Aggregio NG"
-//            resValue "string", "app_version", "Version 1.0-BETA"
+//            resValue "string", "app_name", "Aggregio Nigeria"
+//            resValue "string", "app_version", "Version 1.0"
 //            resValue "string", "app_country", "Nigeria"
 //            resValue "string", "authorities", applicationId + '.provider'
 //            resValue "string", "account_type", "io.aggreg.nigeria"
-//            resValue "string", "ad_unit_id_banner_articles_list", "ca-app-pub-3704709498493201/8210477776"
-//            resValue "string", "ad_unit_id_banner_article_detail", "ca-app-pub-3704709498493201/1910141774"
 //            resValue "string", "analytics_tracker_id", "UA-63988121-5"
+//            resValue "string", "feedback_api_key", "AF-C5FC2BAABA43-64"
+//            resValue "string", "facebook_placement_id", "1621484961451837_1621525618114438"
 //        }
 //        southafrica {
 //            applicationId "io.aggreg.app.southafrica"

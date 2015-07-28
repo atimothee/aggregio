@@ -39,6 +39,7 @@ import com.facebook.ads.AdListener;
 import com.facebook.ads.AdSettings;
 import com.facebook.ads.NativeAd;
 import com.facebook.ads.NativeAdsManager;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -79,16 +80,16 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
         super.onCreate(savedInstanceState);
+        Fresco.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
 
         float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
 
-        Log.d(LOG_TAG, "device width is "+dpWidth+"dp");
-        Log.d(LOG_TAG, "device height is "+dpHeight+"dp");
+//        Log.d(LOG_TAG, "device width is "+dpWidth+"dp");
+//        Log.d(LOG_TAG, "device height is "+dpHeight+"dp");
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         progressBar = (SmoothProgressBar)findViewById(R.id.progress);
 
