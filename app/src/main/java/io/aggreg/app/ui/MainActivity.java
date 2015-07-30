@@ -138,7 +138,7 @@ public class MainActivity extends SyncActivity implements LoaderManager.LoaderCa
         setUpArticleDeleteService();
         new CheckInternetTask().execute();
         AdSettings.addTestDevice("73f8ce4641689c3367382c249e2e2979");
-        listNativeAdsManager = new NativeAdsManager(this, getResources().getString(R.string.facebook_placement_id), 5);
+        listNativeAdsManager = new NativeAdsManager(this, getResources().getString(R.string.facebook_placement_id), 10);
         listNativeAdsManager.setListener(this);
         listNativeAdsManager.loadAds();
 

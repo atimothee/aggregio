@@ -5,8 +5,7 @@
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:app="http://schemas.android.com/tools"
-    card_view:cardBackgroundColor="@color/cardview_light_background">
+    xmlns:app="http://schemas.android.com/tools">
 <android.support.v7.widget.CardView
     android:background="@android:color/white"
     android:visibility="gone"
@@ -30,8 +29,9 @@
         <com.facebook.ads.MediaView
                 android:id="@+id/nativeAdMedia"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="200dp"
                 android:gravity="center"
+
 
                 />
         <LinearLayout
@@ -47,14 +47,13 @@
                 >
 
                 <TextView
-                    android:fontFamily="thin"
                     android:id="@+id/nativeAdBody"
                     android:maxLines="2"
                     android:ellipsize="end"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
-                    android:textColor="@color/primary_dark_material_light"
+                    android:textColor="@color/body_text_1"
                     />
 
             </LinearLayout>
@@ -95,7 +94,7 @@
                     android:maxLines="2"
                     android:ellipsize="end"
                     android:textSize="18sp"
-                    android:textColor="@color/primary_dark_material_light"
+                    android:textColor="@color/body_text_1"
                     />
                 <TextView
                     android:textSize="13sp"

@@ -8,60 +8,60 @@
     </facet>
     <facet type="android" name="Android">
       <configuration>
-        <option name="SELECTED_BUILD_VARIANT" value="kenyaDebug" />
+        <option name="SELECTED_BUILD_VARIANT" value="nigeriaDebug" />
         <option name="SELECTED_TEST_ARTIFACT" value="_android_test_" />
-        <option name="ASSEMBLE_TASK_NAME" value="assembleKenyaDebug" />
-        <option name="COMPILE_JAVA_TASK_NAME" value="compileKenyaDebugSources" />
-        <option name="SOURCE_GEN_TASK_NAME" value="generateKenyaDebugSources" />
-        <option name="ASSEMBLE_TEST_TASK_NAME" value="assembleKenyaDebugAndroidTest" />
-        <option name="COMPILE_JAVA_TEST_TASK_NAME" value="compileKenyaDebugAndroidTestSources" />
-        <option name="TEST_SOURCE_GEN_TASK_NAME" value="generateKenyaDebugAndroidTestSources" />
+        <option name="ASSEMBLE_TASK_NAME" value="assembleNigeriaDebug" />
+        <option name="COMPILE_JAVA_TASK_NAME" value="compileNigeriaDebugSources" />
+        <option name="SOURCE_GEN_TASK_NAME" value="generateNigeriaDebugSources" />
+        <option name="ASSEMBLE_TEST_TASK_NAME" value="assembleNigeriaDebugAndroidTest" />
+        <option name="COMPILE_JAVA_TEST_TASK_NAME" value="compileNigeriaDebugAndroidTestSources" />
+        <option name="TEST_SOURCE_GEN_TASK_NAME" value="generateNigeriaDebugAndroidTestSources" />
         <option name="ALLOW_USER_CONFIGURATION" value="false" />
         <option name="MANIFEST_FILE_RELATIVE_PATH" value="/src/main/AndroidManifest.xml" />
         <option name="RES_FOLDER_RELATIVE_PATH" value="/src/main/res" />
-        <option name="RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/src/main/res;file://$MODULE_DIR$/src/kenya/res" />
+        <option name="RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/src/main/res;file://$MODULE_DIR$/src/nigeria/res" />
         <option name="ASSETS_FOLDER_RELATIVE_PATH" value="/src/main/assets" />
       </configuration>
     </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="false">
-    <output url="file://$MODULE_DIR$/build/intermediates/classes/kenya/debug" />
-    <output-test url="file://$MODULE_DIR$/build/intermediates/classes/androidTest/kenya/debug" />
+    <output url="file://$MODULE_DIR$/build/intermediates/classes/nigeria/debug" />
+    <output-test url="file://$MODULE_DIR$/build/intermediates/classes/androidTest/nigeria/debug" />
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/kenya/debug" isTestSource="false" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/kenya/debug" isTestSource="false" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/kenya/debug" isTestSource="false" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/kenya/debug" isTestSource="false" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/kenya/debug" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/generated/kenya/debug" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/kenyaDebug/res" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/kenyaDebug/resources" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/kenyaDebug/assets" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/kenyaDebug/aidl" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/kenyaDebug/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/kenyaDebug/jni" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/kenyaDebug/rs" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/androidTest/kenya/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/androidTest/kenya/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/androidTest/kenya/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/androidTest/kenya/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/androidTest/kenya/debug" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/generated/androidTest/kenya/debug" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/kenya/res" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/kenya/resources" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/kenya/assets" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/kenya/aidl" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/kenya/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/kenya/jni" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/kenya/rs" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestKenya/res" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestKenya/resources" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestKenya/assets" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestKenya/aidl" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestKenya/java" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestKenya/jni" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestKenya/rs" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/nigeria/debug" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/nigeria/debug" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/nigeria/debug" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/nigeria/debug" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/nigeria/debug" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/generated/nigeria/debug" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/nigeriaDebug/res" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/nigeriaDebug/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/nigeriaDebug/assets" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/nigeriaDebug/aidl" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/nigeriaDebug/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/nigeriaDebug/jni" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/nigeriaDebug/rs" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/androidTest/nigeria/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/androidTest/nigeria/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/androidTest/nigeria/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/androidTest/nigeria/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/androidTest/nigeria/debug" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/generated/androidTest/nigeria/debug" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/nigeria/res" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/nigeria/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/nigeria/assets" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/nigeria/aidl" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/nigeria/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/nigeria/jni" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/nigeria/rs" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestNigeria/res" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestNigeria/resources" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestNigeria/assets" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestNigeria/aidl" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestNigeria/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestNigeria/jni" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestNigeria/rs" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/res" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/assets" type="java-resource" />
@@ -156,8 +156,8 @@
     <orderEntry type="library" exported="" name="support-v4-22.2.0" level="project" />
     <orderEntry type="library" exported="" name="google-oauth-client-1.20.0" level="project" />
     <orderEntry type="library" exported="" name="google-http-client-gson-1.20.0" level="project" />
-    <orderEntry type="library" exported="" name="gson-2.1" level="project" />
     <orderEntry type="library" exported="" name="bolts-android-1.1.4" level="project" />
+    <orderEntry type="library" exported="" name="gson-2.1" level="project" />
     <orderEntry type="library" exported="" name="commons-lang3-3.0" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-22.2.0" level="project" />
   </component>
